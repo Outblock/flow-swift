@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "BigInt",
+        "repositoryURL": "https://github.com/attaswift/BigInt.git",
+        "state": {
+          "branch": null,
+          "revision": "889a1ecacd73ccc189c5cb29288048f186c44ed9",
+          "version": "5.2.1"
+        }
+      },
+      {
+        "package": "SwiftProtobuf",
+        "repositoryURL": "https://github.com/apple/swift-protobuf.git",
+        "state": {
+          "branch": null,
+          "revision": "1f62db409f2c9b0223a3f68567b4a01333aae778",
+          "version": "1.17.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
