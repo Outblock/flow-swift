@@ -1,3 +1,3 @@
-struct flow {
+struct Flow {
     var text = "Hello, World!"
 }

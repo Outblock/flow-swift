@@ -10,7 +10,7 @@ import Foundation
 typealias ByteArray = [UInt8]
 
 protocol BytesHolder {
-    var bytes: ByteArray { set get }
+    var bytes: ByteArray { get set }
     var base16Value: String { get }
     var stringValue: String { get }
 }
