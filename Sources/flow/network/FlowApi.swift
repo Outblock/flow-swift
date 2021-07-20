@@ -22,4 +22,12 @@ protocol FlowApi {
     func getBlockById(id: FlowId) -> Future<FlowBlock?, Never>
 
     func getBlockByHeight(height: UInt64) -> Future<FlowBlock?, Never>
+
+    func getCollectionById(id: FlowId) -> Future<FlowCollection?, Never>
+
+    func sendTransaction(transaction: FlowTransaction) -> Future<FlowId, Never>
+
+    func getTransactionById(id: FlowId) -> Future<FlowTransaction?, Never>
+
+    func getTransactionResultById(id: FlowId) -> Future<FlowTransactionResult?, Never>
 }
