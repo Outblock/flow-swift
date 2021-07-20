@@ -36,8 +36,14 @@ struct FlowId : BytesHolder, Equatable {
 }
 
 struct FlowBlockHeader {
-//    val id: FlowId,
-//    val parentId: FlowId,
-//    val height: Long
+    let id: FlowId
+    let parentId: FlowId
+    let height: UInt64
+    
+    init(value: Flow_Entities_BlockHeader) {
+        id = FlowId(bytes: [UInt8](value.id))
+        parentId = FlowId(bytes: [UInt8](value.parentID))
+        height = value.height
+    }
 }
 
