@@ -4,15 +4,15 @@
 import PackageDescription
 
 let package = Package(
-    name: "flow",
+    name: "Flow",
     platforms: [
         .iOS(.v13),
         .macOS(.v10_15),
     ],
     products: [
         .library(
-            name: "flow",
-            targets: ["flow"]
+            name: "Flow",
+            targets: ["Flow"]
         ),
     ],
     dependencies: [
@@ -21,12 +21,12 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "flow",
+            name: "Flow",
             dependencies: ["SwiftProtobuf", "BigInt"]
         ),
         .testTarget(
             name: "flowTests",
-            dependencies: ["flow"]
+            dependencies: ["Flow"]
         ),
     ]
 )

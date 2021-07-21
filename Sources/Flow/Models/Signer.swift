@@ -29,3 +29,19 @@ protocol Signer {
 
     func signAsTransaction(bytes: ByteArray) -> ByteArray
 }
+
+struct FlowPublicKey: BytesHolder, Equatable {
+    var bytes: ByteArray
+
+    init(hex: String) {
+        bytes = hex.hexValue
+    }
+
+    init(bytes: [UInt8]) {
+        self.bytes = bytes
+    }
+}
+
+struct FlowCode: BytesHolder, Equatable {
+    var bytes: ByteArray
+}
