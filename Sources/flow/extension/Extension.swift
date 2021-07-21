@@ -24,7 +24,7 @@ extension Sequence where Element == UInt8 {
 }
 
 extension Data {
-    var byteArray: [UInt8] {
-        return [UInt8](self)
+    var byteArray: ByteArray {
+        return ByteArray(self)
     }
 }
