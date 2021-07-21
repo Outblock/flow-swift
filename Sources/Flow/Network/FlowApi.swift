@@ -30,7 +30,7 @@ protocol FlowApi {
     func getTransactionById(id: FlowId) -> Future<FlowTransaction?, Never>
 
     func getTransactionResultById(id: FlowId) -> Future<FlowTransactionResult?, Never>
-    
+
     func getAccountAtLatestBlock(addresss: FlowAddress) -> Future<FlowAccount?, Never>
 
     func getAccountByBlockHeight(addresss: FlowAddress, height: UInt64) -> Future<FlowAccount?, Never>

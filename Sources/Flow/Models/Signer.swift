@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by lmcmz on 21/7/21.
 //
@@ -19,7 +19,6 @@ extension Hasher {
 }
 
 protocol Signer {
-
     var hasher: Hasher { get set }
 
     func sign(bytes: ByteArray) -> ByteArray
@@ -30,4 +29,3 @@ protocol Signer {
 
     func signAsTransaction(bytes: ByteArray) -> ByteArray
 }
-

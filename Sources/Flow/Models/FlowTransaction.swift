@@ -39,7 +39,6 @@ struct FlowCollectionGuarantee {
     }
 }
 
-
 enum FlowTransactionStatus: Int, CaseIterable {
     case unknown
     case pending

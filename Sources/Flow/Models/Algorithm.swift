@@ -11,7 +11,7 @@ enum SignatureAlgorithm: CaseIterable {
     case unknown
     case ECDSA_P256
     case ECDSA_SECP256k1
-    
+
     var algorithm: String {
         switch self {
         case .unknown:
@@ -22,7 +22,7 @@ enum SignatureAlgorithm: CaseIterable {
             return "ECDSA"
         }
     }
-    
+
     var id: String {
         switch self {
         case .unknown:
@@ -33,7 +33,7 @@ enum SignatureAlgorithm: CaseIterable {
             return "ECDSA_secp256k1"
         }
     }
-    
+
     var code: Int {
         switch self {
         case .unknown:
@@ -42,10 +42,9 @@ enum SignatureAlgorithm: CaseIterable {
             return 2
         case .ECDSA_SECP256k1:
             return 3
-            
         }
     }
-    
+
     var index: Int {
         switch self {
         case .unknown:
@@ -54,10 +53,9 @@ enum SignatureAlgorithm: CaseIterable {
             return 1
         case .ECDSA_SECP256k1:
             return 2
-            
         }
     }
-    
+
     var curve: String {
         switch self {
         case .unknown:
@@ -68,16 +66,15 @@ enum SignatureAlgorithm: CaseIterable {
             return "secp256k1"
         }
     }
-    
+
     init(code: Int) {
         self = SignatureAlgorithm.allCases.first { $0.code == code } ?? .unknown
     }
-    
+
     init(cadence index: Int) {
         self = SignatureAlgorithm.allCases.first { $0.index == index } ?? .unknown
     }
 }
-
 
 enum HashAlgorithm: CaseIterable {
     case unknown
@@ -85,8 +82,7 @@ enum HashAlgorithm: CaseIterable {
     case SHA2_384
     case SHA3_256
     case SHA3_384
-    
-    
+
     var algorithm: String {
         switch self {
         case .unknown:
@@ -101,7 +97,7 @@ enum HashAlgorithm: CaseIterable {
             return "SHA3-384"
         }
     }
-    
+
     var outputSize: Int {
         switch self {
         case .unknown:
@@ -116,7 +112,7 @@ enum HashAlgorithm: CaseIterable {
             return 384
         }
     }
-    
+
     var id: String {
         switch self {
         case .unknown:
@@ -131,7 +127,7 @@ enum HashAlgorithm: CaseIterable {
             return "SHA3-384withECDSA"
         }
     }
-    
+
     var code: Int {
         switch self {
         case .unknown:
@@ -146,7 +142,7 @@ enum HashAlgorithm: CaseIterable {
             return 3
         }
     }
-    
+
     var index: Int {
         switch self {
         case .unknown:
@@ -161,13 +157,12 @@ enum HashAlgorithm: CaseIterable {
             return 4
         }
     }
-    
+
     init(code: Int) {
         self = HashAlgorithm.allCases.first { $0.code == code } ?? .unknown
     }
-    
+
     init(cadence index: Int) {
         self = HashAlgorithm.allCases.first { $0.index == index } ?? .unknown
     }
-        
 }
