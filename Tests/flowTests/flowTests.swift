@@ -1,4 +1,4 @@
-@testable import flow
+@testable import Flow
 import XCTest
 
 final class flowTests: XCTestCase {

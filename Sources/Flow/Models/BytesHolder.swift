@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  BytesHolder.swift
 //
 //
 //  Created by lmcmz on 21/7/21.
@@ -25,7 +25,7 @@ extension BytesHolder {
     }
 }
 
-struct FlowId: BytesHolder, Equatable {
+struct FlowId: BytesHolder, Equatable, Hashable {
     var bytes: [UInt8]
 
     init(hex: String) {

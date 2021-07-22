@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  FlowTransaction.swift
 //
 //
 //  Created by lmcmz on 19/7/21.
@@ -64,34 +64,10 @@ enum FlowChainId: String, CaseIterable {
     }
 }
 
-struct FlowScript: BytesHolder, Equatable {
-    var bytes: [UInt8]
-
-    init(script: String) {
-        bytes = script.hexValue
-    }
-
-    init(bytes: [UInt8]) {
-        self.bytes = bytes
-    }
-}
-
 struct FlowArgument: BytesHolder {
     var bytes: [UInt8]
     // TODO: - Add jsonCadence
 //    var jsonCadence:
-}
-
-struct FlowAddress: BytesHolder, Equatable {
-    var bytes: [UInt8]
-
-    init(hex: String) {
-        bytes = hex.hexValue
-    }
-
-    init(bytes: [UInt8]) {
-        self.bytes = bytes
-    }
 }
 
 struct FlowTransactionProposalKey {
@@ -168,26 +144,4 @@ struct FlowTransaction {
         payloadSignatures = value.payloadSignatures.compactMap { FlowTransactionSignature(value: $0) }
         envelopeSignatures = value.envelopeSignatures.compactMap { FlowTransactionSignature(value: $0) }
     }
-}
-
-struct FlowEventPayload: BytesHolder, Equatable {
-    var bytes: [UInt8]
-
-    // TODO: Add jsonCadence
-    // var jsonCadence: Field<T>
-}
-
-struct FlowEvent {
-    let type: String
-    let transactionId: FlowId
-    let transactionIndex: Int
-    let eventIndex: Int
-    let payload: FlowEventPayload
-}
-
-struct FlowTransactionResult {
-    let status: FlowTransactionStatus
-    let statusCode: Int
-    let errorMessage: String
-    let events: [FlowEvent]
 }
