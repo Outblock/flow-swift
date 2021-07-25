@@ -20,48 +20,48 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-struct Flow_Entities_Account {
+public struct Flow_Entities_Account {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var address: Data = Data()
+  public var address: Data = Data()
 
-  var balance: UInt64 = 0
+  public var balance: UInt64 = 0
 
-  var code: Data = Data()
+  public var code: Data = Data()
 
-  var keys: [Flow_Entities_AccountKey] = []
+  public var keys: [Flow_Entities_AccountKey] = []
 
-  var contracts: Dictionary<String,Data> = [:]
+  public var contracts: Dictionary<String,Data> = [:]
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Entities_AccountKey {
+public struct Flow_Entities_AccountKey {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var index: UInt32 = 0
+  public var index: UInt32 = 0
 
-  var publicKey: Data = Data()
+  public var publicKey: Data = Data()
 
-  var signAlgo: UInt32 = 0
+  public var signAlgo: UInt32 = 0
 
-  var hashAlgo: UInt32 = 0
+  public var hashAlgo: UInt32 = 0
 
-  var weight: UInt32 = 0
+  public var weight: UInt32 = 0
 
-  var sequenceNumber: UInt32 = 0
+  public var sequenceNumber: UInt32 = 0
 
-  var revoked: Bool = false
+  public var revoked: Bool = false
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -69,8 +69,8 @@ struct Flow_Entities_AccountKey {
 fileprivate let _protobuf_package = "flow.entities"
 
 extension Flow_Entities_Account: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".Account"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".Account"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "address"),
     2: .same(proto: "balance"),
     3: .same(proto: "code"),
@@ -78,7 +78,7 @@ extension Flow_Entities_Account: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     5: .same(proto: "contracts"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -94,7 +94,7 @@ extension Flow_Entities_Account: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.address.isEmpty {
       try visitor.visitSingularBytesField(value: self.address, fieldNumber: 1)
     }
@@ -113,7 +113,7 @@ extension Flow_Entities_Account: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Entities_Account, rhs: Flow_Entities_Account) -> Bool {
+  public static func ==(lhs: Flow_Entities_Account, rhs: Flow_Entities_Account) -> Bool {
     if lhs.address != rhs.address {return false}
     if lhs.balance != rhs.balance {return false}
     if lhs.code != rhs.code {return false}
@@ -125,8 +125,8 @@ extension Flow_Entities_Account: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 }
 
 extension Flow_Entities_AccountKey: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".AccountKey"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".AccountKey"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "index"),
     2: .standard(proto: "public_key"),
     3: .standard(proto: "sign_algo"),
@@ -136,7 +136,7 @@ extension Flow_Entities_AccountKey: SwiftProtobuf.Message, SwiftProtobuf._Messag
     7: .same(proto: "revoked"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -154,7 +154,7 @@ extension Flow_Entities_AccountKey: SwiftProtobuf.Message, SwiftProtobuf._Messag
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if self.index != 0 {
       try visitor.visitSingularUInt32Field(value: self.index, fieldNumber: 1)
     }
@@ -179,7 +179,7 @@ extension Flow_Entities_AccountKey: SwiftProtobuf.Message, SwiftProtobuf._Messag
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Entities_AccountKey, rhs: Flow_Entities_AccountKey) -> Bool {
+  public static func ==(lhs: Flow_Entities_AccountKey, rhs: Flow_Entities_AccountKey) -> Bool {
     if lhs.index != rhs.index {return false}
     if lhs.publicKey != rhs.publicKey {return false}
     if lhs.signAlgo != rhs.signAlgo {return false}

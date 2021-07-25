@@ -8,7 +8,7 @@
 import Foundation
 
 class AddressRegistry {
-    var defaultChainId = Flow.shared.defaultChainId
+    var defaultChainId: FlowChainId = Flow.shared.defaultChainId
 
     private var scriptTokenDict = [FlowChainId: [String: FlowAddress]]()
 
@@ -49,6 +49,35 @@ class AddressRegistry {
                 register(chainId: chainId, contract: scriptAddress.rawValue, address: address)
             }
         }
+    }
+
+    func addressOf(contract: String) -> FlowAddress? {
+        return addressOf(contract: contract, chainId: defaultChainId)
+    }
+
+    func addressOf(contract: String, chainId: FlowChainId) -> FlowAddress? {
+        return scriptTokenDict[chainId]?.first { $0.key == contract }?.value
+    }
+
+    func processScript(script: String) -> String {
+        return processScript(script: script, chainId: defaultChainId)
+    }
+
+    func processScript(script: String, chainId: FlowChainId) -> String {
+        var ret = script
+        scriptTokenDict[chainId]?.forEach {
+            ret = ret.replacingOccurrences(of: $0.key,
+                                           with: $0.value.base16Value.addPrefixIfNeeded(prefix: "0x"))
+        }
+        return ret
+    }
+
+    func deregister(contract: String, chainId: FlowChainId? = nil) {
+        var chains = FlowChainId.allCases
+        if let chainId = chainId {
+            chains = [chainId]
+        }
+        chains.forEach { scriptTokenDict[$0]?.removeValue(forKey: contract) }
     }
 
     func clear() {

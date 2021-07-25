@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-protocol FlowAccessApi {
+protocol FlowAccessProtocol {
     func ping() -> Future<Void, Never>
 
     func getLatestBlockHeader() -> Future<FlowBlockHeader, Never>

@@ -20,22 +20,22 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-struct Flow_Entities_BlockSeal {
+public struct Flow_Entities_BlockSeal {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var blockID: Data = Data()
+  public var blockID: Data = Data()
 
-  var executionReceiptID: Data = Data()
+  public var executionReceiptID: Data = Data()
 
-  var executionReceiptSignatures: [Data] = []
+  public var executionReceiptSignatures: [Data] = []
 
-  var resultApprovalSignatures: [Data] = []
+  public var resultApprovalSignatures: [Data] = []
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -43,15 +43,15 @@ struct Flow_Entities_BlockSeal {
 fileprivate let _protobuf_package = "flow.entities"
 
 extension Flow_Entities_BlockSeal: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".BlockSeal"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".BlockSeal"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "block_id"),
     2: .standard(proto: "execution_receipt_id"),
     3: .standard(proto: "execution_receipt_signatures"),
     4: .standard(proto: "result_approval_signatures"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -66,7 +66,7 @@ extension Flow_Entities_BlockSeal: SwiftProtobuf.Message, SwiftProtobuf._Message
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.blockID.isEmpty {
       try visitor.visitSingularBytesField(value: self.blockID, fieldNumber: 1)
     }
@@ -82,7 +82,7 @@ extension Flow_Entities_BlockSeal: SwiftProtobuf.Message, SwiftProtobuf._Message
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Entities_BlockSeal, rhs: Flow_Entities_BlockSeal) -> Bool {
+  public static func ==(lhs: Flow_Entities_BlockSeal, rhs: Flow_Entities_BlockSeal) -> Bool {
     if lhs.blockID != rhs.blockID {return false}
     if lhs.executionReceiptID != rhs.executionReceiptID {return false}
     if lhs.executionReceiptSignatures != rhs.executionReceiptSignatures {return false}

@@ -20,32 +20,32 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-struct Flow_Entities_Collection {
+public struct Flow_Entities_Collection {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var id: Data = Data()
+  public var id: Data = Data()
 
-  var transactionIds: [Data] = []
+  public var transactionIds: [Data] = []
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Entities_CollectionGuarantee {
+public struct Flow_Entities_CollectionGuarantee {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var collectionID: Data = Data()
+  public var collectionID: Data = Data()
 
-  var signatures: [Data] = []
+  public var signatures: [Data] = []
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -53,13 +53,13 @@ struct Flow_Entities_CollectionGuarantee {
 fileprivate let _protobuf_package = "flow.entities"
 
 extension Flow_Entities_Collection: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".Collection"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".Collection"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "id"),
     2: .standard(proto: "transaction_ids"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -72,7 +72,7 @@ extension Flow_Entities_Collection: SwiftProtobuf.Message, SwiftProtobuf._Messag
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.id.isEmpty {
       try visitor.visitSingularBytesField(value: self.id, fieldNumber: 1)
     }
@@ -82,7 +82,7 @@ extension Flow_Entities_Collection: SwiftProtobuf.Message, SwiftProtobuf._Messag
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Entities_Collection, rhs: Flow_Entities_Collection) -> Bool {
+  public static func ==(lhs: Flow_Entities_Collection, rhs: Flow_Entities_Collection) -> Bool {
     if lhs.id != rhs.id {return false}
     if lhs.transactionIds != rhs.transactionIds {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -91,13 +91,13 @@ extension Flow_Entities_Collection: SwiftProtobuf.Message, SwiftProtobuf._Messag
 }
 
 extension Flow_Entities_CollectionGuarantee: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".CollectionGuarantee"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".CollectionGuarantee"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "collection_id"),
     2: .same(proto: "signatures"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -110,7 +110,7 @@ extension Flow_Entities_CollectionGuarantee: SwiftProtobuf.Message, SwiftProtobu
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.collectionID.isEmpty {
       try visitor.visitSingularBytesField(value: self.collectionID, fieldNumber: 1)
     }
@@ -120,7 +120,7 @@ extension Flow_Entities_CollectionGuarantee: SwiftProtobuf.Message, SwiftProtobu
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Entities_CollectionGuarantee, rhs: Flow_Entities_CollectionGuarantee) -> Bool {
+  public static func ==(lhs: Flow_Entities_CollectionGuarantee, rhs: Flow_Entities_CollectionGuarantee) -> Bool {
     if lhs.collectionID != rhs.collectionID {return false}
     if lhs.signatures != rhs.signatures {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}

@@ -20,8 +20,8 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-enum Flow_Entities_TransactionStatus: SwiftProtobuf.Enum {
-  typealias RawValue = Int
+public enum Flow_Entities_TransactionStatus: SwiftProtobuf.Enum {
+  public typealias RawValue = Int
   case unknown // = 0
   case pending // = 1
   case finalized // = 2
@@ -30,11 +30,11 @@ enum Flow_Entities_TransactionStatus: SwiftProtobuf.Enum {
   case expired // = 5
   case UNRECOGNIZED(Int)
 
-  init() {
+  public init() {
     self = .unknown
   }
 
-  init?(rawValue: Int) {
+  public init?(rawValue: Int) {
     switch rawValue {
     case 0: self = .unknown
     case 1: self = .pending
@@ -46,7 +46,7 @@ enum Flow_Entities_TransactionStatus: SwiftProtobuf.Enum {
     }
   }
 
-  var rawValue: Int {
+  public var rawValue: Int {
     switch self {
     case .unknown: return 0
     case .pending: return 1
@@ -64,7 +64,7 @@ enum Flow_Entities_TransactionStatus: SwiftProtobuf.Enum {
 
 extension Flow_Entities_TransactionStatus: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [Flow_Entities_TransactionStatus] = [
+  public static var allCases: [Flow_Entities_TransactionStatus] = [
     .unknown,
     .pending,
     .finalized,
@@ -76,71 +76,71 @@ extension Flow_Entities_TransactionStatus: CaseIterable {
 
 #endif  // swift(>=4.2)
 
-struct Flow_Entities_Transaction {
+public struct Flow_Entities_Transaction {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var script: Data = Data()
+  public var script: Data = Data()
 
-  var arguments: [Data] = []
+  public var arguments: [Data] = []
 
-  var referenceBlockID: Data = Data()
+  public var referenceBlockID: Data = Data()
 
-  var gasLimit: UInt64 = 0
+  public var gasLimit: UInt64 = 0
 
-  var proposalKey: Flow_Entities_Transaction.ProposalKey {
+  public var proposalKey: Flow_Entities_Transaction.ProposalKey {
     get {return _proposalKey ?? Flow_Entities_Transaction.ProposalKey()}
     set {_proposalKey = newValue}
   }
   /// Returns true if `proposalKey` has been explicitly set.
-  var hasProposalKey: Bool {return self._proposalKey != nil}
+  public var hasProposalKey: Bool {return self._proposalKey != nil}
   /// Clears the value of `proposalKey`. Subsequent reads from it will return its default value.
-  mutating func clearProposalKey() {self._proposalKey = nil}
+  public mutating func clearProposalKey() {self._proposalKey = nil}
 
-  var payer: Data = Data()
+  public var payer: Data = Data()
 
-  var authorizers: [Data] = []
+  public var authorizers: [Data] = []
 
-  var payloadSignatures: [Flow_Entities_Transaction.Signature] = []
+  public var payloadSignatures: [Flow_Entities_Transaction.Signature] = []
 
-  var envelopeSignatures: [Flow_Entities_Transaction.Signature] = []
+  public var envelopeSignatures: [Flow_Entities_Transaction.Signature] = []
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  struct ProposalKey {
+  public struct ProposalKey {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var address: Data = Data()
+    public var address: Data = Data()
 
-    var keyID: UInt32 = 0
+    public var keyID: UInt32 = 0
 
-    var sequenceNumber: UInt64 = 0
+    public var sequenceNumber: UInt64 = 0
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
-  struct Signature {
+  public struct Signature {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var address: Data = Data()
+    public var address: Data = Data()
 
-    var keyID: UInt32 = 0
+    public var keyID: UInt32 = 0
 
-    var signature: Data = Data()
+    public var signature: Data = Data()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
-  init() {}
+  public init() {}
 
   fileprivate var _proposalKey: Flow_Entities_Transaction.ProposalKey? = nil
 }
@@ -150,7 +150,7 @@ struct Flow_Entities_Transaction {
 fileprivate let _protobuf_package = "flow.entities"
 
 extension Flow_Entities_TransactionStatus: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "UNKNOWN"),
     1: .same(proto: "PENDING"),
     2: .same(proto: "FINALIZED"),
@@ -161,8 +161,8 @@ extension Flow_Entities_TransactionStatus: SwiftProtobuf._ProtoNameProviding {
 }
 
 extension Flow_Entities_Transaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".Transaction"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".Transaction"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "script"),
     2: .same(proto: "arguments"),
     3: .standard(proto: "reference_block_id"),
@@ -174,7 +174,7 @@ extension Flow_Entities_Transaction: SwiftProtobuf.Message, SwiftProtobuf._Messa
     9: .standard(proto: "envelope_signatures"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -194,7 +194,7 @@ extension Flow_Entities_Transaction: SwiftProtobuf.Message, SwiftProtobuf._Messa
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.script.isEmpty {
       try visitor.visitSingularBytesField(value: self.script, fieldNumber: 1)
     }
@@ -225,7 +225,7 @@ extension Flow_Entities_Transaction: SwiftProtobuf.Message, SwiftProtobuf._Messa
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Entities_Transaction, rhs: Flow_Entities_Transaction) -> Bool {
+  public static func ==(lhs: Flow_Entities_Transaction, rhs: Flow_Entities_Transaction) -> Bool {
     if lhs.script != rhs.script {return false}
     if lhs.arguments != rhs.arguments {return false}
     if lhs.referenceBlockID != rhs.referenceBlockID {return false}
@@ -241,14 +241,14 @@ extension Flow_Entities_Transaction: SwiftProtobuf.Message, SwiftProtobuf._Messa
 }
 
 extension Flow_Entities_Transaction.ProposalKey: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Flow_Entities_Transaction.protoMessageName + ".ProposalKey"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Flow_Entities_Transaction.protoMessageName + ".ProposalKey"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "address"),
     2: .standard(proto: "key_id"),
     3: .standard(proto: "sequence_number"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -262,7 +262,7 @@ extension Flow_Entities_Transaction.ProposalKey: SwiftProtobuf.Message, SwiftPro
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.address.isEmpty {
       try visitor.visitSingularBytesField(value: self.address, fieldNumber: 1)
     }
@@ -275,7 +275,7 @@ extension Flow_Entities_Transaction.ProposalKey: SwiftProtobuf.Message, SwiftPro
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Entities_Transaction.ProposalKey, rhs: Flow_Entities_Transaction.ProposalKey) -> Bool {
+  public static func ==(lhs: Flow_Entities_Transaction.ProposalKey, rhs: Flow_Entities_Transaction.ProposalKey) -> Bool {
     if lhs.address != rhs.address {return false}
     if lhs.keyID != rhs.keyID {return false}
     if lhs.sequenceNumber != rhs.sequenceNumber {return false}
@@ -285,14 +285,14 @@ extension Flow_Entities_Transaction.ProposalKey: SwiftProtobuf.Message, SwiftPro
 }
 
 extension Flow_Entities_Transaction.Signature: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Flow_Entities_Transaction.protoMessageName + ".Signature"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Flow_Entities_Transaction.protoMessageName + ".Signature"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "address"),
     2: .standard(proto: "key_id"),
     3: .same(proto: "signature"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -306,7 +306,7 @@ extension Flow_Entities_Transaction.Signature: SwiftProtobuf.Message, SwiftProto
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.address.isEmpty {
       try visitor.visitSingularBytesField(value: self.address, fieldNumber: 1)
     }
@@ -319,7 +319,7 @@ extension Flow_Entities_Transaction.Signature: SwiftProtobuf.Message, SwiftProto
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Entities_Transaction.Signature, rhs: Flow_Entities_Transaction.Signature) -> Bool {
+  public static func ==(lhs: Flow_Entities_Transaction.Signature, rhs: Flow_Entities_Transaction.Signature) -> Bool {
     if lhs.address != rhs.address {return false}
     if lhs.keyID != rhs.keyID {return false}
     if lhs.signature != rhs.signature {return false}

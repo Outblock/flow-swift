@@ -20,159 +20,159 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-struct Flow_Execution_PingRequest {
+public struct Flow_Execution_PingRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Execution_PingResponse {
+public struct Flow_Execution_PingResponse {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Execution_GetAccountAtBlockIDRequest {
+public struct Flow_Execution_GetAccountAtBlockIDRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var blockID: Data = Data()
+  public var blockID: Data = Data()
 
-  var address: Data = Data()
+  public var address: Data = Data()
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Execution_GetAccountAtBlockIDResponse {
+public struct Flow_Execution_GetAccountAtBlockIDResponse {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var account: Flow_Entities_Account {
+  public var account: Flow_Entities_Account {
     get {return _account ?? Flow_Entities_Account()}
     set {_account = newValue}
   }
   /// Returns true if `account` has been explicitly set.
-  var hasAccount: Bool {return self._account != nil}
+  public var hasAccount: Bool {return self._account != nil}
   /// Clears the value of `account`. Subsequent reads from it will return its default value.
-  mutating func clearAccount() {self._account = nil}
+  public mutating func clearAccount() {self._account = nil}
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 
   fileprivate var _account: Flow_Entities_Account? = nil
 }
 
-struct Flow_Execution_ExecuteScriptAtBlockIDRequest {
+public struct Flow_Execution_ExecuteScriptAtBlockIDRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var blockID: Data = Data()
+  public var blockID: Data = Data()
 
-  var script: Data = Data()
+  public var script: Data = Data()
 
-  var arguments: [Data] = []
+  public var arguments: [Data] = []
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Execution_ExecuteScriptAtBlockIDResponse {
+public struct Flow_Execution_ExecuteScriptAtBlockIDResponse {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var value: Data = Data()
+  public var value: Data = Data()
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Execution_GetEventsForBlockIDsResponse {
+public struct Flow_Execution_GetEventsForBlockIDsResponse {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var results: [Flow_Execution_GetEventsForBlockIDsResponse.Result] = []
+  public var results: [Flow_Execution_GetEventsForBlockIDsResponse.Result] = []
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  struct Result {
+  public struct Result {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var blockID: Data = Data()
+    public var blockID: Data = Data()
 
-    var blockHeight: UInt64 = 0
+    public var blockHeight: UInt64 = 0
 
-    var events: [Flow_Entities_Event] = []
+    public var events: [Flow_Entities_Event] = []
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Execution_GetEventsForBlockIDsRequest {
+public struct Flow_Execution_GetEventsForBlockIDsRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var type: String = String()
+  public var type: String = String()
 
-  var blockIds: [Data] = []
+  public var blockIds: [Data] = []
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Execution_GetTransactionResultRequest {
+public struct Flow_Execution_GetTransactionResultRequest {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var blockID: Data = Data()
+  public var blockID: Data = Data()
 
-  var transactionID: Data = Data()
+  public var transactionID: Data = Data()
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Flow_Execution_GetTransactionResultResponse {
+public struct Flow_Execution_GetTransactionResultResponse {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var statusCode: UInt32 = 0
+  public var statusCode: UInt32 = 0
 
-  var errorMessage: String = String()
+  public var errorMessage: String = String()
 
-  var events: [Flow_Entities_Event] = []
+  public var events: [Flow_Entities_Event] = []
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -180,51 +180,51 @@ struct Flow_Execution_GetTransactionResultResponse {
 fileprivate let _protobuf_package = "flow.execution"
 
 extension Flow_Execution_PingRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".PingRequest"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  public static let protoMessageName: String = _protobuf_package + ".PingRequest"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let _ = try decoder.nextFieldNumber() {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_PingRequest, rhs: Flow_Execution_PingRequest) -> Bool {
+  public static func ==(lhs: Flow_Execution_PingRequest, rhs: Flow_Execution_PingRequest) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
 }
 
 extension Flow_Execution_PingResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".PingResponse"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  public static let protoMessageName: String = _protobuf_package + ".PingResponse"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let _ = try decoder.nextFieldNumber() {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_PingResponse, rhs: Flow_Execution_PingResponse) -> Bool {
+  public static func ==(lhs: Flow_Execution_PingResponse, rhs: Flow_Execution_PingResponse) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
 }
 
 extension Flow_Execution_GetAccountAtBlockIDRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".GetAccountAtBlockIDRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".GetAccountAtBlockIDRequest"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "block_id"),
     2: .same(proto: "address"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -237,7 +237,7 @@ extension Flow_Execution_GetAccountAtBlockIDRequest: SwiftProtobuf.Message, Swif
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.blockID.isEmpty {
       try visitor.visitSingularBytesField(value: self.blockID, fieldNumber: 1)
     }
@@ -247,7 +247,7 @@ extension Flow_Execution_GetAccountAtBlockIDRequest: SwiftProtobuf.Message, Swif
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_GetAccountAtBlockIDRequest, rhs: Flow_Execution_GetAccountAtBlockIDRequest) -> Bool {
+  public static func ==(lhs: Flow_Execution_GetAccountAtBlockIDRequest, rhs: Flow_Execution_GetAccountAtBlockIDRequest) -> Bool {
     if lhs.blockID != rhs.blockID {return false}
     if lhs.address != rhs.address {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -256,12 +256,12 @@ extension Flow_Execution_GetAccountAtBlockIDRequest: SwiftProtobuf.Message, Swif
 }
 
 extension Flow_Execution_GetAccountAtBlockIDResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".GetAccountAtBlockIDResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".GetAccountAtBlockIDResponse"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "account"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -273,14 +273,14 @@ extension Flow_Execution_GetAccountAtBlockIDResponse: SwiftProtobuf.Message, Swi
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if let v = self._account {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_GetAccountAtBlockIDResponse, rhs: Flow_Execution_GetAccountAtBlockIDResponse) -> Bool {
+  public static func ==(lhs: Flow_Execution_GetAccountAtBlockIDResponse, rhs: Flow_Execution_GetAccountAtBlockIDResponse) -> Bool {
     if lhs._account != rhs._account {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -288,14 +288,14 @@ extension Flow_Execution_GetAccountAtBlockIDResponse: SwiftProtobuf.Message, Swi
 }
 
 extension Flow_Execution_ExecuteScriptAtBlockIDRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".ExecuteScriptAtBlockIDRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".ExecuteScriptAtBlockIDRequest"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "block_id"),
     2: .same(proto: "script"),
     3: .same(proto: "arguments"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -309,7 +309,7 @@ extension Flow_Execution_ExecuteScriptAtBlockIDRequest: SwiftProtobuf.Message, S
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.blockID.isEmpty {
       try visitor.visitSingularBytesField(value: self.blockID, fieldNumber: 1)
     }
@@ -322,7 +322,7 @@ extension Flow_Execution_ExecuteScriptAtBlockIDRequest: SwiftProtobuf.Message, S
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_ExecuteScriptAtBlockIDRequest, rhs: Flow_Execution_ExecuteScriptAtBlockIDRequest) -> Bool {
+  public static func ==(lhs: Flow_Execution_ExecuteScriptAtBlockIDRequest, rhs: Flow_Execution_ExecuteScriptAtBlockIDRequest) -> Bool {
     if lhs.blockID != rhs.blockID {return false}
     if lhs.script != rhs.script {return false}
     if lhs.arguments != rhs.arguments {return false}
@@ -332,12 +332,12 @@ extension Flow_Execution_ExecuteScriptAtBlockIDRequest: SwiftProtobuf.Message, S
 }
 
 extension Flow_Execution_ExecuteScriptAtBlockIDResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".ExecuteScriptAtBlockIDResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".ExecuteScriptAtBlockIDResponse"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "value"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -349,14 +349,14 @@ extension Flow_Execution_ExecuteScriptAtBlockIDResponse: SwiftProtobuf.Message, 
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.value.isEmpty {
       try visitor.visitSingularBytesField(value: self.value, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_ExecuteScriptAtBlockIDResponse, rhs: Flow_Execution_ExecuteScriptAtBlockIDResponse) -> Bool {
+  public static func ==(lhs: Flow_Execution_ExecuteScriptAtBlockIDResponse, rhs: Flow_Execution_ExecuteScriptAtBlockIDResponse) -> Bool {
     if lhs.value != rhs.value {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -364,12 +364,12 @@ extension Flow_Execution_ExecuteScriptAtBlockIDResponse: SwiftProtobuf.Message, 
 }
 
 extension Flow_Execution_GetEventsForBlockIDsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".GetEventsForBlockIDsResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".GetEventsForBlockIDsResponse"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "results"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -381,14 +381,14 @@ extension Flow_Execution_GetEventsForBlockIDsResponse: SwiftProtobuf.Message, Sw
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.results.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.results, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_GetEventsForBlockIDsResponse, rhs: Flow_Execution_GetEventsForBlockIDsResponse) -> Bool {
+  public static func ==(lhs: Flow_Execution_GetEventsForBlockIDsResponse, rhs: Flow_Execution_GetEventsForBlockIDsResponse) -> Bool {
     if lhs.results != rhs.results {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -396,14 +396,14 @@ extension Flow_Execution_GetEventsForBlockIDsResponse: SwiftProtobuf.Message, Sw
 }
 
 extension Flow_Execution_GetEventsForBlockIDsResponse.Result: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Flow_Execution_GetEventsForBlockIDsResponse.protoMessageName + ".Result"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Flow_Execution_GetEventsForBlockIDsResponse.protoMessageName + ".Result"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "block_id"),
     2: .standard(proto: "block_height"),
     3: .same(proto: "events"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -417,7 +417,7 @@ extension Flow_Execution_GetEventsForBlockIDsResponse.Result: SwiftProtobuf.Mess
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.blockID.isEmpty {
       try visitor.visitSingularBytesField(value: self.blockID, fieldNumber: 1)
     }
@@ -430,7 +430,7 @@ extension Flow_Execution_GetEventsForBlockIDsResponse.Result: SwiftProtobuf.Mess
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_GetEventsForBlockIDsResponse.Result, rhs: Flow_Execution_GetEventsForBlockIDsResponse.Result) -> Bool {
+  public static func ==(lhs: Flow_Execution_GetEventsForBlockIDsResponse.Result, rhs: Flow_Execution_GetEventsForBlockIDsResponse.Result) -> Bool {
     if lhs.blockID != rhs.blockID {return false}
     if lhs.blockHeight != rhs.blockHeight {return false}
     if lhs.events != rhs.events {return false}
@@ -440,13 +440,13 @@ extension Flow_Execution_GetEventsForBlockIDsResponse.Result: SwiftProtobuf.Mess
 }
 
 extension Flow_Execution_GetEventsForBlockIDsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".GetEventsForBlockIDsRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".GetEventsForBlockIDsRequest"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "type"),
     2: .standard(proto: "block_ids"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -459,7 +459,7 @@ extension Flow_Execution_GetEventsForBlockIDsRequest: SwiftProtobuf.Message, Swi
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.type.isEmpty {
       try visitor.visitSingularStringField(value: self.type, fieldNumber: 1)
     }
@@ -469,7 +469,7 @@ extension Flow_Execution_GetEventsForBlockIDsRequest: SwiftProtobuf.Message, Swi
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_GetEventsForBlockIDsRequest, rhs: Flow_Execution_GetEventsForBlockIDsRequest) -> Bool {
+  public static func ==(lhs: Flow_Execution_GetEventsForBlockIDsRequest, rhs: Flow_Execution_GetEventsForBlockIDsRequest) -> Bool {
     if lhs.type != rhs.type {return false}
     if lhs.blockIds != rhs.blockIds {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -478,13 +478,13 @@ extension Flow_Execution_GetEventsForBlockIDsRequest: SwiftProtobuf.Message, Swi
 }
 
 extension Flow_Execution_GetTransactionResultRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".GetTransactionResultRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".GetTransactionResultRequest"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "block_id"),
     2: .standard(proto: "transaction_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -497,7 +497,7 @@ extension Flow_Execution_GetTransactionResultRequest: SwiftProtobuf.Message, Swi
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.blockID.isEmpty {
       try visitor.visitSingularBytesField(value: self.blockID, fieldNumber: 1)
     }
@@ -507,7 +507,7 @@ extension Flow_Execution_GetTransactionResultRequest: SwiftProtobuf.Message, Swi
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_GetTransactionResultRequest, rhs: Flow_Execution_GetTransactionResultRequest) -> Bool {
+  public static func ==(lhs: Flow_Execution_GetTransactionResultRequest, rhs: Flow_Execution_GetTransactionResultRequest) -> Bool {
     if lhs.blockID != rhs.blockID {return false}
     if lhs.transactionID != rhs.transactionID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -516,14 +516,14 @@ extension Flow_Execution_GetTransactionResultRequest: SwiftProtobuf.Message, Swi
 }
 
 extension Flow_Execution_GetTransactionResultResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".GetTransactionResultResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".GetTransactionResultResponse"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "status_code"),
     2: .standard(proto: "error_message"),
     3: .same(proto: "events"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -537,7 +537,7 @@ extension Flow_Execution_GetTransactionResultResponse: SwiftProtobuf.Message, Sw
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if self.statusCode != 0 {
       try visitor.visitSingularUInt32Field(value: self.statusCode, fieldNumber: 1)
     }
@@ -550,7 +550,7 @@ extension Flow_Execution_GetTransactionResultResponse: SwiftProtobuf.Message, Sw
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Execution_GetTransactionResultResponse, rhs: Flow_Execution_GetTransactionResultResponse) -> Bool {
+  public static func ==(lhs: Flow_Execution_GetTransactionResultResponse, rhs: Flow_Execution_GetTransactionResultResponse) -> Bool {
     if lhs.statusCode != rhs.statusCode {return false}
     if lhs.errorMessage != rhs.errorMessage {return false}
     if lhs.events != rhs.events {return false}

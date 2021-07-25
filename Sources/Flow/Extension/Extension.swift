@@ -18,6 +18,21 @@ extension StringProtocol {
     }
 }
 
+extension String {
+    mutating func addPrefixIfNeeded(prefix: String) {
+        guard !hasPrefix(prefix) else { return }
+        self = prefix + self
+    }
+
+    func addPrefixIfNeeded(prefix: String) -> String {
+        guard !hasPrefix(prefix) else {
+            return self
+        }
+
+        return prefix + self
+    }
+}
+
 extension Sequence where Element == UInt8 {
     var data: Data { .init(self) }
     var hexValue: String { map { .init(format: "%02x", $0) }.joined() }

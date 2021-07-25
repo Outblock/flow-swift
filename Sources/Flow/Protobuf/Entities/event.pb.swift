@@ -20,24 +20,24 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-struct Flow_Entities_Event {
+public struct Flow_Entities_Event {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var type: String = String()
+  public var type: String = String()
 
-  var transactionID: Data = Data()
+  public var transactionID: Data = Data()
 
-  var transactionIndex: UInt32 = 0
+  public var transactionIndex: UInt32 = 0
 
-  var eventIndex: UInt32 = 0
+  public var eventIndex: UInt32 = 0
 
-  var payload: Data = Data()
+  public var payload: Data = Data()
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -45,8 +45,8 @@ struct Flow_Entities_Event {
 fileprivate let _protobuf_package = "flow.entities"
 
 extension Flow_Entities_Event: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".Event"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".Event"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "type"),
     2: .standard(proto: "transaction_id"),
     3: .standard(proto: "transaction_index"),
@@ -54,7 +54,7 @@ extension Flow_Entities_Event: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     5: .same(proto: "payload"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -70,7 +70,7 @@ extension Flow_Entities_Event: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.type.isEmpty {
       try visitor.visitSingularStringField(value: self.type, fieldNumber: 1)
     }
@@ -89,7 +89,7 @@ extension Flow_Entities_Event: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Flow_Entities_Event, rhs: Flow_Entities_Event) -> Bool {
+  public static func ==(lhs: Flow_Entities_Event, rhs: Flow_Entities_Event) -> Bool {
     if lhs.type != rhs.type {return false}
     if lhs.transactionID != rhs.transactionID {return false}
     if lhs.transactionIndex != rhs.transactionIndex {return false}

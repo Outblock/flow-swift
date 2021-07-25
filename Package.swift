@@ -18,11 +18,14 @@ let package = Package(
     dependencies: [
         .package(name: "SwiftProtobuf", url: "https://github.com/apple/swift-protobuf.git", from: "1.6.0"),
         .package(name: "BigInt", url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
+        .package(url: "https://github.com/grpc/grpc-swift.git", from: "1.0.0"),
     ],
     targets: [
         .target(
             name: "Flow",
-            dependencies: ["SwiftProtobuf", "BigInt"]
+            dependencies: ["SwiftProtobuf",
+                           "BigInt",
+                           .product(name: "GRPC", package: "grpc-swift")]
         ),
         .testTarget(
             name: "flowTests",
