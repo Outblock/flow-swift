@@ -12,6 +12,12 @@ struct FlowBlockHeader {
     let parentId: FlowId
     let height: UInt64
 
+    init(value: Flow_Entities_Block) {
+        id = FlowId(bytes: value.id.byteArray)
+        parentId = FlowId(bytes: value.parentID.byteArray)
+        height = value.height
+    }
+
     init(value: Flow_Entities_BlockHeader) {
         id = FlowId(bytes: value.id.byteArray)
         parentId = FlowId(bytes: value.parentID.byteArray)

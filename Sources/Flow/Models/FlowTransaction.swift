@@ -80,6 +80,14 @@ struct FlowTransactionProposalKey {
         keyIndex = value.keyID
         sequenceNumber = value.sequenceNumber
     }
+
+    func toFlowEntity() -> Flow_Entities_Transaction.ProposalKey {
+        var entity = Flow_Entities_Transaction.ProposalKey()
+        entity.address = address.bytes.data
+        entity.keyID = keyIndex
+        entity.sequenceNumber = sequenceNumber
+        return entity
+    }
 }
 
 struct FlowTransactionSignature {
@@ -93,8 +101,12 @@ struct FlowTransactionSignature {
         signature = FlowSignature(bytes: value.signature.byteArray)
     }
 
-    func builder() {
-//        let test = Flow_Entities_Transaction.Signature.init(jsonString: <#T##String#>)
+    func toFlowEntity() -> Flow_Entities_Transaction.Signature {
+        var entity = Flow_Entities_Transaction.Signature()
+        entity.address = address.bytes.data
+        entity.keyID = keyIndex
+        entity.signature = signature.bytes.data
+        return entity
     }
 }
 
@@ -143,5 +155,19 @@ struct FlowTransaction {
         authorizers = value.authorizers.compactMap { FlowAddress(bytes: $0.byteArray) }
         payloadSignatures = value.payloadSignatures.compactMap { FlowTransactionSignature(value: $0) }
         envelopeSignatures = value.envelopeSignatures.compactMap { FlowTransactionSignature(value: $0) }
+    }
+
+    func toFlowEntity() -> Flow_Entities_Transaction {
+        var transaction = Flow_Entities_Transaction()
+        transaction.script = script.bytes.data
+        transaction.arguments = arguments.compactMap { $0.bytes.data }
+        transaction.referenceBlockID = referenceBlockId.bytes.data
+        transaction.gasLimit = gasLimit
+        transaction.proposalKey = proposalKey.toFlowEntity()
+        transaction.payer = payerAddress.bytes.data
+        transaction.authorizers = authorizers.compactMap { $0.bytes.data }
+        transaction.payloadSignatures = payloadSignatures.compactMap { $0.toFlowEntity() }
+        transaction.envelopeSignatures = envelopeSignatures.compactMap { $0.toFlowEntity() }
+        return transaction
     }
 }

@@ -5,47 +5,47 @@
 //  Created by lmcmz on 19/7/21.
 //
 
-import Combine
 import Foundation
+import NIO
 
 protocol FlowAccessProtocol {
-    func ping() -> Future<Void, Never>
+    func ping() -> EventLoopFuture<Bool>
 
-    func getLatestBlockHeader() -> Future<FlowBlockHeader, Never>
+    func getLatestBlockHeader() -> EventLoopFuture<FlowBlockHeader>
 
-    func getBlockHeaderById(id: FlowId) -> Future<FlowBlockHeader?, Never>
+    func getBlockHeaderById(id: FlowId) -> EventLoopFuture<FlowBlockHeader?>
 
-    func getBlockHeaderByHeight(height: UInt64) -> Future<FlowBlockHeader?, Never>
+    func getBlockHeaderByHeight(height: UInt64) -> EventLoopFuture<FlowBlockHeader?>
 
-    func getLatestBlock(sealed: Bool) -> Future<FlowBlock, Never>
+    func getLatestBlock(sealed: Bool) -> EventLoopFuture<FlowBlock>
 
-    func getBlockById(id: FlowId) -> Future<FlowBlock?, Never>
+    func getBlockById(id: FlowId) -> EventLoopFuture<FlowBlock?>
 
-    func getBlockByHeight(height: UInt64) -> Future<FlowBlock?, Never>
+    func getBlockByHeight(height: UInt64) -> EventLoopFuture<FlowBlock?>
 
-    func getCollectionById(id: FlowId) -> Future<FlowCollection?, Never>
+    func getCollectionById(id: FlowId) -> EventLoopFuture<FlowCollection?>
 
-    func sendTransaction(transaction: FlowTransaction) -> Future<FlowId, Never>
+    func sendTransaction(transaction: FlowTransaction) -> EventLoopFuture<FlowId>
 
-    func getTransactionById(id: FlowId) -> Future<FlowTransaction?, Never>
+    func getTransactionById(id: FlowId) -> EventLoopFuture<FlowTransaction?>
 
-    func getTransactionResultById(id: FlowId) -> Future<FlowTransactionResult?, Never>
+    func getTransactionResultById(id: FlowId) -> EventLoopFuture<FlowTransactionResult?>
 
-    func getAccountAtLatestBlock(addresss: FlowAddress) -> Future<FlowAccount?, Never>
+    func getAccountAtLatestBlock(addresss: FlowAddress) -> EventLoopFuture<FlowAccount?>
 
-    func getAccountByBlockHeight(addresss: FlowAddress, height: UInt64) -> Future<FlowAccount?, Never>
+    func getAccountByBlockHeight(addresss: FlowAddress, height: UInt64) -> EventLoopFuture<FlowAccount?>
 
-    func executeScriptAtLatestBlock(script: FlowScript, arguments: String...) -> Future<FlowScriptResponse, Never>
+    func executeScriptAtLatestBlock(script: FlowScript, arguments: String...) -> EventLoopFuture<FlowScriptResponse>
 
-    func executeScriptAtBlockId(script: FlowScript, blockId: FlowId, arguments: String...) -> Future<FlowScriptResponse, Never>
+    func executeScriptAtBlockId(script: FlowScript, blockId: FlowId, arguments: String...) -> EventLoopFuture<FlowScriptResponse>
 
-    func executeScriptAtBlockHeight(script: FlowScript, height: UInt64, arguments: String...) -> Future<FlowScriptResponse, Never>
+    func executeScriptAtBlockHeight(script: FlowScript, height: UInt64, arguments: String...) -> EventLoopFuture<FlowScriptResponse>
 
-    func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) -> Future<[FlowEventResult], Never>
+    func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) -> EventLoopFuture<[FlowEventResult]>
 
-    func getEventsForBlockIds(type: String, ids: Set<FlowId>) -> Future<[FlowEventResult], Never>
+    func getEventsForBlockIds(type: String, ids: Set<FlowId>) -> EventLoopFuture<[FlowEventResult]>
 
-    func getNetworkParameters() -> Future<FlowChainId, Never>
+    func getNetworkParameters() -> EventLoopFuture<FlowChainId>
 
-    func getLatestProtocolStateSnapshot() -> Future<FlowSnapshot, Never>
+    func getLatestProtocolStateSnapshot() -> EventLoopFuture<FlowSnapshot>
 }

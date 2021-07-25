@@ -35,6 +35,13 @@ struct FlowTransactionResult {
         errorMessage = value.errorMessage
         events = value.events.compactMap { FlowEvent(value: $0) }
     }
+
+    init(value: Flow_Access_TransactionResultResponse) {
+        status = FlowTransactionStatus(num: Int(value.statusCode))
+        statusCode = Int(value.statusCode)
+        errorMessage = value.errorMessage
+        events = value.events.compactMap { FlowEvent(value: $0) }
+    }
 }
 
 struct FlowEventResult {
