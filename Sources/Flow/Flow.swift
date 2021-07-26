@@ -8,20 +8,24 @@ class Flow {
 
     var defaultChainId = FlowChainId.mainnet
 
-    var defaultAddressRegistry = AddressRegistry()
+    lazy var defaultAddressRegistry = AddressRegistry()
+
+    init() {
+        configureDefaults(chainId: .testnet, addressRegistry: defaultAddressRegistry)
+    }
 
     func configureDefaults(chainId: FlowChainId, addressRegistry: AddressRegistry) {
         defaultChainId = chainId
         defaultAddressRegistry = addressRegistry
     }
 
-    func newAccessApi(host: String, port _: Int = 9000, secure: Bool = false) -> FlowAccessAPI {
-        let config = channelConfig(host: host, port: 9000, secure: secure, userAgent: defaultUserAgent)
+    func newAccessApi(host: String, port: Int = 9000, secure: Bool = false) -> FlowAccessAPI {
+        let config = channelConfig(host: host, port: port, secure: secure, userAgent: defaultUserAgent)
         return FlowAccessAPI(config: config)
     }
 
-    func newAccessApi(host: String, port _: Int = 9000, secure: Bool = false, userAgent: String) -> FlowAccessAPI {
-        let config = channelConfig(host: host, port: 9000, secure: secure, userAgent: userAgent)
+    func newAccessApi(host: String, port: Int = 9000, secure: Bool = false, userAgent: String) -> FlowAccessAPI {
+        let config = channelConfig(host: host, port: port, secure: secure, userAgent: userAgent)
         return FlowAccessAPI(config: config)
     }
 

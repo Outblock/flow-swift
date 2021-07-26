@@ -238,9 +238,10 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getAccountByBlockHeight(address: FlowAddress, height _: UInt64) -> EventLoopFuture<FlowAccount?> {
+    func getAccountByBlockHeight(address: FlowAddress, height: UInt64) -> EventLoopFuture<FlowAccount?> {
         var request = Flow_Access_GetAccountAtBlockHeightRequest()
         request.address = address.bytes.data
+        request.blockHeight = height
         let promise = clientChannel.eventLoop.makePromise(of: FlowAccount?.self)
         accessClient.getAccountAtBlockHeight(request).response.whenComplete { result in
             switch result {
