@@ -55,11 +55,10 @@ final class flowTests: XCTestCase {
 
     func testGetBlockHeaderByID() {
         do {
-            let id = FlowId(hex: "0x1d9b2440e79953c5107226d1899bc997cd3a26d71daa97a937b0705fb9ae774e")
+            let id = FlowId(hex: "d35f636db8becc4ac9833b1c63a9fd4624269b933217aa2e0fc2e786130b73a6")
             let blockHeader = try flowAPI.getBlockById(id: id).wait()
-            print(blockHeader)
-//            XCTAssertNotNil(account?.keys.first)
-//            XCTAssertEqual(address, account?.address)
+            XCTAssertNotNil(blockHeader)
+            XCTAssertEqual(blockHeader?.height, 39_896_150)
         } catch {
             print(error)
             XCTAssertNotNil(nil, "testGetAccount failed")
@@ -69,7 +68,7 @@ final class flowTests: XCTestCase {
     func testGetAccountByHeight() {
         do {
             let address = FlowAddress(hex: testAddress)
-            let account = try flowAPI.getAccountByBlockHeight(address: address, height: 16_896_536).wait()
+            let account = try flowAPI.getAccountByBlockHeight(address: address, height: 39_896_150).wait()
             XCTAssertNotNil(account?.keys.first)
             XCTAssertEqual(address, account?.address)
         } catch {
