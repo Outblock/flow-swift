@@ -8,9 +8,8 @@
 import Foundation
 
 enum DomainTag: String {
-    case TRANSACTION_DOMAIN_TAG = "FLOW-V0.0-transaction"
-
-    case USER_DOMAIN_TAG = "FLOW-V0.0-user"
+    case transaction = "FLOW-V0.0-transaction"
+    case user = "FLOW-V0.0-user"
 
     var normalize: ByteArray? {
         guard let bytes = rawValue.data(using: .utf8) else {

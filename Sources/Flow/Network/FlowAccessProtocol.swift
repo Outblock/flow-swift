@@ -31,9 +31,9 @@ protocol FlowAccessProtocol {
 
     func getTransactionResultById(id: FlowId) -> EventLoopFuture<FlowTransactionResult?>
 
-    func getAccountAtLatestBlock(addresss: FlowAddress) -> EventLoopFuture<FlowAccount?>
+    func getAccountAtLatestBlock(address: FlowAddress) -> EventLoopFuture<FlowAccount?>
 
-    func getAccountByBlockHeight(addresss: FlowAddress, height: UInt64) -> EventLoopFuture<FlowAccount?>
+    func getAccountByBlockHeight(address: FlowAddress, height: UInt64) -> EventLoopFuture<FlowAccount?>
 
     func executeScriptAtLatestBlock(script: FlowScript, arguments: String...) -> EventLoopFuture<FlowScriptResponse>
 

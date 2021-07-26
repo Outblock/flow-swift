@@ -218,9 +218,9 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getAccountAtLatestBlock(addresss: FlowAddress) -> EventLoopFuture<FlowAccount?> {
+    func getAccountAtLatestBlock(address: FlowAddress) -> EventLoopFuture<FlowAccount?> {
         var request = Flow_Access_GetAccountAtLatestBlockRequest()
-        request.address = addresss.bytes.data
+        request.address = address.bytes.data
         let promise = clientChannel.eventLoop.makePromise(of: FlowAccount?.self)
         accessClient.getAccountAtLatestBlock(request).response.whenComplete { result in
             switch result {
@@ -238,9 +238,9 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getAccountByBlockHeight(addresss: FlowAddress, height _: UInt64) -> EventLoopFuture<FlowAccount?> {
+    func getAccountByBlockHeight(address: FlowAddress, height _: UInt64) -> EventLoopFuture<FlowAccount?> {
         var request = Flow_Access_GetAccountAtBlockHeightRequest()
-        request.address = addresss.bytes.data
+        request.address = address.bytes.data
         let promise = clientChannel.eventLoop.makePromise(of: FlowAccount?.self)
         accessClient.getAccountAtBlockHeight(request).response.whenComplete { result in
             switch result {
