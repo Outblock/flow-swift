@@ -19,16 +19,22 @@ extension StringProtocol {
 }
 
 extension String {
-    mutating func addPrefixIfNeeded(prefix: String) {
-        guard !hasPrefix(prefix) else { return }
-        self = prefix + self
+    func hasHexPrefix() -> Bool {
+        return hasPrefix("0x")
     }
 
-    func addPrefixIfNeeded(prefix: String) -> String {
-        guard !hasPrefix(prefix) else {
-            return self
+    func stripHexPrefix() -> String {
+        if hasPrefix("0x") {
+            let indexStart = index(startIndex, offsetBy: 2)
+            return String(self[indexStart...])
         }
+        return self
+    }
 
-        return prefix + self
+    func addHexPrefix() -> String {
+        if !hasPrefix("0x") {
+            return "0x" + self
+        }
+        return self
     }
 }

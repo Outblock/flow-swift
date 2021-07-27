@@ -16,6 +16,19 @@ extension Data {
     var byteArray: ByteArray {
         return ByteArray(self)
     }
+
+    static func fromHex(_ hex: String) -> Data? {
+        let string = hex.lowercased().stripHexPrefix()
+        let array = string.hexValue
+        if array.count == 0 {
+            if hex == "0x" || hex == "" {
+                return Data()
+            } else {
+                return nil
+            }
+        }
+        return array.data
+    }
 }
 
 extension Array where Iterator.Element: Hashable {
