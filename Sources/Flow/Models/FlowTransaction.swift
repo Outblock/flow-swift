@@ -14,7 +14,7 @@ extension Flow {
         //    var jsonCadence:
     }
 
-    struct FlowTransactionProposalKey {
+    struct TransactionProposalKey {
         let address: Address
         let keyIndex: UInt32
         let sequenceNumber: UInt64
@@ -34,7 +34,7 @@ extension Flow {
         }
     }
 
-    struct FlowTransactionSignature {
+    struct TransactionSignature {
         let address: Address
         let keyIndex: UInt32
         let signature: Signature
@@ -69,13 +69,13 @@ extension Flow {
     struct Transaction {
         let script: Script
         let arguments: [FlowArgument]
-        let referenceBlockId: FlowId
+        let referenceBlockId: Id
         let gasLimit: UInt64
-        let proposalKey: FlowTransactionProposalKey
+        let proposalKey: TransactionProposalKey
         let payerAddress: Address
         let authorizers: [Address]
-        var payloadSignatures: [FlowTransactionSignature] = []
-        var envelopeSignatures: [FlowTransactionSignature] = []
+        var payloadSignatures: [TransactionSignature] = []
+        var envelopeSignatures: [TransactionSignature] = []
 
         var payload: Payload {
             Payload(script: script.bytes,
@@ -88,6 +88,17 @@ extension Flow {
                     payer: payerAddress.bytes,
                     authorizers: authorizers.compactMap { $0.bytes })
         }
+
+//        var authorization: PayloadEnvelope(
+//            payload = payload,
+//            payloadSignatures = payloadSignatures.map {
+//                EnvelopeSignature(
+//                    signerIndex = it.signerIndex,
+//                    keyIndex = it.keyIndex,
+//                    signature = it.signature.bytes
+//                )
+//            }
+//        )
 
         enum Status: Int, CaseIterable {
             case unknown
@@ -105,13 +116,13 @@ extension Flow {
         init(value: Flow_Entities_Transaction) {
             script = Script(bytes: value.script.byteArray)
             arguments = value.arguments.compactMap { FlowArgument(bytes: $0.byteArray) }
-            referenceBlockId = FlowId(bytes: value.referenceBlockID.byteArray)
+            referenceBlockId = Id(bytes: value.referenceBlockID.byteArray)
             gasLimit = value.gasLimit
-            proposalKey = FlowTransactionProposalKey(value: value.proposalKey)
+            proposalKey = TransactionProposalKey(value: value.proposalKey)
             payerAddress = Address(bytes: value.payer.byteArray)
             authorizers = value.authorizers.compactMap { Address(bytes: $0.byteArray) }
-            payloadSignatures = value.payloadSignatures.compactMap { FlowTransactionSignature(value: $0) }
-            envelopeSignatures = value.envelopeSignatures.compactMap { FlowTransactionSignature(value: $0) }
+            payloadSignatures = value.payloadSignatures.compactMap { TransactionSignature(value: $0) }
+            envelopeSignatures = value.envelopeSignatures.compactMap { TransactionSignature(value: $0) }
         }
 
         func toFlowEntity() -> Flow_Entities_Transaction {

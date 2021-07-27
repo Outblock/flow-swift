@@ -24,15 +24,3 @@ extension BytesHolder {
         return String(bytes: bytes, encoding: .utf8) ?? ""
     }
 }
-
-struct FlowId: BytesHolder, Equatable, Hashable {
-    var bytes: [UInt8]
-
-    init(hex: String) {
-        bytes = hex.hexValue
-    }
-
-    init(bytes: [UInt8]) {
-        self.bytes = bytes
-    }
-}

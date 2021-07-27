@@ -9,40 +9,40 @@ import Foundation
 
 extension Flow {
     struct BlockHeader {
-        let id: FlowId
-        let parentId: FlowId
+        let id: Id
+        let parentId: Id
         let height: UInt64
 
         init(value: Flow_Entities_Block) {
-            id = FlowId(bytes: value.id.byteArray)
-            parentId = FlowId(bytes: value.parentID.byteArray)
+            id = Id(bytes: value.id.byteArray)
+            parentId = Id(bytes: value.parentID.byteArray)
             height = value.height
         }
 
         init(value: Flow_Entities_BlockHeader) {
-            id = FlowId(bytes: value.id.byteArray)
-            parentId = FlowId(bytes: value.parentID.byteArray)
+            id = Id(bytes: value.id.byteArray)
+            parentId = Id(bytes: value.parentID.byteArray)
             height = value.height
         }
     }
 
     struct BlockSeal {
-        let id: FlowId
-        let executionReceiptId: FlowId
+        let id: Id
+        let executionReceiptId: Id
         let executionReceiptSignatures: [Signature]
         let resultApprovalSignatures: [Signature]
 
         init(value: Flow_Entities_BlockSeal) {
-            id = FlowId(bytes: value.blockID.byteArray)
-            executionReceiptId = FlowId(bytes: value.executionReceiptID.byteArray)
+            id = Id(bytes: value.blockID.byteArray)
+            executionReceiptId = Id(bytes: value.executionReceiptID.byteArray)
             executionReceiptSignatures = value.executionReceiptSignatures.compactMap { Signature(bytes: $0.byteArray) }
             resultApprovalSignatures = value.resultApprovalSignatures.compactMap { Signature(bytes: $0.byteArray) }
         }
     }
 
     struct Block {
-        let id: FlowId
-        let parentId: FlowId
+        let id: Id
+        let parentId: Id
         let height: UInt64
         let timestamp: Date
         var collectionGuarantees: [CollectionGuarantee]
@@ -50,8 +50,8 @@ extension Flow {
         var signatures: [Signature]
 
         init(value: Flow_Entities_Block) {
-            id = FlowId(bytes: value.id.byteArray)
-            parentId = FlowId(bytes: value.parentID.byteArray)
+            id = Id(bytes: value.id.byteArray)
+            parentId = Id(bytes: value.parentID.byteArray)
             height = value.height
             timestamp = value.timestamp.date
             collectionGuarantees = value.collectionGuarantees.compactMap { CollectionGuarantee(value: $0) }

@@ -8,7 +8,6 @@
 import Foundation
 import GRPC
 import NIO
-import SwiftProtobuf
 
 class FlowAccessAPI: FlowAccessProtocol {
     var clientChannel: ClientConnection
@@ -50,7 +49,7 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getBlockHeaderById(id: FlowId) -> EventLoopFuture<Flow.BlockHeader?> {
+    func getBlockHeaderById(id: Flow.Id) -> EventLoopFuture<Flow.BlockHeader?> {
         var request = Flow_Access_GetBlockByIDRequest()
         request.id = id.bytes.data
         let promise = clientChannel.eventLoop.makePromise(of: Flow.BlockHeader?.self)
@@ -106,7 +105,7 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getBlockById(id: FlowId) -> EventLoopFuture<Flow.Block?> {
+    func getBlockById(id: Flow.Id) -> EventLoopFuture<Flow.Block?> {
         var request = Flow_Access_GetBlockByIDRequest()
         request.id = id.bytes.data
         let promise = clientChannel.eventLoop.makePromise(of: Flow.Block?.self)
@@ -146,7 +145,7 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getCollectionById(id: FlowId) -> EventLoopFuture<Flow.Collection?> {
+    func getCollectionById(id: Flow.Id) -> EventLoopFuture<Flow.Collection?> {
         var request = Flow_Access_GetCollectionByIDRequest()
         request.id = id.bytes.data
         let promise = clientChannel.eventLoop.makePromise(of: Flow.Collection?.self)
@@ -166,14 +165,14 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func sendTransaction(transaction: Flow.Transaction) -> EventLoopFuture<FlowId> {
+    func sendTransaction(transaction: Flow.Transaction) -> EventLoopFuture<Flow.Id> {
         var request = Flow_Access_SendTransactionRequest()
         request.transaction = transaction.toFlowEntity()
-        let promise = clientChannel.eventLoop.makePromise(of: FlowId.self)
+        let promise = clientChannel.eventLoop.makePromise(of: Flow.Id.self)
         accessClient.sendTransaction(request).response.whenComplete { result in
             switch result {
             case let .success(response):
-                let entity = FlowId(bytes: response.id.byteArray)
+                let entity = Flow.Id(bytes: response.id.byteArray)
                 promise.succeed(entity)
             case let .failure(error):
                 promise.fail(error)
@@ -182,7 +181,7 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getTransactionById(id: FlowId) -> EventLoopFuture<Flow.Transaction?> {
+    func getTransactionById(id: Flow.Id) -> EventLoopFuture<Flow.Transaction?> {
         var request = Flow_Access_GetTransactionRequest()
         request.id = id.bytes.data
         let promise = clientChannel.eventLoop.makePromise(of: Flow.Transaction?.self)
@@ -202,7 +201,7 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getTransactionResultById(id: FlowId) -> EventLoopFuture<Flow.TransactionResult?> {
+    func getTransactionResultById(id: Flow.Id) -> EventLoopFuture<Flow.TransactionResult?> {
         var request = Flow_Access_GetTransactionRequest()
         request.id = id.bytes.data
         let promise = clientChannel.eventLoop.makePromise(of: Flow.TransactionResult?.self)
@@ -276,7 +275,7 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func executeScriptAtBlockId(script: Flow.Script, blockId _: FlowId, arguments: String...) -> EventLoopFuture<Flow.ScriptResponse> {
+    func executeScriptAtBlockId(script: Flow.Script, blockId _: Flow.Id, arguments: String...) -> EventLoopFuture<Flow.ScriptResponse> {
         var request = Flow_Access_ExecuteScriptAtBlockIDRequest()
         request.script = script.bytes.data
         request.arguments = arguments.compactMap { $0.data(using: .utf8) }
@@ -329,7 +328,7 @@ class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getEventsForBlockIds(type: String, ids: Set<FlowId>) -> EventLoopFuture<[Flow.EventResult]> {
+    func getEventsForBlockIds(type: String, ids: Set<Flow.Id>) -> EventLoopFuture<[Flow.EventResult]> {
         var request = Flow_Access_GetEventsForBlockIDsRequest()
         request.type = type
         request.blockIds = ids.compactMap { $0.bytes.data }
