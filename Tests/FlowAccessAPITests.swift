@@ -35,10 +35,10 @@ final class FlowAccessAPITests: XCTestCase {
     }
 
     func testGetBlockHeaderByID() throws {
-        let id = Flow.Id(hex: "7e846452f05e1094c3be73c5253cc9e5f97db63468a80b424c83f4b18ec9a290")
+        let id = Flow.Id(hex: "0x3cb82cf886ac5b4c683280b122a3ae7dde97721ebdf3e94c3fc8965d936839f4")
         let blockHeader = try flowAPI.getBlockById(id: id).wait()
         XCTAssertNotNil(blockHeader)
-        XCTAssertEqual(blockHeader?.height, 16925668)
+        XCTAssertEqual(blockHeader?.height, 16925837)
     }
 
     func testGetAccountByHeight() throws {
