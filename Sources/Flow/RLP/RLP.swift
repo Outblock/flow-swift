@@ -18,7 +18,7 @@ public struct RLP {
     static var length56 = BigUInt(UInt(56))
     static var lengthMax = (BigUInt(UInt(1)) << 256)
 
-    internal static func encode(_ element: AnyObject) -> Data? {
+    internal static func encode(_ element: Any) -> Data? {
         if let string = element as? String {
             return encode(string)
 

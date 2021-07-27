@@ -8,7 +8,7 @@
 import Foundation
 
 extension Flow {
-    struct Address: BytesHolder, Equatable {
+    struct Address: BytesHolder, Equatable, Hashable {
         var bytes: [UInt8]
 
         init(hex: String) {

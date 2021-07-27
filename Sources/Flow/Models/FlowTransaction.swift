@@ -36,6 +36,7 @@ extension Flow {
 
     struct TransactionSignature {
         let address: Address
+        let signerIndex: UInt32
         let keyIndex: UInt32
         let signature: Signature
 
@@ -43,6 +44,14 @@ extension Flow {
             address = Address(bytes: value.address.byteArray)
             keyIndex = value.keyID
             signature = Signature(bytes: value.signature.byteArray)
+            signerIndex = value.keyID
+        }
+
+        init(address: Flow.Address, signerIndex: UInt32, keyIndex: UInt32, signature: Flow.Signature) {
+            self.address = address
+            self.signerIndex = signerIndex
+            self.keyIndex = keyIndex
+            self.signature = signature
         }
 
         func toFlowEntity() -> Flow_Entities_Transaction.Signature {
@@ -66,6 +75,22 @@ extension Flow {
         let authorizers: [ByteArray]
     }
 
+    internal struct PayloadEnvelope {
+        var payload: Payload
+        var payloadSignatures: [EnvelopeSignature]
+    }
+
+    internal struct EnvelopeSignature {
+        let signerIndex: UInt32
+        let keyIndex: UInt32
+        let signature: ByteArray
+    }
+
+    internal struct PaymentEnvelope {
+        var payloadEnvelope: PayloadEnvelope
+        var envelopeSignatures: [EnvelopeSignature]
+    }
+
     struct Transaction {
         let script: Script
         let arguments: [FlowArgument]
@@ -77,7 +102,7 @@ extension Flow {
         var payloadSignatures: [TransactionSignature] = []
         var envelopeSignatures: [TransactionSignature] = []
 
-        var payload: Payload {
+        private var payload: Payload {
             Payload(script: script.bytes,
                     arguments: arguments.compactMap { $0.bytes },
                     referenceBlockId: referenceBlockId.bytes,
@@ -89,29 +114,57 @@ extension Flow {
                     authorizers: authorizers.compactMap { $0.bytes })
         }
 
-//        var authorization: PayloadEnvelope(
-//            payload = payload,
-//            payloadSignatures = payloadSignatures.map {
-//                EnvelopeSignature(
-//                    signerIndex = it.signerIndex,
-//                    keyIndex = it.keyIndex,
-//                    signature = it.signature.bytes
-//                )
-//            }
-//        )
+        lazy var payment: PaymentEnvelope = {
+            PaymentEnvelope(payloadEnvelope: authorization,
+                            envelopeSignatures: envelopeSignatures.compactMap {
+                                EnvelopeSignature(signerIndex: $0.signerIndex,
+                                                  keyIndex: $0.keyIndex,
+                                                  signature: $0.signature.bytes)
+            })
+        }()
 
-        enum Status: Int, CaseIterable {
-            case unknown
-            case pending
-            case finalized
-            case executed
-            case sealed
-            case expired
+        lazy var authorization: PayloadEnvelope = {
+            PayloadEnvelope(payload: payload,
+                            payloadSignatures: payloadSignatures.compactMap {
+                                EnvelopeSignature(signerIndex: $0.signerIndex,
+                                                  keyIndex: $0.keyIndex,
+                                                  signature: $0.signature.bytes)
+            })
+        }()
 
-            init(num: Int) {
-                self = Status.allCases.first { $0.rawValue == num } ?? .unknown
+        lazy var canonicalPayload: Data? = {
+            RLP.encode(payload)
+        }()
+
+        lazy var canonicalAuthorizationEnvelope: Data? = {
+            RLP.encode(authorization)
+        }()
+
+        lazy var canonicalPaymentEnvelope: Data? = {
+            RLP.encode(payment)
+        }()
+
+        var signerList: [Address] {
+            var ret = [Address]()
+            var seen = [Address]()
+            func addSigner(_ address: Address) {
+                if seen.contains(address) {
+                    return
+                }
+                ret.append(address)
+                seen.append(address)
             }
+            addSigner(proposalKey.address)
+            addSigner(payerAddress)
+            authorizers.forEach(addSigner)
+            return ret
         }
+
+        lazy var signerMap: [Address: Int] = {
+            signerList.enumerated().reduce(into: [Address: Int]()) { result, next in
+                result[next.element] = next.offset
+            }
+        }()
 
         init(value: Flow_Entities_Transaction) {
             script = Script(bytes: value.script.byteArray)
@@ -137,6 +190,44 @@ extension Flow {
             transaction.payloadSignatures = payloadSignatures.compactMap { $0.toFlowEntity() }
             transaction.envelopeSignatures = envelopeSignatures.compactMap { $0.toFlowEntity() }
             return transaction
+        }
+
+        mutating func addPayloadSignature(address: Address, keyIndex: UInt32, signer: Signer) -> Transaction {
+            guard let canonicalPayload = canonicalPayload else { return self }
+            return addPayloadSignature(address: address,
+                                       keyIndex: keyIndex,
+                                       signature: Flow.Signature(bytes: signer.signAsTransaction(bytes: canonicalPayload.byteArray)))
+        }
+
+        mutating func addPayloadSignature(address: Address, keyIndex: UInt32, signature: Signature) -> Transaction {
+            payloadSignatures.append(
+                TransactionSignature(address: address,
+                                     signerIndex: keyIndex,
+                                     keyIndex: keyIndex,
+                                     signature: signature)
+            )
+
+            payloadSignatures = payloadSignatures.sorted { t1, t2 in
+                if t1.signerIndex == t2.signerIndex {
+                    return t1.keyIndex > t2.keyIndex
+                }
+                return t1.signerIndex > t2.signerIndex
+            }
+
+            return self
+        }
+
+        enum Status: Int, CaseIterable {
+            case unknown
+            case pending
+            case finalized
+            case executed
+            case sealed
+            case expired
+
+            init(num: Int) {
+                self = Status.allCases.first { $0.rawValue == num } ?? .unknown
+            }
         }
     }
 

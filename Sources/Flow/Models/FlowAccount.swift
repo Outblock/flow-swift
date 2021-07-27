@@ -41,5 +41,10 @@ extension Flow {
             sequenceNumber = Int(value.sequenceNumber)
             revoked = value.revoked
         }
+
+        var encoded: Data? {
+            let encodeList = [publicKey.bytes, signAlgo.code, hashAlgo.code, weight] as [AnyObject]
+            return RLP.encode(encodeList)
+        }
     }
 }

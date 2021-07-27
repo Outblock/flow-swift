@@ -31,22 +31,20 @@ final class FlowAccessAPITests: XCTestCase {
         let account = try flowAPI.getAccountAtLatestBlock(address: address).wait()
         XCTAssertNotNil(account?.keys.first)
         XCTAssertEqual(address, account?.address)
-
     }
 
     func testGetBlockHeaderByID() throws {
         let id = Flow.Id(hex: "0x3cb82cf886ac5b4c683280b122a3ae7dde97721ebdf3e94c3fc8965d936839f4")
         let blockHeader = try flowAPI.getBlockById(id: id).wait()
         XCTAssertNotNil(blockHeader)
-        XCTAssertEqual(blockHeader?.height, 16925837)
+        XCTAssertEqual(blockHeader?.height, 16_925_837)
     }
 
     func testGetAccountByHeight() throws {
         let address = Flow.Address(hex: testAddress)
-        let account = try flowAPI.getAccountByBlockHeight(address: address, height: 16925668).wait()
+        let account = try flowAPI.getAccountByBlockHeight(address: address, height: 16_925_668).wait()
         XCTAssertNotNil(account?.keys.first)
         XCTAssertEqual(address, account?.address)
-
     }
 
     func testGetLatestBlock() throws {
@@ -71,7 +69,6 @@ final class FlowAccessAPITests: XCTestCase {
     }
 
     func testTransactionById() throws {
-
         // Example for mainnet
         let id = Flow.Id(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
         let transaction = try flowAPI.getTransactionById(id: id).wait()
