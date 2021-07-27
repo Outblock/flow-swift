@@ -7,14 +7,16 @@
 
 import Foundation
 
-struct FlowAddress: BytesHolder, Equatable {
-    var bytes: [UInt8]
+extension Flow {
+    struct Address: BytesHolder, Equatable {
+        var bytes: [UInt8]
 
-    init(hex: String) {
-        bytes = hex.hexValue
-    }
+        init(hex: String) {
+            bytes = hex.hexValue
+        }
 
-    init(bytes: [UInt8]) {
-        self.bytes = bytes
+        init(bytes: [UInt8]) {
+            self.bytes = bytes
+        }
     }
 }

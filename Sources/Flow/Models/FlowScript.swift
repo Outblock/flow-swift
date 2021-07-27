@@ -7,18 +7,20 @@
 
 import Foundation
 
-struct FlowScript: BytesHolder, Equatable {
-    var bytes: [UInt8]
+extension Flow {
+    struct Script: BytesHolder, Equatable {
+        var bytes: [UInt8]
 
-    init(script: String) {
-        bytes = script.hexValue
+        init(script: String) {
+            bytes = script.hexValue
+        }
+
+        init(bytes: [UInt8]) {
+            self.bytes = bytes
+        }
     }
 
-    init(bytes: [UInt8]) {
-        self.bytes = bytes
+    struct ScriptResponse: BytesHolder, Equatable, Hashable {
+        var bytes: ByteArray
     }
-}
-
-struct FlowScriptResponse: BytesHolder, Equatable, Hashable {
-    var bytes: ByteArray
 }
