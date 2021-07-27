@@ -26,8 +26,9 @@ let package = Package(
                            .product(name: "GRPC", package: "grpc-swift")]
         ),
         .testTarget(
-            name: "flowTests",
-            dependencies: ["Flow"]
+            name: "FlowTests",
+            dependencies: ["Flow"],
+            path: "Tests"
         ),
     ]
 )
