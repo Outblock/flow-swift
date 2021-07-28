@@ -63,7 +63,7 @@ final class FlowAccessAPITests: XCTestCase {
 
     func testGetCollectionById() throws {
         // Example for mainnet
-        let id = Flow.Id(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
+        let id = Flow.Id(hex: "53cc748124358855ec4d975ce6511ba016f5d2dfcead1527fd858579fc7baf76")
         let collection = try flowAPI.getCollectionById(id: id).wait()
         XCTAssertNotNil(collection)
     }
