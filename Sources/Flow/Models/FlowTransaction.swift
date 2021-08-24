@@ -36,18 +36,18 @@ extension Flow {
 
     struct TransactionSignature {
         let address: Address
-        let signerIndex: UInt32
-        let keyIndex: UInt32
+        var signerIndex: Int
+        let keyIndex: Int
         let signature: Signature
 
         init(value: Flow_Entities_Transaction.Signature) {
             address = Address(bytes: value.address.byteArray)
-            keyIndex = value.keyID
+            keyIndex = Int(value.keyID)
             signature = Signature(bytes: value.signature.byteArray)
-            signerIndex = value.keyID
+            signerIndex = Int(value.keyID)
         }
 
-        init(address: Flow.Address, signerIndex: UInt32, keyIndex: UInt32, signature: Flow.Signature) {
+        init(address: Flow.Address, signerIndex: Int, keyIndex: Int, signature: Flow.Signature) {
             self.address = address
             self.signerIndex = signerIndex
             self.keyIndex = keyIndex
@@ -57,7 +57,7 @@ extension Flow {
         func toFlowEntity() -> Flow_Entities_Transaction.Signature {
             var entity = Flow_Entities_Transaction.Signature()
             entity.address = address.bytes.data
-            entity.keyID = keyIndex
+            entity.keyID = UInt32(keyIndex)
             entity.signature = signature.bytes.data
             return entity
         }
@@ -81,8 +81,8 @@ extension Flow {
     }
 
     internal struct EnvelopeSignature {
-        let signerIndex: UInt32
-        let keyIndex: UInt32
+        let signerIndex: Int
+        let keyIndex: Int
         let signature: ByteArray
     }
 
@@ -101,7 +101,7 @@ extension Flow {
         let authorizers: [Address]
         var payloadSignatures: [TransactionSignature] = []
         var envelopeSignatures: [TransactionSignature] = []
-
+        
         private var payload: Payload {
             Payload(script: script.bytes,
                     arguments: arguments.compactMap { $0.bytes },
@@ -114,35 +114,38 @@ extension Flow {
                     authorizers: authorizers.compactMap { $0.bytes })
         }
 
-        lazy var payment: PaymentEnvelope = {
+        var payment: PaymentEnvelope {
             PaymentEnvelope(payloadEnvelope: authorization,
                             envelopeSignatures: envelopeSignatures.compactMap {
                                 EnvelopeSignature(signerIndex: $0.signerIndex,
                                                   keyIndex: $0.keyIndex,
                                                   signature: $0.signature.bytes)
             })
-        }()
+        }
 
-        lazy var authorization: PayloadEnvelope = {
+        var authorization: PayloadEnvelope {
             PayloadEnvelope(payload: payload,
                             payloadSignatures: payloadSignatures.compactMap {
                                 EnvelopeSignature(signerIndex: $0.signerIndex,
                                                   keyIndex: $0.keyIndex,
                                                   signature: $0.signature.bytes)
             })
-        }()
+        }
 
-        lazy var canonicalPayload: Data? = {
-            RLP.encode(payload)
-        }()
+        var canonicalPayload: ByteArray? {
+            // TODO: Need fix this, RLP not support encode object
+            RLP.encode(payload)?.byteArray
+        }
 
-        lazy var canonicalAuthorizationEnvelope: Data? = {
-            RLP.encode(authorization)
-        }()
+        var canonicalAuthorizationEnvelope: ByteArray? {
+            // TODO: Need fix this, RLP not support encode object
+            RLP.encode(authorization)?.byteArray
+        }
 
-        lazy var canonicalPaymentEnvelope: Data? = {
-            RLP.encode(payment)
-        }()
+        var canonicalPaymentEnvelope: ByteArray? {
+            // TODO: Need fix this, RLP not support encode object
+            RLP.encode(payment)?.byteArray
+        }
 
         var signerList: [Address] {
             var ret = [Address]()
@@ -160,11 +163,11 @@ extension Flow {
             return ret
         }
 
-        lazy var signerMap: [Address: Int] = {
+        var signerMap: [Address: Int] {
             signerList.enumerated().reduce(into: [Address: Int]()) { result, next in
                 result[next.element] = next.offset
             }
-        }()
+        }
 
         init(value: Flow_Entities_Transaction) {
             script = Script(bytes: value.script.byteArray)
@@ -192,17 +195,17 @@ extension Flow {
             return transaction
         }
 
-        mutating func addPayloadSignature(address: Address, keyIndex: UInt32, signer: Signer) -> Transaction {
+        mutating func addPayloadSignature(address: Address, keyIndex: Int, signer: Signer) -> Self {
             guard let canonicalPayload = canonicalPayload else { return self }
             return addPayloadSignature(address: address,
                                        keyIndex: keyIndex,
-                                       signature: Flow.Signature(bytes: signer.signAsTransaction(bytes: canonicalPayload.byteArray)))
+                                       signature: Signature(bytes: signer.signAsTransaction(bytes: canonicalPayload)))
         }
 
-        mutating func addPayloadSignature(address: Address, keyIndex: UInt32, signature: Signature) -> Transaction {
+        mutating func addPayloadSignature(address: Address, keyIndex: Int, signature: Signature) -> Self {
             payloadSignatures.append(
                 TransactionSignature(address: address,
-                                     signerIndex: keyIndex,
+                                     signerIndex: signerMap[address] ?? -1,
                                      keyIndex: keyIndex,
                                      signature: signature)
             )
@@ -213,8 +216,58 @@ extension Flow {
                 }
                 return t1.signerIndex > t2.signerIndex
             }
-
             return self
+        }
+        
+        mutating func addEnvelopeSignature(address: Address, keyIndex: Int, signer: Signer) -> Self {
+            
+            guard let data = canonicalAuthorizationEnvelope else {
+                return self
+            }
+            
+            return self.addEnvelopeSignature(address: address,
+                                             keyIndex: keyIndex,
+                                             signature: Signature(bytes: signer.signAsTransaction(bytes: data)))
+        }
+        
+        mutating func addEnvelopeSignature(address: Address, keyIndex: Int, signature: Signature) -> Self {
+            envelopeSignatures.append(
+                TransactionSignature(address: address,
+                                     signerIndex: signerMap[address] ?? -1,
+                                     keyIndex: keyIndex,
+                                     signature: signature)
+            )
+            
+            envelopeSignatures = envelopeSignatures.sorted { t1, t2 in
+                if t1.signerIndex == t2.signerIndex {
+                    return t1.keyIndex > t2.keyIndex
+                }
+                return t1.signerIndex > t2.signerIndex
+            }
+            return self
+        }
+        
+        func updateSignerIndices() -> Transaction {
+            let map = signerMap
+            var payloadSig = payloadSignatures
+            var envelopeSig = envelopeSignatures
+            for (index, sig) in payloadSig.enumerated() {
+                if map.keys.contains(sig.address) {
+                    continue
+                }
+                payloadSig[index].signerIndex = index
+            }
+            for (index, sig) in envelopeSig.enumerated() {
+                if map.keys.contains(sig.address) {
+                    continue
+                }
+                envelopeSig[index].signerIndex = index
+            }
+            
+            var transaction = self
+            transaction.payloadSignatures = payloadSig
+            transaction.envelopeSignatures = envelopeSig
+            return transaction
         }
 
         enum Status: Int, CaseIterable {
