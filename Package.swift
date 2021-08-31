@@ -18,12 +18,14 @@ let package = Package(
     dependencies: [
         .package(name: "BigInt", url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
         .package(url: "https://github.com/grpc/grpc-swift.git", from: "1.0.0"),
+        .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.0.0"),
     ],
     targets: [
         .target(
             name: "Flow",
             dependencies: ["BigInt",
-                           .product(name: "GRPC", package: "grpc-swift")]
+                           .product(name: "GRPC", package: "grpc-swift"),
+                           .product(name: "AsyncHTTPClient", package: "async-http-client")]
         ),
         .testTarget(
             name: "FlowTests",

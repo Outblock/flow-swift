@@ -21,7 +21,6 @@ public struct RLP {
     internal static func encode(_ element: Any) -> Data? {
         if let string = element as? String {
             return encode(string)
-
         } else if let data = element as? Data {
             return encode(data)
         } else if let biguint = element as? BigUInt {

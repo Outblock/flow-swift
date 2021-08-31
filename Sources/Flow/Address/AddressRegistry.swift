@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AddressRegistry {
+public class AddressRegistry {
     var defaultChainId: Flow.ChainId = Flow.ChainId.mainnet
 
     private var scriptTokenDict = [Flow.ChainId: [String: Flow.Address]]()

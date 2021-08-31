@@ -101,7 +101,7 @@ extension Flow {
         let authorizers: [Address]
         var payloadSignatures: [TransactionSignature] = []
         var envelopeSignatures: [TransactionSignature] = []
-        
+
         private var payload: Payload {
             Payload(script: script.bytes,
                     arguments: arguments.compactMap { $0.bytes },
@@ -218,18 +218,17 @@ extension Flow {
             }
             return self
         }
-        
+
         mutating func addEnvelopeSignature(address: Address, keyIndex: Int, signer: Signer) -> Self {
-            
             guard let data = canonicalAuthorizationEnvelope else {
                 return self
             }
-            
-            return self.addEnvelopeSignature(address: address,
-                                             keyIndex: keyIndex,
-                                             signature: Signature(bytes: signer.signAsTransaction(bytes: data)))
+
+            return addEnvelopeSignature(address: address,
+                                        keyIndex: keyIndex,
+                                        signature: Signature(bytes: signer.signAsTransaction(bytes: data)))
         }
-        
+
         mutating func addEnvelopeSignature(address: Address, keyIndex: Int, signature: Signature) -> Self {
             envelopeSignatures.append(
                 TransactionSignature(address: address,
@@ -237,7 +236,7 @@ extension Flow {
                                      keyIndex: keyIndex,
                                      signature: signature)
             )
-            
+
             envelopeSignatures = envelopeSignatures.sorted { t1, t2 in
                 if t1.signerIndex == t2.signerIndex {
                     return t1.keyIndex > t2.keyIndex
@@ -246,7 +245,7 @@ extension Flow {
             }
             return self
         }
-        
+
         func updateSignerIndices() -> Transaction {
             let map = signerMap
             var payloadSig = payloadSignatures
@@ -263,7 +262,7 @@ extension Flow {
                 }
                 envelopeSig[index].signerIndex = index
             }
-            
+
             var transaction = self
             transaction.payloadSignatures = payloadSig
             transaction.envelopeSignatures = envelopeSig

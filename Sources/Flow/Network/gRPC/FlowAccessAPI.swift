@@ -9,7 +9,7 @@ import Foundation
 import GRPC
 import NIO
 
-class FlowAccessAPI: FlowAccessProtocol {
+open class FlowAccessAPI: FlowAccessProtocol {
     var clientChannel: ClientConnection
     var accessClient: Flow_Access_AccessAPIClient
 
