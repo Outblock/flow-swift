@@ -19,6 +19,12 @@ extension Flow {
         let keyIndex: UInt32
         let sequenceNumber: UInt64
 
+        init(address: Flow.Address, keyIndex: UInt32, sequenceNumber: UInt64) {
+            self.address = address
+            self.keyIndex = keyIndex
+            self.sequenceNumber = sequenceNumber
+        }
+
         init(value: Flow_Entities_Transaction.ProposalKey) {
             address = Address(bytes: value.address.byteArray)
             keyIndex = value.keyID
@@ -52,6 +58,16 @@ extension Flow {
             self.signerIndex = signerIndex
             self.keyIndex = keyIndex
             self.signature = signature
+        }
+
+        func buildUpon(address: Flow.Address? = nil,
+                       signerIndex: Int? = nil,
+                       keyIndex: Int? = nil,
+                       signature: Flow.Signature? = nil) -> TransactionSignature {
+            return TransactionSignature(address: address ?? self.address,
+                                        signerIndex: signerIndex ?? self.signerIndex,
+                                        keyIndex: keyIndex ?? self.keyIndex,
+                                        signature: signature ?? self.signature)
         }
 
         func toFlowEntity() -> Flow_Entities_Transaction.Signature {
@@ -102,6 +118,46 @@ extension Flow {
         var payloadSignatures: [TransactionSignature] = []
         var envelopeSignatures: [TransactionSignature] = []
 
+        init(script: Flow.Script, arguments: [Flow.FlowArgument], referenceBlockId: Flow.Id, gasLimit: UInt64, proposalKey: Flow.TransactionProposalKey, payerAddress: Flow.Address, authorizers: [Flow.Address], payloadSignatures: [Flow.TransactionSignature] = [], envelopeSignatures: [Flow.TransactionSignature] = []) {
+            self.script = script
+            self.arguments = arguments
+            self.referenceBlockId = referenceBlockId
+            self.gasLimit = gasLimit
+            self.proposalKey = proposalKey
+            self.payerAddress = payerAddress
+            self.authorizers = authorizers
+            self.payloadSignatures = payloadSignatures
+            self.envelopeSignatures = envelopeSignatures
+        }
+
+        func buildUpOn(script: Flow.Script? = nil,
+                       arguments: [Flow.FlowArgument]? = nil,
+                       referenceBlockId: Flow.Id? = nil,
+                       gasLimit: UInt64? = nil,
+                       proposalKey: Flow.TransactionProposalKey? = nil,
+                       payerAddress: Flow.Address? = nil,
+                       authorizers: [Flow.Address]? = nil,
+                       payloadSignatures: [Flow.TransactionSignature]? = nil,
+                       envelopeSignatures: [Flow.TransactionSignature]? = nil) -> Transaction {
+            return Transaction(script: script ?? self.script,
+                               arguments: arguments ?? self.arguments,
+                               referenceBlockId: referenceBlockId ?? self.referenceBlockId,
+                               gasLimit: gasLimit ?? self.gasLimit,
+                               proposalKey: proposalKey ?? self.proposalKey,
+                               payerAddress: payerAddress ?? self.payerAddress,
+                               authorizers: authorizers ?? self.authorizers,
+                               payloadSignatures: payloadSignatures ?? self.payloadSignatures,
+                               envelopeSignatures: envelopeSignatures ?? self.envelopeSignatures)
+        }
+
+        var encodedEnvelope: Data? {
+            return RLP.encode([preparePayload, preparePayloadSignatures])
+        }
+
+        var encodedPayload: Data? {
+            return RLP.encode(preparePayload)
+        }
+
         private var payload: Payload {
             Payload(script: script.bytes,
                     arguments: arguments.compactMap { $0.bytes },
@@ -135,6 +191,55 @@ extension Flow {
         var canonicalPayload: ByteArray? {
             // TODO: Need fix this, RLP not support encode object
             RLP.encode(payload)?.byteArray
+        }
+
+        var preparePayload: [Any] {
+            return [
+                script.bytes.data,
+                [], // Flow Argument
+                referenceBlockId.bytes.paddingZeroLeft(blockSize: 32).data,
+                Int(gasLimit),
+                proposalKey.address.bytes.paddingZeroLeft(blockSize: 8).data,
+                Int(proposalKey.keyIndex),
+                Int(proposalKey.sequenceNumber),
+                payerAddress.bytes.paddingZeroLeft(blockSize: 8).data,
+                authorizers.map { $0.bytes.paddingZeroLeft(blockSize: 8).data },
+            ]
+        }
+
+        var preparePayloadSignatures: [Any] {
+            return payloadSignatures
+                .map { sig in
+                    TransactionSignature(address: sig.address,
+                                         signerIndex: signers[sig.address.stringValue] ?? 0,
+                                         keyIndex: sig.keyIndex,
+                                         signature: sig.signature)
+                }
+                .sorted { a, b in
+                    if a.signerIndex == b.signerIndex {
+                        return a.keyIndex < b.keyIndex
+                    }
+                    return a.signerIndex < b.signerIndex
+                }.map { sig in
+                    [Int(sig.signerIndex), Int(sig.keyIndex), sig.signature.bytes.data]
+                }
+        }
+
+        private var signers: [String: Int] {
+            var i = 0
+            var signer = [String: Int]()
+
+            func addSigner(address: String) {
+                if !signer.keys.contains(address) {
+                    signer[address] = i
+                    i += 1
+                }
+            }
+
+            addSigner(address: proposalKey.address.stringValue)
+            addSigner(address: payerAddress.stringValue)
+            authorizers.forEach { addSigner(address: $0.stringValue) }
+            return signer
         }
 
         var canonicalAuthorizationEnvelope: ByteArray? {

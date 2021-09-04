@@ -12,7 +12,7 @@ extension Flow {
         var bytes: [UInt8]
 
         init(script: String) {
-            bytes = script.hexValue
+            bytes = script.data(using: .utf8)!.byteArray
         }
 
         init(bytes: [UInt8]) {

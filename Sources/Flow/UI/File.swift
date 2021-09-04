@@ -5,6 +5,7 @@
 //  Created by lmcmz on 31/8/21.
 //
 
+import AuthenticationServices
 import Foundation
 import UIKit
 
@@ -21,5 +22,11 @@ internal func showLoading() {
 internal func hideLoading(completion: (() -> Void)?) {
     if let vc = UIApplication.shared.topMostViewController as? UIAlertController {
         vc.dismiss(animated: true, completion: completion)
+    }
+}
+
+extension UIViewController: ASWebAuthenticationPresentationContextProviding {
+    public func presentationAnchor(for _: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        return view.window!
     }
 }

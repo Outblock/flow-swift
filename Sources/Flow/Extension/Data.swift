@@ -7,9 +7,31 @@
 
 import Foundation
 
-extension Sequence where Element == UInt8 {
+// extension Sequence where Element == UInt8 {
+// }
+
+extension Array where Element == UInt8 {
     var data: Data { .init(self) }
     var hexValue: String { map { .init(format: "%02x", $0) }.joined() }
+
+    func paddingZeroLeft(blockSize: Int) -> [UInt8] {
+        if count >= blockSize {
+            return self
+        }
+        let paddingCount = blockSize - (count % blockSize)
+        if paddingCount > 0 {
+            return [UInt8](repeating: 0, count: paddingCount) + self
+        }
+        return self
+    }
+
+    func paddingZeroRight(blockSize: Int) -> [UInt8] {
+        let paddingCount = blockSize - (count % blockSize)
+        if paddingCount > 0 {
+            return self + [UInt8](repeating: 0, count: paddingCount)
+        }
+        return self
+    }
 }
 
 extension Data {
@@ -28,6 +50,10 @@ extension Data {
             }
         }
         return array.data
+    }
+
+    var hexDescription: String {
+        return reduce("") { $0 + String(format: "%02x", $1) }
     }
 }
 
