@@ -1,14 +1,13 @@
+import BigInt
 @testable import Flow
 import XCTest
 
 final class RLPTests: XCTestCase {
-    var flowAPI: FlowAPI!
-
     let prefix = "FLOW-V0.0-transaction".data(using: .utf8)!.byteArray.paddingZeroRight(blockSize: 32).hexValue
     let baseTx = Flow.Transaction(script: Flow.Script(script: "transaction { execute { log(\"Hello, World!\") } }"),
                                   arguments: [],
                                   referenceBlockId: Flow.Id(hex: "f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b"),
-                                  gasLimit: 42,
+                                  gasLimit: BigUInt(42),
                                   proposalKey: Flow.TransactionProposalKey(address: Flow.Address(hex: "01"),
                                                                            keyIndex: 4,
                                                                            sequenceNumber: 10),

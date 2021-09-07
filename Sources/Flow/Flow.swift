@@ -1,24 +1,29 @@
+import AuthenticationServices
 import Combine
 import GRPC
 import NIO
 import SafariServices
 
-public class Flow {
+public final class Flow {
     public static let shared = Flow()
 
     public var config = Flow.Config()
 
-    let api = FlowAPI()
+    @Published var currentUser: Flow.User? = nil
 
-    let defaultUserAgent = "Flow SWIFT SDK"
+    private let api = API()
 
-    var defaultChainId = ChainId.mainnet
+    internal let defaultUserAgent = "Flow SWIFT SDK"
 
-    lazy var defaultAddressRegistry = AddressRegistry()
+    internal var defaultChainId = ChainId.mainnet
+
+    private lazy var defaultAddressRegistry = AddressRegistry()
 
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Back Channel
+
+    let service: [Service]? = nil
 
     public func config(appName: String,
                        appIcon: String,
@@ -35,49 +40,62 @@ public class Flow {
             .put(key: .authn, value: authn)
     }
 
-    public func authn() -> Future<AuthnResponse, Error> {
+    public func unauthenticate() {
+        // TODO: implement this
+    }
+
+    public func reauthenticate() {
+        // TODO: implement this
+    }
+
+    public func preauthz() -> Future<AuthnResponse, Error> {
+        return Future { [weak self] _ in
+            guard let self = self, let currentUser = self.currentUser else { return }
+            guard currentUser.loggedIn else { return }
+
+            if let service = currentUser.services?.first(where: { service in
+                service.type == .preAuthz
+            }) {
+                self.api.execHttpPost(url: service.endpoint)
+//                call.whenSuccess { model in
+//                    print(model)
+//                    promise(.success(model))
+//                }
+//
+//                call.whenFailure { error in
+//                    print(error)
+//                    promise(.failure(error))
+//                }
+            }
+        }
+    }
+
+    public func authz() {
+        // TODO: implement this
+    }
+
+    public func authenticate() -> Future<AuthnResponse, Error> {
         return Future { [weak self] promise in
             guard let self = self else { return }
             guard let endpoint = self.config.get(key: .authn) else {
                 return promise(.failure(FlowError.urlEmpty))
             }
             showLoading()
-            let call = self.api.authn(url: endpoint)
-            call.whenSuccess { model in
-                guard let pollingEndpoint = model.updates?.endpoint else {
-                    promise(.failure(FlowError.urlEmpty))
-                    return
-                }
-                self.authnPolling(url: pollingEndpoint).sink { response in
-                    promise(.success(response))
+            self.api.execHttpPost(url: endpoint)
+                .receive(on: DispatchQueue.main)
+                .sink { _ in
+                    SafariWebViewManager.dismiss()
+                } receiveValue: { _ in
+                    SafariWebViewManager.dismiss()
                 }.store(in: &self.cancellables)
-
-                DispatchQueue.main.async {
-                    hideLoading {
-                        let safariVC = SFSafariViewController(url: URL(string: model.local!.endpoint)!)
-                        safariVC.modalPresentationStyle = .formSheet
-                        UIApplication.shared.topMostViewController?.present(safariVC, animated: true, completion: nil)
-                    }
-                }
-            }
-
-            call.whenFailure { error in
-                print(error)
-                promise(.failure(error))
-            }
         }
     }
 
-    public func authnPolling(url: String) -> Future<AuthnResponse, Never> {
-        return Future { [weak self] promise in
-            guard let self = self else { return }
-            self.api.authnPolling(url: url, repeatTimeInterval: .seconds(2)) { result in
-                DispatchQueue.main.async {
-                    UIApplication.shared.topMostViewController?.dismiss(animated: true, completion: nil)
-                    promise(.success(result))
-                }
-            }
-        }
+    private func buildUser(authn: AuthnResponse) -> Flow.User? {
+        guard let address = authn.data?.addr else { return nil }
+        return Flow.User(addr: Flow.Address(hex: address),
+                         loggedIn: true,
+                         services: authn.data?.services)
     }
 
     // MARK: - AccessAPI

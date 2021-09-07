@@ -1,14 +1,14 @@
 //
-//  FlowAddress.swift
+//  File.swift
 //
 //
-//  Created by lmcmz on 23/7/21.
+//  Created by lmcmz on 5/9/21.
 //
 
 import Foundation
 
 extension Flow {
-    struct Address: BytesHolder, Equatable, Hashable, Codable {
+    struct Signature: BytesHolder, Equatable {
         var bytes: [UInt8]
 
         init(hex: String) {

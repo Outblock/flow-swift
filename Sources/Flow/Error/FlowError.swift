@@ -8,7 +8,10 @@
 import Foundation
 
 public enum FlowError: Error {
+    case generic
     case urlEmpty
     case urlInvaild
+    case declined
+    case encodeFailure
     case decodeFailure
 }

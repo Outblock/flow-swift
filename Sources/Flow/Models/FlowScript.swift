@@ -10,9 +10,16 @@ import Foundation
 extension Flow {
     struct Script: BytesHolder, Equatable {
         var bytes: [UInt8]
+        var data: Data {
+            return bytes.data
+        }
 
         init(script: String) {
             bytes = script.data(using: .utf8)!.byteArray
+        }
+
+        init(data: Data) {
+            bytes = data.byteArray
         }
 
         init(bytes: [UInt8]) {
