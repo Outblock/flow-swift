@@ -13,14 +13,14 @@ extension Flow {
         let transactionId: Id
         let transactionIndex: Int
         let eventIndex: Int
-        let payload: FlowEventPayload
+        let payload: EventPayload
 
         init(value: Flow_Entities_Event) {
             type = value.type
             transactionId = Id(bytes: value.transactionID.byteArray)
             transactionIndex = Int(value.transactionIndex)
             eventIndex = Int(value.eventIndex)
-            payload = FlowEventPayload(bytes: value.payload.byteArray)
+            payload = EventPayload(bytes: value.payload.byteArray)
         }
     }
 
@@ -37,15 +37,18 @@ extension Flow {
             events = value.events.compactMap { Event(value: $0) }
         }
     }
-}
 
-struct FlowSnapshot: BytesHolder, Equatable {
-    var bytes: ByteArray
-}
+    struct Snapshot: BytesHolder, Equatable {
+        var bytes: ByteArray
+    }
 
-struct FlowEventPayload: BytesHolder, Equatable {
-    var bytes: [UInt8]
+    struct EventPayload: BytesHolder {
+        var bytes: [UInt8]
+        var fields: Flow.Argument?
 
-    // TODO: Add jsonCadence
-    // var jsonCadence: Field<T>
+        init(bytes: [UInt8]) {
+            self.bytes = bytes
+            fields = try? JSONDecoder().decode(Flow.Argument.self, from: bytes.data)
+        }
+    }
 }

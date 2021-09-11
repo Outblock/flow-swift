@@ -47,5 +47,5 @@ protocol FlowAccessProtocol {
 
     func getNetworkParameters() -> EventLoopFuture<Flow.ChainId>
 
-    func getLatestProtocolStateSnapshot() -> EventLoopFuture<FlowSnapshot>
+    func getLatestProtocolStateSnapshot() -> EventLoopFuture<Flow.Snapshot>
 }

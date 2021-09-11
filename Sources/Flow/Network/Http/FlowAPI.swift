@@ -24,7 +24,7 @@ extension Flow {
             let promise = eventLoop.makePromise(of: T.self)
             guard var request = try? HTTPClient.Request(url: url, method: method)
             else {
-                promise.fail(FlowError.urlInvaild)
+                promise.fail(Flow.FError.urlInvaild)
                 return promise.futureResult
             }
             request.headers.add(name: "User-Agent", value: Flow.shared.defaultUserAgent)
@@ -33,7 +33,7 @@ extension Flow {
             call.whenSuccess { response in
                 let decodeModel: T? = decodeToModel(body: response.body)
                 guard let model = decodeModel else {
-                    promise.fail(FlowError.decodeFailure)
+                    promise.fail(Flow.FError.decodeFailure)
                     return
                 }
                 promise.succeed(model)
@@ -48,12 +48,12 @@ extension Flow {
             let eventLoop = EmbeddedEventLoop()
             let promise = eventLoop.makePromise(of: T.self)
             guard let encodeModel = body, let data = try? JSONEncoder().encode(encodeModel) else {
-                promise.fail(FlowError.encodeFailure)
+                promise.fail(Flow.FError.encodeFailure)
                 return promise.futureResult
             }
             guard var request = try? HTTPClient.Request(url: url, method: method, body: HTTPClient.Body.data(data))
             else {
-                promise.fail(FlowError.urlInvaild)
+                promise.fail(Flow.FError.urlInvaild)
                 return promise.futureResult
             }
             request.headers.add(name: "User-Agent", value: Flow.shared.defaultUserAgent)
@@ -62,7 +62,7 @@ extension Flow {
             call.whenSuccess { response in
                 let decodeModel: T? = decodeToModel(body: response.body)
                 guard let model = decodeModel else {
-                    promise.fail(FlowError.decodeFailure)
+                    promise.fail(Flow.FError.decodeFailure)
                     return
                 }
                 promise.succeed(model)
@@ -77,7 +77,7 @@ extension Flow {
             return Future { promise in
 
                 guard let url = URL(string: url) else {
-                    promise(.failure(FlowError.urlInvaild))
+                    promise(.failure(Flow.FError.urlInvaild))
                     return
                 }
 
@@ -87,15 +87,18 @@ extension Flow {
                     case .approved:
                         promise(.success(result))
                     case .declined:
-                        promise(.failure(FlowError.declined))
+                        promise(.failure(Flow.FError.declined))
                     case .pending:
                         self.canContinue = true
                         guard let local = result.local, let updates = result.updates else { return }
                         SafariWebViewManager.openSafariWebView(service: local) {
                             self.canContinue = false
                         }
-                        self.poll(service: updates, canContinue: self.canContinue).sink { _ in
-                            // TODO: Handle error
+                        self.poll(service: updates, canContinue: self.canContinue).sink { completion in
+                            // TODO: Handle special error
+                            if case let .failure(error) = completion {
+                                promise(.failure(error))
+                            }
                         } receiveValue: { result in
                             promise(.success(result))
                         }.store(in: &self.cancellables)
@@ -108,17 +111,17 @@ extension Flow {
             return Future { promise in
 
                 if !self.canContinue {
-                    promise(.failure(FlowError.declined))
+                    promise(.failure(Flow.FError.declined))
                     return
                 }
 
                 guard let url = URL(string: service.endpoint) else {
-                    promise(.failure(FlowError.urlInvaild))
+                    promise(.failure(Flow.FError.urlInvaild))
                     return
                 }
 
                 guard let method = service.method.http else {
-                    promise(.failure(FlowError.generic))
+                    promise(.failure(Flow.FError.generic))
                     return
                 }
 
@@ -134,16 +137,17 @@ extension Flow {
                         promise(.success(result))
                     case .pending:
                         // TODO: Improve this
-                        self.poll(service: service, canContinue: self.canContinue)
-                            .delay(for: .milliseconds(500), scheduler: RunLoop.main)
-                            .sink { completion in
-                                if case let .failure(error) = completion {
-                                    promise(.failure(error))
+                        DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(500)) {
+                            self.poll(service: service, canContinue: self.canContinue)
+                                .sink { completion in
+                                    if case let .failure(error) = completion {
+                                        promise(.failure(error))
+                                    }
+                                } receiveValue: { result in
+                                    promise(.success(result))
                                 }
-                            } receiveValue: { result in
-                                promise(.success(result))
-                            }
-                            .store(in: &self.cancellables)
+                                .store(in: &self.cancellables)
+                        }
                     }
                 }
 

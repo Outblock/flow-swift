@@ -7,11 +7,20 @@
 
 import Foundation
 
-public enum FlowError: Error {
-    case generic
-    case urlEmpty
-    case urlInvaild
-    case declined
-    case encodeFailure
-    case decodeFailure
+extension Flow {
+    public enum FError: String, Error {
+        case generic
+        case urlEmpty
+        case urlInvaild
+        case declined
+        case encodeFailure
+        case decodeFailure
+        case unauthenticated
+    }
+}
+
+extension Flow.FError: LocalizedError {
+    public var errorDescription: String? {
+        return rawValue
+    }
 }

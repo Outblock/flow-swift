@@ -52,8 +52,8 @@ extension Flow {
         let endpoint: String
         let uid: String?
         let id: String?
-        let identity: Identity?
-        let provider: Provider?
+        public let identity: Identity?
+        public let provider: Provider?
 
         public enum Method: String, Codable {
             case post = "HTTP/POST"
@@ -72,14 +72,14 @@ extension Flow {
     }
 
     public struct Identity: Codable {
-        let address: String
+        public let address: String
         let keyId: Int
     }
 
     public struct Provider: Codable {
         public let fType: String?
         public let fVsn: String?
-        let address: String
-        let name: String
+        public let address: String
+        public let name: String
     }
 }

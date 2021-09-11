@@ -72,6 +72,10 @@ final class FlowAccessAPITests: XCTestCase {
         // Example for mainnet
         let id = Flow.Id(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
         let transaction = try flowAPI.getTransactionById(id: id).wait()
+        XCTAssertEqual(transaction?.arguments.first?.type, Flow.Cadence.FType.path)
+        XCTAssertEqual(transaction?.arguments.first?.value, Flow.Cadence.ValueType.path(value: Flow.Argument.Path(domain: "public", identifier: "zelosAccountingTokenReceiver")))
+        XCTAssertEqual(transaction?.arguments.last?.type, Flow.Cadence.FType.ufix64)
+        XCTAssertEqual(transaction?.arguments.last?.value, Flow.Cadence.ValueType.ufix64(value: 99.0))
         XCTAssertEqual(transaction?.payerAddress.bytes.hexValue, "1f56a1e665826a52")
         XCTAssertNotNil(transaction)
     }
@@ -82,6 +86,8 @@ final class FlowAccessAPITests: XCTestCase {
         let result = try flowAPI.getTransactionResultById(id: id).wait()
         XCTAssertEqual(result?.events.count, 3)
         XCTAssertEqual(result?.events.first?.type, "A.c38aea683c0c4d38.Eternal.Withdraw")
+        XCTAssertEqual(result?.events.first?.payload.fields?.type, Flow.Cadence.FType.event)
+        XCTAssertEqual(result?.events.first?.payload.fields?.value, Flow.Cadence.ValueType.event(value: Flow.Argument.Event(id: "A.c38aea683c0c4d38.Eternal.Withdraw", fields: [Flow.Argument.EventName(name: "id", value: Flow.Argument(type: .uint64, value: .uint64(value: 11800))), Flow.Argument.EventName(name: "from", value: Flow.Argument(type: .optional, value: .optional(value: Flow.Argument(type: .address, value: .address(value: "0x873becfb539f038d")))))])))
         XCTAssertNotNil(result)
     }
 }

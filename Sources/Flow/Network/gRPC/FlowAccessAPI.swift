@@ -360,13 +360,13 @@ open class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func getLatestProtocolStateSnapshot() -> EventLoopFuture<FlowSnapshot> {
+    func getLatestProtocolStateSnapshot() -> EventLoopFuture<Flow.Snapshot> {
         let request = Flow_Access_GetLatestProtocolStateSnapshotRequest()
-        let promise = clientChannel.eventLoop.makePromise(of: FlowSnapshot.self)
+        let promise = clientChannel.eventLoop.makePromise(of: Flow.Snapshot.self)
         accessClient.getLatestProtocolStateSnapshot(request).response.whenComplete { result in
             switch result {
             case let .success(response):
-                let entity = FlowSnapshot(bytes: response.serializedSnapshot.byteArray)
+                let entity = Flow.Snapshot(bytes: response.serializedSnapshot.byteArray)
                 promise.succeed(entity)
             case let .failure(error):
                 promise.fail(error)
