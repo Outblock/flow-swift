@@ -41,7 +41,9 @@ extension Data {
 
     static func fromHex(_ hex: String) -> Data? {
         let string = hex.lowercased().stripHexPrefix()
-        let array = string.hexValue
+        guard let array = string.data(using: .utf8)?.byteArray else {
+            return nil
+        }
         if array.count == 0 {
             if hex == "0x" || hex == "" {
                 return Data()

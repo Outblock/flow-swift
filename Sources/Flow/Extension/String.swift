@@ -9,12 +9,16 @@ import Foundation
 
 extension StringProtocol {
     var hexValue: [UInt8] {
-        var startIndex = self.startIndex
-        return (0 ..< count / 2).compactMap { _ in
-            let endIndex = index(after: startIndex)
-            defer { startIndex = index(after: endIndex) }
-            return UInt8(self[startIndex ... endIndex], radix: 16)
+//        var startIndex = self.startIndex
+//        return (0 ..< count / 2).compactMap { _ in
+//            let endIndex = index(after: startIndex)
+//            defer { startIndex = index(after: endIndex) }
+//            return UInt8(self[startIndex ... endIndex], radix: 16)
+//        }
+        guard let result = Data.fromHex(self as! String) else {
+            return [UInt8]()
         }
+        return result.byteArray
     }
 }
 
