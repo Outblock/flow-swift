@@ -169,7 +169,6 @@ extension Flow {
                 let rawValue = try? container.decode(Reference.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 value = .reference(value: unwarpRawValue)
-//            case .void:
             case .struct:
                 let rawValue = try? container.decode(Event.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
@@ -184,7 +183,7 @@ extension Flow {
                 value = .dictionary(value: unwarpRawValue)
             case .void:
                 value = .void
-            default:
+            case .undefined:
                 value = .unsupported
             }
         }

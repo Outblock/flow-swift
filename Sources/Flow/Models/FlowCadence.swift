@@ -13,7 +13,7 @@ extension Flow {
 }
 
 extension Flow.Cadence {
-    enum FType: String, Codable, Equatable {
+    enum FType: String, Codable, Equatable, CaseIterable {
         case void = "Void"
         case optional = "Optional"
         case bool = "Bool"
@@ -47,8 +47,15 @@ extension Flow.Cadence {
         case event = "Event"
         case character = "Character"
         case reference = "Reference"
-
         case undefined
+
+        init(rawValue: String) {
+            if let type = FType.allCases.first(where: { $0.rawValue.lowercased() == rawValue.lowercased() }) {
+                self = type
+            } else {
+                self = .undefined
+            }
+        }
     }
 
     enum ValueType: Encodable, Equatable {
@@ -82,18 +89,16 @@ extension Flow.Cadence {
         case fix64(value: Double)
         case ufix64(value: Double) // Need to check
 
-        indirect case array(value: [Flow.Argument])
-        indirect case dictionary(value: [Flow.Argument.Dictionary])
-
         case address(value: Flow.Address)
         case path(value: Flow.Argument.Path)
         case reference(value: Flow.Argument.Reference)
-//        case capability = "Capability"
+
+        indirect case array(value: [Flow.Argument])
+        indirect case dictionary(value: [Flow.Argument.Dictionary])
         indirect case `struct`(value: Flow.Argument.Event)
         indirect case resource(value: Flow.Argument.Event)
         indirect case event(value: Flow.Argument.Event)
-//        case contract = "Contract"
-//        case `enum` = "Enum"
+
         case unsupported
         case error
 
@@ -228,9 +233,9 @@ extension Flow.Cadence {
             case let .bool(value):
                 try container.encode(value)
             case let .fix64(value):
-                try container.encode(value)
+                try container.encode(String(value))
             case let .ufix64(value):
-                try container.encode(value)
+                try container.encode(String(value))
             case let .address(value):
                 try container.encode(value.stringValue.addHexPrefix())
             case let .path(value):
@@ -285,12 +290,10 @@ extension Flow.Cadence {
                 return lhsValue == rhsValue
             case let (.ufix64(lhsValue), .ufix64(rhsValue)):
                 return lhsValue == rhsValue
-
             case let (.string(lhsValue), .string(rhsValue)):
                 return lhsValue == rhsValue
             case let (.address(lhsValue), .address(rhsValue)):
                 return lhsValue == rhsValue
-
             case let (.optional(lhsValue), .optional(rhsValue)):
                 return lhsValue == rhsValue
             case let (.event(lhsValue), .event(rhsValue)):
@@ -312,6 +315,10 @@ extension Flow.Cadence {
             case let (.bool(lhsValue), .bool(rhsValue)):
                 return lhsValue == rhsValue
             case (.void, .void):
+                return true
+            case (.error, .error):
+                return true
+            case (.unsupported, .unsupported):
                 return true
             default:
                 return false
