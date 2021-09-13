@@ -8,6 +8,9 @@ final class FlowAccessAPITests: XCTestCase {
     var testAddress = "7907881e2e2cdfb7"
     var mainnetAddress = "0x4eb165aa383fd6f9"
 
+    let publicKey = try! P256.KeyAgreement.PublicKey(rawRepresentation: "d487802b66e5c0498ead1c3f576b718949a3500218e97a6a4a62bf69a8b0019789639bc7acaca63f5889c1e7251c19066abb09fcd6b273e394a8ac4ee1a3372f".hexValue)
+    let privateKey = try! P256.Signing.PrivateKey(rawRepresentation: "c9c0f04adddf7674d265c395de300a65a777d3ec412bba5bfdfd12cffbbb78d9".hexValue)
+
     override func setUp() {
         super.setUp()
         let flowInstance = Flow.shared
@@ -66,46 +69,47 @@ final class FlowAccessAPITests: XCTestCase {
 
     func testSendTransaction() throws {
         // TODO:
-        let taddress = "0xc6de0d94160377cd"
-        let flowInstance = Flow.shared
-        let testnetAPI = flowInstance.newAccessApi(chainId: .testnet)!
-        let block = try testnetAPI.getLatestBlock(sealed: true).wait()
-        let address = Flow.Address(hex: taddress)
-        let payerAccount = try! testnetAPI.getAccountAtLatestBlock(address: address).wait()
+        let testnetAPI = Flow.shared.newAccessApi(chainId: .testnet)!
+        let address = Flow.Address(hex: "0xc6de0d94160377cd")
+        let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKey.publicKey.rawRepresentation.hexValue),
+                                         signAlgo: .ECDSA_P256,
+                                         hashAlgo: .SHA2_256,
+                                         weight: 1000)
 
-        let script = Flow.Script(script: "transaction { execute { log(\"Hello, World!\") } }")
-        let baseTx = Flow.Transaction(script: script,
-                                      arguments: [],
-                                      referenceBlockId: block.id,
-                                      gasLimit: BigUInt(100),
-                                      proposalKey: Flow.TransactionProposalKey(address: payerAccount!.address,
-                                                                               keyIndex: payerAccount!.keys[0].id,
-                                                                               sequenceNumber: BigUInt(payerAccount!.keys[0].sequenceNumber)),
-                                      payerAddress: payerAccount!.address,
-                                      authorizers: [],
-                                      payloadSignatures: [],
-                                      envelopeSignatures: [])
+        let argument = Flow.Argument(value: .string(value: accountKey.encoded!.hexValue))
 
-        guard let data = baseTx.encodedEnvelope else {
+        let unsignedTx = buildSimpleTransaction(chainId: .testnet, address: address) {
+            script {
+                """
+                    transaction(publicKey: String) {
+                        prepare(signer: AuthAccount) {
+                            let account = AuthAccount(payer: signer)
+                            account.addPublicKey(publicKey.decodeHex())
+                        }
+                    }
+                """
+            }
+
+            arguments {
+                [argument]
+            }
+        }
+
+        guard let data = unsignedTx?.encodedEnvelope else {
             XCTFail("RLP encode error")
             return
         }
-        let prefix = "FLOW-V0.0-transaction".data(using: .utf8)!.byteArray.paddingZeroRight(blockSize: 32).hexValue
 
-        let signableData = prefix + data.hexValue
-
+        let signableData = Flow.Constants.transactionPrefix + data.hexValue
         let sign = try! signTransaction(signableData: signableData.hexValue.data)
-
-        print(sign.hexValue)
-
-        let newTx = baseTx.buildUpOn(envelopeSignatures: [
-            Flow.TransactionSignature(address: payerAccount!.address,
+        let newTx = unsignedTx?.buildUpOn(envelopeSignatures: [
+            Flow.TransactionSignature(address: address,
                                       signerIndex: 0,
-                                      keyIndex: payerAccount!.keys[0].id,
+                                      keyIndex: 0,
                                       signature: Flow.Signature(bytes: sign.byteArray)),
         ])
 
-        let txId = try testnetAPI.sendTransaction(transaction: newTx).wait()
+        let txId = try testnetAPI.sendTransaction(transaction: newTx!).wait()
         XCTAssertNotNil(txId)
         print(txId.hexValue)
     }
@@ -146,11 +150,7 @@ final class FlowAccessAPITests: XCTestCase {
     // SigAlgorithm: **ECDSA_P256**
     // HashAlgorithm: **SHA2_256**
     func signTransaction(signableData: Data) throws -> Data {
-        let privateKey = try P256.Signing.PrivateKey(rawRepresentation: "c9c0f04adddf7674d265c395de300a65a777d3ec412bba5bfdfd12cffbbb78d9".hexValue)
-        let publicKey = privateKey.publicKey.rawRepresentation.hexValue
-        print("publicKey  --> \(publicKey)")
         let sig = try privateKey.signature(for: signableData)
-
         return sig.rawRepresentation
 
 //        func composite(rawRepresentation: Data) -> (r: Data, s: Data) {

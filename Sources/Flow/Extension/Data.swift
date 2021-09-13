@@ -26,6 +26,9 @@ extension Array where Element == UInt8 {
     }
 
     func paddingZeroRight(blockSize: Int) -> [UInt8] {
+        if count >= blockSize {
+            return self
+        }
         let paddingCount = blockSize - (count % blockSize)
         if paddingCount > 0 {
             return self + [UInt8](repeating: 0, count: paddingCount)
@@ -56,6 +59,14 @@ extension Data {
 
     var hexValue: String {
         return reduce("") { $0 + String(format: "%02x", $1) }
+    }
+
+    func paddingZeroLeft(blockSize: Int) -> Data {
+        return byteArray.paddingZeroLeft(blockSize: blockSize).data
+    }
+
+    func paddingZeroRight(blockSize: Int) -> Data {
+        return byteArray.paddingZeroRight(blockSize: blockSize).data
     }
 }
 

@@ -31,7 +31,7 @@ extension FlowHasher {
 }
 
 extension Flow {
-    struct FlowPublicKey: BytesHolder, Equatable {
+    struct PublicKey: BytesHolder, Equatable {
         var bytes: ByteArray
 
         init(hex: String) {
@@ -43,7 +43,7 @@ extension Flow {
         }
     }
 
-    struct FlowCode: BytesHolder, Equatable {
+    struct Code: BytesHolder, Equatable {
         var bytes: ByteArray
     }
 }

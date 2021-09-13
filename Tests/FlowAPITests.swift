@@ -28,6 +28,12 @@ final class FlowAPITests: XCTestCase {
                 }
                 """
             }
+
+            arguments {
+                [Flow.Argument(value: .string(value: "111"))]
+            }
         }
+
+        settings.build()
     }
 }
