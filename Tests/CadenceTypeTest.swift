@@ -272,10 +272,10 @@ final class CadenceTypeTests: XCTestCase {
         let jsonString = """
         {
            "type": "Address",
-           "value": "0x1"
+           "value": "0x4eb165aa383fd6f9"
         }
         """
-        let argument = Flow.Argument(value: .address(value: .init(hex: "0x1")))
+        let argument = Flow.Argument(value: .address(value: .init(hex: "0x4eb165aa383fd6f9")))
         try! verifyJson(jsonString: jsonString, argument: argument)
     }
 
@@ -456,6 +456,13 @@ final class CadenceTypeTests: XCTestCase {
         // Test Encode
         let encoder = JSONEncoder()
         let encoded = try encoder.encode(argument)
+
+        let test1 = String(data: encoded, encoding: .utf8)
+        let test2 = String(data: formatJsonString(jsonString: jsonString)!, encoding: .utf8)
+
+        print(test1)
+        print(test2)
+
         XCTAssertEqual(encoded, formatJsonString(jsonString: jsonString))
     }
 

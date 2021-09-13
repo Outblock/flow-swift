@@ -11,12 +11,12 @@ typealias ByteArray = [UInt8]
 
 protocol BytesHolder {
     var bytes: ByteArray { get set }
-    var base16Value: String { get }
+    var hexValue: String { get }
     var stringValue: String { get }
 }
 
 extension BytesHolder {
-    var base16Value: String {
+    var hexValue: String {
         return bytes.hexValue
     }
 

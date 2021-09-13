@@ -54,7 +54,7 @@ extension Data {
         return array.data
     }
 
-    var hexDescription: String {
+    var hexValue: String {
         return reduce("") { $0 + String(format: "%02x", $1) }
     }
 }

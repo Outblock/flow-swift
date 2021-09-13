@@ -237,7 +237,7 @@ extension Flow.Cadence {
             case let .ufix64(value):
                 try container.encode(String(value))
             case let .address(value):
-                try container.encode(value.stringValue.addHexPrefix())
+                try container.encode(value)
             case let .path(value):
                 try container.encode(value)
             case .void:

@@ -15,4 +15,19 @@ final class FlowAPITests: XCTestCase {
     ////        let result = try flowAPI.authn().wait()
     ////        XCTAssertNotNil(result)
 //    }
+
+    func testAnything() {
+        let settings = buildTransaction {
+            script {
+                """
+                transaction(publicKey: String) {
+                    prepare(signer: AuthAccount) {
+                        let account = AuthAccount(payer: signer)
+                        account.addPublicKey(publicKey.decodeHex())
+                    }
+                }
+                """
+            }
+        }
+    }
 }

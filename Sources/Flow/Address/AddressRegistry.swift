@@ -67,7 +67,7 @@ public class AddressRegistry {
         var ret = script
         scriptTokenDict[chainId]?.forEach {
             ret = ret.replacingOccurrences(of: $0.key,
-                                           with: $0.value.base16Value.addHexPrefix())
+                                           with: $0.value.hexValue.addHexPrefix())
         }
         return ret
     }
