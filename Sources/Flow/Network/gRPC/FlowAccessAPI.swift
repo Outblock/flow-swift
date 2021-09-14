@@ -258,10 +258,10 @@ open class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func executeScriptAtLatestBlock(script: Flow.Script, arguments: String...) -> EventLoopFuture<Flow.ScriptResponse> {
+    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument]) -> EventLoopFuture<Flow.ScriptResponse> {
         var request = Flow_Access_ExecuteScriptAtLatestBlockRequest()
         request.script = script.bytes.data
-        request.arguments = arguments.compactMap { $0.data(using: .utf8) }
+        request.arguments = arguments.compactMap { $0.jsonData }
         let promise = clientChannel.eventLoop.makePromise(of: Flow.ScriptResponse.self)
         accessClient.executeScriptAtLatestBlock(request).response.whenComplete { result in
             switch result {
@@ -275,10 +275,10 @@ open class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func executeScriptAtBlockId(script: Flow.Script, blockId _: Flow.Id, arguments: String...) -> EventLoopFuture<Flow.ScriptResponse> {
+    func executeScriptAtBlockId(script: Flow.Script, blockId _: Flow.Id, arguments: Flow.Argument...) -> EventLoopFuture<Flow.ScriptResponse> {
         var request = Flow_Access_ExecuteScriptAtBlockIDRequest()
         request.script = script.bytes.data
-        request.arguments = arguments.compactMap { $0.data(using: .utf8) }
+        request.arguments = arguments.compactMap { $0.jsonData }
         let promise = clientChannel.eventLoop.makePromise(of: Flow.ScriptResponse.self)
         accessClient.executeScriptAtBlockID(request).response.whenComplete { result in
             switch result {
@@ -292,11 +292,11 @@ open class FlowAccessAPI: FlowAccessProtocol {
         return promise.futureResult
     }
 
-    func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: String...) -> EventLoopFuture<Flow.ScriptResponse> {
+    func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: Flow.Argument...) -> EventLoopFuture<Flow.ScriptResponse> {
         var request = Flow_Access_ExecuteScriptAtBlockHeightRequest()
         request.script = script.bytes.data
         request.blockHeight = height
-        request.arguments = arguments.compactMap { $0.data(using: .utf8) }
+        request.arguments = arguments.compactMap { $0.jsonData }
         let promise = clientChannel.eventLoop.makePromise(of: Flow.ScriptResponse.self)
         accessClient.executeScriptAtBlockHeight(request).response.whenComplete { result in
             switch result {

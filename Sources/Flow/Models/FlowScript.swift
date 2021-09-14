@@ -27,7 +27,13 @@ extension Flow {
         }
     }
 
-    struct ScriptResponse: BytesHolder, Equatable, Hashable {
+    struct ScriptResponse: BytesHolder, Equatable {
         var bytes: ByteArray
+        var fields: Argument?
+
+        init(bytes: ByteArray) {
+            self.bytes = bytes
+            fields = try? JSONDecoder().decode(Flow.Argument.self, from: bytes.data)
+        }
     }
 }

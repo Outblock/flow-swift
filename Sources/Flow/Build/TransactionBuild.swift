@@ -10,7 +10,7 @@ import Foundation
 
 protocol TransactionValue {}
 
-func script(_ text: () -> String) -> Flow.Build.Script {
+func cadence(_ text: () -> String) -> Flow.Build.Script {
     return Flow.Build.Script(script: text())
 }
 

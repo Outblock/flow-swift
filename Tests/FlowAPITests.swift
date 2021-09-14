@@ -18,7 +18,7 @@ final class FlowAPITests: XCTestCase {
 
     func testAnything() {
         let settings = buildTransaction {
-            script {
+            cadence {
                 """
                 transaction(publicKey: String) {
                     prepare(signer: AuthAccount) {

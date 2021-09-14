@@ -18,12 +18,19 @@ extension Flow {
             case value
         }
 
-        var jsonString: Data? {
+        var jsonData: Data? {
             let encoder = JSONEncoder()
             guard let jsonData = try? encoder.encode(self) else {
                 return nil
             }
             return jsonData
+        }
+
+        var jsonString: String? {
+            guard let data = jsonData else {
+                return nil
+            }
+            return String(data: data, encoding: .utf8)
         }
 
         init(type: Cadence.FType, value: Flow.Cadence.ValueType) {

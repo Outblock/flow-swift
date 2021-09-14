@@ -35,11 +35,11 @@ protocol FlowAccessProtocol {
 
     func getAccountByBlockHeight(address: Flow.Address, height: UInt64) -> EventLoopFuture<Flow.Account?>
 
-    func executeScriptAtLatestBlock(script: Flow.Script, arguments: String...) -> EventLoopFuture<Flow.ScriptResponse>
+    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument]) -> EventLoopFuture<Flow.ScriptResponse>
 
-    func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.Id, arguments: String...) -> EventLoopFuture<Flow.ScriptResponse>
+    func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.Id, arguments: Flow.Argument...) -> EventLoopFuture<Flow.ScriptResponse>
 
-    func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: String...) -> EventLoopFuture<Flow.ScriptResponse>
+    func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: Flow.Argument...) -> EventLoopFuture<Flow.ScriptResponse>
 
     func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) -> EventLoopFuture<[Flow.EventResult]>
 

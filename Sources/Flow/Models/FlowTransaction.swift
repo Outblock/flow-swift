@@ -89,7 +89,7 @@ extension Flow {
         var preparePayload: [Any] {
             return [
                 script.bytes.data,
-                arguments.compactMap { $0.jsonString },
+                arguments.compactMap { $0.jsonData },
                 referenceBlockId.bytes.paddingZeroLeft(blockSize: 32).data,
                 Int(gasLimit),
                 proposalKey.address.bytes.paddingZeroLeft(blockSize: 8).data,

@@ -1,4 +1,4 @@
-import BigInt
+@testable import BigInt
 import CryptoKit
 @testable import Flow
 import XCTest
@@ -67,8 +67,36 @@ final class FlowAccessAPITests: XCTestCase {
         XCTAssertNotNil(snapshot)
     }
 
-    func testSendTransaction() throws {
-        // TODO:
+    func testExecuteScriptAtLastestBlock() throws {
+        let script = Flow.Script(script: """
+        pub struct SomeStruct {
+          pub var x: Int
+          pub var y: Int
+
+          init(x: Int, y: Int) {
+            self.x = x
+            self.y = y
+          }
+        }
+
+        pub fun main(): [SomeStruct] {
+          return [SomeStruct(x: 1, y: 2), SomeStruct(x: 3, y: 4)]
+        }
+        """)
+        let snapshot = try flowAPI.executeScriptAtLatestBlock(script: script, arguments: []).wait()
+        XCTAssertNotNil(snapshot)
+        XCTAssertEqual(Flow.Cadence.FType.array, snapshot.fields?.type)
+
+        guard case let .array(value: value) = snapshot.fields!.value else { XCTFail(); return }
+        guard case let .struct(value: firstStruct) = value.first!.value else { XCTFail(); return }
+
+        XCTAssertEqual(firstStruct.fields.first!.name, "x")
+        XCTAssertEqual(firstStruct.fields.first!.value.value, Flow.Cadence.ValueType.int(value: 1))
+        XCTAssertEqual(firstStruct.fields.last!.name, "y")
+        XCTAssertEqual(firstStruct.fields.last!.value.value, Flow.Cadence.ValueType.int(value: 2))
+    }
+
+    func testCanCreateAccount() throws {
         let testnetAPI = Flow.shared.newAccessApi(chainId: .testnet)!
         let address = Flow.Address(hex: "0xc6de0d94160377cd")
         let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKey.publicKey.rawRepresentation.hexValue),
@@ -79,7 +107,7 @@ final class FlowAccessAPITests: XCTestCase {
         let argument = Flow.Argument(value: .string(value: accountKey.encoded!.hexValue))
 
         let unsignedTx = buildSimpleTransaction(chainId: .testnet, address: address) {
-            script {
+            cadence {
                 """
                     transaction(publicKey: String) {
                         prepare(signer: AuthAccount) {
