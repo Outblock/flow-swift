@@ -1,3 +1,4 @@
+@testable import BigInt
 @testable import Flow
 import XCTest
 
@@ -10,7 +11,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .int(value: 1))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toInt(), 1)
     }
 
     func testUIntType() throws {
@@ -21,7 +23,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .uint(value: 1))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toUInt(), 1)
     }
 
     func testInt8Type() throws {
@@ -32,7 +35,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .int8(value: 8))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toInt8(), 8)
     }
 
     func testUInt8Type() throws {
@@ -43,7 +47,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .uint8(value: 8))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toUInt8(), 8)
     }
 
     func testInt16Type() throws {
@@ -54,7 +59,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .int16(value: 16))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toInt16(), 16)
     }
 
     func testUInt16Type() throws {
@@ -65,7 +71,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .uint16(value: 16))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toUInt16(), 16)
     }
 
     func testInt32Type() throws {
@@ -76,7 +83,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .int32(value: 32))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toInt32(), 32)
     }
 
     func testUInt32Type() throws {
@@ -87,7 +95,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .uint32(value: 32))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toUInt32(), 32)
     }
 
     func testInt64Type() throws {
@@ -98,7 +107,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .int64(value: 64))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toInt64(), 64)
     }
 
     func testUInt64Type() throws {
@@ -109,7 +119,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .uint64(value: 64))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toUInt64(), 64)
     }
 
     func testInt128Type() throws {
@@ -120,7 +131,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .int128(value: 128))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toInt128(), BigInt(128))
     }
 
     func testUInt128Type() throws {
@@ -131,7 +143,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .uint128(value: 128))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toUInt128(), BigUInt(128))
     }
 
     func testInt256Type() throws {
@@ -142,7 +155,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .int256(value: 256))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toInt256(), BigInt(256))
     }
 
     func testUInt256Type() throws {
@@ -153,7 +167,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .uint256(value: 256))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toUInt256(), BigUInt(256))
     }
 
     func testWord8Type() throws {
@@ -164,7 +179,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .word8(value: 8))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toWord8(), 8)
     }
 
     func testWord16Type() throws {
@@ -175,7 +191,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .word16(value: 16))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toWord16(), 16)
     }
 
     func testWord32Type() throws {
@@ -186,7 +203,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .word32(value: 32))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toWord32(), 32)
     }
 
     func testWord64Type() throws {
@@ -197,7 +215,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .word64(value: 64))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toWord64(), 64)
     }
 
     func testFix64Type() throws {
@@ -208,7 +227,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .fix64(value: -0.64))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toFix64(), -0.64)
     }
 
     func testUFix64Type() throws {
@@ -219,7 +239,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .ufix64(value: 0.64))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toUFix64(), 0.64)
     }
 
     func testUndfinedType() throws {
@@ -243,7 +264,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .string(value: "absolutely"))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toString(), "absolutely")
     }
 
     func testBoolType() throws {
@@ -254,7 +276,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .bool(value: true))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toBool(), true)
     }
 
     func testVoidType() throws {
@@ -265,7 +288,7 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .void)
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        _ = try! verifyJson(jsonString: jsonString, argument: argument)
     }
 
     func testAddressType() throws {
@@ -276,7 +299,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .address(value: .init(hex: "0x4eb165aa383fd6f9")))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toAddress(), Flow.Address(hex: "0x4eb165aa383fd6f9"))
     }
 
     func testCharacterType() throws {
@@ -287,7 +311,8 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .character(value: "c"))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toCharacter(), "c")
     }
 
     func testOptionalType() throws {
@@ -300,8 +325,10 @@ final class CadenceTypeTests: XCTestCase {
            }
         }
         """
-        let argument = Flow.Argument(value: .optional(value: .init(value: .string(value: "test"))))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let value = Flow.Argument(value: .string(value: "test"))
+        let argument = Flow.Argument(value: .optional(value: value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toOptional(), value)
     }
 
     func testReferenceType() throws {
@@ -315,8 +342,10 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
 
-        let argument = Flow.Argument(value: .reference(value: .init(address: "0x01", type: "0x01.CryptoKitty")))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let value = Flow.Argument.Reference(address: "0x01", type: "0x01.CryptoKitty")
+        let argument = Flow.Argument(value: .reference(value: value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toReference(), value)
     }
 
     func testDictionaryType() throws {
@@ -348,9 +377,11 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
 
-        let argument = Flow.Argument(value: .dictionary(value: [.init(key: .init(value: .int(value: 1)), value: .init(value: .string(value: "one"))),
-                                                                .init(key: .init(value: .int(value: 2)), value: .init(value: .string(value: "two")))]))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+        let value: [Flow.Argument.Dictionary] = [.init(key: .init(value: .int(value: 1)), value: .init(value: .string(value: "one"))),
+                                                 .init(key: .init(value: .int(value: 2)), value: .init(value: .string(value: "two")))]
+        let argument = Flow.Argument(value: .dictionary(value: value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toDictionary(), value)
     }
 
     func testArrayType() throws {
@@ -369,8 +400,11 @@ final class CadenceTypeTests: XCTestCase {
            ]
         }
         """
-        let argument = Flow.Argument(value: .array(value: [.init(value: .string(value: "test1")), .init(value: .string(value: "test2"))]))
-        try verifyJson(jsonString: jsonString, argument: argument)
+
+        let value: [Flow.Argument] = [.init(value: .string(value: "test1")), .init(value: .string(value: "test2"))]
+        let argument = Flow.Argument(value: .array(value: value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toArray(), value)
     }
 
     func testStructType() throws {
@@ -391,10 +425,12 @@ final class CadenceTypeTests: XCTestCase {
            }
         }
         """
-        let argument = Flow.Argument(value: .struct(value: .init(id: "0x01.Jeffysaur",
-                                                                 fields: [.init(name: "Jeffysaur_Name",
-                                                                                value: .init(value: .string(value: "Mr Jeff The Dinosaur")))])))
-        try verifyJson(jsonString: jsonString, argument: argument)
+        let value: Flow.Argument.Event = .init(id: "0x01.Jeffysaur",
+                                               fields: [.init(name: "Jeffysaur_Name",
+                                                              value: .init(value: .string(value: "Mr Jeff The Dinosaur")))])
+        let argument = Flow.Argument(value: .struct(value: value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toStruct(), value)
     }
 
     func testEventType() throws {
@@ -415,10 +451,13 @@ final class CadenceTypeTests: XCTestCase {
            }
         }
         """
-        let argument = Flow.Argument(value: .event(value: .init(id: "0x01.JeffWroteSomeJS",
-                                                                fields: [.init(name: "wasTheCodeClean?",
-                                                                               value: .init(value: .string(value: "absolutely")))])))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+
+        let value: Flow.Argument.Event = .init(id: "0x01.JeffWroteSomeJS",
+                                               fields: [.init(name: "wasTheCodeClean?",
+                                                              value: .init(value: .string(value: "absolutely")))])
+        let argument = Flow.Argument(value: .event(value: value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toEvent(), value)
     }
 
     func testResourceType() throws {
@@ -439,15 +478,35 @@ final class CadenceTypeTests: XCTestCase {
            }
         }
         """
-        let argument = Flow.Argument(value: .resource(value: .init(id: "0x01.Jeffysaur",
-                                                                   fields: [.init(name: "Jeffysaur_Name",
-                                                                                  value: .init(value: .string(value: "Mr Jeff The Dinosaur")))])))
-        try! verifyJson(jsonString: jsonString, argument: argument)
+
+        let value: Flow.Argument.Event = .init(id: "0x01.Jeffysaur",
+                                               fields: [.init(name: "Jeffysaur_Name",
+                                                              value: .init(value: .string(value: "Mr Jeff The Dinosaur")))])
+        let argument = Flow.Argument(value: .resource(value: value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toResource(), value)
+    }
+
+    func testPathType() throws {
+        let jsonString = """
+        {
+           "type":"Path",
+           "value":{
+              "domain":"public",
+              "identifier":"zelosAccountingTokenReceiver"
+           }
+        }
+        """
+
+        let value: Flow.Argument.Path = .init(domain: "public", identifier: "zelosAccountingTokenReceiver")
+        let argument = Flow.Argument(value: .path(value: value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toPath(), value)
     }
 
     // MARK: - Util Method
 
-    func verifyJson(jsonString: String, argument: Flow.Argument) throws {
+    func verifyJson(jsonString: String, argument: Flow.Argument) throws -> Flow.Argument {
         // Test Decode
         let jsonData = jsonString.data(using: .utf8)!
         let result = try JSONDecoder().decode(Flow.Argument.self, from: jsonData)
@@ -457,13 +516,8 @@ final class CadenceTypeTests: XCTestCase {
         let encoder = JSONEncoder()
         let encoded = try encoder.encode(argument)
 
-        let test1 = String(data: encoded, encoding: .utf8)
-        let test2 = String(data: formatJsonString(jsonString: jsonString)!, encoding: .utf8)
-
-        print(test1)
-        print(test2)
-
         XCTAssertEqual(encoded, formatJsonString(jsonString: jsonString))
+        return result
     }
 
     func formatJsonString(jsonString: String) -> Data? {

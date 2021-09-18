@@ -61,7 +61,7 @@ func buildSimpleTransaction(chainId: Flow.ChainId = .mainnet,
                             address: Flow.Address,
                             gasLimit: BigUInt = BigUInt(100),
                             keyIndex: Int = 0,
-                            @Flow .TransactionBuilder _ content: () -> [TransactionValue]) -> Flow.Transaction? {
+                            @Flow .TransactionBuilder _ content: () -> [TransactionValue]) throws -> Flow.Transaction? {
     guard let testnetAPI = Flow.shared.newAccessApi(chainId: chainId),
         let block = try? testnetAPI.getLatestBlock(sealed: true).wait(),
         let payerAccount = try? testnetAPI.getAccountAtLatestBlock(address: address).wait(),

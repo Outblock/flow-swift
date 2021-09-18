@@ -33,8 +33,10 @@ final class FlowAccessAPITests: XCTestCase {
     }
 
     func testGetAccount() throws {
-        let address = Flow.Address(hex: mainnetAddress)
-        let account = try flowAPI.getAccountAtLatestBlock(address: address).wait()
+//        let address = Flow.Address(hex: mainnetAddress)
+        let address = Flow.Address(hex: "0xc6de0d94160377cd")
+        let api = try! Flow.shared.newAccessApi(chainId: .testnet)!
+        let account = try api.getAccountAtLatestBlock(address: address).wait()
         XCTAssertNotNil(account?.keys.first)
         XCTAssertEqual(address, account?.address)
     }
@@ -91,9 +93,9 @@ final class FlowAccessAPITests: XCTestCase {
         guard case let .struct(value: firstStruct) = value.first!.value else { XCTFail(); return }
 
         XCTAssertEqual(firstStruct.fields.first!.name, "x")
-        XCTAssertEqual(firstStruct.fields.first!.value.value, Flow.Cadence.ValueType.int(value: 1))
+        XCTAssertEqual(firstStruct.fields.first!.value.value, Flow.Cadence.FValue.int(value: 1))
         XCTAssertEqual(firstStruct.fields.last!.name, "y")
-        XCTAssertEqual(firstStruct.fields.last!.value.value, Flow.Cadence.ValueType.int(value: 2))
+        XCTAssertEqual(firstStruct.fields.last!.value.value, Flow.Cadence.FValue.int(value: 2))
     }
 
     func testCanCreateAccount() throws {
@@ -106,7 +108,7 @@ final class FlowAccessAPITests: XCTestCase {
 
         let argument = Flow.Argument(value: .string(value: accountKey.encoded!.hexValue))
 
-        let unsignedTx = buildSimpleTransaction(chainId: .testnet, address: address) {
+        let unsignedTx = try? buildSimpleTransaction(chainId: .testnet, address: address) {
             cadence {
                 """
                     transaction(publicKey: String) {
@@ -139,7 +141,7 @@ final class FlowAccessAPITests: XCTestCase {
 
         let txId = try testnetAPI.sendTransaction(transaction: newTx!).wait()
         XCTAssertNotNil(txId)
-        print(txId.hexValue)
+        print("txid --> \(txId.hexValue)")
     }
 
     func testGetCollectionById() throws {

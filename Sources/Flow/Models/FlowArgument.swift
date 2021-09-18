@@ -11,7 +11,7 @@ import Foundation
 extension Flow {
     struct Argument: Codable, Equatable {
         let type: Cadence.FType
-        let value: Flow.Cadence.ValueType
+        let value: Flow.Cadence.FValue
 
         enum CodingKeys: String, CodingKey {
             case type
@@ -33,12 +33,12 @@ extension Flow {
             return String(data: data, encoding: .utf8)
         }
 
-        init(type: Cadence.FType, value: Flow.Cadence.ValueType) {
+        init(type: Cadence.FType, value: Flow.Cadence.FValue) {
             self.type = type
             self.value = value
         }
 
-        init(value: Flow.Cadence.ValueType) {
+        init(value: Flow.Cadence.FValue) {
             type = value.type
             self.value = value
         }

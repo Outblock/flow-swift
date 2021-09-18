@@ -58,7 +58,7 @@ extension Flow.Cadence {
         }
     }
 
-    enum ValueType: Encodable, Equatable {
+    enum FValue: Encodable, Equatable {
         case void
         indirect case optional(value: Flow.Argument)
         case bool(value: Bool)
@@ -248,7 +248,7 @@ extension Flow.Cadence {
             }
         }
 
-        static func == (lhs: Flow.Cadence.ValueType, rhs: Flow.Cadence.ValueType) -> Bool {
+        static func == (lhs: Flow.Cadence.FValue, rhs: Flow.Cadence.FValue) -> Bool {
             switch (lhs, rhs) {
             case let (.int(lhsValue), .int(rhsValue)):
                 return lhsValue == rhsValue
@@ -328,5 +328,231 @@ extension Flow.Cadence {
         func toArgument() -> Flow.Argument {
             return .init(value: self)
         }
+    }
+}
+
+extension Flow.Cadence.FValue {
+    func toInt() -> Int? {
+        if case let .int(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toUInt() -> UInt? {
+        if case let .uint(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toInt8() -> Int8? {
+        if case let .int8(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toUInt8() -> UInt8? {
+        if case let .uint8(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toInt16() -> Int16? {
+        if case let .int16(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toUInt16() -> UInt16? {
+        if case let .uint16(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toInt32() -> Int32? {
+        if case let .int32(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toUInt32() -> UInt32? {
+        if case let .uint32(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toInt64() -> Int64? {
+        if case let .int64(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toUInt64() -> UInt64? {
+        if case let .uint64(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toInt128() -> BigInt? {
+        if case let .int128(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toUInt128() -> BigUInt? {
+        if case let .uint128(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toInt256() -> BigInt? {
+        if case let .int256(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toUInt256() -> BigUInt? {
+        if case let .uint256(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toWord8() -> UInt8? {
+        if case let .word8(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toWord16() -> UInt16? {
+        if case let .word16(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toWord32() -> UInt32? {
+        if case let .word32(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toWord64() -> UInt64? {
+        if case let .word64(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toFix64() -> Double? {
+        if case let .fix64(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toUFix64() -> Double? {
+        if case let .ufix64(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toOptional() -> Flow.Argument? {
+        if case let .optional(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toBool() -> Bool? {
+        if case let .bool(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toString() -> String? {
+        if case let .string(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toCharacter() -> String? {
+        if case let .character(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toAddress() -> Flow.Address? {
+        if case let .address(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toPath() -> Flow.Argument.Path? {
+        if case let .path(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toReference() -> Flow.Argument.Reference? {
+        if case let .reference(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toArray() -> [Flow.Argument]? {
+        if case let .array(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toDictionary() -> [Flow.Argument.Dictionary]? {
+        if case let .dictionary(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toStruct() -> Flow.Argument.Event? {
+        if case let .struct(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toResource() -> Flow.Argument.Event? {
+        if case let .resource(value) = self {
+            return value
+        }
+        return nil
+    }
+
+    func toEvent() -> Flow.Argument.Event? {
+        if case let .event(value) = self {
+            return value
+        }
+        return nil
     }
 }
