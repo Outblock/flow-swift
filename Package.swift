@@ -11,26 +11,34 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Flow",
-            targets: ["Flow"]
+            name: "WalletKit",
+            targets: ["WalletKit"]
+        ),
+        .library(
+            name: "FCL",
+            targets: ["FCL"]
+        ),
+        .library(
+            name: "FlowFoundation",
+            targets: ["FlowFoundation"]
         ),
     ],
-    dependencies: [
-        .package(name: "BigInt", url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
-        .package(url: "https://github.com/grpc/grpc-swift.git", from: "1.0.0"),
-        .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.0.0"),
-    ],
+    dependencies: [],
     targets: [
         .target(
-            name: "Flow",
-            dependencies: ["BigInt",
-                           .product(name: "GRPC", package: "grpc-swift"),
-                           .product(name: "AsyncHTTPClient", package: "async-http-client")]
+            name: "WalletKit",
+            dependencies: ["FlowFoundation"],
+            path: "WalletKit/Sources"
         ),
-        .testTarget(
-            name: "FlowTests",
-            dependencies: ["Flow"],
-            path: "Tests"
+        .target(
+            name: "FCL",
+            dependencies: ["FlowFoundation"],
+            path: "FCL/Sources"
+        ),
+        .target(
+            name: "FlowFoundation",
+            dependencies: [],
+            path: "FlowFoundation/Sources"
         ),
     ]
 )
