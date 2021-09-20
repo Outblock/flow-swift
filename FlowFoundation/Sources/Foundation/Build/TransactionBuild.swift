@@ -10,12 +10,16 @@ import Foundation
 
 protocol TransactionValue {}
 
-func cadence(_ text: () -> String) -> Flow.Build.Script {
+func cadence(text: () -> String) -> Flow.Build.Script {
     return Flow.Build.Script(script: text())
 }
 
-func arguments(_ text: () -> [Flow.Argument]) -> Flow.Build.Argument {
+func arguments(text: () -> [Flow.Argument]) -> Flow.Build.Argument {
     return Flow.Build.Argument(arguments: text())
+}
+
+func arguments(text: () -> Flow.Argument...) -> Flow.Build.Argument {
+    return Flow.Build.Argument(arguments: text.compactMap { $0() })
 }
 
 extension Flow {

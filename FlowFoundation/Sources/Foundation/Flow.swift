@@ -24,12 +24,12 @@ public final class Flow {
         return newAccessApi(host: networkNode.gRPCNode, port: networkNode.port)
     }
 
-    func newAccessApi(host: String, port: Int = 9000, secure: Bool = false) -> FlowAccessAPI {
+    func newAccessApi(host: String, port: Int = 9000, secure: Bool = true) -> FlowAccessAPI {
         let config = channelConfig(host: host, port: port, secure: secure, userAgent: defaultUserAgent)
         return FlowAccessAPI(config: config)
     }
 
-    func newAccessApi(host: String, port: Int = 9000, secure: Bool = false, userAgent: String) -> FlowAccessAPI {
+    func newAccessApi(host: String, port: Int = 9000, secure: Bool = true, userAgent: String) -> FlowAccessAPI {
         let config = channelConfig(host: host, port: port, secure: secure, userAgent: userAgent)
         return FlowAccessAPI(config: config)
     }

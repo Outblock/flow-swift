@@ -79,73 +79,50 @@ extension Flow {
         }
 
         var encodedEnvelope: Data? {
-            return RLP.encode([preparePayload, preparePayloadSignatures])
+            return RLP.encode(payloadEnvelope.rlpList)
         }
 
         var encodedPayload: Data? {
-            return RLP.encode(preparePayload)
+            return RLP.encode(payload.rlpList)
         }
 
-        var preparePayload: [Any] {
-            return [
-                script.bytes.data,
-                arguments.compactMap { $0.jsonData },
-                referenceBlockId.bytes.paddingZeroLeft(blockSize: 32).data,
-                Int(gasLimit),
-                proposalKey.address.bytes.paddingZeroLeft(blockSize: 8).data,
-                proposalKey.keyIndex,
-                proposalKey.sequenceNumber,
-                payerAddress.bytes.paddingZeroLeft(blockSize: 8).data,
-                authorizers.map { $0.bytes.paddingZeroLeft(blockSize: 8).data },
-            ]
+        var payload: Transaction.Payload {
+            Flow.Transaction.Payload(script: script.data,
+                                     arguments: arguments.compactMap { $0.jsonData },
+                                     referenceBlockId: referenceBlockId.data.paddingZeroLeft(blockSize: 32),
+                                     gasLimit: gasLimit,
+                                     proposalKeyAddress: proposalKey.address.data.paddingZeroLeft(blockSize: 8),
+                                     proposalKeyIndex: proposalKey.keyIndex,
+                                     proposalKeySequenceNumber: proposalKey.sequenceNumber,
+                                     payer: payerAddress.data.paddingZeroLeft(blockSize: 8),
+                                     authorizers: authorizers.map { $0.data.paddingZeroLeft(blockSize: 8) })
         }
 
-        var preparePayloadSignatures: [Any] {
-            return payloadSignatures
+        var payloadEnvelope: PayloadEnvelope {
+            let signatures = payloadSignatures
                 .map { sig in
-                    TransactionSignature(address: sig.address,
-                                         signerIndex: signers[sig.address.hex] ?? 0,
-                                         keyIndex: sig.keyIndex,
-                                         signature: sig.signature)
+                    EnvelopeSignature(signerIndex: signers[sig.address] ?? 0, keyIndex: sig.keyIndex, signature: sig.signature.data)
                 }
-                .sorted { a, b in
-                    if a.signerIndex == b.signerIndex {
-                        return a.keyIndex < b.keyIndex
-                    }
-                    return a.signerIndex < b.signerIndex
-                }.map { sig in
-                    [Int(sig.signerIndex), Int(sig.keyIndex), sig.signature.bytes.data]
-                }
+                .sorted(by: <)
+            return PayloadEnvelope(payload: payload, payloadSignatures: signatures)
         }
 
-        private var signers: [String: Int] {
+        private var signers: [Address: Int] {
             var i = 0
-            var signer = [String: Int]()
+            var signer = [Address: Int]()
 
-            func addSigner(address: String) {
+            func addSigner(address: Address) {
                 if !signer.keys.contains(address) {
                     signer[address] = i
                     i += 1
                 }
             }
-            addSigner(address: proposalKey.address.hex)
-            addSigner(address: payerAddress.hex)
-            authorizers.forEach { addSigner(address: $0.hex) }
+            addSigner(address: proposalKey.address)
+            addSigner(address: payerAddress)
+            authorizers.forEach { addSigner(address: $0) }
             return signer
         }
 
-//        private var payload: Payload {
-//            Payload(script: script.bytes,
-//                    arguments: arguments.compactMap { $0.bytes },
-//                    referenceBlockId: referenceBlockId.bytes,
-//                    gasLimit: gasLimit,
-//                    proposalKeyAddress: proposalKey.address.bytes,
-//                    proposalKeyIndex: proposalKey.keyIndex,
-//                    proposalKeySequenceNumber: proposalKey.sequenceNumber,
-//                    payer: payerAddress.bytes,
-//                    authorizers: authorizers.compactMap { $0.bytes })
-//        }
-//
 //        var payment: PaymentEnvelope {
 //            PaymentEnvelope(payloadEnvelope: authorization,
 //                            envelopeSignatures: envelopeSignatures.compactMap {
@@ -162,25 +139,6 @@ extension Flow {
 //                                                  keyIndex: $0.keyIndex,
 //                                                  signature: $0.signature.bytes)
 //            })
-//        }
-//        var canonicalPayload: bytes? {
-//            // TODO: Need fix this, RLP not support encode object
-//            RLP.encode(payload)?.bytes
-//        }
-//        var signerList: [Address] {
-//            var ret = [Address]()
-//            var seen = [Address]()
-//            func addSigner(_ address: Address) {
-//                if seen.contains(address) {
-//                    return
-//                }
-//                ret.append(address)
-//                seen.append(address)
-//            }
-//            addSigner(proposalKey.address)
-//            addSigner(payerAddress)
-//            authorizers.forEach(addSigner)
-//            return ret
 //        }
 //
 //        var signerMap: [Address: Int] {
@@ -265,6 +223,10 @@ extension Flow {
     }
 }
 
+protocol RLPEncodable {
+    var rlpList: [Any] { get }
+}
+
 extension Flow.Transaction {
     enum Status: Int, CaseIterable {
         case unknown = 0
@@ -278,37 +240,53 @@ extension Flow.Transaction {
             self = Status.allCases.first { $0.rawValue == num } ?? .unknown
         }
     }
-}
 
-extension Flow {
-    internal struct Payload {
-        let script: Bytes
-        let arguments: [Bytes]
-        let referenceBlockId: Bytes
+    struct Payload: RLPEncodable {
+        let script: Data
+        let arguments: [Data]
+        let referenceBlockId: Data
         let gasLimit: BigUInt
-        let proposalKeyAddress: Bytes
+        let proposalKeyAddress: Data
         let proposalKeyIndex: Int
         let proposalKeySequenceNumber: BigUInt
-        let payer: Bytes
-        let authorizers: [Bytes]
+        let payer: Data
+        let authorizers: [Data]
+
+        var rlpList: [Any] {
+            let mirror = Mirror(reflecting: self)
+            return mirror.children.compactMap { $0.value }
+        }
     }
 
-    internal struct PayloadEnvelope {
+    struct PayloadEnvelope: RLPEncodable {
         var payload: Payload
         var payloadSignatures: [EnvelopeSignature]
+
+        var rlpList: [Any] {
+            return [payload.rlpList, payloadSignatures.compactMap { sig in [sig.signerIndex, sig.keyIndex, sig.signature] }]
+        }
     }
 
-    internal struct EnvelopeSignature {
+    struct EnvelopeSignature: Comparable, Equatable {
         let signerIndex: Int
         let keyIndex: Int
-        let signature: Bytes
+        let signature: Data
+
+        static func < (lhs: Flow.Transaction.EnvelopeSignature, rhs: Flow.Transaction.EnvelopeSignature) -> Bool {
+            if lhs.signerIndex == rhs.signerIndex {
+                return lhs.keyIndex < rhs.keyIndex
+            }
+            return lhs.signerIndex < rhs.signerIndex
+        }
     }
 
-    internal struct PaymentEnvelope {
+    struct PaymentEnvelope {
         var payloadEnvelope: PayloadEnvelope
         var envelopeSignatures: [EnvelopeSignature]
     }
+}
 
+extension Flow {
     struct TransactionResult {
         let status: Transaction.Status
         let statusCode: Int
