@@ -11,16 +11,8 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "WalletKit",
-            targets: ["WalletKit"]
-        ),
-        .library(
-            name: "FCL",
-            targets: ["FCL"]
-        ),
-        .library(
-            name: "FlowFoundation",
-            targets: ["FlowFoundation"]
+            name: "Flow",
+            targets: ["WalletKit", "FCL"]
         ),
     ],
     dependencies: [],
@@ -28,17 +20,17 @@ let package = Package(
         .target(
             name: "WalletKit",
             dependencies: ["FlowFoundation"],
-            path: "WalletKit/Sources"
+            path: "Sources/WalletKit/Sources"
         ),
         .target(
             name: "FCL",
             dependencies: ["FlowFoundation"],
-            path: "FCL/Sources"
+            path: "Sources/FCL/Sources"
         ),
         .target(
             name: "FlowFoundation",
             dependencies: [],
-            path: "FlowFoundation/Sources"
+            path: "Sources/FlowFoundation/Sources"
         ),
     ]
 )
