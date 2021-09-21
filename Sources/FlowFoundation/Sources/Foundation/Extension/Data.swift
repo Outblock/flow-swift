@@ -10,6 +10,13 @@ import Foundation
 // extension Sequence where Element == UInt8 {
 // }
 
+extension Collection {
+    /// Returns the element at the specified index if it is within bounds, otherwise nil.
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
 extension Array where Element == UInt8 {
     var data: Data { .init(self) }
     public var hexValue: String { map { .init(format: "%02x", $0) }.joined() }

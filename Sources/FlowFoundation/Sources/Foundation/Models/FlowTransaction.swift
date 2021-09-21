@@ -265,10 +265,10 @@ extension Flow {
 
     public struct TransactionProposalKey {
         public let address: Address
-        public let keyIndex: Int
-        public let sequenceNumber: BigUInt
+        public var keyIndex: Int
+        public var sequenceNumber: BigUInt
 
-        init(address: Flow.Address, keyIndex: Int, sequenceNumber: BigUInt) {
+        init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: BigUInt = 1) {
             self.address = address
             self.keyIndex = keyIndex
             self.sequenceNumber = sequenceNumber
