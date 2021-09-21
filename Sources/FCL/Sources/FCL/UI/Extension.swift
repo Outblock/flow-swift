@@ -16,13 +16,13 @@ internal func showLoading() {
     loadingIndicator.style = UIActivityIndicatorView.Style.medium
     loadingIndicator.startAnimating()
     alert.view.addSubview(loadingIndicator)
-    UIApplication.shared.topMostViewController?.present(alert, animated: true, completion: nil)
+//    UIApplication.shared.topMostViewController?.present(alert, animated: true, completion: nil)
 }
 
-internal func hideLoading(completion: (() -> Void)?) {
-    if let vc = UIApplication.shared.topMostViewController as? UIAlertController {
-        vc.dismiss(animated: true, completion: completion)
-    }
+internal func hideLoading(completion _: (() -> Void)?) {
+//    if let vc = UIApplication.shared.topMostViewController as? UIAlertController {
+//        vc.dismiss(animated: true, completion: completion)
+//    }
 }
 
 extension UIViewController: ASWebAuthenticationPresentationContextProviding {

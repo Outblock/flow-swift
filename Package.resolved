@@ -20,12 +20,30 @@
         }
       },
       {
+        "package": "CryptoSwift",
+        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "8d4f6384e0a8cc41f2005247241dd553963a492a",
+          "version": "1.4.1"
+        }
+      },
+      {
         "package": "grpc-swift",
         "repositoryURL": "https://github.com/grpc/grpc-swift.git",
         "state": {
           "branch": null,
           "revision": "66e27d7e84a2f51df6b8d5c4c3649639cfe478c1",
           "version": "1.4.1"
+        }
+      },
+      {
+        "package": "secp256k1.swift",
+        "repositoryURL": "https://github.com/GigaBitcoin/secp256k1.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "9151aaf3411ba0b734a45564d03b6be5e4333248",
+          "version": "0.3.1"
         }
       },
       {

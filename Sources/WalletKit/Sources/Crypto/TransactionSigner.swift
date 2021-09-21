@@ -74,7 +74,7 @@ public class FlowTransactionSigner {
             return
         }
 
-        var signData = Flow.DomainTag.transaction.normalize + encodedPayload
+        let signData = Flow.DomainTag.transaction.normalize + encodedPayload
         if transaction.proposalKey.address.hex != transaction.payerAddress.hex {
             let signature = try keychain.signData(address: transaction.proposalKey.address, payload: signData)
             _ = transaction.addPayloadSignature(address: transaction.proposalKey.address,
@@ -96,7 +96,7 @@ public class FlowTransactionSigner {
         guard let encodedEnvelope = transaction.encodedEnvelope else {
             return
         }
-        var signData2 = Flow.DomainTag.transaction.normalize + encodedEnvelope
+        let signData2 = Flow.DomainTag.transaction.normalize + encodedEnvelope
         let signature = try keychain.signData(address: transaction.payerAddress, payload: signData2)
         let keyIndex = try fetchKeyIndex(address: transaction.payerAddress)
         _ = transaction.addEnvelopeSignature(address: transaction.payerAddress, keyIndex: keyIndex, signature: signature)

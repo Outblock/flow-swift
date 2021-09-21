@@ -25,7 +25,7 @@ extension FCL {
                     vc.delegate = SafariWebViewManager.shared
                     vc.modalPresentationStyle = .formSheet
                     SafariWebViewManager.shared.safariVC = vc
-                    UIApplication.shared.topMostViewController?.present(vc, animated: true, completion: nil)
+//                    UIApplication.shared.topMostViewController?.present(vc, animated: true, completion: nil)
                 }
             }
         }
