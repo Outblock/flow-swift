@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Flow",
+    name: "FlowSwift",
     platforms: [
         .iOS(.v13),
     ],
