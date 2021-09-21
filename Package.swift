@@ -7,12 +7,15 @@ let package = Package(
     name: "Flow",
     platforms: [
         .iOS(.v13),
-        .macOS(.v10_15),
     ],
     products: [
         .library(
-            name: "Flow",
-            targets: ["WalletKit", "FCL"]
+            name: "WalletKit",
+            targets: ["WalletKit"]
+        ),
+        .library(
+            name: "FCL",
+            targets: ["FCL"]
         ),
     ],
     dependencies: [],
@@ -20,17 +23,17 @@ let package = Package(
         .target(
             name: "WalletKit",
             dependencies: ["FlowFoundation"],
-            path: "Sources/WalletKit/Sources"
+            path: "WalletKit/Sources"
         ),
         .target(
             name: "FCL",
             dependencies: ["FlowFoundation"],
-            path: "Sources/FCL/Sources"
+            path: "FCL/Sources"
         ),
         .target(
             name: "FlowFoundation",
             dependencies: [],
-            path: "Sources/FlowFoundation/Sources"
+            path: "FlowFoundation/Sources"
         ),
     ]
 )

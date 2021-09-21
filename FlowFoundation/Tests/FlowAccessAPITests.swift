@@ -133,13 +133,13 @@ final class FlowAccessAPITests: XCTestCase {
             return
         }
 
-        let signableData = Flow.Constants.transactionPrefix + data.hexValue
-        let sign = try! signTransaction(signableData: signableData.hexValue.data)
+        let signableData = Flow.DomainTag.transaction.normalize + data
+        let sign = try! signTransaction(signableData: signableData)
         let newTx = unsignedTx?.buildUpOn(envelopeSignatures: [
             Flow.TransactionSignature(address: address,
                                       signerIndex: 0,
                                       keyIndex: 0,
-                                      signature: Flow.Signature(data: sign)),
+                                      signature: sign),
         ])
 
         let txId = try testnetAPI.sendTransaction(transaction: newTx!).wait()

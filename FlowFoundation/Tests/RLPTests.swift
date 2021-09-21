@@ -3,7 +3,7 @@ import BigInt
 import XCTest
 
 final class RLPTests: XCTestCase {
-    let prefix = Flow.Constants.transactionPrefix
+    let prefix = Flow.DomainTag.transaction.normalize.hexValue
     let baseTx = Flow.Transaction(script: Flow.Script(script: "transaction { execute { log(\"Hello, World!\") } }"),
                                   arguments: [],
                                   referenceBlockId: Flow.Id(hex: "f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b"),
@@ -17,7 +17,7 @@ final class RLPTests: XCTestCase {
                                       Flow.TransactionSignature(address: Flow.Address(hex: "01"),
                                                                 signerIndex: 4,
                                                                 keyIndex: 4,
-                                                                signature: Flow.Signature(hex: "f7225388c1d69d57e6251c9fda50cbbf9e05131e5adb81e5aa0422402f048162")),
+                                                                signature: Flow.Signature(hex: "f7225388c1d69d57e6251c9fda50cbbf9e05131e5adb81e5aa0422402f048162").data),
                                   ],
                                   envelopeSignatures: [])
 
@@ -49,15 +49,15 @@ final class RLPTests: XCTestCase {
             payloadSignatures: [Flow.TransactionSignature(address: Flow.Address(hex: "03"),
                                                           signerIndex: 0,
                                                           keyIndex: 0,
-                                                          signature: Flow.Signature(hex: "c")),
+                                                          signature: "c".hexValue.data),
                                 Flow.TransactionSignature(address: Flow.Address(hex: "01"),
                                                           signerIndex: 0,
                                                           keyIndex: 0,
-                                                          signature: Flow.Signature(hex: "a")),
+                                                          signature: "a".hexValue.data),
                                 Flow.TransactionSignature(address: Flow.Address(hex: "02"),
                                                           signerIndex: 0,
                                                           keyIndex: 0,
-                                                          signature: Flow.Signature(hex: "b"))]
+                                                          signature: "b".hexValue.data)]
         )
         guard let data = tx.encodedEnvelope else {
             XCTFail("RLP encode error")
@@ -74,15 +74,15 @@ final class RLPTests: XCTestCase {
             payloadSignatures: [Flow.TransactionSignature(address: Flow.Address(hex: "01"),
                                                           signerIndex: 2,
                                                           keyIndex: 2,
-                                                          signature: Flow.Signature(hex: "c")),
+                                                          signature: "c".hexValue.data),
                                 Flow.TransactionSignature(address: Flow.Address(hex: "01"),
                                                           signerIndex: 0,
                                                           keyIndex: 0,
-                                                          signature: Flow.Signature(hex: "a")),
+                                                          signature: "a".hexValue.data),
                                 Flow.TransactionSignature(address: Flow.Address(hex: "01"),
                                                           signerIndex: 1,
                                                           keyIndex: 1,
-                                                          signature: Flow.Signature(hex: "b"))]
+                                                          signature: "b".hexValue.data)]
         )
         guard let data = tx.encodedEnvelope else {
             XCTFail("RLP encode error")
