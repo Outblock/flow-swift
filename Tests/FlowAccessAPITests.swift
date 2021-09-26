@@ -123,7 +123,7 @@ final class FlowAccessAPITests: XCTestCase {
                     }
                 """
             }
-            
+
             payer {
                 address
             }
@@ -131,7 +131,7 @@ final class FlowAccessAPITests: XCTestCase {
             proposer {
                 address
             }
-            
+
             authorizers {
                 address
             }
@@ -241,15 +241,15 @@ final class FlowAccessAPITests: XCTestCase {
             }
 
             proposer {
-                self.addressA
-            }
-
-            payer {
                 self.addressB
             }
 
+            payer {
+                self.addressA
+            }
+
             authorizers {
-                [self.addressA, self.addressC]
+                [self.addressC, self.addressB]
             }
         }
 

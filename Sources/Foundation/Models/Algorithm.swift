@@ -8,7 +8,7 @@
 import Foundation
 
 extension Flow {
-    public enum SignatureAlgorithm: CaseIterable, Codable {
+    public enum SignatureAlgorithm: String, CaseIterable, Codable {
         case unknown
         case ECDSA_P256
         case ECDSA_SECP256k1
@@ -77,7 +77,7 @@ extension Flow {
         }
     }
 
-    public enum HashAlgorithm: CaseIterable, Codable {
+    public enum HashAlgorithm: String, CaseIterable, Codable {
         case unknown
         case SHA2_256
         case SHA2_384
