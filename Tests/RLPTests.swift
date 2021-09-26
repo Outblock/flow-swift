@@ -1,5 +1,5 @@
 import BigInt
-@testable import FlowFoundation
+@testable import Flow
 import XCTest
 
 final class RLPTests: XCTestCase {

@@ -1,5 +1,5 @@
 @testable import BigInt
-@testable import FlowFoundation
+@testable import Flow
 import XCTest
 
 final class CadenceTypeTests: XCTestCase {

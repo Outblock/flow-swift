@@ -4,15 +4,15 @@
 import PackageDescription
 
 let package = Package(
-    name: "FlowFoundation",
+    name: "Flow",
     platforms: [
         .iOS(.v13),
         .macOS(.v10_15),
     ],
     products: [
         .library(
-            name: "FlowFoundation",
-            targets: ["FlowFoundation"]
+            name: "Flow",
+            targets: ["Flow"]
         ),
     ],
     dependencies: [
@@ -21,14 +21,14 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "FlowFoundation",
+            name: "Flow",
             dependencies: ["BigInt",
                            .product(name: "GRPC", package: "grpc-swift")],
-            path: "Sources/Foundation"
+            path: "Sources/Flow"
         ),
         .testTarget(
-            name: "FlowFoundationTests",
-            dependencies: ["FlowFoundation"],
+            name: "FlowTests",
+            dependencies: ["Flow"],
             path: "Tests"
         ),
     ]

@@ -1,6 +1,6 @@
 @testable import BigInt
 import CryptoKit
-@testable import FlowFoundation
+@testable import Flow
 import XCTest
 
 final class FlowAccessAPITests: XCTestCase {
