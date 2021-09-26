@@ -13,6 +13,10 @@ Currently the following Flow Features have been implemented:
 
 This is a Swift Package, and can be installed via Xcode with the URL of this repository:
 
-`https://github.com/zed-io/flow-foundation-swift.git`
+```swift
+dependencies: [
+        .package(url: "https://github.com/zed-io/flow-foundation-swift.git ", from: "0.0.2-beta") 
+]
+```
 
 [For more information on how to add a Swift Package using Xcode, see Apple's official documentation.](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)
