@@ -107,18 +107,19 @@ final class FlowAccessAPITests: XCTestCase {
 
     func testCanCreateAccount() throws {
         let testnetAPI = Flow.shared.newAccessApi(chainId: .testnet)!
-        let address = addressB
-        let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
+        let address = addressC
+        let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyB.publicKey.rawRepresentation.hexValue),
                                          signAlgo: .ECDSA_P256,
                                          hashAlgo: .SHA2_256,
-                                         weight: 800)
+                                         weight: 1000)
 
         let unsignedTx = try? flow.buildTransaction(chainId: .testnet) {
             cadence {
                 """
                     transaction(publicKey: String) {
                         prepare(signer: AuthAccount) {
-                            signer.addPublicKey(publicKey.decodeHex())
+                            let account = AuthAccount(payer: signer)
+                            account.addPublicKey(publicKey.decodeHex())
                         }
                     }
                 """
@@ -143,7 +144,7 @@ final class FlowAccessAPITests: XCTestCase {
         }
 
         let signableData = Flow.DomainTag.transaction.normalize + data
-        let sign = try! signTransaction(privateKey: privateKeyB, signableData: signableData)
+        let sign = try! signTransaction(privateKey: privateKeyC, signableData: signableData)
         let newTx = unsignedTx?.buildUpOn(envelopeSignatures: [
             Flow.TransactionSignature(address: address,
                                       signerIndex: 0,
@@ -200,37 +201,27 @@ final class FlowAccessAPITests: XCTestCase {
     func signTransaction(privateKey: P256.Signing.PrivateKey, signableData: Data) throws -> Data {
         let sig = try privateKey.signature(for: signableData)
         return sig.rawRepresentation
-
-//        func composite(rawRepresentation: Data) -> (r: Data, s: Data) {
-//            let combined = rawRepresentation
-//            assert(combined.count % 2 == 0)
-//            let half = combined.count / 2
-//            return (combined.prefix(upTo: half), combined.suffix(from: half))
-//        }
-//
-//        let (r, s) = composite(rawRepresentation: sig.rawRepresentation)
-//        print("r -> \(r.toHexString())")
-//        print("s -> \(s.toHexString())")
-//        print("sig -> \(sig.rawRepresentation.toHexString())")
-//        let result = pk.publicKey.isValidSignature(sig, for: data)
     }
 
     func testMultipleSigner() throws {
         let testnetAPI = Flow.shared.newAccessApi(chainId: .testnet)!
-
-        let signerA = Signer(address: addressA, keyIndex: 2, privateKey: privateKeyB)
-        let signerBA = Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA)
-        let signerBC = Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC)
-        let signerC = Signer(address: addressC, keyIndex: 0, privateKey: privateKeyC)
-        let signers = [signerA, signerBA, signerBC, signerC]
+        let signers = [
+            Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
+            Signer(address: addressA, keyIndex: 4, privateKey: privateKeyC), // weight: 500
+            Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA), // weight: 800
+            Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC), // weight: 500
+            Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
+            Signer(address: addressC, keyIndex: 1, privateKey: privateKeyA), // weight: 800
+        ]
 
         let unsignedTx = try? flow.buildTransaction(chainId: .testnet) {
             cadence {
                 """
                     transaction {
-                        prepare(signer1: AuthAccount, signer2: AuthAccount) {
+                        prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
                           log(signer1.address)
                           log(signer2.address)
+                          log(signer3.address)
                       }
                     }
                 """
@@ -245,7 +236,7 @@ final class FlowAccessAPITests: XCTestCase {
             }
 
             authorizers {
-                [self.addressC, self.addressB]
+                [self.addressC, self.addressB, self.addressA]
             }
         }
 
