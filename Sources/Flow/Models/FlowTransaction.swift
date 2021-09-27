@@ -10,13 +10,13 @@ import Foundation
 
 extension Flow {
     public struct Transaction {
-        public let script: Script
-        public let arguments: [Argument]
-        public let referenceBlockId: Id
-        public let gasLimit: BigUInt
-        public let proposalKey: TransactionProposalKey
-        public let payerAddress: Address
-        public let authorizers: [Address]
+        public var script: Script
+        public var arguments: [Argument]
+        public var referenceBlockId: Id
+        public var gasLimit: BigUInt
+        public var proposalKey: TransactionProposalKey
+        public var payerAddress: Address
+        public var authorizers: [Address]
         public var payloadSignatures: [TransactionSignature] = []
         public var envelopeSignatures: [TransactionSignature] = []
 
@@ -82,8 +82,22 @@ extension Flow {
             return RLP.encode(payloadEnvelope.rlpList)
         }
 
+        public var signableEnvelope: Data? {
+            guard let data = RLP.encode(payloadEnvelope.rlpList) else {
+                return nil
+            }
+            return DomainTag.transaction.normalize + data
+        }
+
         public var encodedPayload: Data? {
             return RLP.encode(payload.rlpList)
+        }
+
+        public var signablePlayload: Data? {
+            guard let data = RLP.encode(payload.rlpList) else {
+                return nil
+            }
+            return DomainTag.transaction.normalize + data
         }
 
         var payload: Transaction.Payload {
@@ -132,7 +146,6 @@ extension Flow {
                                      keyIndex: keyIndex,
                                      signature: signature)
             )
-
             payloadSignatures = payloadSignatures.sorted(by: <)
             return self
         }
@@ -152,29 +165,6 @@ extension Flow {
         public func getSingerIndex(address: Flow.Address) -> Int? {
             return signers.first { $0.key == address }?.value
         }
-
-//        func updateSignerIndices() -> Transaction {
-//            let map = signerMap
-//            var payloadSig = payloadSignatures
-//            var envelopeSig = envelopeSignatures
-//            for (index, sig) in payloadSig.enumerated() {
-//                if map.keys.contains(sig.address) {
-//                    continue
-//                }
-//                payloadSig[index].signerIndex = index
-//            }
-//            for (index, sig) in envelopeSig.enumerated() {
-//                if map.keys.contains(sig.address) {
-//                    continue
-//                }
-//                envelopeSig[index].signerIndex = index
-//            }
-//
-//            var transaction = self
-//            transaction.payloadSignatures = payloadSig
-//            transaction.envelopeSignatures = envelopeSig
-//            return transaction
-//        }
     }
 }
 

@@ -4,6 +4,8 @@ import GRPC
 import NIO
 import SafariServices
 
+public let flow = Flow.shared
+
 public final class Flow {
     public static let shared = Flow()
 

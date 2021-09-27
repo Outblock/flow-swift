@@ -107,25 +107,21 @@ final class FlowAccessAPITests: XCTestCase {
 
     func testCanCreateAccount() throws {
         let testnetAPI = Flow.shared.newAccessApi(chainId: .testnet)!
-        let address = Flow.Address(hex: "0xc6de0d94160377cd")
+        let address = addressB
         let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
                                          signAlgo: .ECDSA_P256,
                                          hashAlgo: .SHA2_256,
-                                         weight: 1000)
-        let unsignedTx = try? buildSimpleTransaction(chainId: .testnet) {
+                                         weight: 800)
+
+        let unsignedTx = try? flow.buildTransaction(chainId: .testnet) {
             cadence {
                 """
                     transaction(publicKey: String) {
                         prepare(signer: AuthAccount) {
-                            let account = AuthAccount(payer: signer)
-                            account.addPublicKey(publicKey.decodeHex())
+                            signer.addPublicKey(publicKey.decodeHex())
                         }
                     }
                 """
-            }
-
-            payer {
-                address
             }
 
             proposer {
@@ -147,7 +143,7 @@ final class FlowAccessAPITests: XCTestCase {
         }
 
         let signableData = Flow.DomainTag.transaction.normalize + data
-        let sign = try! signTransaction(privateKey: privateKeyA, signableData: signableData)
+        let sign = try! signTransaction(privateKey: privateKeyB, signableData: signableData)
         let newTx = unsignedTx?.buildUpOn(envelopeSignatures: [
             Flow.TransactionSignature(address: address,
                                       signerIndex: 0,
@@ -201,8 +197,8 @@ final class FlowAccessAPITests: XCTestCase {
 
     // SigAlgorithm: **ECDSA_P256**
     // HashAlgorithm: **SHA2_256**
-    func signTransaction(privateKey _: P256.Signing.PrivateKey, signableData: Data) throws -> Data {
-        let sig = try privateKeyA.signature(for: signableData)
+    func signTransaction(privateKey: P256.Signing.PrivateKey, signableData: Data) throws -> Data {
+        let sig = try privateKey.signature(for: signableData)
         return sig.rawRepresentation
 
 //        func composite(rawRepresentation: Data) -> (r: Data, s: Data) {
@@ -222,13 +218,13 @@ final class FlowAccessAPITests: XCTestCase {
     func testMultipleSigner() throws {
         let testnetAPI = Flow.shared.newAccessApi(chainId: .testnet)!
 
-        let signerA = Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA)
-        let signerB = Signer(address: addressB, keyIndex: 0, privateKey: privateKeyB)
+        let signerA = Signer(address: addressA, keyIndex: 2, privateKey: privateKeyB)
+        let signerBA = Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA)
+        let signerBC = Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC)
         let signerC = Signer(address: addressC, keyIndex: 0, privateKey: privateKeyC)
-        let signers = [signerA, signerB, signerC]
+        let signers = [signerA, signerBA, signerBC, signerC]
 
-//        let address = addressA
-        let unsignedTx = try? buildSimpleTransaction(chainId: .testnet) {
+        let unsignedTx = try? flow.buildTransaction(chainId: .testnet) {
             cadence {
                 """
                     transaction {
@@ -241,7 +237,7 @@ final class FlowAccessAPITests: XCTestCase {
             }
 
             proposer {
-                self.addressB
+                .init(address: addressB, keyIndex: 2)
             }
 
             payer {
@@ -258,7 +254,7 @@ final class FlowAccessAPITests: XCTestCase {
             return
         }
 
-        guard let newTx = signTransactionWithMultipleSigner(unsignTransaction: tx, signers: signers) else {
+        guard let newTx = try? signTransactionWithMultipleSigner(unsignTransaction: tx, signers: signers) else {
             XCTFail("TX sign error")
             return
         }
@@ -267,51 +263,62 @@ final class FlowAccessAPITests: XCTestCase {
         print("txid --> \(txId.hex)")
     }
 
-    func findSigner(address: Flow.Address, signers: [Signer]) -> Signer? {
-        return signers.first { $0.address == address }
+    func findSigners(address: Flow.Address, signers: [Signer]) -> [Signer]? {
+        return signers.filter { $0.address == address }
     }
 
-    func signTransactionWithMultipleSigner(unsignTransaction: Flow.Transaction, signers: [Signer]) -> Flow.Transaction? {
+    func signTransactionWithMultipleSigner(unsignTransaction: Flow.Transaction, signers: [Signer]) throws -> Flow.Transaction? {
         var transaction = unsignTransaction
-        guard let encodedPayload = transaction.encodedPayload else {
+        guard let signablePlayload = transaction.signablePlayload else {
             return nil
         }
 
-        let signData = Flow.DomainTag.transaction.normalize + encodedPayload
-        if transaction.proposalKey.address.hex != transaction.payerAddress.hex {
-            guard let signer = findSigner(address: transaction.proposalKey.address, signers: signers) else {
+        if transaction.proposalKey.address != transaction.payerAddress {
+            guard let signers = findSigners(address: transaction.proposalKey.address, signers: signers) else {
                 return nil
             }
-            let signature = try! signer.privateKey.signature(for: signData)
-            _ = transaction.addPayloadSignature(address: transaction.proposalKey.address,
-                                                keyIndex: transaction.proposalKey.keyIndex,
-                                                signature: signature.rawRepresentation)
+            for signer in signers {
+                let signature = try! signer.privateKey.signature(for: signablePlayload)
+                _ = transaction.addPayloadSignature(address: signer.address,
+                                                    keyIndex: signer.keyIndex,
+                                                    signature: signature.rawRepresentation)
+            }
         }
 
         for authorizer in transaction.authorizers {
             if transaction.proposalKey.address == authorizer {
                 continue
             }
-            guard let signer = findSigner(address: authorizer, signers: signers) else {
+
+            if transaction.payerAddress == authorizer {
+                continue
+            }
+
+            guard let signers = findSigners(address: authorizer, signers: signers) else {
                 return nil
             }
-            let signature = try! signer.privateKey.signature(for: signData)
-            _ = transaction.addPayloadSignature(address: authorizer,
-                                                keyIndex: signer.keyIndex,
-                                                signature: signature.rawRepresentation)
+
+            for signer in signers {
+                let signature = try! signer.privateKey.signature(for: signablePlayload)
+                _ = transaction.addPayloadSignature(address: authorizer,
+                                                    keyIndex: signer.keyIndex,
+                                                    signature: signature.rawRepresentation)
+            }
         }
 
-        guard let encodedEnvelope = transaction.encodedEnvelope else {
+        guard let signableEnvelope = transaction.signableEnvelope else {
             return nil
         }
-        let signData2 = Flow.DomainTag.transaction.normalize + encodedEnvelope
 
-        guard let signer = findSigner(address: transaction.payerAddress, signers: signers) else {
+        guard let signers = findSigners(address: transaction.payerAddress,
+                                        signers: signers) else {
             return nil
         }
-        let signature = try! signer.privateKey.signature(for: signData2)
-        _ = transaction.addEnvelopeSignature(address: transaction.payerAddress, keyIndex: signer.keyIndex, signature: signature.rawRepresentation)
 
+        for signer in signers {
+            let signature = try! signer.privateKey.signature(for: signableEnvelope)
+            _ = transaction.addEnvelopeSignature(address: transaction.payerAddress, keyIndex: signer.keyIndex, signature: signature.rawRepresentation)
+        }
         return transaction
     }
 

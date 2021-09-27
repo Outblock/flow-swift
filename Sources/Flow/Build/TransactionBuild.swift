@@ -8,73 +8,73 @@
 import BigInt
 import Foundation
 
-protocol TransactionValue {}
+public protocol TransactionValue {}
 
-func cadence(text: () -> String) -> Flow.Build.Script {
+public func cadence(text: () -> String) -> Flow.Build.Script {
     return Flow.Build.Script(script: text())
 }
 
-func arguments(text: () -> [Flow.Argument]) -> Flow.Build.Argument {
+public func arguments(text: () -> [Flow.Argument]) -> Flow.Build.Argument {
     return Flow.Build.Argument(arguments: text())
 }
 
-func arguments(text: () -> Flow.Argument...) -> Flow.Build.Argument {
+public func arguments(text: () -> Flow.Argument...) -> Flow.Build.Argument {
     return Flow.Build.Argument(arguments: text.compactMap { $0() })
 }
 
-func payer(text: () -> String) -> Flow.Build.Payer {
+public func payer(text: () -> String) -> Flow.Build.Payer {
     return Flow.Build.Payer(address: Flow.Address(hex: text()))
 }
 
-func payer(text: () -> Flow.Address) -> Flow.Build.Payer {
+public func payer(text: () -> Flow.Address) -> Flow.Build.Payer {
     return Flow.Build.Payer(address: text())
 }
 
-func authorizers(text: () -> [Flow.Address]) -> Flow.Build.Authorizers {
+public func authorizers(text: () -> [Flow.Address]) -> Flow.Build.Authorizers {
     return Flow.Build.Authorizers(addresses: text())
 }
 
-func authorizers(text: () -> Flow.Address...) -> Flow.Build.Authorizers {
+public func authorizers(text: () -> Flow.Address...) -> Flow.Build.Authorizers {
     return Flow.Build.Authorizers(addresses: text.compactMap { $0() })
 }
 
-func proposer(text: () -> Flow.Address) -> Flow.Build.Proposer {
+public func proposer(text: () -> Flow.Address) -> Flow.Build.Proposer {
     return Flow.Build.Proposer(proposalKey: Flow.TransactionProposalKey(address: text()))
 }
 
-func proposer(text: () -> Flow.TransactionProposalKey) -> Flow.Build.Proposer {
+public func proposer(text: () -> Flow.TransactionProposalKey) -> Flow.Build.Proposer {
     return Flow.Build.Proposer(proposalKey: text())
 }
 
 extension Flow {
-    class Build {
-        struct Address: TransactionValue {
+    public class Build {
+        public struct Address: TransactionValue {
             let address: String
         }
 
-        struct Script: TransactionValue {
+        public struct Script: TransactionValue {
             let script: String
         }
 
-        struct Argument: TransactionValue {
+        public struct Argument: TransactionValue {
             let arguments: [Flow.Argument]
         }
 
-        struct Payer: TransactionValue {
+        public struct Payer: TransactionValue {
             let address: Flow.Address
         }
 
-        struct Authorizers: TransactionValue {
+        public struct Authorizers: TransactionValue {
             let addresses: [Flow.Address]
         }
 
-        struct Proposer: TransactionValue {
+        public struct Proposer: TransactionValue {
             let proposalKey: Flow.TransactionProposalKey
         }
     }
 
     @resultBuilder
-    class TransactionBuilder {
+    public class TransactionBuilder {
         static func buildBlock() -> [TransactionValue] { [] }
 
         static func buildArray(_ components: [[TransactionValue]]) -> [TransactionValue] {
@@ -83,63 +83,56 @@ extension Flow {
     }
 }
 
-func buildTransaction(@Flow .TransactionBuilder _ content: () -> [TransactionValue]) -> [TransactionValue] {
-    content().forEach { txValue in
-        switch txValue {
-        case let value as Flow.Build.Script:
-            print(value.script)
-        case let value as Flow.Build.Argument:
-            print(value.arguments)
-        default:
-            return
+extension Flow {
+    public func buildTransaction(chainId: Flow.ChainId = .mainnet,
+                                 gasLimit: BigUInt = BigUInt(100),
+                                 @Flow .TransactionBuilder builder: () -> [TransactionValue]) throws -> Flow.Transaction? {
+        var script: Flow.Script = .init(data: Data())
+        var agrument: [Flow.Argument] = []
+        var authorizers: [Flow.Address] = []
+        var payerAddress: Flow.Address?
+        var proposer: Flow.TransactionProposalKey?
+
+        builder().forEach { txValue in
+            switch txValue {
+            case let value as Flow.Build.Script:
+                script = Flow.Script(script: value.script)
+            case let value as Flow.Build.Argument:
+                agrument = value.arguments
+            case let value as Flow.Build.Authorizers:
+                authorizers = value.addresses
+            case let value as Flow.Build.Payer:
+                payerAddress = value.address
+            case let value as Flow.Build.Proposer:
+                proposer = value.proposalKey
+            default:
+                return
+            }
         }
-    }
-    return content()
-}
 
-func buildSimpleTransaction(chainId: Flow.ChainId = .mainnet,
-                            gasLimit: BigUInt = BigUInt(100),
-                            @Flow .TransactionBuilder _ content: () -> [TransactionValue]) throws -> Flow.Transaction? {
-    var script = Flow.Script(script: "")
-    var agrument = [Flow.Argument]()
-    var authorizers = [Flow.Address]()
-    var payerAddress = Flow.Address(hex: "")
-    var proposer = Flow.TransactionProposalKey(address: Flow.Address(hex: ""))
-
-    content().forEach { txValue in
-        switch txValue {
-        case let value as Flow.Build.Script:
-            script = Flow.Script(script: value.script)
-        case let value as Flow.Build.Argument:
-            agrument = value.arguments
-        case let value as Flow.Build.Authorizers:
-            authorizers = value.addresses
-        case let value as Flow.Build.Payer:
-            payerAddress = value.address
-        case let value as Flow.Build.Proposer:
-            proposer = value.proposalKey
-        default:
-            return
+        guard var proposalKey = proposer else {
+            throw Flow.FError.emptyProposer
         }
+
+        guard let testnetAPI = Flow.shared.newAccessApi(chainId: chainId),
+            let block = try? testnetAPI.getLatestBlock(sealed: true).wait(),
+            let proposerAccount = try? testnetAPI.getAccountAtLatestBlock(address: proposalKey.address).wait(),
+            let accountKey = proposerAccount.keys[safe: proposalKey.keyIndex] else {
+            throw Flow.FError.preparingTransactionFailed
+        }
+
+        proposalKey.keyIndex = accountKey.id
+        proposalKey.sequenceNumber = BigUInt(accountKey.sequenceNumber)
+
+        return Flow.Transaction(script: script,
+                                arguments: agrument,
+                                referenceBlockId: block.id,
+                                gasLimit: gasLimit,
+                                proposalKey: proposalKey,
+                                // If payer is empty, then use propser as payer
+                                payerAddress: payerAddress ?? proposalKey.address,
+                                authorizers: authorizers)
     }
-
-    guard let testnetAPI = Flow.shared.newAccessApi(chainId: chainId),
-        let block = try? testnetAPI.getLatestBlock(sealed: true).wait(),
-        let proposerAccount = try? testnetAPI.getAccountAtLatestBlock(address: proposer.address).wait(),
-        let accountKey = proposerAccount.keys[safe: proposer.keyIndex] else {
-        return nil
-    }
-
-    proposer.keyIndex = accountKey.id
-    proposer.sequenceNumber = BigUInt(accountKey.sequenceNumber)
-
-    return Flow.Transaction(script: script,
-                            arguments: agrument,
-                            referenceBlockId: block.id,
-                            gasLimit: gasLimit,
-                            proposalKey: proposer,
-                            payerAddress: payerAddress,
-                            authorizers: authorizers)
 }
 
 extension Flow.TransactionBuilder {
