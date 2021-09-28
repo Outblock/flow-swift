@@ -11,16 +11,16 @@ public final class Flow {
 
     internal let defaultUserAgent = "Flow SWIFT SDK"
 
-    internal var defaultChainId = ChainId.mainnet
+    public var defaultChainID = ChainID.mainnet
 
     // MARK: - AccessAPI
 
-    func configureDefaults(chainId: ChainId) {
-        defaultChainId = chainId
+    func configure(chainID: ChainID) {
+        defaultChainID = chainID
     }
 
-    func newAccessApi(chainId: ChainId) -> FlowAccessAPI? {
-        guard let networkNode = chainId.defaultNode else {
+    func newAccessApi(chainID: ChainID) -> FlowAccessAPI? {
+        guard let networkNode = chainID.defaultNode else {
             return nil
         }
         return newAccessApi(host: networkNode.gRPCNode, port: networkNode.port)

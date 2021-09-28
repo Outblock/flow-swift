@@ -503,7 +503,7 @@ public struct Flow_Access_GetNetworkParametersResponse {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var chainID: String = String()
+    public var ChainID: String = String()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -1594,21 +1594,21 @@ extension Flow_Access_GetNetworkParametersResponse: SwiftProtobuf.Message, Swift
             // allocates stack space for every case branch when no optimizations are
             // enabled. https://github.com/apple/swift-protobuf/issues/1034
             switch fieldNumber {
-            case 1: try { try decoder.decodeSingularStringField(value: &self.chainID) }()
+            case 1: try { try decoder.decodeSingularStringField(value: &self.ChainID) }()
             default: break
             }
         }
     }
 
     public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-        if !chainID.isEmpty {
-            try visitor.visitSingularStringField(value: chainID, fieldNumber: 1)
+        if !ChainID.isEmpty {
+            try visitor.visitSingularStringField(value: ChainID, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
     }
 
     public static func == (lhs: Flow_Access_GetNetworkParametersResponse, rhs: Flow_Access_GetNetworkParametersResponse) -> Bool {
-        if lhs.chainID != rhs.chainID { return false }
+        if lhs.ChainID != rhs.ChainID { return false }
         if lhs.unknownFields != rhs.unknownFields { return false }
         return true
     }

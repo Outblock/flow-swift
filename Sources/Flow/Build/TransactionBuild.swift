@@ -78,7 +78,7 @@ extension Flow {
 }
 
 extension Flow {
-    public func buildTransaction(chainId: Flow.ChainId = .mainnet,
+    public func buildTransaction(ChainID: Flow.ChainID = flow.defaultChainID,
                                  @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.Transaction {
         var script: Flow.Script = .init(data: Data())
         var agrument: [Flow.Argument] = []
@@ -108,7 +108,7 @@ extension Flow {
             throw Flow.FError.emptyProposer
         }
 
-        guard let api = Flow.shared.newAccessApi(chainId: chainId),
+        guard let api = Flow.shared.newAccessApi(chainID: ChainID),
             let block = try? api.getLatestBlock(sealed: true).wait(),
             let proposerAccount = try? api.getAccountAtLatestBlock(address: proposalKey.address).wait(),
             let accountKey = proposerAccount.keys[safe: proposalKey.keyIndex] else {
@@ -128,43 +128,43 @@ extension Flow {
                                 authorizers: authorizers)
     }
 
-    public func sendTransaction(chainId: ChainId = .mainnet, signedTrnaction: Transaction) throws -> EventLoopFuture<Flow.Id> {
-        guard let api = flow.newAccessApi(chainId: chainId) else {
+    public func sendTransaction(ChainID: ChainID = .mainnet, signedTrnaction: Transaction) throws -> EventLoopFuture<Flow.ID> {
+        guard let api = flow.newAccessApi(chainID: ChainID) else {
             throw Flow.FError.generic
         }
         return api.sendTransaction(transaction: signedTrnaction)
     }
 
-    public func sendTransaction(chainId: Flow.ChainId = .mainnet,
+    public func sendTransaction(ChainID: Flow.ChainID = flow.defaultChainID,
                                 signers: [FlowSigner],
-                                @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.Id> {
-        guard let api = flow.newAccessApi(chainId: chainId) else {
+                                @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.ID> {
+        guard let api = flow.newAccessApi(chainID: ChainID) else {
             throw Flow.FError.generic
         }
-        let unsignedTx = try buildTransaction(chainId: chainId, builder: builder)
+        let unsignedTx = try buildTransaction(ChainID: ChainID, builder: builder)
         let signedTx = try flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
 
         return api.sendTransaction(transaction: signedTx)
     }
 
-    public func sendTransaction(chainId: Flow.ChainId = .mainnet,
+    public func sendTransaction(ChainID: Flow.ChainID = flow.defaultChainID,
                                 signers: [FlowSigner],
                                 @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild],
-                                completion: @escaping (Result<Flow.Id, Error>) -> Void) throws {
-        guard let api = flow.newAccessApi(chainId: chainId) else {
+                                completion: @escaping (Result<Flow.ID, Error>) -> Void) throws {
+        guard let api = flow.newAccessApi(chainID: ChainID) else {
             throw Flow.FError.generic
         }
-        let unsignedTx = try buildTransaction(chainId: chainId, builder: builder)
+        let unsignedTx = try buildTransaction(ChainID: ChainID, builder: builder)
         let signedTx = try flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
         let call = api.sendTransaction(transaction: signedTx)
         call.whenSuccess { completion(Result.success($0)) }
         call.whenFailure { completion(Result.failure($0)) }
     }
 
-    public func sendTransactionWithWait(chainId: Flow.ChainId = .mainnet,
+    public func sendTransactionWithWait(ChainID: Flow.ChainID = flow.defaultChainID,
                                         signers: [FlowSigner],
-                                        @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.Id {
-        return try flow.sendTransaction(chainId: chainId,
+                                        @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.ID {
+        return try flow.sendTransaction(ChainID: ChainID,
                                         signers: signers,
                                         builder: builder).wait()
     }

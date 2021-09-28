@@ -6,7 +6,7 @@ final class RLPTests: XCTestCase {
     let prefix = Flow.DomainTag.transaction.normalize.hexValue
     let baseTx = Flow.Transaction(script: Flow.Script(script: "transaction { execute { log(\"Hello, World!\") } }"),
                                   arguments: [],
-                                  referenceBlockId: Flow.Id(hex: "f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b"),
+                                  referenceBlockId: Flow.ID(hex: "f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b"),
                                   gasLimit: BigUInt(42),
                                   proposalKey: Flow.TransactionProposalKey(address: Flow.Address(hex: "01"),
                                                                            keyIndex: 4,
@@ -131,7 +131,7 @@ final class RLPTests: XCTestCase {
     }
 
     func testNilRefBlock() {
-        let tx = baseTx.buildUpOn(referenceBlockId: Flow.Id(hex: ""))
+        let tx = baseTx.buildUpOn(referenceBlockId: Flow.ID(hex: ""))
         guard let encodedPayload = tx.encodedPayload else {
             XCTFail("RLP encode error")
             return

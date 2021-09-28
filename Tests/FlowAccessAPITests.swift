@@ -22,7 +22,7 @@ final class FlowAccessAPITests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        flowAPI = flow.newAccessApi(chainId: .mainnet)
+        flowAPI = flow.newAccessApi(chainID: .mainnet)
     }
 
     func testFlowPing() throws {
@@ -31,8 +31,8 @@ final class FlowAccessAPITests: XCTestCase {
     }
 
     func testNetworkParameters() throws {
-        let chainId = try flowAPI.getNetworkParameters().wait()
-        XCTAssertEqual(chainId, Flow.ChainId.mainnet)
+        let ChainID = try flowAPI.getNetworkParameters().wait()
+        XCTAssertEqual(ChainID, Flow.ChainID.mainnet)
     }
 
     func testBlockHeader() throws {
@@ -113,7 +113,7 @@ final class FlowAccessAPITests: XCTestCase {
                                          hashAlgo: .SHA2_256,
                                          weight: 1000)
 
-        let txId = try! flow.sendTransaction(chainId: .testnet, signers: signer) {
+        let txId = try! flow.sendTransaction(ChainID: .testnet, signers: signer) {
             cadence {
                 """
                     transaction(publicKey: String) {
@@ -148,29 +148,29 @@ final class FlowAccessAPITests: XCTestCase {
     }
 
     func testGetCollectionById() throws {
-//        let id = Flow.Id(hex: "53cc748124358855ec4d975ce6511ba016f5d2dfcead1527fd858579fc7baf76")
+//        let id = Flow.ID(hex: "53cc748124358855ec4d975ce6511ba016f5d2dfcead1527fd858579fc7baf76")
 //        let collection = try flowAPI.getCollectionById(id: id).wait()
 //        XCTAssertNotNil(collection)
     }
 
     func testTransactionById() throws {
-        let id = Flow.Id(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
+        let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
         let transaction = try flowAPI.getTransactionById(id: id).wait()
         XCTAssertEqual(transaction?.arguments.first?.type, .path)
         XCTAssertEqual(transaction?.arguments.first?.value, .path(value: .init(domain: "public", identifier: "zelosAccountingTokenReceiver")))
         XCTAssertEqual(transaction?.arguments.last?.type, .ufix64)
-        XCTAssertEqual(transaction?.arguments.last?.value, .ufix64(value: 99.0))
+        XCTAssertEqual(transaction?.arguments.last?.value.toUFix64(), 99.0)
         XCTAssertEqual(transaction?.payerAddress.bytes.hexValue, "1f56a1e665826a52")
         XCTAssertNotNil(transaction)
     }
 
     func testTransactionResultById() throws {
-        let id = Flow.Id(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
+        let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
         let result = try flowAPI.getTransactionResultById(id: id).wait()
-        XCTAssertEqual(result?.events.count, 3)
-        XCTAssertEqual(result?.events.first?.type, "A.c38aea683c0c4d38.Eternal.Withdraw")
-        XCTAssertEqual(result?.events.first?.payload.fields?.type, .event)
-        XCTAssertEqual(result?.events.first?.payload.fields?.value,
+        XCTAssertEqual(result.events.count, 3)
+        XCTAssertEqual(result.events.first?.type, "A.c38aea683c0c4d38.Eternal.Withdraw")
+        XCTAssertEqual(result.events.first?.payload.fields?.type, .event)
+        XCTAssertEqual(result.events.first?.payload.fields?.value,
                        .event(value: .init(id: "A.c38aea683c0c4d38.Eternal.Withdraw",
                                            fields: [.init(name: "id", value: .init(value: .uint64(value: 11800))),
                                                     .init(name: "from", value: .init(value: .optional(value: .init(value: .address(value: .init(hex: "0x873becfb539f038d"))))))])))
@@ -179,7 +179,7 @@ final class FlowAccessAPITests: XCTestCase {
 
     func testMultipleSigner() throws {
         // Example in Testnet
-
+        flow.defaultChainID = .testnet
         let signers = [
             // Address A
             ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
@@ -192,9 +192,7 @@ final class FlowAccessAPITests: XCTestCase {
             ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
             ECDSA_P256_Signer(address: addressC, keyIndex: 4, privateKey: privateKeyA), // weight: 300
         ]
-
-        let txId = try! flow.sendTransactionWithWait(chainId: .testnet,
-                                                     signers: signers) {
+        let txId = try! flow.sendTransactionWithWait(signers: signers) {
             cadence {
                 """
                     transaction {
@@ -219,8 +217,13 @@ final class FlowAccessAPITests: XCTestCase {
                 [self.addressC, self.addressB, self.addressA]
             }
         }
-
         XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
+
+//        let txId = Flow.ID(hex: "a8bdb8998cda625a0b4e713d0dbac733e480c5d1b898023bb0e49828aac5767b")
+//        let result = try txId.onceSealed().wait()
+//        let exp = expectation(description: "Test after 10 seconds")
+//        _ = XCTWaiter.wait(for: [exp], timeout: 10.0)
+//        print(result)
     }
 }

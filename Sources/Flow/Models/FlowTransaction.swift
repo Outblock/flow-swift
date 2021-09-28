@@ -12,7 +12,7 @@ extension Flow {
     public struct Transaction {
         public var script: Script
         public var arguments: [Argument]
-        public var referenceBlockId: Id
+        public var referenceBlockId: ID
         public var gasLimit: BigUInt
         public var proposalKey: TransactionProposalKey
         public var payerAddress: Address
@@ -20,7 +20,7 @@ extension Flow {
         public var payloadSignatures: [TransactionSignature] = []
         public var envelopeSignatures: [TransactionSignature] = []
 
-        init(script: Flow.Script, arguments: [Flow.Argument], referenceBlockId: Flow.Id, gasLimit: BigUInt, proposalKey: Flow.TransactionProposalKey, payerAddress: Flow.Address, authorizers: [Flow.Address], payloadSignatures: [Flow.TransactionSignature] = [], envelopeSignatures: [Flow.TransactionSignature] = []) {
+        init(script: Flow.Script, arguments: [Flow.Argument], referenceBlockId: Flow.ID, gasLimit: BigUInt, proposalKey: Flow.TransactionProposalKey, payerAddress: Flow.Address, authorizers: [Flow.Address], payloadSignatures: [Flow.TransactionSignature] = [], envelopeSignatures: [Flow.TransactionSignature] = []) {
             self.script = script
             self.arguments = arguments
             self.referenceBlockId = referenceBlockId
@@ -35,7 +35,7 @@ extension Flow {
         init(value: Flow_Entities_Transaction) {
             script = Script(bytes: value.script.bytes)
             arguments = value.arguments.compactMap { try! JSONDecoder().decode(Argument.self, from: $0) }
-            referenceBlockId = Id(bytes: value.referenceBlockID.bytes)
+            referenceBlockId = ID(bytes: value.referenceBlockID.bytes)
             gasLimit = BigUInt(value.gasLimit)
             proposalKey = TransactionProposalKey(value: value.proposalKey)
             payerAddress = Address(bytes: value.payer.bytes)
@@ -60,7 +60,7 @@ extension Flow {
 
         func buildUpOn(script: Flow.Script? = nil,
                        arguments: [Flow.Argument]? = nil,
-                       referenceBlockId: Flow.Id? = nil,
+                       referenceBlockId: Flow.ID? = nil,
                        gasLimit: BigUInt? = nil,
                        proposalKey: Flow.TransactionProposalKey? = nil,
                        payerAddress: Flow.Address? = nil,
@@ -172,16 +172,27 @@ protocol RLPEncodable {
 }
 
 extension Flow.Transaction {
-    enum Status: Int, CaseIterable {
+    public enum Status: Int, CaseIterable, Comparable, Equatable {
         case unknown = 0
-        case pending
-        case finalized
-        case executed
-        case sealed
-        case expired
+        case pending = 1
+        case finalized = 2
+        case executed = 3
+        case sealed = 4
+        case expired = 5
+
+        var isExpired: Bool { rawValue == 5 }
+        var isSealed: Bool { rawValue >= 4 }
+        var isExecuted: Bool { rawValue >= 3 }
+        var isFinalized: Bool { rawValue >= 2 }
+        var isPending: Bool { rawValue >= 1 }
+        var isUnknown: Bool { rawValue >= 0 }
 
         init(num: Int) {
             self = Status.allCases.first { $0.rawValue == num } ?? .unknown
+        }
+
+        public static func < (lhs: Flow.Transaction.Status, rhs: Flow.Transaction.Status) -> Bool {
+            lhs.rawValue < rhs.rawValue
         }
     }
 
@@ -231,7 +242,7 @@ extension Flow.Transaction {
 }
 
 extension Flow {
-    struct TransactionResult {
+    public struct TransactionResult {
         let status: Transaction.Status
         let statusCode: Int
         let errorMessage: String
@@ -245,7 +256,7 @@ extension Flow {
         }
 
         init(value: Flow_Access_TransactionResultResponse) {
-            status = Transaction.Status(num: Int(value.statusCode))
+            status = Transaction.Status(num: Int(value.status.rawValue))
             statusCode = Int(value.statusCode)
             errorMessage = value.errorMessage
             events = value.events.compactMap { Flow.Event(value: $0) }

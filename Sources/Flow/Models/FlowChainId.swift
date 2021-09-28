@@ -8,7 +8,7 @@
 import Foundation
 
 extension Flow {
-    public enum ChainId: CaseIterable, Hashable {
+    public enum ChainID: CaseIterable, Hashable {
         case unknown
         case mainnet
         case testnet
@@ -16,7 +16,7 @@ extension Flow {
         case emulator
         case custom(name: String, endpoint: Endpoint)
 
-        public static var allCases: [Flow.ChainId] = [.mainnet, .testnet, .canarynet, .emulator]
+        public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .canarynet, .emulator]
 
         var name: String {
             switch self {
@@ -36,7 +36,7 @@ extension Flow {
         }
 
         init(name: String) {
-            self = ChainId.allCases.first { $0.name == name } ?? .unknown
+            self = ChainID.allCases.first { $0.name == name } ?? .unknown
         }
 
         public struct Endpoint: Hashable {
@@ -59,7 +59,7 @@ extension Flow {
             }
         }
 
-        public static func == (lhs: Flow.ChainId, rhs: Flow.ChainId) -> Bool {
+        public static func == (lhs: Flow.ChainID, rhs: Flow.ChainID) -> Bool {
             return lhs.name == rhs.name &&
                 lhs.defaultNode?.gRPCNode == rhs.defaultNode?.gRPCNode &&
                 lhs.defaultNode?.port == rhs.defaultNode?.port
