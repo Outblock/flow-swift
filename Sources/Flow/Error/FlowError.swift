@@ -17,6 +17,9 @@ extension Flow {
         case decodeFailure
         case unauthenticated
         case emptyProposer
+        case invaildPlayload
+        case invaildEnvelope
+        case missingSigner
         case preparingTransactionFailed
     }
 }

@@ -157,7 +157,6 @@ extension Flow {
                                      keyIndex: keyIndex,
                                      signature: signature)
             )
-
             envelopeSignatures = envelopeSignatures.sorted(by: <)
             return self
         }
