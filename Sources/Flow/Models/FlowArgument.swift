@@ -10,8 +10,8 @@ import Foundation
 
 extension Flow {
     public struct Argument: Codable, Equatable {
-        let type: Cadence.FType
-        let value: Flow.Cadence.FValue
+        public let type: Cadence.FType
+        public let value: Flow.Cadence.FValue
 
         enum CodingKeys: String, CodingKey {
             case type
@@ -213,27 +213,27 @@ extension Flow {
 
 extension Flow.Argument {
     public struct Path: Codable, Equatable {
-        let domain: String
-        let identifier: String
+        public let domain: String
+        public let identifier: String
     }
 
     public struct Event: Codable, Equatable {
-        let id: String
-        let fields: [EventName]
+        public let id: String
+        public let fields: [EventName]
     }
 
     public struct EventName: Codable, Equatable {
-        let name: String
-        let value: Flow.Argument
+        public let name: String
+        public let value: Flow.Argument
     }
 
     public struct Reference: Codable, Equatable {
-        let address: String
-        let type: String
+        public let address: String
+        public let type: String
     }
 
     public struct Dictionary: Codable, Equatable {
-        let key: Flow.Argument
-        let value: Flow.Argument
+        public let key: Flow.Argument
+        public let value: Flow.Argument
     }
 }

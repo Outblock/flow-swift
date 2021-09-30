@@ -8,10 +8,10 @@
 import Foundation
 
 extension Flow {
-    struct BlockHeader {
-        let id: ID
-        let parentId: ID
-        let height: UInt64
+    public struct BlockHeader {
+        public let id: ID
+        public let parentId: ID
+        public let height: UInt64
 
         init(value: Flow_Entities_Block) {
             id = ID(bytes: value.id.bytes)
@@ -26,11 +26,11 @@ extension Flow {
         }
     }
 
-    struct BlockSeal {
-        let id: ID
-        let executionReceiptId: ID
-        let executionReceiptSignatures: [Signature]
-        let resultApprovalSignatures: [Signature]
+    public struct BlockSeal {
+        public let id: ID
+        public let executionReceiptId: ID
+        public let executionReceiptSignatures: [Signature]
+        public let resultApprovalSignatures: [Signature]
 
         init(value: Flow_Entities_BlockSeal) {
             id = ID(bytes: value.blockID.bytes)
@@ -40,14 +40,14 @@ extension Flow {
         }
     }
 
-    struct Block {
-        let id: ID
-        let parentId: ID
-        let height: UInt64
-        let timestamp: Date
-        var collectionGuarantees: [CollectionGuarantee]
-        var blockSeals: [BlockSeal]
-        var signatures: [Signature]
+    public struct Block {
+        public let id: ID
+        public let parentId: ID
+        public let height: UInt64
+        public let timestamp: Date
+        public var collectionGuarantees: [CollectionGuarantee]
+        public var blockSeals: [BlockSeal]
+        public var signatures: [Signature]
 
         init(value: Flow_Entities_Block) {
             id = ID(bytes: value.id.bytes)

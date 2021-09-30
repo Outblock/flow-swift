@@ -18,7 +18,7 @@ extension Flow {
 
         public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .canarynet, .emulator]
 
-        var name: String {
+        public var name: String {
             switch self {
             case .mainnet:
                 return "flow-mainnet"
@@ -35,34 +35,39 @@ extension Flow {
             }
         }
 
-        init(name: String) {
+        public init(name: String) {
             self = ChainID.allCases.first { $0.name == name } ?? .unknown
         }
 
-        public struct Endpoint: Hashable {
-            let gRPCNode: String
-            let port: Int
+        public struct Endpoint: Hashable, Equatable {
+            public let node: String
+            public let port: Int
+
+            public init(node: String, port: Int) {
+                self.node = node
+                self.port = port
+            }
         }
 
-        var defaultNode: Endpoint? {
+        public var defaultNode: Endpoint {
             switch self {
             case .mainnet:
-                return Endpoint(gRPCNode: "access.mainnet.nodes.onflow.org", port: 9000)
+                return Endpoint(node: "access.mainnet.nodes.onflow.org", port: 9000)
             case .testnet:
-                return Endpoint(gRPCNode: "access.devnet.nodes.onflow.org", port: 9000)
+                return Endpoint(node: "access.devnet.nodes.onflow.org", port: 9000)
             case .canarynet:
-                return Endpoint(gRPCNode: "access.canary.nodes.onflow.org", port: 9000)
+                return Endpoint(node: "access.canary.nodes.onflow.org", port: 9000)
             case .emulator:
-                return Endpoint(gRPCNode: "127.0.0.1", port: 9000)
+                return Endpoint(node: "127.0.0.1", port: 9000)
+            case let .custom(_, endpoint):
+                return endpoint
             default:
-                return nil
+                return Endpoint(node: "access.mainnet.nodes.onflow.org", port: 9000)
             }
         }
 
         public static func == (lhs: Flow.ChainID, rhs: Flow.ChainID) -> Bool {
-            return lhs.name == rhs.name &&
-                lhs.defaultNode?.gRPCNode == rhs.defaultNode?.gRPCNode &&
-                lhs.defaultNode?.port == rhs.defaultNode?.port
+            return lhs.name == rhs.name && lhs.defaultNode == rhs.defaultNode
         }
     }
 }

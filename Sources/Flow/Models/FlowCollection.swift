@@ -8,7 +8,7 @@
 import Foundation
 
 extension Flow {
-    struct Collection {
+    public struct Collection {
         let id: ID
         let transactionIds: [ID]
 
@@ -18,7 +18,7 @@ extension Flow {
         }
     }
 
-    struct CollectionGuarantee {
+    public struct CollectionGuarantee {
         let id: ID
         let signatures: [Signature]
 

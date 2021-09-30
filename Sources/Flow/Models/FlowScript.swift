@@ -24,8 +24,8 @@ extension Flow {
         }
     }
 
-    struct ScriptResponse: FlowEntity, Equatable {
-        var data: Data
+    public struct ScriptResponse: FlowEntity, Equatable {
+        public var data: Data
         var fields: Argument?
 
         init(data: Data) {

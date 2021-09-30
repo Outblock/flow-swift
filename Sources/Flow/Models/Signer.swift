@@ -8,8 +8,8 @@
 import Foundation
 
 extension Flow {
-    struct PublicKey: FlowEntity, Equatable {
-        var data: Data
+    public struct PublicKey: FlowEntity, Equatable {
+        public var data: Data
 
         init(hex: String) {
             data = hex.hexValue.data
@@ -24,7 +24,7 @@ extension Flow {
         }
     }
 
-    struct Code: FlowEntity, Equatable {
-        var data: Data
+    public struct Code: FlowEntity, Equatable {
+        public var data: Data
     }
 }

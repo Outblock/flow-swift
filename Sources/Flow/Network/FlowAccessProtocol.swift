@@ -8,7 +8,7 @@
 import Foundation
 import NIO
 
-protocol FlowAccessProtocol {
+public protocol FlowAccessProtocol {
     func ping() -> EventLoopFuture<Bool>
 
     func getLatestBlockHeader() -> EventLoopFuture<Flow.BlockHeader>
@@ -37,9 +37,9 @@ protocol FlowAccessProtocol {
 
     func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument]) -> EventLoopFuture<Flow.ScriptResponse>
 
-    func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: Flow.Argument...) -> EventLoopFuture<Flow.ScriptResponse>
+    func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Argument]) -> EventLoopFuture<Flow.ScriptResponse>
 
-    func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: Flow.Argument...) -> EventLoopFuture<Flow.ScriptResponse>
+    func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument]) -> EventLoopFuture<Flow.ScriptResponse>
 
     func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) -> EventLoopFuture<[Flow.EventResult]>
 

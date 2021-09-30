@@ -8,12 +8,12 @@
 import Foundation
 
 extension Flow {
-    struct Event {
-        let type: String
-        let transactionId: ID
-        let transactionIndex: Int
-        let eventIndex: Int
-        let payload: EventPayload
+    public struct Event {
+        public let type: String
+        public let transactionId: ID
+        public let transactionIndex: Int
+        public let eventIndex: Int
+        public let payload: EventPayload
 
         init(value: Flow_Entities_Event) {
             type = value.type
@@ -24,11 +24,11 @@ extension Flow {
         }
     }
 
-    struct EventResult {
-        let blockId: ID
-        let blockHeight: UInt64
-        let blockTimestamp: Date
-        var events: [Event]
+    public struct EventResult {
+        public let blockId: ID
+        public let blockHeight: UInt64
+        public let blockTimestamp: Date
+        public var events: [Event]
 
         init(value: Flow_Access_EventsResponse.Result) {
             blockId = ID(data: value.blockID)
@@ -38,13 +38,13 @@ extension Flow {
         }
     }
 
-    struct Snapshot: FlowEntity, Equatable {
-        var data: Data
+    public struct Snapshot: FlowEntity, Equatable {
+        public var data: Data
     }
 
-    struct EventPayload: FlowEntity {
-        var data: Data
-        var fields: Flow.Argument?
+    public struct EventPayload: FlowEntity {
+        public var data: Data
+        public var fields: Flow.Argument?
 
         init(data: Data) {
             self.data = data

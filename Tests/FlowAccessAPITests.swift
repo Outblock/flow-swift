@@ -4,7 +4,7 @@ import CryptoKit
 import XCTest
 
 final class FlowAccessAPITests: XCTestCase {
-    var flowAPI: FlowAccessAPI!
+    var flowAPI: Flow.AccessAPI!
     var testAddress = "7907881e2e2cdfb7"
     var mainnetAddress = "0x4eb165aa383fd6f9"
 
@@ -22,7 +22,7 @@ final class FlowAccessAPITests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        flowAPI = flow.newAccessApi(chainID: .mainnet)
+        flowAPI = flow.createAccessAPI(chainID: .mainnet)
     }
 
     func testFlowPing() throws {
@@ -113,7 +113,7 @@ final class FlowAccessAPITests: XCTestCase {
                                          hashAlgo: .SHA2_256,
                                          weight: 1000)
 
-        let txId = try! flow.sendTransaction(ChainID: .testnet, signers: signer) {
+        let txId = try! flow.sendTransaction(chainID: .testnet, signers: signer) {
             cadence {
                 """
                     transaction(publicKey: String) {
@@ -179,7 +179,6 @@ final class FlowAccessAPITests: XCTestCase {
 
     func testMultipleSigner() throws {
         // Example in Testnet
-        flow.defaultChainID = .testnet
         let signers = [
             // Address A
             ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500

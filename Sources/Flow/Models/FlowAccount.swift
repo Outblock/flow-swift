@@ -9,11 +9,11 @@ import BigInt
 import Foundation
 
 extension Flow {
-    struct Account {
-        let address: Address
-        let balance: BigInt
-        var keys: [AccountKey]
-        var contracts: [String: Code]
+    public struct Account {
+        public let address: Address
+        public let balance: BigInt
+        public var keys: [AccountKey]
+        public var contracts: [String: Code]
 
         init(value: Flow_Entities_Account) {
             address = Address(bytes: value.address.bytes)
@@ -23,14 +23,14 @@ extension Flow {
         }
     }
 
-    struct AccountKey {
-        var id: Int = -1
-        let publicKey: PublicKey
-        let signAlgo: SignatureAlgorithm
-        let hashAlgo: HashAlgorithm
-        let weight: Int
-        var sequenceNumber: Int = -1
-        var revoked: Bool = false
+    public struct AccountKey {
+        public var id: Int = -1
+        public let publicKey: PublicKey
+        public let signAlgo: SignatureAlgorithm
+        public let hashAlgo: HashAlgorithm
+        public let weight: Int
+        public var sequenceNumber: Int = -1
+        public var revoked: Bool = false
 
         init(value: Flow_Entities_AccountKey) {
             id = Int(value.index)
@@ -42,13 +42,13 @@ extension Flow {
             revoked = value.revoked
         }
 
-        init(id: Int = -1,
-             publicKey: Flow.PublicKey,
-             signAlgo: SignatureAlgorithm,
-             hashAlgo: HashAlgorithm,
-             weight: Int,
-             sequenceNumber: Int = -1,
-             revoked: Bool = false) {
+        public init(id: Int = -1,
+                    publicKey: Flow.PublicKey,
+                    signAlgo: SignatureAlgorithm,
+                    hashAlgo: HashAlgorithm,
+                    weight: Int,
+                    sequenceNumber: Int = -1,
+                    revoked: Bool = false) {
             self.id = id
             self.publicKey = publicKey
             self.signAlgo = signAlgo
@@ -58,7 +58,7 @@ extension Flow {
             self.revoked = revoked
         }
 
-        var encoded: Data? {
+        public var encoded: Data? {
             let encodeList = [publicKey.bytes.data, signAlgo.code, hashAlgo.code, weight] as [Any]
             return RLP.encode(encodeList)
         }
