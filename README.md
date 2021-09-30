@@ -106,7 +106,7 @@ let tx = try? flow.buildTransaction {
 To send a transaction to the chain, you need attach signers in here, which need to confirm **FlowSigner** protocol
 
 ```swift
-let txId = try! flow.sendTransactionWithWait(signers: signers) {
+let txId = try! flow.sendTransaction(signers: signers) {
     cadence {
         """
             transaction {
@@ -124,11 +124,11 @@ let txId = try! flow.sendTransactionWithWait(signers: signers) {
     }
 
     payer {
-        self.addressB
+        addressB
     }
 
     authorizers {
-        [self.addressC, self.addressB, self.addressA]
+        [addressC, addressB, addressA]
     }
-}
+}.wait()
 ```
