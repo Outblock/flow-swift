@@ -52,110 +52,110 @@ extension Flow {
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = Int(unwarpRawValue) else { value = .error; return }
-                value = .int(value: realValue)
+                value = .int(realValue)
             case .uint:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = UInt(unwarpRawValue) else { value = .error; return }
-                value = .uint(value: realValue)
+                value = .uint(realValue)
             case .int8:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = Int8(unwarpRawValue) else { value = .error; return }
-                value = .int8(value: realValue)
+                value = .int8(realValue)
             case .uint8:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = UInt8(unwarpRawValue) else { value = .error; return }
-                value = .uint8(value: realValue)
+                value = .uint8(realValue)
             case .int16:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = Int16(unwarpRawValue) else { value = .error; return }
-                value = .int16(value: realValue)
+                value = .int16(realValue)
             case .uint16:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = UInt16(unwarpRawValue) else { value = .error; return }
-                value = .uint16(value: realValue)
+                value = .uint16(realValue)
             case .int32:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = Int32(unwarpRawValue) else { value = .error; return }
-                value = .int32(value: realValue)
+                value = .int32(realValue)
             case .uint32:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = UInt32(unwarpRawValue) else { value = .error; return }
-                value = .uint32(value: realValue)
+                value = .uint32(realValue)
             case .int64:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = Int64(unwarpRawValue) else { value = .error; return }
-                value = .int64(value: realValue)
+                value = .int64(realValue)
             case .uint64:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = UInt64(unwarpRawValue) else { value = .error; return }
-                value = .uint64(value: realValue)
+                value = .uint64(realValue)
             case .int128:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = BigInt(unwarpRawValue) else { value = .error; return }
-                value = .int128(value: realValue)
+                value = .int128(realValue)
             case .uint128:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = BigUInt(unwarpRawValue) else { value = .error; return }
-                value = .uint128(value: realValue)
+                value = .uint128(realValue)
             case .int256:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = BigInt(unwarpRawValue) else { value = .error; return }
-                value = .int256(value: realValue)
+                value = .int256(realValue)
             case .uint256:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = BigUInt(unwarpRawValue) else { value = .error; return }
-                value = .uint256(value: realValue)
+                value = .uint256(realValue)
             case .word8:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = UInt8(unwarpRawValue) else { value = .error; return }
-                value = .word8(value: realValue)
+                value = .word8(realValue)
             case .word16:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = UInt16(unwarpRawValue) else { value = .error; return }
-                value = .word16(value: realValue)
+                value = .word16(realValue)
             case .word32:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = UInt32(unwarpRawValue) else { value = .error; return }
-                value = .word32(value: realValue)
+                value = .word32(realValue)
             case .word64:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = UInt64(unwarpRawValue) else { value = .error; return }
-                value = .word64(value: realValue)
+                value = .word64(realValue)
             case .fix64:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = Double(unwarpRawValue) else { value = .error; return }
-                value = .fix64(value: realValue)
+                value = .fix64(realValue)
             case .ufix64:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 guard let realValue = Double(unwarpRawValue) else { value = .error; return }
-                value = .ufix64(value: realValue)
+                value = .ufix64(realValue)
             case .string:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .string(value: unwarpRawValue)
+                value = .string(unwarpRawValue)
             case .bool:
                 let rawValue = try? container.decode(Bool.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .bool(value: unwarpRawValue)
+                value = .bool(unwarpRawValue)
             case .optional:
                 let rawValue = try? container.decode(Argument.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
@@ -163,39 +163,39 @@ extension Flow {
             case .address:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .address(value: Flow.Address(hex: unwarpRawValue))
+                value = .address(Flow.Address(hex: unwarpRawValue))
             case .path:
                 let rawValue = try? container.decode(Path.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .path(value: unwarpRawValue)
+                value = .path(unwarpRawValue)
             case .event:
                 let rawValue = try? container.decode(Event.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .event(value: unwarpRawValue)
+                value = .event(unwarpRawValue)
             case .array:
                 let rawValue = try? container.decode([Flow.Argument].self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .array(value: unwarpRawValue)
+                value = .array(unwarpRawValue)
             case .character:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .character(value: unwarpRawValue)
+                value = .character(unwarpRawValue)
             case .reference:
                 let rawValue = try? container.decode(Reference.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .reference(value: unwarpRawValue)
+                value = .reference(unwarpRawValue)
             case .struct:
                 let rawValue = try? container.decode(Event.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .struct(value: unwarpRawValue)
+                value = .struct(unwarpRawValue)
             case .resource:
                 let rawValue = try? container.decode(Event.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .resource(value: unwarpRawValue)
+                value = .resource(unwarpRawValue)
             case .dictionary:
                 let rawValue = try? container.decode([Flow.Argument.Dictionary].self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .dictionary(value: unwarpRawValue)
+                value = .dictionary(unwarpRawValue)
             case .void:
                 value = .void
             case .undefined:

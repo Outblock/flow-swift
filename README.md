@@ -91,7 +91,7 @@ let tx = try? flow.buildTransaction {
     }
 
     arguments {
-        .init(value: .string(value: <PublicKey>))
+        .init(value: .string(<PublicKey>))
     }
 
     // optional

@@ -134,7 +134,7 @@ final class FlowAccessAPITests: XCTestCase {
             }
 
             arguments {
-                .init(value: .string(value: accountKey.encoded!.hexValue))
+                .init(value: .string(accountKey.encoded!.hexValue))
             }
 
             // optional
@@ -157,7 +157,7 @@ final class FlowAccessAPITests: XCTestCase {
         let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
         let transaction = try flowAPI.getTransactionById(id: id).wait()
         XCTAssertEqual(transaction?.arguments.first?.type, .path)
-        XCTAssertEqual(transaction?.arguments.first?.value, .path(value: .init(domain: "public", identifier: "zelosAccountingTokenReceiver")))
+        XCTAssertEqual(transaction?.arguments.first?.value, .path(.init(domain: "public", identifier: "zelosAccountingTokenReceiver")))
         XCTAssertEqual(transaction?.arguments.last?.type, .ufix64)
         XCTAssertEqual(transaction?.arguments.last?.value.toUFix64(), 99.0)
         XCTAssertEqual(transaction?.payerAddress.bytes.hexValue, "1f56a1e665826a52")
@@ -171,9 +171,9 @@ final class FlowAccessAPITests: XCTestCase {
         XCTAssertEqual(result.events.first?.type, "A.c38aea683c0c4d38.Eternal.Withdraw")
         XCTAssertEqual(result.events.first?.payload.fields?.type, .event)
         XCTAssertEqual(result.events.first?.payload.fields?.value,
-                       .event(value: .init(id: "A.c38aea683c0c4d38.Eternal.Withdraw",
-                                           fields: [.init(name: "id", value: .init(value: .uint64(value: 11800))),
-                                                    .init(name: "from", value: .init(value: .optional(value: .init(value: .address(value: .init(hex: "0x873becfb539f038d"))))))])))
+                       .event(.init(id: "A.c38aea683c0c4d38.Eternal.Withdraw",
+                                    fields: [.init(name: "id", value: .init(value: .uint64(11800))),
+                                             .init(name: "from", value: .init(value: .optional(value: .init(value: .address(.init(hex: "0x873becfb539f038d"))))))])))
         XCTAssertNotNil(result)
     }
 
