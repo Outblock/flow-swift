@@ -106,7 +106,13 @@ let tx = try? flow.buildTransaction {
 To send a transaction to the chain, you need attach signers in here, which need to confirm **FlowSigner** protocol
 
 ```swift
-let txId = try! flow.sendTransaction(signers: signers) {
+public protocol FlowSigner {
+    var address: Flow.Address { get set }
+    var keyIndex: Int { get set }
+    func signature(signableData: Data) throws -> Data
+}
+
+let txId = try! flow.sendTransaction(signers: flowSigners) {
     cadence {
         """
             transaction {
