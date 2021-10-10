@@ -34,7 +34,7 @@ extension Flow {
 
         init(value: Flow_Entities_Transaction) {
             script = Script(bytes: value.script.bytes)
-            arguments = value.arguments.compactMap { try! JSONDecoder().decode(Argument.self, from: $0) }
+            arguments = value.arguments.compactMap { try? JSONDecoder().decode(Argument.self, from: $0) }
             referenceBlockId = ID(bytes: value.referenceBlockID.bytes)
             gasLimit = BigUInt(value.gasLimit)
             proposalKey = TransactionProposalKey(value: value.proposalKey)
@@ -47,7 +47,7 @@ extension Flow {
         func toFlowEntity() -> Flow_Entities_Transaction {
             var transaction = Flow_Entities_Transaction()
             transaction.script = script.bytes.data
-            transaction.arguments = arguments.compactMap { try! JSONEncoder().encode($0) }
+            transaction.arguments = arguments.compactMap { try? JSONEncoder().encode($0) }
             transaction.referenceBlockID = referenceBlockId.bytes.data
             transaction.gasLimit = UInt64(gasLimit)
             transaction.proposalKey = proposalKey.toFlowEntity()
@@ -268,7 +268,7 @@ extension Flow {
         public var keyIndex: Int
         public var sequenceNumber: BigUInt
 
-        init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: BigUInt = 1) {
+        public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: BigUInt = 1) {
             self.address = address
             self.keyIndex = keyIndex
             self.sequenceNumber = sequenceNumber

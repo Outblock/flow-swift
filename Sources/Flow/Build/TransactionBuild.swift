@@ -58,6 +58,18 @@ public func gasLimit(text: () -> BigUInt) -> Flow.TransactionBuild {
     return Flow.TransactionBuild.gasLimit(text())
 }
 
+public func gasLimit(text: () -> Int) -> Flow.TransactionBuild {
+    return Flow.TransactionBuild.gasLimit(BigUInt(text()))
+}
+
+public func refBlock(text: () -> String) -> Flow.TransactionBuild {
+    return Flow.TransactionBuild.refBlock(Flow.ID(hex: text()))
+}
+
+public func refBlock(text: () -> Flow.ID) -> Flow.TransactionBuild {
+    return Flow.TransactionBuild.refBlock(text())
+}
+
 extension Flow {
     public enum TransactionBuild {
         case script(Flow.Script)
@@ -66,6 +78,7 @@ extension Flow {
         case authorizers([Flow.Address])
         case proposer(Flow.TransactionProposalKey)
         case gasLimit(BigUInt)
+        case refBlock(Flow.ID)
     }
 
     @resultBuilder
@@ -91,6 +104,7 @@ extension Flow {
         var payerAddress: Flow.Address?
         var proposer: Flow.TransactionProposalKey?
         var gasLimit = BigUInt(100)
+        var refBlock: Flow.ID?
 
         builder().forEach { txValue in
             switch txValue {
@@ -106,6 +120,8 @@ extension Flow {
                 proposer = value
             case let .gasLimit(value):
                 gasLimit = value
+            case let .refBlock(value):
+                refBlock = value
             }
         }
 
@@ -114,7 +130,12 @@ extension Flow {
         }
 
         let api = Flow.shared.createAccessAPI(chainID: chainID)
-        guard let block = try? api.getLatestBlock(sealed: true).wait(),
+
+        if refBlock == nil, let block = try? api.getLatestBlock(sealed: true).wait() {
+            refBlock = block.id
+        }
+
+        guard let blockID = refBlock,
             let proposerAccount = try? api.getAccountAtLatestBlock(address: proposalKey.address).wait(),
             let accountKey = proposerAccount.keys[safe: proposalKey.keyIndex] else {
             throw Flow.FError.preparingTransactionFailed
@@ -125,7 +146,7 @@ extension Flow {
 
         return Flow.Transaction(script: script,
                                 arguments: agrument,
-                                referenceBlockId: block.id,
+                                referenceBlockId: blockID,
                                 gasLimit: gasLimit,
                                 proposalKey: proposalKey,
                                 // If payer is empty, then use propser as payer

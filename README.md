@@ -112,7 +112,7 @@ public protocol FlowSigner {
     func signature(signableData: Data) throws -> Data
 }
 
-let txId = try! flow.sendTransaction(signers: flowSigners) {
+let txId = try? flow.sendTransaction(signers: flowSigners) {
     cadence {
         """
             transaction {
