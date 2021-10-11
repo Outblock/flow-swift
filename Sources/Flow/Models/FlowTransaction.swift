@@ -20,7 +20,15 @@ extension Flow {
         public var payloadSignatures: [TransactionSignature] = []
         public var envelopeSignatures: [TransactionSignature] = []
 
-        init(script: Flow.Script, arguments: [Flow.Argument], referenceBlockId: Flow.ID, gasLimit: BigUInt, proposalKey: Flow.TransactionProposalKey, payerAddress: Flow.Address, authorizers: [Flow.Address], payloadSignatures: [Flow.TransactionSignature] = [], envelopeSignatures: [Flow.TransactionSignature] = []) {
+        public init(script: Flow.Script,
+                    arguments: [Flow.Argument],
+                    referenceBlockId: Flow.ID,
+                    gasLimit: BigUInt,
+                    proposalKey: Flow.TransactionProposalKey,
+                    payerAddress: Flow.Address,
+                    authorizers: [Flow.Address],
+                    payloadSignatures: [Flow.TransactionSignature] = [],
+                    envelopeSignatures: [Flow.TransactionSignature] = []) {
             self.script = script
             self.arguments = arguments
             self.referenceBlockId = referenceBlockId
@@ -58,15 +66,15 @@ extension Flow {
             return transaction
         }
 
-        func buildUpOn(script: Flow.Script? = nil,
-                       arguments: [Flow.Argument]? = nil,
-                       referenceBlockId: Flow.ID? = nil,
-                       gasLimit: BigUInt? = nil,
-                       proposalKey: Flow.TransactionProposalKey? = nil,
-                       payerAddress: Flow.Address? = nil,
-                       authorizers: [Flow.Address]? = nil,
-                       payloadSignatures: [Flow.TransactionSignature]? = nil,
-                       envelopeSignatures: [Flow.TransactionSignature]? = nil) -> Transaction {
+        public func buildUpOn(script: Flow.Script? = nil,
+                              arguments: [Flow.Argument]? = nil,
+                              referenceBlockId: Flow.ID? = nil,
+                              gasLimit: BigUInt? = nil,
+                              proposalKey: Flow.TransactionProposalKey? = nil,
+                              payerAddress: Flow.Address? = nil,
+                              authorizers: [Flow.Address]? = nil,
+                              payloadSignatures: [Flow.TransactionSignature]? = nil,
+                              envelopeSignatures: [Flow.TransactionSignature]? = nil) -> Transaction {
             return Transaction(script: script ?? self.script,
                                arguments: arguments ?? self.arguments,
                                referenceBlockId: referenceBlockId ?? self.referenceBlockId,
