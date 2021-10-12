@@ -215,25 +215,50 @@ extension Flow.Argument {
     public struct Path: Codable, Equatable {
         public let domain: String
         public let identifier: String
+
+        public init(domain: String, identifier: String) {
+            self.domain = domain
+            self.identifier = identifier
+        }
     }
 
     public struct Event: Codable, Equatable {
         public let id: String
         public let fields: [EventName]
+
+        public init(id: String, fields: [Flow.Argument.EventName]) {
+            self.id = id
+            self.fields = fields
+        }
     }
 
     public struct EventName: Codable, Equatable {
         public let name: String
         public let value: Flow.Argument
+
+        public init(name: String, value: Flow.Argument) {
+            self.name = name
+            self.value = value
+        }
     }
 
     public struct Reference: Codable, Equatable {
         public let address: String
         public let type: String
+
+        public init(address: String, type: String) {
+            self.address = address
+            self.type = type
+        }
     }
 
     public struct Dictionary: Codable, Equatable {
         public let key: Flow.Argument
         public let value: Flow.Argument
+
+        public init(key: Flow.Argument, value: Flow.Argument) {
+            self.key = key
+            self.value = value
+        }
     }
 }

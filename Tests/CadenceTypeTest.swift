@@ -3,6 +3,8 @@
 import XCTest
 
 final class CadenceTypeTests: XCTestCase {
+    var flowAPI: Flow.AccessAPI!
+
     func testIntType() throws {
         let jsonString = """
         {

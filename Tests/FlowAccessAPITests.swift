@@ -1,4 +1,5 @@
 @testable import BigInt
+import Combine
 import CryptoKit
 @testable import Flow
 import XCTest

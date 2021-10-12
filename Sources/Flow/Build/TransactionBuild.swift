@@ -17,6 +17,10 @@ public func cadence(text: () -> Flow.Script) -> Flow.TransactionBuild {
     return Flow.TransactionBuild.script(text())
 }
 
+public func arguments(text: () -> [Flow.Cadence.FValue]) -> Flow.TransactionBuild {
+    return Flow.TransactionBuild.argument(text().compactMap { Flow.Argument(value: $0) })
+}
+
 public func arguments(text: () -> [Flow.Argument]) -> Flow.TransactionBuild {
     return Flow.TransactionBuild.argument(text())
 }
@@ -107,7 +111,7 @@ extension Flow {
         var authorizers: [Flow.Address] = []
         var payerAddress: Flow.Address?
         var proposer: Flow.TransactionProposalKey?
-        var gasLimit = BigUInt(10)
+        var gasLimit = BigUInt(100)
         var refBlock: Flow.ID?
 
         builder().forEach { txValue in
