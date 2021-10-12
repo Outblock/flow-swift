@@ -18,7 +18,7 @@ Currently the following Flow Features have been implemented:
 This is a Swift Package, and can be installed via Xcode with the URL of this repository:
 
 ```swift
-.package(name: "Flow", url: "https://github.com/zed-io/flow-swift.git", from: "0.0.6-beta")
+.package(name: "Flow", url: "https://github.com/zed-io/flow-swift.git", from: "0.0.7-beta")
 ```
 
 ## Config
@@ -138,3 +138,15 @@ let txId = try? flow.sendTransaction(signers: flowSigners) {
     }
 }.wait()
 ```
+
+## Common operation
+
+Here is a list of common functions in the flow SDK.
+You can all the example usage [here](./Tests/FlowOperationTest.swift)
+
+- [x] addKeyToAccount
+- [x] addContractToAccount
+- [x] createAccount
+- [x] removeAccountKeyByIndex
+- [x] removeContractFromAccount
+- [x] updateContractOfAccount
