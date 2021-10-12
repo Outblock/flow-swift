@@ -62,8 +62,11 @@ public func gasLimit(text: () -> Int) -> Flow.TransactionBuild {
     return Flow.TransactionBuild.gasLimit(BigUInt(text()))
 }
 
-public func refBlock(text: () -> String) -> Flow.TransactionBuild {
-    return Flow.TransactionBuild.refBlock(Flow.ID(hex: text()))
+public func refBlock(text: () -> String?) -> Flow.TransactionBuild {
+    guard let blockId = text() else {
+        return Flow.TransactionBuild.refBlock(nil)
+    }
+    return Flow.TransactionBuild.refBlock(Flow.ID(hex: blockId))
 }
 
 public func refBlock(text: () -> Flow.ID) -> Flow.TransactionBuild {
@@ -78,7 +81,7 @@ extension Flow {
         case authorizers([Flow.Address])
         case proposer(Flow.TransactionProposalKey)
         case gasLimit(BigUInt)
-        case refBlock(Flow.ID)
+        case refBlock(Flow.ID?)
     }
 
     @resultBuilder
@@ -97,13 +100,14 @@ extension Flow {
 
 extension Flow {
     public func buildTransaction(chainID: Flow.ChainID = flow.defaultChainID,
+                                 fetchSequenceNumber: Bool = true,
                                  @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.Transaction {
         var script: Flow.Script = .init(data: Data())
         var agrument: [Flow.Argument] = []
         var authorizers: [Flow.Address] = []
         var payerAddress: Flow.Address?
         var proposer: Flow.TransactionProposalKey?
-        var gasLimit = BigUInt(100)
+        var gasLimit = BigUInt(10)
         var refBlock: Flow.ID?
 
         builder().forEach { txValue in
@@ -135,14 +139,19 @@ extension Flow {
             refBlock = block.id
         }
 
-        guard let blockID = refBlock,
-            let proposerAccount = try? api.getAccountAtLatestBlock(address: proposalKey.address).wait(),
-            let accountKey = proposerAccount.keys[safe: proposalKey.keyIndex] else {
+        guard let blockID = refBlock else {
             throw Flow.FError.preparingTransactionFailed
         }
 
-        proposalKey.keyIndex = accountKey.id
-        proposalKey.sequenceNumber = BigUInt(accountKey.sequenceNumber)
+        if fetchSequenceNumber {
+            guard let proposerAccount = try? api.getAccountAtLatestBlock(address: proposalKey.address).wait(),
+                let accountKey = proposerAccount.keys[safe: proposalKey.keyIndex] else {
+                throw Flow.FError.preparingTransactionFailed
+            }
+
+            proposalKey.keyIndex = accountKey.id
+            proposalKey.sequenceNumber = BigUInt(accountKey.sequenceNumber)
+        }
 
         return Flow.Transaction(script: script,
                                 arguments: agrument,

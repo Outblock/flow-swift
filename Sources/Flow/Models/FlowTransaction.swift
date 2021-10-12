@@ -90,10 +90,13 @@ extension Flow {
             return RLP.encode(payloadEnvelope.rlpList)
         }
 
+        public var envelopeMessage: String? {
+            guard let data = RLP.encode(payloadEnvelope.rlpList) else { return nil }
+            return data.hexValue
+        }
+
         public var signableEnvelope: Data? {
-            guard let data = RLP.encode(payloadEnvelope.rlpList) else {
-                return nil
-            }
+            guard let data = RLP.encode(payloadEnvelope.rlpList) else { return nil }
             return DomainTag.transaction.normalize + data
         }
 
@@ -101,10 +104,13 @@ extension Flow {
             return RLP.encode(payload.rlpList)
         }
 
+        public var payloadMessage: String? {
+            guard let data = RLP.encode(payload.rlpList) else { return nil }
+            return data.hexValue
+        }
+
         public var signablePlayload: Data? {
-            guard let data = RLP.encode(payload.rlpList) else {
-                return nil
-            }
+            guard let data = RLP.encode(payload.rlpList) else { return nil }
             return DomainTag.transaction.normalize + data
         }
 
@@ -147,7 +153,7 @@ extension Flow {
             return signer
         }
 
-        public mutating func addPayloadSignature(address: Address, keyIndex: Int, signature: Data) -> Self {
+        public mutating func addPayloadSignature(address: Address, keyIndex: Int, signature: Data) {
             payloadSignatures.append(
                 TransactionSignature(address: address,
                                      signerIndex: signers[address] ?? -1,
@@ -155,10 +161,9 @@ extension Flow {
                                      signature: signature)
             )
             payloadSignatures = payloadSignatures.sorted(by: <)
-            return self
         }
 
-        public mutating func addEnvelopeSignature(address: Address, keyIndex: Int, signature: Data) -> Self {
+        public mutating func addEnvelopeSignature(address: Address, keyIndex: Int, signature: Data) {
             envelopeSignatures.append(
                 TransactionSignature(address: address,
                                      signerIndex: signers[address] ?? -1,
@@ -166,7 +171,6 @@ extension Flow {
                                      signature: signature)
             )
             envelopeSignatures = envelopeSignatures.sorted(by: <)
-            return self
         }
 
         public func getSingerIndex(address: Flow.Address) -> Int? {

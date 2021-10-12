@@ -30,9 +30,9 @@ extension Flow.Transaction {
             }
             for signer in signers {
                 let signature = try! signer.signature(signableData: signablePlayload)
-                _ = addPayloadSignature(address: signer.address,
-                                        keyIndex: signer.keyIndex,
-                                        signature: signature)
+                addPayloadSignature(address: signer.address,
+                                    keyIndex: signer.keyIndex,
+                                    signature: signature)
             }
         }
 
@@ -51,9 +51,9 @@ extension Flow.Transaction {
 
             for signer in signers {
                 let signature = try! signer.signature(signableData: signablePlayload)
-                _ = addPayloadSignature(address: authorizer,
-                                        keyIndex: signer.keyIndex,
-                                        signature: signature)
+                addPayloadSignature(address: authorizer,
+                                    keyIndex: signer.keyIndex,
+                                    signature: signature)
             }
         }
 
@@ -68,9 +68,9 @@ extension Flow.Transaction {
 
         for signer in signers {
             let signature = try! signer.signature(signableData: signableEnvelope)
-            _ = addEnvelopeSignature(address: payerAddress,
-                                     keyIndex: signer.keyIndex,
-                                     signature: signature)
+            addEnvelopeSignature(address: payerAddress,
+                                 keyIndex: signer.keyIndex,
+                                 signature: signature)
         }
         return self
     }

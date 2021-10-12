@@ -11,11 +11,11 @@ extension Flow {
     public struct Script: FlowEntity, Equatable {
         public var data: Data
 
-        init(script: String) {
+        public init(script: String) {
             data = script.data(using: .utf8) ?? Data()
         }
 
-        init(data: Data) {
+        public init(data: Data) {
             self.data = data
         }
 
