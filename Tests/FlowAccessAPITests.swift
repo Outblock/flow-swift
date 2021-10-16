@@ -20,10 +20,16 @@ final class FlowAccessAPITests: XCTestCase {
     var addressC = Flow.Address(hex: "0xe242ccfb4b8ea3e2")
     let publicKeyC = try! P256.KeyAgreement.PublicKey(rawRepresentation: "adbf18dae6671e6b6a92edf00c79166faba6babf6ec19bd83eabf690f386a9b13c8e48da67973b9cf369f56e92ec25ede5359539f687041d27d0143afd14bca9".hexValue)
     let privateKeyC = try! P256.Signing.PrivateKey(rawRepresentation: "1eb79c40023143821983dc79b4e639789ea42452e904fda719f5677a1f144208".hexValue)
+    
+    let yuAddress = Flow.Address(hex: "0x8d8165b4a356126b")
+    let yuPublicKey = try! P256.KeyAgreement.PublicKey(rawRepresentation: "6a1c375d84e7d75728e39d2b60b51ab9e0d629d53c5b2863b84bf55393946be31173a4f77db8968c7012ad1c7baafa249096d31b5fa30d4002e4040e68575e59".hexValue)
+    let yuPrivateKey = try! P256.Signing.PrivateKey(rawRepresentation: "cf7e7f2cdc007532550e733b3f27877232e30498be927db649b0cfd1885b7e9c".hexValue)
+    
+    var watcher: TransactionStatusWatcher?
 
     override func setUp() {
         super.setUp()
-        flowAPI = flow.createAccessAPI(chainID: .mainnet)
+        flowAPI = flow.createAccessAPI(chainID: .testnet)
     }
 
     func testFlowPing() throws {
@@ -178,52 +184,123 @@ final class FlowAccessAPITests: XCTestCase {
         XCTAssertNotNil(result)
     }
 
-    func testMultipleSigner() throws {
+    func testMultipleSigner() {
+        let expectation = expectation(description: "testMultipleSigner")
+        
         // Example in Testnet
-        let signers = [
-            // Address A
-            ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
-            ECDSA_P256_Signer(address: addressA, keyIndex: 4, privateKey: privateKeyC), // weight: 500
-            // Address B
-            ECDSA_P256_Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA), // weight: 800
-            ECDSA_P256_Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC), // weight: 500
-            // Address C
-            ECDSA_P256_Signer(address: addressC, keyIndex: 3, privateKey: privateKeyB), // weight: 300
-            ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
-            ECDSA_P256_Signer(address: addressC, keyIndex: 4, privateKey: privateKeyA), // weight: 300
-        ]
-        let txId = try! flow.sendTransactionWithWait(signers: signers) {
+        let signers = [ECDSA_P256_Signer(address: yuAddress, keyIndex: 0, privateKey: yuPrivateKey)]
+//        let signers = [
+//            // Address A
+//            ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
+//            ECDSA_P256_Signer(address: addressA, keyIndex: 4, privateKey: privateKeyC), // weight: 500
+//            // Address B
+//            ECDSA_P256_Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA), // weight: 800
+//            ECDSA_P256_Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC), // weight: 500
+//            // Address C
+//            ECDSA_P256_Signer(address: addressC, keyIndex: 3, privateKey: privateKeyB), // weight: 300
+//            ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
+//            ECDSA_P256_Signer(address: addressC, keyIndex: 4, privateKey: privateKeyA), // weight: 300
+//        ]
+        let txId = try! flow.sendTransaction(chainID: .testnet, signers: signers) {
             cadence {
                 """
                     transaction {
-                        prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
+                        prepare(signer1: AuthAccount) {
                           log(signer1.address)
-                          log(signer2.address)
-                          log(signer3.address)
                       }
                     }
                 """
             }
 
             proposer {
-                .init(address: addressA, keyIndex: 4)
+                .init(address: yuAddress, keyIndex: 0)
             }
 
             payer {
-                self.addressB
+                self.yuAddress
             }
 
             authorizers {
-                [self.addressC, self.addressB, self.addressA]
+                [self.yuAddress]
+//                [self.addressC, self.addressB, self.addressA]
             }
         }
-        XCTAssertNotNil(txId)
-        print("txid --> \(txId.hex)")
+        
+        txId.whenSuccessBlocking(onto: .main) { fid in
+            print("transaction send success")
+            
+            self.watcher = TransactionStatusWatcher(api: self.flowAPI, fid: fid, status: .sealed)
+            self.watcher?.onSuccess = { status in
+                XCTAssert(true)
+                expectation.fulfill()
+            }
+            self.watcher?.onFailure = { err in
+                XCTAssert(false)
+            }
+            
+            self.watcher?.start()
+        }
+        
+        txId.whenFailureBlocking(onto: .main) { err in
+            print("transaction send failed")
+            XCTAssert(false)
+        }
+        
+        do {
+            let _ = try txId.wait()
+        } catch {
+            
+        }
+        
+        print("before wait")
+        wait(for: [expectation], timeout: 20)
+    }
+}
 
-//        let txId = Flow.ID(hex: "a8bdb8998cda625a0b4e713d0dbac733e480c5d1b898023bb0e49828aac5767b")
-//        let result = try txId.onceSealed().wait()
-//        let exp = expectation(description: "Test after 10 seconds")
-//        _ = XCTWaiter.wait(for: [exp], timeout: 10.0)
-//        print(result)
+typealias WatcherSuccessBlock = (Flow.Transaction.Status) -> Void
+typealias WatcherFailureBlock = (Error) -> Void
+
+class TransactionStatusWatcher {
+    let api: Flow.AccessAPI
+    let fid: Flow.ID
+    let watchStatus: Flow.Transaction.Status
+    
+    var delay: TimeInterval = 1
+    
+    var onSuccess: WatcherSuccessBlock?
+    var onFailure: WatcherFailureBlock?
+    
+    init(api: Flow.AccessAPI = flow.accessAPI, fid: Flow.ID, status: Flow.Transaction.Status) {
+        self.api = api
+        self.fid = fid
+        self.watchStatus = status
+    }
+    
+    func start() {
+        let call = api.getTransactionResultById(id: fid)
+        call.whenSuccessBlocking(onto: .main) { tranResult in
+            print("onSuccess: \(tranResult.status)")
+            
+            if tranResult.status >= self.watchStatus {
+                // finished
+                self.onSuccess?(tranResult.status)
+                return
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + self.delay) {
+                self.start()
+            }
+        }
+        
+        call.whenFailureBlocking(onto: .main) { err in
+            print("onFailure: \(err)")
+            self.onFailure?(err)
+        }
+        
+        do {
+            let _ = try call.wait()
+        } catch {
+            onFailure?(error)
+        }
     }
 }
