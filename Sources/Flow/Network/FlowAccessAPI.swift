@@ -235,6 +235,46 @@ extension Flow {
 
             return promise.futureResult
         }
+        
+        public func onceResultStatus(id: Flow.ID, status: Flow.Transaction.Status, delay: TimeInterval = 2, timeout: TimeInterval = 20) -> EventLoopFuture<Flow.TransactionResult> {
+            let promise = clientChannel.eventLoop.makePromise(of: Flow.TransactionResult.self)
+            let timeoutDate = Date(timeIntervalSinceNow: timeout)
+            
+            print("will start check transaction result, \(id.hex)")
+            func makeResultCall() {
+                let now = Date()
+                if now > timeoutDate {
+                    // timeout
+                    promise.fail(FError.timeout)
+                    return
+                }
+                
+                let call = getTransactionResultById(id: id)
+                call.whenSuccessBlocking(onto: .main) { result in
+                    if result.status >= status {
+                        // finished
+                        promise.succeed(result)
+                        return
+                    }
+                    
+                    // continue loop
+                    DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
+                        makeResultCall()
+                    }
+                }
+                
+                call.whenFailureBlocking(onto: .main) { error in
+                    // error
+                    promise.fail(error)
+                }
+            }
+            
+            DispatchQueue.global().async {
+                makeResultCall()
+            }
+            
+            return promise.futureResult
+        }
 
         public func getAccountAtLatestBlock(address: Flow.Address) -> EventLoopFuture<Flow.Account?> {
             var request = Flow_Access_GetAccountAtLatestBlockRequest()
