@@ -21,6 +21,7 @@ extension Flow {
         case invaildEnvelope
         case missingSigner
         case preparingTransactionFailed
+        case timeout
     }
 }
 

@@ -193,12 +193,4 @@ extension Flow {
         call.whenSuccess { completion(Result.success($0)) }
         call.whenFailure { completion(Result.failure($0)) }
     }
-
-    public func sendTransactionWithWait(chainID: Flow.ChainID = flow.defaultChainID,
-                                        signers: [FlowSigner],
-                                        @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.ID {
-        return try flow.sendTransaction(chainID: chainID,
-                                        signers: signers,
-                                        builder: builder).wait()
-    }
 }

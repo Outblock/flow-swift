@@ -23,7 +23,7 @@ final class FlowAccessAPITests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        flowAPI = flow.createAccessAPI(chainID: .mainnet)
+        flowAPI = flow.createAccessAPI(chainID: .testnet)
     }
 
     func testFlowPing() throws {
@@ -178,7 +178,9 @@ final class FlowAccessAPITests: XCTestCase {
         XCTAssertNotNil(result)
     }
 
-    func testMultipleSigner() throws {
+    func testMultipleSigner() {
+        let expectation = expectation(description: "testMultipleSigner")
+        
         // Example in Testnet
         let signers = [
             // Address A
@@ -192,38 +194,49 @@ final class FlowAccessAPITests: XCTestCase {
             ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
             ECDSA_P256_Signer(address: addressC, keyIndex: 4, privateKey: privateKeyA), // weight: 300
         ]
-        let txId = try! flow.sendTransactionWithWait(signers: signers) {
-            cadence {
-                """
-                    transaction {
-                        prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
-                          log(signer1.address)
-                          log(signer2.address)
-                          log(signer3.address)
-                      }
-                    }
-                """
-            }
-
-            proposer {
-                .init(address: addressA, keyIndex: 4)
-            }
-
-            payer {
-                self.addressB
-            }
-
-            authorizers {
-                [self.addressC, self.addressB, self.addressA]
-            }
+        
+        do {
+            try flow.sendTransaction(chainID: .testnet, signers: signers) {
+                cadence {
+                    """
+                        transaction {
+                            prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
+                              log(signer1.address)
+                              log(signer2.address)
+                              log(signer3.address)
+                          }
+                        }
+                    """
+                }
+                
+                proposer {
+                    .init(address: addressA, keyIndex: 4)
+                }
+                
+                payer {
+                    self.addressB
+                }
+                
+                authorizers {
+                    [self.addressC, self.addressB, self.addressA]
+                }
+            }.flatMap({ fid in
+                return self.flowAPI.onceResultStatus(id: fid, status: .sealed)
+            }).whenCompleteBlocking(onto: .main, { complete in
+                switch complete {
+                case .success(let r):
+                    print("r = \(r)")
+                    XCTAssert(true)
+                    expectation.fulfill()
+                case .failure(let e):
+                    print("e = \(e)")
+                    XCTAssert(false)
+                }
+            })
+            
+            wait(for: [expectation], timeout: 25)
+        } catch {
+            XCTAssert(false)
         }
-        XCTAssertNotNil(txId)
-        print("txid --> \(txId.hex)")
-
-//        let txId = Flow.ID(hex: "a8bdb8998cda625a0b4e713d0dbac733e480c5d1b898023bb0e49828aac5767b")
-//        let result = try txId.onceSealed().wait()
-//        let exp = expectation(description: "Test after 10 seconds")
-//        _ = XCTWaiter.wait(for: [exp], timeout: 10.0)
-//        print(result)
     }
 }
