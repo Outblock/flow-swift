@@ -18,7 +18,7 @@ Currently the following Flow Features have been implemented:
 This is a Swift Package, and can be installed via Xcode with the URL of this repository:
 
 ```swift
-.package(name: "Flow", url: "https://github.com/zed-io/flow-swift.git", from: "0.0.7-beta")
+.package(name: "Flow", url: "https://github.com/zed-io/flow-swift.git", from: "0.0.8-beta")
 ```
 
 ## Config
