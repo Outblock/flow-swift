@@ -47,6 +47,10 @@ extension Flow.Cadence {
         case event = "Event"
         case character = "Character"
         case reference = "Reference"
+        case capability = "Capability"
+        case type = "Type"
+        case contract = "Contract"
+        case `enum` = "Enum"
         case undefined
 
         public init(rawValue: String) {
@@ -92,12 +96,16 @@ extension Flow.Cadence {
         case address(Flow.Address)
         case path(Flow.Argument.Path)
         case reference(Flow.Argument.Reference)
+        case capability(Flow.Argument.Capability)
+        case `type`(Flow.Argument.StaticType)
 
         indirect case array([Flow.Argument])
         indirect case dictionary([Flow.Argument.Dictionary])
         indirect case `struct`(Flow.Argument.Event)
         indirect case resource(Flow.Argument.Event)
         indirect case event(Flow.Argument.Event)
+        indirect case contract(Flow.Argument.Event)
+        indirect case `enum`(Flow.Argument.Event)
 
         case unsupported
         case error
@@ -172,6 +180,14 @@ extension Flow.Cadence {
                 return .void
             case .unsupported, .error:
                 return .undefined
+            case .capability:
+                return .capability
+            case .type:
+                return .type
+            case .contract:
+                return .contract
+            case .enum:
+                return .enum
             }
         }
 
@@ -242,6 +258,14 @@ extension Flow.Cadence {
                 try container.encode(value)
             case .void:
                 try container.encodeNil()
+            case let .capability(value):
+                try container.encode(value)
+            case let .type(value):
+                try container.encode(value)
+            case let .contract(value):
+                try container.encode(value)
+            case let .enum(value):
+                try container.encode(value)
             case .unsupported,
                  .error:
                 return
@@ -313,6 +337,14 @@ extension Flow.Cadence {
             case let (.character(lhsValue), .character(rhsValue)):
                 return lhsValue == rhsValue
             case let (.bool(lhsValue), .bool(rhsValue)):
+                return lhsValue == rhsValue
+            case let (.type(lhsValue), .type(rhsValue)):
+                return lhsValue == rhsValue
+            case let (.contract(lhsValue), .contract(rhsValue)):
+                return lhsValue == rhsValue
+            case let (.enum(lhsValue), .enum(rhsValue)):
+                return lhsValue == rhsValue
+            case let (.capability(lhsValue), .capability(rhsValue)):
                 return lhsValue == rhsValue
             case (.void, .void):
                 return true
@@ -551,6 +583,34 @@ extension Flow.Cadence.FValue {
 
     func toEvent() -> Flow.Argument.Event? {
         if case let .event(value) = self {
+            return value
+        }
+        return nil
+    }
+    
+    func toEnum() -> Flow.Argument.Event? {
+        if case let .enum(value) = self {
+            return value
+        }
+        return nil
+    }
+    
+    func toContract() -> Flow.Argument.Event? {
+        if case let .contract(value) = self {
+            return value
+        }
+        return nil
+    }
+    
+    func toType() -> Flow.Argument.StaticType? {
+        if case let .type(value) = self {
+            return value
+        }
+        return nil
+    }
+    
+    func toCapability() -> Flow.Argument.Capability? {
+        if case let .capability(value) = self {
             return value
         }
         return nil

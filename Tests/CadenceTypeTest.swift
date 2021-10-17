@@ -248,7 +248,7 @@ final class CadenceTypeTests: XCTestCase {
     func testUndfinedType() throws {
         let jsonString = """
         {
-           "type": "Enum",
+           "type": "Test",
            "value": "1"
         }
         """
@@ -461,6 +461,95 @@ final class CadenceTypeTests: XCTestCase {
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toEvent(), value)
     }
+    
+    func testEnumType() throws {
+        let jsonString = """
+        {
+           "type":"Enum",
+           "value":{
+              "id":"0x01.JeffWroteSomeJS",
+              "fields":[
+                 {
+                    "name":"wasTheCodeClean?",
+                    "value":{
+                       "type":"String",
+                       "value":"absolutely"
+                    }
+                 }
+              ]
+           }
+        }
+        """
+
+        let value: Flow.Argument.Event = .init(id: "0x01.JeffWroteSomeJS",
+                                               fields: [.init(name: "wasTheCodeClean?",
+                                                              value: .init(value: .string("absolutely")))])
+        let argument = Flow.Argument(value: .enum(value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toEnum(), value)
+    }
+    
+    func testContractType() throws {
+        let jsonString = """
+        {
+           "type":"Contract",
+           "value":{
+              "id":"0x01.JeffWroteSomeJS",
+              "fields":[
+                 {
+                    "name":"wasTheCodeClean?",
+                    "value":{
+                       "type":"String",
+                       "value":"absolutely"
+                    }
+                 }
+              ]
+           }
+        }
+        """
+
+        let value: Flow.Argument.Event = .init(id: "0x01.JeffWroteSomeJS",
+                                               fields: [.init(name: "wasTheCodeClean?",
+                                                              value: .init(value: .string("absolutely")))])
+        let argument = Flow.Argument(value: .contract(value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toContract(), value)
+    }
+    
+    func testStaticType() throws {
+        let jsonString = """
+        {
+          "type": "Type",
+          "value": {
+            "staticType": "Int"
+          }
+        }
+        """
+
+        let value: Flow.Argument.StaticType = .init(staticType: "Int")
+        let argument = Flow.Argument(value: .type(value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toType(), value)
+    }
+    
+    func testCapabilityType() throws {
+        let jsonString = """
+        {
+          "type": "Capability",
+          "value": {
+            "path": "/public/someInteger",
+            "address": "0x1",
+            "borrowType": "Int",
+          }
+        }
+        """
+
+        let value: Flow.Argument.Capability = .init(path: "/public/someInteger", address: "0x1", borrowType: "Int")
+        let argument = Flow.Argument(value: .capability(value))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toCapability(), value)
+    }
+
 
     func testResourceType() throws {
         let jsonString = """

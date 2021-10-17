@@ -196,6 +196,22 @@ extension Flow {
                 let rawValue = try? container.decode([Flow.Argument.Dictionary].self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
                 value = .dictionary(unwarpRawValue)
+            case .capability:
+                let rawValue = try? container.decode(Flow.Argument.Capability.self, forKey: .value)
+                guard let unwarpRawValue = rawValue else { value = .error; return }
+                value = .capability(unwarpRawValue)
+            case .enum:
+                let rawValue = try? container.decode(Flow.Argument.Event.self, forKey: .value)
+                guard let unwarpRawValue = rawValue else { value = .error; return }
+                value = .enum(unwarpRawValue)
+            case .contract:
+                let rawValue = try? container.decode(Flow.Argument.Event.self, forKey: .value)
+                guard let unwarpRawValue = rawValue else { value = .error; return }
+                value = .contract(unwarpRawValue)
+            case .type:
+                let rawValue = try? container.decode(Flow.Argument.StaticType.self, forKey: .value)
+                guard let unwarpRawValue = rawValue else { value = .error; return }
+                value = .type(unwarpRawValue)
             case .void:
                 value = .void
             case .undefined:
@@ -259,6 +275,26 @@ extension Flow.Argument {
         public init(key: Flow.Argument, value: Flow.Argument) {
             self.key = key
             self.value = value
+        }
+    }
+    
+    public struct Capability: Codable, Equatable {
+        public let path: String
+        public let address: String
+        public let borrowType: String
+        
+        public init(path: String, address: String, borrowType: String) {
+            self.path = path
+            self.address = address
+            self.borrowType = borrowType
+        }
+    }
+    
+    public struct StaticType: Codable, Equatable {
+        public let staticType: String
+        
+        public init(staticType: String) {
+            self.staticType = staticType
         }
     }
 }
