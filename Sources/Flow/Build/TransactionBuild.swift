@@ -172,6 +172,14 @@ extension Flow {
         return api.sendTransaction(transaction: signedTrnaction)
     }
 
+    public func sendTransactionWithWait(chainID: Flow.ChainID = flow.defaultChainID,
+                                        signers: [FlowSigner],
+                                        @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.ID {
+        return try flow.sendTransaction(chainID: chainID,
+                                        signers: signers,
+                                        builder: builder).wait()
+    }
+
     public func sendTransaction(chainID: Flow.ChainID = flow.defaultChainID,
                                 signers: [FlowSigner],
                                 @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.ID> {

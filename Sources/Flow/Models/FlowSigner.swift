@@ -11,7 +11,4 @@ public protocol FlowSigner {
     var address: Flow.Address { get set }
     var keyIndex: Int { get set }
     func signature(signableData: Data) throws -> Data
-
-//    var hash: Flow.HashAlgorithm { set get }
-//    var signature: Flow.SignatureAlgorithm { set get }
 }
