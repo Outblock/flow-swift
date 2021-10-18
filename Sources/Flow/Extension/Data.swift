@@ -62,7 +62,7 @@ extension Data {
         guard let array = string.data(using: .utf8)?.bytes else {
             return nil
         }
-        if array.count == 0 {
+        if array.isEmpty {
             if hex == "0x" || hex == "" {
                 return Data()
             } else {

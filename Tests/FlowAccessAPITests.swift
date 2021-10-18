@@ -33,7 +33,7 @@ final class FlowAccessAPITests: XCTestCase {
 
     func testNetworkParameters() throws {
         let ChainID = try flowAPI.getNetworkParameters().wait()
-        XCTAssertEqual(ChainID, Flow.ChainID.mainnet)
+        XCTAssertEqual(ChainID, Flow.ChainID.testnet)
     }
 
     func testBlockHeader() throws {
@@ -42,7 +42,7 @@ final class FlowAccessAPITests: XCTestCase {
     }
 
     func testGetAccount() throws {
-        let address = Flow.Address(hex: mainnetAddress)
+        let address = addressA
         let account = try flowAPI.getAccountAtLatestBlock(address: address).wait()
         XCTAssertNotNil(account?.keys.first)
         XCTAssertEqual(address, account?.address)
@@ -58,7 +58,7 @@ final class FlowAccessAPITests: XCTestCase {
     }
 
     func testGetAccountByHeight() throws {
-        let address = Flow.Address(hex: mainnetAddress)
+        let address = addressA
         let block = try flowAPI.getLatestBlock(sealed: true).wait()
         XCTAssertNotNil(block)
         let account = try flowAPI.getAccountByBlockHeight(address: address, height: block.height).wait()
