@@ -7,6 +7,9 @@ disabled_rules:
   - xctfail_message
   - orphaned_doc_comment
   - inclusive_language
+  - function_body_length
+  - file_length
+  - type_body_length
 opt_in_rules:
   - closure_end_indentation
   - closure_spacing
@@ -22,7 +25,7 @@ opt_in_rules:
 included:
   - Sources
 excluded:
-  - Sources/flow/protobuf
+  - Sources/Flow/Protobuf
 function_parameter_count:
   warning: 20
   error: 25
@@ -31,20 +34,12 @@ line_length:
   error: 450
 large_tuple:
   warning: 4
-type_body_length:
-  warning: 450
-  error: 650
-function_body_length: 80
-file_length:
-  warning: 600
-  error: 1200
 trailing_comma:
   mandatory_comma: true
 identifier_name:
-  min_length:
-    2
+  min_length: 1
   allowed_symbols: ["_"]
 type_name:
-  allowed_symbols: ["_"]
+  min_length: 2
 superfluous_disable_command: warning
 reporter: "xcode"
