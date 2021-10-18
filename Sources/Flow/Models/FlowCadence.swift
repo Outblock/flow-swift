@@ -587,28 +587,28 @@ extension Flow.Cadence.FValue {
         }
         return nil
     }
-    
+
     func toEnum() -> Flow.Argument.Event? {
         if case let .enum(value) = self {
             return value
         }
         return nil
     }
-    
+
     func toContract() -> Flow.Argument.Event? {
         if case let .contract(value) = self {
             return value
         }
         return nil
     }
-    
+
     func toType() -> Flow.Argument.StaticType? {
         if case let .type(value) = self {
             return value
         }
         return nil
     }
-    
+
     func toCapability() -> Flow.Argument.Capability? {
         if case let .capability(value) = self {
             return value

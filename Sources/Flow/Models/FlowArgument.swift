@@ -277,22 +277,22 @@ extension Flow.Argument {
             self.value = value
         }
     }
-    
+
     public struct Capability: Codable, Equatable {
         public let path: String
         public let address: String
         public let borrowType: String
-        
+
         public init(path: String, address: String, borrowType: String) {
             self.path = path
             self.address = address
             self.borrowType = borrowType
         }
     }
-    
+
     public struct StaticType: Codable, Equatable {
         public let staticType: String
-        
+
         public init(staticType: String) {
             self.staticType = staticType
         }
