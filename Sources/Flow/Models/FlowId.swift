@@ -40,7 +40,7 @@ extension Flow.ID {
     }
 
     public func once(status: Flow.Transaction.Status,
-                     delay: Int = 2000,
+                     delay: DispatchTimeInterval = .milliseconds(2000),
                      timeout: TimeInterval = 60) -> EventLoopFuture<Flow.TransactionResult> {
         let accessAPI = flow.accessAPI
         let promise = accessAPI.clientChannel.eventLoop.makePromise(of: Flow.TransactionResult.self)
@@ -63,7 +63,7 @@ extension Flow.ID {
                 }
 
                 // continue loop
-                DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(delay)) {
+                DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
                     makeResultCall()
                 }
             }
