@@ -108,7 +108,9 @@ extension Data {
 }
 
 extension Array where Iterator.Element: Hashable {
-    var hashValue: Int {
-        return reduce(1) { $0.hashValue ^ $1.hashValue }
+    func hash(into hasher: inout Hasher) {
+        for obj in self {
+            hasher.combine(obj)
+        }
     }
 }
