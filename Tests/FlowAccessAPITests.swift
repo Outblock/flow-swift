@@ -23,7 +23,7 @@ final class FlowAccessAPITests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        flowAPI = flow.createAccessAPI(chainID: .mainnet)
+        flowAPI = flow.createAccessAPI(chainID: .testnet)
     }
 
     func testFlowPing() throws {
@@ -110,17 +110,6 @@ final class FlowAccessAPITests: XCTestCase {
 //        let id = Flow.ID(hex: "53cc748124358855ec4d975ce6511ba016f5d2dfcead1527fd858579fc7baf76")
 //        let collection = try flowAPI.getCollectionById(id: id).wait()
 //        XCTAssertNotNil(collection)
-    }
-
-    func testTransactionById() throws {
-        let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
-        let transaction = try flowAPI.getTransactionById(id: id).wait()
-        XCTAssertEqual(transaction?.arguments.first?.type, .path)
-        XCTAssertEqual(transaction?.arguments.first?.value, .path(.init(domain: "public", identifier: "zelosAccountingTokenReceiver")))
-        XCTAssertEqual(transaction?.arguments.last?.type, .ufix64)
-        XCTAssertEqual(transaction?.arguments.last?.value.toUFix64(), 99.0)
-        XCTAssertEqual(transaction?.payerAddress.bytes.hexValue, "1f56a1e665826a52")
-        XCTAssertNotNil(transaction)
     }
 
     func testTransactionResultById() throws {
