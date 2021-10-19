@@ -149,7 +149,7 @@ extension Flow {
 
         if fetchSequenceNumber {
             guard let proposerAccount = try? api.getAccountAtLatestBlock(address: proposalKey.address).wait(),
-                let accountKey = proposerAccount.keys[safe: proposalKey.keyIndex] else {
+                  let accountKey = proposerAccount.keys[safe: proposalKey.keyIndex] else {
                 throw Flow.FError.preparingTransactionFailed
             }
 

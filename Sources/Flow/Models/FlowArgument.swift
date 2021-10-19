@@ -18,7 +18,7 @@ extension Flow {
             case value
         }
 
-        var jsonData: Data? {
+        public var jsonData: Data? {
             let encoder = JSONEncoder()
             guard let jsonData = try? encoder.encode(self) else {
                 return nil
@@ -26,7 +26,7 @@ extension Flow {
             return jsonData
         }
 
-        var jsonString: String? {
+        public var jsonString: String? {
             guard let data = jsonData else {
                 return nil
             }
