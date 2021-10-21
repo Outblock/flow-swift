@@ -295,7 +295,8 @@ Building a transaction involves setting the required properties explained above 
 
 Here we define a simple transaction script that will be used to execute on the network and serve as a good learning example.
 Quick example of building a transaction:
-```swirt
+
+```swift
 let address = Flow.Address(hex: "0x1")
 var unsignedTx = try! flow.buildTransaction{
     cadence {
@@ -315,8 +316,12 @@ var unsignedTx = try! flow.buildTransaction{
         """
     }
 
-    proposer {
-        address
+    proposer { 
+        // SequenceNumber is optional. If it's nil, it will fetch the updated one from the chain.
+        Flow.TransactionProposalKey(address: address, keyIndex: 1)
+        
+        // If you are using the key 0, you can just pass the address 
+        // address
     }
 
     authorizers {
@@ -325,6 +330,11 @@ var unsignedTx = try! flow.buildTransaction{
 
     arguments {
         .init(value: .string("Hello Flow!"))
+    }
+    
+    // If payer is the same as proposer, you can ignore this field
+    payer {
+        address
     }
 
     // optional
@@ -631,7 +641,7 @@ flow.createAccount(address: address, publicKeys: [accountKey], contracts: [scrip
 After the account creation transaction has been submitted you can retrieve the new account address by [getting the transaction result](#get-transactions). 
 
 The new account address will be emitted in a system-level `flow.AccountCreated` event.
-```
+```swift
 let txID = flow.createAccount(address: address, publicKeys: [accountKey], contracts: [scriptName: script], signers: signers).wait()
 let result = try! txID.onceSealed().wait()
 let event = result.events.first{ $0.type == "flow.AccountCreated" }
