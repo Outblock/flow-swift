@@ -30,7 +30,7 @@ jobs:
           RELEASE_VERSION: ${{steps.vars.outputs.tag}}
         run: |
           bundle install
-          bundle exec jazzy --clean --output .build/jazzy --author 'Zed Team' --author_url https://github.com/zed-io/flow-swift --github_url https://github.com/zed-io/flow-swift --github-file-prefix https://github.com/zed-io/flow-swift/tree/${RELEASE_VERSION}
+          bundle exec jazzy --clean --output .build/jazzy --author 'Zed Team' --author_url https://github.com/zed-io/flow-swift --github_url https://github.com/zed-io/flow-swift --github-file-prefix https://github.com/zed-io/flow-swift/tree/${RELEASE_VERSION} --module-version ${RELEASE_VERSION}
         working-directory: master
       
       - name: Checkout doc
