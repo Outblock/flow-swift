@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  build-docs:
+  generate-doc:
     runs-on: macos-11
 
     steps:
