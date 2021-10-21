@@ -167,7 +167,7 @@ extension Flow {
                                 authorizers: authorizers)
     }
 
-    public func sendTransaction(chainID: ChainID = .mainnet, signedTrnaction: Transaction) throws -> EventLoopFuture<Flow.ID> {
+    public func sendTransaction(chainID: ChainID = flow.defaultChainID, signedTrnaction: Transaction) throws -> EventLoopFuture<Flow.ID> {
         let api = flow.createAccessAPI(chainID: chainID)
         return api.sendTransaction(transaction: signedTrnaction)
     }

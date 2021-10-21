@@ -277,7 +277,7 @@ extension Flow {
             return promise.futureResult
         }
 
-        public func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument]) -> EventLoopFuture<Flow.ScriptResponse> {
+        public func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument] = []) -> EventLoopFuture<Flow.ScriptResponse> {
             var request = Flow_Access_ExecuteScriptAtLatestBlockRequest()
             request.script = script.data
             request.arguments = arguments.compactMap { $0.jsonData }
@@ -294,7 +294,7 @@ extension Flow {
             return promise.futureResult
         }
 
-        public func executeScriptAtBlockId(script: Flow.Script, blockId _: Flow.ID, arguments: [Flow.Argument]) -> EventLoopFuture<Flow.ScriptResponse> {
+        public func executeScriptAtBlockId(script: Flow.Script, blockId _: Flow.ID, arguments: [Flow.Argument] = []) -> EventLoopFuture<Flow.ScriptResponse> {
             var request = Flow_Access_ExecuteScriptAtBlockIDRequest()
             request.script = script.data
             request.arguments = arguments.compactMap { $0.jsonData }
@@ -311,7 +311,7 @@ extension Flow {
             return promise.futureResult
         }
 
-        public func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument]) -> EventLoopFuture<Flow.ScriptResponse> {
+        public func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument] = []) -> EventLoopFuture<Flow.ScriptResponse> {
             var request = Flow_Access_ExecuteScriptAtBlockHeightRequest()
             request.script = script.data
             request.blockHeight = height
@@ -329,16 +329,16 @@ extension Flow {
             return promise.futureResult
         }
 
-        public func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) -> EventLoopFuture<[Flow.EventResult]> {
+        public func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) -> EventLoopFuture<[Flow.Event.Result]> {
             var request = Flow_Access_GetEventsForHeightRangeRequest()
             request.type = type
             request.startHeight = range.lowerBound
             request.endHeight = range.upperBound
-            let promise = clientChannel.eventLoop.makePromise(of: [Flow.EventResult].self)
+            let promise = clientChannel.eventLoop.makePromise(of: [Flow.Event.Result].self)
             accessClient.getEventsForHeightRange(request).response.whenComplete { result in
                 switch result {
                 case let .success(response):
-                    let entity = response.results.compactMap { Flow.EventResult(value: $0) }
+                    let entity = response.results.compactMap { Flow.Event.Result(value: $0) }
                     promise.succeed(entity)
                 case let .failure(error):
                     promise.fail(error)
@@ -347,15 +347,15 @@ extension Flow {
             return promise.futureResult
         }
 
-        public func getEventsForBlockIds(type: String, ids: Set<Flow.ID>) -> EventLoopFuture<[Flow.EventResult]> {
+        public func getEventsForBlockIds(type: String, ids: Set<Flow.ID>) -> EventLoopFuture<[Flow.Event.Result]> {
             var request = Flow_Access_GetEventsForBlockIDsRequest()
             request.type = type
             request.blockIds = ids.compactMap { $0.data }
-            let promise = clientChannel.eventLoop.makePromise(of: [Flow.EventResult].self)
+            let promise = clientChannel.eventLoop.makePromise(of: [Flow.Event.Result].self)
             accessClient.getEventsForBlockIDs(request).response.whenComplete { result in
                 switch result {
                 case let .success(response):
-                    let entity = response.results.compactMap { Flow.EventResult(value: $0) }
+                    let entity = response.results.compactMap { Flow.Event.Result(value: $0) }
                     promise.succeed(entity)
                 case let .failure(error):
                     promise.fail(error)

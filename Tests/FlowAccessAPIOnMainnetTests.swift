@@ -52,6 +52,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         let block = try flowAPI.getLatestBlock(sealed: true).wait()
         XCTAssertNotNil(block)
         let account = try flowAPI.getAccountByBlockHeight(address: address, height: block.height).wait()
+        
         XCTAssertNotNil(account?.keys.first)
         XCTAssertEqual(address, account?.address)
     }
@@ -82,7 +83,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
           return [SomeStruct(x: 1, y: 2), SomeStruct(x: 3, y: 4)]
         }
         """)
-        let snapshot = try flowAPI.executeScriptAtLatestBlock(script: script, arguments: []).wait()
+        let snapshot = try flowAPI.executeScriptAtLatestBlock(script: script).wait()
         XCTAssertNotNil(snapshot)
         XCTAssertEqual(Flow.Cadence.FType.array, snapshot.fields?.type)
 

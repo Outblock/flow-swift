@@ -73,11 +73,11 @@ extension Flow.AccessAPI: FlowAccessBlockProtocol {
         executeScriptAtBlockHeight(script: script, height: height, arguments: arguments).whenComplete { completion($0) }
     }
 
-    public func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>, completion: @escaping Callback<[Flow.EventResult]>) {
+    public func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>, completion: @escaping Callback<[Flow.Event.Result]>) {
         getEventsForHeightRange(type: type, range: range).whenComplete { completion($0) }
     }
 
-    public func getEventsForBlockIds(type: String, ids: Set<Flow.ID>, completion: @escaping Callback<[Flow.EventResult]>) {
+    public func getEventsForBlockIds(type: String, ids: Set<Flow.ID>, completion: @escaping Callback<[Flow.Event.Result]>) {
         getEventsForBlockIds(type: type, ids: ids).whenComplete { completion($0) }
     }
 

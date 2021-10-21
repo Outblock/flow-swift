@@ -27,7 +27,7 @@ extension Flow {
 }
 
 extension Flow.ID {
-    
+
     /// Get notified when transaction's status change to `.finalized`.
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
     public func onceFinalized() -> EventLoopFuture<Flow.TransactionResult> {

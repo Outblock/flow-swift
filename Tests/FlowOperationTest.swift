@@ -38,57 +38,31 @@ final class FlowOperationTests: XCTestCase {
     }
 
     func testCreateAccount() {
-        let expectation = XCTestExpectation(description: "Wait for sending transaction")
-
         let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
                                          signAlgo: .ECDSA_P256,
                                          hashAlgo: .SHA2_256,
                                          weight: 1000)
 
-        flow.createAccount(address: address, publicKeys: [accountKey], contracts: [scriptName: script], signers: signers)
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    XCTFail(error.localizedDescription)
-                }
-            } receiveValue: { txID in
-                XCTAssertNotNil(txID)
-                expectation.fulfill()
-                print(txID.hex)
-            }.store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 10.0)
+        let txID = try! flow.createAccount(address: address,
+                                           publicKeys: [accountKey],
+                                           contracts: [scriptName: script],
+                                           signers: signers).wait()
+        XCTAssertNotNil(txID)
+        
+        let result = try! txID.onceSealed().wait()
+        let event = result.events.first{ $0.type == "flow.AccountCreated" }
+        let field = event?.payload.fields?.value.toEvent()?.fields.first{$0.name == "address"}
+        XCTAssertNotNil(field?.value.value.toAddress()?.hex)
     }
 
     func testAddContractToAccount() {
-        let expectation = XCTestExpectation(description: "Wait for sending transaction")
-        flow.addContractToAccount(address: address, contractName: scriptName, code: script, signers: signers)
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    XCTFail(error.localizedDescription)
-                }
-            } receiveValue: { txID in
-                XCTAssertNotNil(txID)
-                expectation.fulfill()
-                print(txID.hex)
-            }.store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 10.0)
+        let texID = try! flow.addContractToAccount(address: address, contractName: scriptName, code: script, signers: signers).wait()
+        XCTAssertNotNil(texID)
     }
 
     func testRemoveAccountKeyByIndex() {
-        let expectation = XCTestExpectation(description: "Wait for sending transaction")
-        flow.removeAccountKeyByIndex(address: address, keyIndex: 4, signers: signers)
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    XCTFail(error.localizedDescription)
-                }
-            } receiveValue: { txID in
-                XCTAssertNotNil(txID)
-                expectation.fulfill()
-                print(txID.hex)
-            }.store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 10.0)
+        let txID = try! flow.removeAccountKeyByIndex(address: address, keyIndex: 4, signers: signers).wait()
+        XCTAssertNotNil(txID)
     }
 
     func testAddKeyToAccount() {
@@ -97,26 +71,25 @@ final class FlowOperationTests: XCTestCase {
                                          hashAlgo: .SHA2_256,
                                          weight: 1000)
 
-        let expectation = XCTestExpectation(description: "Wait for sending transaction")
-        flow.addKeyToAccount(address: address, accountKey: accountKey, signers: signers)
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    XCTFail(error.localizedDescription)
-                }
-            } receiveValue: { txID in
-                XCTAssertNotNil(txID)
-                expectation.fulfill()
-                print(txID.hex)
-            }.store(in: &cancellables)
 
-        wait(for: [expectation], timeout: 10.0)
+        let txID  = try! flow.addKeyToAccount(address: address, accountKey: accountKey, signers: signers).wait()
+        XCTAssertNotNil(txID)
+
     }
 
     func testUpdateContractOfAccount() {
-        let expectation = XCTestExpectation(description: "Wait for sending transaction")
-
         let script2 = """
         pub contract HelloWorld {
+        
+        pub struct SomeStruct {
+          pub var x: Int
+          pub var y: Int
+
+          init(x: Int, y: Int) {
+            self.x = x
+            self.y = y
+          }
+        }
         
             pub let greeting: String
         
@@ -126,33 +99,12 @@ final class FlowOperationTests: XCTestCase {
         }
         """
 
-        flow.updateContractOfAccount(address: address, contractName: scriptName, script: script2, signers: signers)
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    XCTFail(error.localizedDescription)
-                }
-            } receiveValue: { txID in
-                XCTAssertNotNil(txID)
-                expectation.fulfill()
-                print(txID.hex)
-            }.store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 10.0)
+        let txID = try! flow.updateContractOfAccount(address: address, contractName: scriptName, script: script2, signers: signers).wait()
+        XCTAssertNotNil(txID)
     }
 
     func testRemoveContractFromAccount() {
-        let expectation = XCTestExpectation(description: "Wait for sending transaction")
-        flow.removeContractFromAccount(address: address, contractName: scriptName, signers: signers)
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    XCTFail(error.localizedDescription)
-                }
-            } receiveValue: { txID in
-                XCTAssertNotNil(txID)
-                expectation.fulfill()
-                print(txID.hex)
-            }.store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 10.0)
+        let txID = try! flow.removeContractFromAccount(address: address, contractName: scriptName, signers: signers)
+        XCTAssertNotNil(txID)
     }
 }

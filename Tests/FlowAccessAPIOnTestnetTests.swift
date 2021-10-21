@@ -44,7 +44,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
                                          hashAlgo: .SHA2_256,
                                          weight: 1000)
 
-        let txId = try! flow.sendTransaction(chainID: .testnet, signers: signer) {
+        var unsignedTx = try! flow.buildTransaction{
             cadence {
                 """
                     transaction(publicKey: String) {
@@ -57,7 +57,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             }
 
             proposer {
-                address
+                Flow.TransactionProposalKey(address: addressC, keyIndex: 0)
             }
 
             authorizers {
@@ -72,8 +72,10 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             gasLimit {
                 1000
             }
-        }.wait()
+        }
 
+        let signedTx = try! unsignedTx.sign(signers: signer)
+        let txId = try! flow.sendTransaction(signedTrnaction: signedTx).wait()
         XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
     }

@@ -41,9 +41,9 @@ public protocol FlowAccessProtocol {
 
     func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument]) -> EventLoopFuture<Flow.ScriptResponse>
 
-    func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) -> EventLoopFuture<[Flow.EventResult]>
+    func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) -> EventLoopFuture<[Flow.Event.Result]>
 
-    func getEventsForBlockIds(type: String, ids: Set<Flow.ID>) -> EventLoopFuture<[Flow.EventResult]>
+    func getEventsForBlockIds(type: String, ids: Set<Flow.ID>) -> EventLoopFuture<[Flow.Event.Result]>
 
     func getNetworkParameters() -> EventLoopFuture<Flow.ChainID>
 

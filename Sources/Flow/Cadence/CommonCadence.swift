@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import NIO
 
 extension Flow {
     class CommonCadence {
@@ -67,142 +68,112 @@ extension Flow {
 }
 
 extension Flow {
-    public func addKeyToAccount(address: Flow.Address, accountKey: Flow.AccountKey, signers: [FlowSigner]) -> Future<Flow.ID, Error> {
-        return Future { promise in
-            guard let encodedKey = accountKey.encoded else {
-                promise(.failure(Flow.FError.encodeFailure))
-                return
-            }
+    public func addKeyToAccount(address: Flow.Address, accountKey: Flow.AccountKey, signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
 
-            do {
-                let txId = try self.sendTransaction(signers: signers) {
-                    cadence {
-                        CommonCadence.addKeyToAccount
-                    }
-                    arguments {
-                        .init(value: .string(encodedKey.hexValue))
-                    }
-                    proposer {
-                        address
-                    }
-                    authorizers {
-                        address
-                    }
-                }.wait()
-                promise(.success(txId))
-            } catch {
-                promise(.failure(error))
+        guard let encodedKey = accountKey.encoded else {
+            let promise = flow.accessAPI.clientChannel.eventLoop.makePromise(of: Flow.ID.self)
+            promise.fail(Flow.FError.encodeFailure)
+            return promise.futureResult
+        }
+
+        return try self.sendTransaction(signers: signers) {
+            cadence {
+                CommonCadence.addKeyToAccount
+            }
+            arguments {
+                .init(value: .string(encodedKey.hexValue))
+            }
+            proposer {
+                address
+            }
+            authorizers {
+                address
             }
         }
     }
 
-    public func addContractToAccount(address: Flow.Address, contractName: String, code: String, signers: [FlowSigner]) -> Future<Flow.ID, Error> {
-        return Future { promise in
-            let script = Flow.Script(script: code)
-            do {
-                let txId = try self.sendTransaction(signers: signers) {
-                    cadence {
-                        CommonCadence.addContractToAccount
-                    }
-                    arguments {
-                        [.init(value: .string(contractName)), .init(value: .string(script.hex))]
-                    }
-                    proposer {
-                        address
-                    }
-                    authorizers {
-                        address
-                    }
-                }.wait()
-                promise(.success(txId))
-            } catch {
-                promise(.failure(error))
+    public func addContractToAccount(address: Flow.Address,
+                                     contractName: String,
+                                     code: String,
+                                     signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
+        let script = Flow.Script(script: code)
+        return try self.sendTransaction(signers: signers) {
+            cadence {
+                CommonCadence.addContractToAccount
+            }
+            arguments {
+                [.init(value: .string(contractName)), .init(value: .string(script.hex))]
+            }
+            proposer {
+                address
+            }
+            authorizers {
+                address
             }
         }
     }
 
     public func createAccount(address: Flow.Address,
                               publicKeys: [Flow.AccountKey],
-                              contracts: [String: String],
-                              signers: [FlowSigner]) -> Future<Flow.ID, Error> {
-        return Future { promise in
-            do {
-                let contractArg = contracts.compactMap { name, cadence in
-                    Flow.Argument.Dictionary(key: .init(value: .string(name)),
-                                             value: .init(value: .string(Flow.Script(script: cadence).hex)))
-                }
+                              contracts: [String: String] = [:],
+                              signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
+        let contractArg = contracts.compactMap { name, cadence in
+            Flow.Argument.Dictionary(key: .init(value: .string(name)),
+                                     value: .init(value: .string(Flow.Script(script: cadence).hex)))
+        }
 
-                let pubKeyArg = publicKeys.compactMap { $0.encoded?.hexValue }.compactMap { Flow.Argument(value: .string($0)) }
+        let pubKeyArg = publicKeys.compactMap { $0.encoded?.hexValue }.compactMap { Flow.Argument(value: .string($0)) }
 
-                let txId = try self.sendTransaction(signers: signers) {
-                    cadence {
-                        CommonCadence.createAccount
-                    }
-                    arguments {
-                        [.array(pubKeyArg), .dictionary(contractArg)]
-                    }
-                    proposer {
-                        address
-                    }
-                    authorizers {
-                        address
-                    }
-                }.wait()
-                promise(.success(txId))
-            } catch {
-                promise(.failure(error))
+        return try self.sendTransaction(signers: signers) {
+            cadence {
+                CommonCadence.createAccount
+            }
+            arguments {
+                [.array(pubKeyArg), .dictionary(contractArg)]
+            }
+            proposer {
+                address
+            }
+            authorizers {
+                address
             }
         }
     }
 
     public func removeAccountKeyByIndex(address: Flow.Address,
                                         keyIndex: Int,
-                                        signers: [FlowSigner]) -> Future<Flow.ID, Error> {
-        return Future { promise in
-            do {
-                let txId = try self.sendTransaction(signers: signers) {
-                    cadence {
-                        CommonCadence.removeAccountKeyByIndex
-                    }
-                    arguments {
-                        [.int(keyIndex)]
-                    }
-                    proposer {
-                        address
-                    }
-                    authorizers {
-                        address
-                    }
-                }.wait()
-                promise(.success(txId))
-            } catch {
-                promise(.failure(error))
+                                        signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
+        return try self.sendTransaction(signers: signers) {
+            cadence {
+                CommonCadence.removeAccountKeyByIndex
+            }
+            arguments {
+                [.int(keyIndex)]
+            }
+            proposer {
+                address
+            }
+            authorizers {
+                address
             }
         }
     }
 
     public func removeContractFromAccount(address: Flow.Address,
                                           contractName: String,
-                                          signers: [FlowSigner]) -> Future<Flow.ID, Error> {
-        return Future { promise in
-            do {
-                let txId = try self.sendTransaction(signers: signers) {
-                    cadence {
-                        CommonCadence.removeContractFromAccount
-                    }
-                    arguments {
-                        [.string(contractName)]
-                    }
-                    proposer {
-                        address
-                    }
-                    authorizers {
-                        address
-                    }
-                }.wait()
-                promise(.success(txId))
-            } catch {
-                promise(.failure(error))
+                                          signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
+        return try self.sendTransaction(signers: signers) {
+            cadence {
+                CommonCadence.removeContractFromAccount
+            }
+            arguments {
+                [.string(contractName)]
+            }
+            proposer {
+                address
+            }
+            authorizers {
+                address
             }
         }
     }
@@ -210,26 +181,19 @@ extension Flow {
     public func updateContractOfAccount(address: Flow.Address,
                                         contractName: String,
                                         script: String,
-                                        signers: [FlowSigner]) -> Future<Flow.ID, Error> {
-        return Future { promise in
-            do {
-                let txId = try self.sendTransaction(signers: signers) {
-                    cadence {
-                        CommonCadence.updateContractOfAccount
-                    }
-                    arguments {
-                        [.string(contractName), .string(Flow.Script(script: script).hex)]
-                    }
-                    proposer {
-                        address
-                    }
-                    authorizers {
-                        address
-                    }
-                }.wait()
-                promise(.success(txId))
-            } catch {
-                promise(.failure(error))
+                                        signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
+        return try self.sendTransaction(signers: signers) {
+            cadence {
+                CommonCadence.updateContractOfAccount
+            }
+            arguments {
+                [.string(contractName), .string(Flow.Script(script: script).hex)]
+            }
+            proposer {
+                address
+            }
+            authorizers {
+                address
             }
         }
     }

@@ -290,7 +290,7 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(value: .void)
-        _ = try! verifyJson(jsonString: jsonString, argument: argument)
+        try! verifyJson(jsonString: jsonString, argument: argument)
     }
 
     func testAddressType() throws {
@@ -597,6 +597,7 @@ final class CadenceTypeTests: XCTestCase {
 
     // MARK: - Util Method
 
+    @discardableResult
     func verifyJson(jsonString: String, argument: Flow.Argument) throws -> Flow.Argument {
         // Test Decode
         let jsonData = jsonString.data(using: .utf8)!
