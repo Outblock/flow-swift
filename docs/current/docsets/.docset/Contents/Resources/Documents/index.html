@@ -16,7 +16,7 @@
     <a title="  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html"> 0.0.8-beta-doc Docs</a> (3% documented)</p>
+        <p><a href="index.html"> 0.0.9-beta Docs</a> (3% documented)</p>
         <p class="header-right"><a href="https://github.com/zed-io/flow-swift"><img src="img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="search.json">
@@ -96,13 +96,7 @@
                 <a href="Classes/Flow/Event.html">– Event</a>
               </li>
               <li class="nav-group-task">
-                <a href="Classes/Flow/EventResult.html">– EventResult</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Classes/Flow/Snapshot.html">– Snapshot</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Classes/Flow/EventPayload.html">– EventPayload</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/Flow/ID.html">– ID</a>
@@ -245,80 +239,341 @@
         <section>
           <section class="section">
             
-            <h1 id='flow-swift-sdk' class='heading'>Flow Swift SDK</h1>
+            <p><br />
+<div align="center">
+  <a href="">
+    <img src="./Resources/logo.svg" alt="Logo" width="600" height="auto">
+  </a>
+  <p align="center"> <br />
+    <a href="https://github.com/zed-io/flow-swift"><strong>View on GitHub »</strong></a> <br /><br />
+    <a href="https://zed-io.github.io/flow-swift">SDK Specifications</a> ·
+    <a href="">Contribute</a> ·
+    <a href="">Report a Bug</a>
+  </p>
+</div><br /></p>
+<h2 id='overview' class='heading'>Overview</h2>
 
-<p>The Flow SDK is a Swift Library for Flow blockchain (<a href="https://www.onflow.org">https://www.onflow.org</a>). </p>
-<h3 id='features' class='heading'>Features</h3>
+<p>This reference documents all the methods available in the SDK, and explains in detail how these methods work.
+SDKs are open source, and you can use them according to the licence.</p>
 
-<p>Currently the following Flow Features have been implemented:</p>
+<p>The library client specifications can be found here:</p>
 
-<ul>
-<li>[x] Access API gRPC</li>
-<li>[x] RLP encode &amp; decode</li>
-<li>[x] Cadence type support</li>
-<li>[x] Transaction DSL</li>
-<li>[x] Send Transaction</li>
-<li>[x] Execute script with argument</li>
-<li>[x] Handle multiple signatures and keys</li>
-</ul>
-<h2 id='installation' class='heading'>Installation</h2>
+<p><a href="https://zed-io.github.io/flow-swift/">https://zed-io.github.io/flow-swift/</a></p>
+<h2 id='getting-started' class='heading'>Getting Started</h2>
+<h3 id='installing' class='heading'>Installing</h3>
 
 <p>This is a Swift Package, and can be installed via Xcode with the URL of this repository:</p>
 <pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Flow"</span><span class="p">,</span> <span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/zed-io/flow-swift.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"0.0.8-beta"</span><span class="p">)</span>
 </code></pre>
 <h2 id='config' class='heading'>Config</h2>
 
-<p>To config the SDK, you will just need provider the chainID for it. The default chainID is <strong>Mainnet</strong>.
-If you want to use mainnet, you can ignore this configuration.</p>
+<p>The library uses gRPC to communicate with the access nodes and it must be configured with correct access node API URL. </p>
+
+<p>📖 <strong>Access API URLs</strong> can be found <a href="https://docs.onflow.org/access-api/#flow-access-node-endpoints">here</a>. An error will be returned if the host is unreachable.
+The Access Nodes APIs hosted by DapperLabs are accessible at:</p>
+
+<ul>
+<li>Testnet <code>access.devnet.nodes.onflow.org:9000</code></li>
+<li>Mainnet <code>access.mainnet.nodes.onflow.org:9000</code></li>
+<li>Local Emulator <code>127.0.0.1:3569</code></li>
+</ul>
+
+<p>To config the SDK, you just need to provider the chainID for it. The default chainID is <strong>Mainnet</strong>.
+For example, if you want to use testnet, you can config the chainID like this:</p>
 <pre class="highlight swift"><code><span class="n">flow</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="o">.</span><span class="n">testnet</span><span class="p">)</span>
 </code></pre>
 
-<p>If you want to use a custom gRPC for the access API, you can definite your own one.</p>
+<p>Moreover, if you want to use a custom gRPC endpoint for the access API, here is the way to do it:</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">endpoint</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="kt">Endpoint</span><span class="p">(</span><span class="nv">node</span><span class="p">:</span> <span class="s">"flow-testnet.g.alchemy.com"</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="mi">443</span><span class="p">)</span>
 <span class="k">let</span> <span class="nv">chainID</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="nf">custom</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Alchemy-Testnet"</span><span class="p">,</span> <span class="nv">endpoint</span><span class="p">:</span><span class="n">endpoint</span><span class="p">)</span>
 <span class="n">flow</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="n">chainID</span><span class="p">)</span>
 </code></pre>
-<h2 id='access-api' class='heading'>Access API</h2>
+<h2 id='querying-the-flow-network' class='heading'>Querying the Flow Network</h2>
 
-<p>Here are some example how to create a gRPC client in the SDK to make access API call.
-For more info about access API, please check this <a href="https://docs.onflow.org/access-api/#gatsby-focus-wrapper">official website</a></p>
-<h3 id='block-callback' class='heading'>Block callback</h3>
-<pre class="highlight swift"><code><span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="n">getNetworkParameters</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+<p>After you have established a connection with an access node, you can query the Flow network to retrieve data about blocks, accounts, events and transactions. We will explore how to retrieve each of these entities in the sections below.</p>
+<h3 id='get-blocks' class='heading'>Get Blocks</h3>
+
+<p>Query the network for block by id, height or get the latest block.</p>
+
+<p>📖 <strong>Block ID</strong> is SHA3-256 hash of the entire block payload. This hash is stored as an ID field on any block response object (ie. response from <code>GetLatestBlock</code>). </p>
+
+<p>📖 <strong>Block height</strong> expresses the height of the block on the chain. The latest block height increases by one for every valid block produced.</p>
+<h4 id='examples' class='heading'>Examples</h4>
+
+<p>This example depicts ways to get the latest block as well as any other block by height or ID:</p>
+<pre class="highlight swift"><code><span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getLatestBlock</span><span class="p">(</span><span class="nv">sealed</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
     <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">chainID</span><span class="p">):</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">chainID</span><span class="p">)</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">block</span><span class="p">):</span>
+        <span class="c1">// Handle Success Result</span>
     <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="c1">// Handle Error</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<h3 id='nio-eventloopfuture' class='heading'>NIO EventLoopFuture</h3>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">testnet</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="nf">createAccessAPI</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="o">.</span><span class="n">testnet</span><span class="p">)</span>
-<span class="k">let</span> <span class="nv">call</span> <span class="o">=</span> <span class="n">testnet</span><span class="o">.</span><span class="nf">getTransactionResultById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ID</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">))</span>
-<span class="n">call</span><span class="o">.</span><span class="n">whenSuccess</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-    <span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="n">call</span><span class="o">.</span><span class="n">whenFailure</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
-    <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+<h3 id='get-account' class='heading'>Get Account</h3>
+
+<p>Retrieve any account from Flow network&rsquo;s latest block or from a specified block height.</p>
+
+<p>📖 <strong>Account address</strong> is a unique account identifier. Be mindful about the <code>0x</code> prefix, you should use the prefix as a default representation but be careful and safely handle user inputs without the prefix.</p>
+
+<p>An account includes the following data:</p>
+
+<ul>
+<li>Address: the account address.</li>
+<li>Balance: balance of the account.</li>
+<li>Contracts: list of contracts deployed to the account.</li>
+<li>Keys: list of keys associated with the account.</li>
+</ul>
+<h4 id='examples' class='heading'>Examples</h4>
+
+<p>Example depicts ways to get an account at the latest block and at a specific block height:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">address</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">)</span>
+<span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getAccountAtLatestBlock</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">account</span><span class="p">):</span>
+        <span class="c1">// Handle Success Result</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+        <span class="c1">// Handle Error</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<h2 id='transaction' class='heading'>Transaction</h2>
+<h3 id='get-transactions' class='heading'>Get Transactions</h3>
 
-<p>In this SDK, you could build a transaction and send it to the chain.</p>
-<h3 id='build-a-transaction' class='heading'>Build a transaction</h3>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">tx</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span> <span class="p">{</span>
+<p>Retrieve transactions from the network by providing a transaction ID. After a transaction has been submitted, you can also get the transaction result to check the status.</p>
+
+<p>📖 <strong>Transaction ID</strong> is a hash of the encoded transaction payload and can be calculated before submitting the transaction to the network.</p>
+
+<p>⚠️ The transaction ID provided must be from the current spork.</p>
+
+<p>📖 <strong>Transaction status</strong> represents the state of transaction in the blockchain. Status can change until is finalized.</p>
+
+<table><thead>
+<tr>
+<th>Status</th>
+<th>Final</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>UNKNOWN</td>
+<td>❌</td>
+<td>The transaction has not yet been seen by the network</td>
+</tr>
+<tr>
+<td>PENDING</td>
+<td>❌</td>
+<td>The transaction has not yet been included in a block</td>
+</tr>
+<tr>
+<td>FINALIZED</td>
+<td>❌</td>
+<td>The transaction has been included in a block</td>
+</tr>
+<tr>
+<td>EXECUTED</td>
+<td>❌</td>
+<td>The transaction has been executed but the result has not yet been sealed</td>
+</tr>
+<tr>
+<td>SEALED</td>
+<td>✅</td>
+<td>The transaction has been executed and the result is sealed in a block</td>
+</tr>
+<tr>
+<td>EXPIRED</td>
+<td>✅</td>
+<td>The transaction reference block is outdated before being executed</td>
+</tr>
+</tbody></table>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ID</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">)</span>
+<span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getTransactionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">tx</span><span class="p">):</span>
+        <span class="c1">// Handle Success Result</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+        <span class="c1">// Handle Error</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='get-events' class='heading'>Get Events</h3>
+
+<p>Retrieve events by a given type in a specified block height range or through a list of block IDs.</p>
+
+<p>📖 <strong>Event type</strong> is a string that follow a standard format:</p>
+<pre class="highlight plaintext"><code>A.{contract address}.{contract name}.{event name}
+</code></pre>
+
+<p>Please read more about <a href="https://docs.onflow.org/core-contracts/flow-token/">events in the documentation</a>. The exception to this standard are 
+core events, and you should read more about them in <a href="https://docs.onflow.org/cadence/language/core-events/">this document</a>.</p>
+
+<p>📖 <strong>Block height range</strong> expresses the height of the start and end block in the chain.</p>
+<h4 id='examples' class='heading'>Examples</h4>
+
+<p>Example depicts ways to get events within block range or by block IDs:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">eventName</span> <span class="o">=</span> <span class="s">"A.{contract address}.{contract name}.{event name}"</span>
+<span class="k">let</span> <span class="nv">blockIds</span><span class="p">:</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt">ID</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">),</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x2"</span><span class="p">)</span> <span class="p">]</span>
+<span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getEventsForHeightRange</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="n">eventName</span><span class="p">,</span> <span class="nv">range</span><span class="p">:</span> <span class="mi">10</span><span class="o">...</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="c1">// Handle Success Result</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+        <span class="c1">// Handle Error</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='get-collections' class='heading'>Get Collections</h3>
+
+<p>Retrieve a batch of transactions that have been included in the same block, known as <strong><em>collections</em></strong>. 
+Collections are used to improve consensus throughput by increasing the number of transactions per block and they act as a link between a block and a transaction.</p>
+
+<p>📖 <strong>Collection ID</strong> is SHA3-256 hash of the collection payload.</p>
+
+<p>Example retrieving a collection:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ID</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">)</span>
+<span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getCollectionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="c1">// Handle Success Result</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+        <span class="c1">// Handle Error</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='execute-scripts' class='heading'>Execute Scripts</h3>
+
+<p>Scripts allow you to write arbitrary non-mutating Cadence code on the Flow blockchain and return data. You can learn more about <a href="https://docs.onflow.org/cadence/language/">Cadence and scripts here</a>, but we are now only interested in executing the script code and getting back the data.</p>
+
+<p>We can execute a script using the latest state of the Flow blockchain or we can choose to execute the script at a specific time in history defined by a block height or block ID.</p>
+
+<p>📖 <strong>Block ID</strong> is SHA3-256 hash of the entire block payload, but you can get that value from the block response properties.</p>
+
+<p>📖 <strong>Block height</strong> expresses the height of the block in the chain.</p>
+<pre class="highlight plaintext"><code>// simple script
+pub fun main(a: Int): Int {
+    return a + 10
+}
+// complex script
+pub struct User {
+    pub var balance: UFix64
+    pub var address: Address
+    pub var name: String
+
+    init(name: String, address: Address, balance: UFix64) {
+        self.name = name
+        self.address = address
+        self.balance = balance
+    }
+}
+
+pub fun main(name: String): User {
+    return User(
+        name: name,
+        address: 0x1,
+        balance: 10.0
+    )
+}
+</code></pre>
+<pre class="highlight swift"><code><span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">executeScriptAtLatestBlock</span><span class="p">(</span><span class="nv">script</span><span class="p">:</span> <span class="n">script</span><span class="p">,</span> <span class="nv">arguments</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="o">.</span><span class="nf">string</span><span class="p">(</span><span class="s">"test"</span><span class="p">))])</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="c1">// Handle Success Result</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+        <span class="c1">// Handle Error</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id='mutate-flow-network' class='heading'>Mutate Flow Network</h2>
+
+<p>Flow, like most blockchains, allows anybody to submit a transaction that mutates the shared global chain state. A transaction is an object that holds a payload, which describes the state mutation, and one or more authorizations that permit the transaction to mutate the state owned by specific accounts.</p>
+
+<p>Transaction data is composed and signed with help of the SDK. The signed payload of transaction then gets submitted to the access node API. If a transaction is invalid or the correct number of authorizing signatures are not provided, it gets rejected. </p>
+
+<p>Executing a transaction requires couple of steps:</p>
+
+<ul>
+<li><a href="#build-transactions">Building a transaction</a>.</li>
+<li><a href="#sign-transactions">Signing a transaction</a>.</li>
+<li><a href="#send-transactions">Sending a transaction</a>.</li>
+</ul>
+<h2 id='transactions' class='heading'>Transactions</h2>
+
+<p>A transaction is nothing more than a signed set of data that includes script code which are instructions on how to mutate the network state and properties that define and limit it&rsquo;s execution. All these properties are explained bellow. </p>
+
+<p>📖 <strong>Script</strong> field is the portion of the transaction that describes the state mutation logic. On Flow, transaction logic is written in <a href="https://docs.onflow.org/cadence/">Cadence</a>. Here is an example transaction script:</p>
+<pre class="highlight plaintext"><code>transaction(greeting: String) {
+  execute {
+    log(greeting.concat(", World!"))
+  }
+}
+</code></pre>
+
+<p>📖 <strong>Arguments</strong>. A transaction can accept zero or more arguments that are passed into the Cadence script. The arguments on the transaction must match the number and order declared in the Cadence script. Sample script from above accepts a single <code>String</code> argument.</p>
+
+<p>📖 <strong><a href="https://docs.onflow.org/concepts/transaction-signing/#proposal-key">Proposal key</a></strong> must be provided to act as a sequence number and prevent reply and other potential attacks.</p>
+
+<p>Each account key maintains a separate transaction sequence counter; the key that lends its sequence number to a transaction is called the proposal key.</p>
+
+<p>A proposal key contains three fields:</p>
+
+<ul>
+<li>Account address</li>
+<li>Key index</li>
+<li>Sequence number</li>
+</ul>
+
+<p>A transaction is only valid if its declared sequence number matches the current on-chain sequence number for that key. The sequence number increments by one after the transaction is executed.</p>
+
+<p>📖 <strong><a href="https://docs.onflow.org/concepts/transaction-signing/#signer-roles">Payer</a></strong> is the account that pays the fees for the transaction. A transaction must specify exactly one payer. The payer is only responsible for paying the network and gas fees; the transaction is not authorized to access resources or code stored in the payer account.</p>
+
+<p>📖 <strong><a href="https://docs.onflow.org/concepts/transaction-signing/#signer-roles">Authorizers</a></strong> are accounts that authorize a transaction to read and mutate their resources. A transaction can specify zero or more authorizers, depending on how many accounts the transaction needs to access.</p>
+
+<p>The number of authorizers on the transaction must match the number of AuthAccount parameters declared in the prepare statement of the Cadence script.</p>
+
+<p>Example transaction with multiple authorizers:</p>
+<pre class="highlight plaintext"><code>transaction {
+  prepare(authorizer1: AuthAccount, authorizer2: AuthAccount) { }
+}
+</code></pre>
+
+<p>📖 <strong>Gas limit</strong> is the limit on the amount of computation a transaction requires, and it will abort if it exceeds its gas limit.
+Cadence uses metering to measure the number of operations per transaction. You can read more about it in the <a href="/cadence">Cadence documentation</a>.</p>
+
+<p>The gas limit depends on the complexity of the transaction script. Until dedicated gas estimation tooling exists, it&rsquo;s best to use the emulator to test complex transactions and determine a safe limit.</p>
+
+<p>📖 <strong>Reference block</strong> specifies an expiration window (measured in blocks) during which a transaction is considered valid by the network.
+A transaction will be rejected if it is submitted past its expiry block. Flow calculates transaction expiry using the <em>reference block</em> field on a transaction.
+A transaction expires after <code>600</code> blocks are committed on top of the reference block, which takes about 10 minutes at average Mainnet block rates.</p>
+<h3 id='build-transactions' class='heading'>Build Transactions</h3>
+
+<p>Building a transaction involves setting the required properties explained above and producing a transaction object. </p>
+
+<p>Here we define a simple transaction script that will be used to execute on the network and serve as a good learning example.
+Quick example of building a transaction:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">address</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">)</span>
+<span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try!</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
     <span class="n">cadence</span> <span class="p">{</span>
         <span class="s">"""
-            transaction(publicKey: String) {
-                prepare(signer: AuthAccount) {
-                    signer.addPublicKey(publicKey.decodeHex())
-                }
-            }
+        transaction(greeting: String) {
+
+          let guest: Address
+
+          prepare(authorizer: AuthAccount) {
+            self.guest = authorizer.address
+          }
+
+          execute {
+            log(greeting.concat("</span><span class="p">,</span><span class="s">").concat(guest.toString()))
+          }
+        }
         """</span>
     <span class="p">}</span>
 
-    <span class="n">proposer</span> <span class="p">{</span>
-        <span class="n">address</span>
+    <span class="n">proposer</span> <span class="p">{</span> 
+        <span class="c1">// SequenceNumber is optional. If it's nil, it will fetch the updated one from the chain.</span>
+        <span class="kt">Flow</span><span class="o">.</span><span class="kt">TransactionProposalKey</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1">// If you are using the key 0, you can just pass the address </span>
+        <span class="c1">// address</span>
     <span class="p">}</span>
 
     <span class="n">authorizers</span> <span class="p">{</span>
@@ -326,7 +581,12 @@ For more info about access API, please check this <a href="https://docs.onflow.o
     <span class="p">}</span>
 
     <span class="n">arguments</span> <span class="p">{</span>
-        <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="o">.</span><span class="nf">string</span><span class="p">(</span><span class="o">&lt;</span><span class="kt">PublicKey</span><span class="o">&gt;</span><span class="p">))</span>
+        <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="o">.</span><span class="nf">string</span><span class="p">(</span><span class="s">"Hello Flow!"</span><span class="p">))</span>
+    <span class="p">}</span>
+
+    <span class="c1">// If payer is the same as proposer, you can ignore this field</span>
+    <span class="n">payer</span> <span class="p">{</span>
+        <span class="n">address</span>
     <span class="p">}</span>
 
     <span class="c1">// optional</span>
@@ -335,54 +595,384 @@ For more info about access API, please check this <a href="https://docs.onflow.o
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<h3 id='send-a-transaction' class='heading'>Send a transaction</h3>
 
-<p>To send a transaction to the chain, you need attach signers in here, which need to confirm <strong>FlowSigner</strong> protocol</p>
+<p>After you have successfully <a href="#build-transactions">built a transaction</a> the next step in the process is to sign it.</p>
+<h3 id='sign-transactions' class='heading'>Sign Transactions</h3>
+
+<p>Flow introduces new concepts that allow for more flexibility when creating and signing transactions.
+Before trying the examples below, we recommend that you read through the <a href="https://docs.onflow.org/concepts/accounts-and-keys/">transaction signature documentation</a>.</p>
+
+<p>After you have successfully <a href="#build-transactions">built a transaction</a> the next step in the process is to sign it. Flow transactions have envelope and payload signatures, and you should learn about each in the <a href="https://docs.onflow.org/concepts/accounts-and-keys/#anatomy-of-a-transaction">signature documentation</a>.</p>
+
+<p>Signatures can be generated more securely using keys stored in a hardware device such as an <a href="https://en.wikipedia.org/wiki/Hardware_security_module">HSM</a>. The <code>crypto.Signer</code> interface is intended to be flexible enough to support a variety of signer implementations and is not limited to in-memory implementations.</p>
+
+<p>To sign the transaction, you need create a list signer which confirm <strong>FlowSigner</strong> protocol. </p>
 <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">FlowSigner</span> <span class="p">{</span>
     <span class="k">var</span> <span class="nv">address</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
     <span class="k">var</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
     <span class="kd">func</span> <span class="nf">signature</span><span class="p">(</span><span class="nv">signableData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span>
 <span class="p">}</span>
-
-<span class="k">let</span> <span class="nv">txId</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="n">flow</span><span class="o">.</span><span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">flowSigners</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">cadence</span> <span class="p">{</span>
-        <span class="s">"""
-            transaction {
-                prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
-                  log(signer1.address)
-                  log(signer2.address)
-                  log(signer3.address)
-              }
-            }
-        """</span>
-    <span class="p">}</span>
-
-    <span class="n">proposer</span> <span class="p">{</span>
-        <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="n">payer</span> <span class="p">{</span>
-        <span class="n">addressB</span>
-    <span class="p">}</span>
-
-    <span class="n">authorizers</span> <span class="p">{</span>
-        <span class="p">[</span><span class="n">addressC</span><span class="p">,</span> <span class="n">addressB</span><span class="p">,</span> <span class="n">addressA</span><span class="p">]</span>
-    <span class="p">}</span>
-<span class="p">}</span><span class="o">.</span><span class="nf">wait</span><span class="p">()</span>
 </code></pre>
-<h2 id='common-operation' class='heading'>Common operation</h2>
 
-<p>Here is a list of common functions in the flow SDK.
-You can all the example usage <a href="./Tests/FlowOperationTest.swift">here</a></p>
+<p>Flow supports great flexibility when it comes to transaction signing, we can define multiple authorizers (multi-sig transactions) and have different payer account than proposer. We will explore advanced signing scenarios bellow.</p>
+<h3 id='a-href-https-docs-onflow-org-concepts-transaction-signing-single-party-single-signature-single-party-single-signature-a' class='heading'><a href="https://docs.onflow.org/concepts/transaction-signing/#single-party-single-signature">Single party, single signature</a></h3>
 
 <ul>
-<li>[x] addKeyToAccount</li>
-<li>[x] addContractToAccount</li>
-<li>[x] createAccount</li>
-<li>[x] removeAccountKeyByIndex</li>
-<li>[x] removeContractFromAccount</li>
-<li>[x] updateContractOfAccount</li>
+<li>Proposer, payer and authorizer are the same account (<code>0x01</code>).</li>
+<li>Only the envelope must be signed.</li>
+<li>Proposal key must have full signing weight.</li>
 </ul>
+
+<table><thead>
+<tr>
+<th>Account</th>
+<th>Key ID</th>
+<th>Weight</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>0x01</code></td>
+<td>1</td>
+<td>1.0</td>
+</tr>
+</tbody></table>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">address</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x1"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">signers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+        <span class="n">cadence</span> <span class="p">{</span>
+            <span class="s">"""
+            transaction { 
+                prepare(signer: AuthAccount) { log(signer.address) }
+            }
+            """</span>
+        <span class="p">}</span>
+
+        <span class="n">proposer</span> <span class="p">{</span>
+            <span class="kt">Flow</span><span class="o">.</span><span class="kt">TransactionProposalKey</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">authorizers</span> <span class="p">{</span>
+            <span class="n">address</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c1">// Handle Error</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='a-href-https-docs-onflow-org-concepts-transaction-signing-single-party-multiple-signatures-single-party-multiple-signatures-a' class='heading'><a href="https://docs.onflow.org/concepts/transaction-signing/#single-party-multiple-signatures">Single party, multiple signatures</a></h3>
+
+<ul>
+<li>Proposer, payer and authorizer are the same account (<code>0x01</code>).</li>
+<li>Only the envelope must be signed.</li>
+<li>Each key has weight 0.5, so two signatures are required.</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Account</th>
+<th>Key ID</th>
+<th>Weight</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>0x01</code></td>
+<td>1</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><code>0x01</code></td>
+<td>2</td>
+<td>0.5</td>
+</tr>
+</tbody></table>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">address</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x1"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">signers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span> <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+        <span class="n">cadence</span> <span class="p">{</span>
+            <span class="s">"""
+            transaction { 
+                prepare(signer: AuthAccount) { log(signer.address) }
+            }
+            """</span>
+        <span class="p">}</span>
+
+        <span class="n">proposer</span> <span class="p">{</span>
+            <span class="kt">Flow</span><span class="o">.</span><span class="kt">TransactionProposalKey</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">authorizers</span> <span class="p">{</span>
+            <span class="n">address</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c1">// Handle Error</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='a-href-https-docs-onflow-org-concepts-transaction-signing-multiple-parties-multiple-parties-a' class='heading'><a href="https://docs.onflow.org/concepts/transaction-signing/#multiple-parties">Multiple parties</a></h3>
+
+<ul>
+<li>Proposer and authorizer are the same account (<code>0x01</code>).</li>
+<li>Payer is a separate account (<code>0x02</code>).</li>
+<li>Account <code>0x01</code> signs the payload.</li>
+<li>Account <code>0x02</code> signs the envelope.
+
+<ul>
+<li>Account <code>0x02</code> must sign last since it is the payer.</li>
+</ul></li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Account</th>
+<th>Key ID</th>
+<th>Weight</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>0x01</code></td>
+<td>1</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td><code>0x02</code></td>
+<td>3</td>
+<td>1.0</td>
+</tr>
+</tbody></table>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">addressA</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x1"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">addressB</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x2"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">signers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span> <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressB</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+        <span class="n">cadence</span> <span class="p">{</span>
+            <span class="s">"""
+            transaction { 
+                prepare(signer: AuthAccount) { log(signer.address) }
+            }
+            """</span>
+        <span class="p">}</span>
+
+        <span class="n">proposer</span> <span class="p">{</span>
+            <span class="kt">Flow</span><span class="o">.</span><span class="kt">TransactionProposalKey</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">authorizers</span> <span class="p">{</span>
+            <span class="n">addressA</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c1">// Handle Error</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='a-href-https-docs-onflow-org-concepts-transaction-signing-multiple-parties-multiple-parties-two-authorizers-a' class='heading'><a href="https://docs.onflow.org/concepts/transaction-signing/#multiple-parties">Multiple parties, two authorizers</a></h3>
+
+<ul>
+<li>Proposer and authorizer are the same account (<code>0x01</code>).</li>
+<li>Payer is a separate account (<code>0x02</code>).</li>
+<li>Account <code>0x01</code> signs the payload.</li>
+<li>Account <code>0x02</code> signs the envelope.
+
+<ul>
+<li>Account <code>0x02</code> must sign last since it is the payer.</li>
+</ul></li>
+<li>Account <code>0x02</code> is also an authorizer to show how to include two AuthAccounts into an transaction</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Account</th>
+<th>Key ID</th>
+<th>Weight</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>0x01</code></td>
+<td>1</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td><code>0x02</code></td>
+<td>3</td>
+<td>1.0</td>
+</tr>
+</tbody></table>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">addressA</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x1"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">addressB</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x2"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">signers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span> <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressB</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+        <span class="n">cadence</span> <span class="p">{</span>
+            <span class="s">"""
+            transaction {
+                prepare(signer1: AuthAccount, signer2: AuthAccount) {
+                  log(signer.address)
+                  log(signer2.address)
+                }
+            }
+            """</span>
+        <span class="p">}</span>
+
+        <span class="n">proposer</span> <span class="p">{</span>
+            <span class="kt">Flow</span><span class="o">.</span><span class="kt">TransactionProposalKey</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">authorizers</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">addressA</span><span class="p">,</span> <span class="n">addressB</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c1">// Handle Error</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='a-href-https-docs-onflow-org-concepts-transaction-signing-multiple-parties-multiple-parties-multiple-signatures-a' class='heading'><a href="https://docs.onflow.org/concepts/transaction-signing/#multiple-parties">Multiple parties, multiple signatures</a></h3>
+
+<ul>
+<li>Proposer and authorizer are the same account (<code>0x01</code>).</li>
+<li>Payer is a separate account (<code>0x02</code>).</li>
+<li>Account <code>0x01</code> signs the payload.</li>
+<li>Account <code>0x02</code> signs the envelope.
+
+<ul>
+<li>Account <code>0x02</code> must sign last since it is the payer.</li>
+</ul></li>
+<li>Both accounts must sign twice (once with each of their keys).</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Account</th>
+<th>Key ID</th>
+<th>Weight</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>0x01</code></td>
+<td>1</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><code>0x01</code></td>
+<td>2</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><code>0x02</code></td>
+<td>3</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><code>0x02</code></td>
+<td>4</td>
+<td>0.5</td>
+</tr>
+</tbody></table>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">addressA</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x1"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">addressB</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x2"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">signers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">2</span><span class="p">),</span> 
+                <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressB</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">3</span><span class="p">),</span>
+                <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressB</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">4</span><span class="p">)]</span>
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+        <span class="n">cadence</span> <span class="p">{</span>
+            <span class="s">"""
+            transaction {
+                prepare(signer1: AuthAccount, signer2: AuthAccount) {
+                  log(signer.address)
+                  log(signer2.address)
+                }
+            }
+            """</span>
+        <span class="p">}</span>
+
+        <span class="n">proposer</span> <span class="p">{</span>
+            <span class="kt">Flow</span><span class="o">.</span><span class="kt">TransactionProposalKey</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">authorizers</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">addressA</span><span class="p">,</span> <span class="n">addressB</span><span class="p">]</span>
+        <span class="p">}</span>
+
+        <span class="n">payer</span> <span class="p">{</span>
+            <span class="n">addressB</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c1">// Handle Error</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='send-transactions' class='heading'>Send Transactions</h3>
+
+<p>After a transaction has been <a href="#build-transactions">built</a> and <a href="#sign-transactions">signed</a>, it can be sent to the Flow blockchain where it will be executed. If sending was successful you can then <a href="#get-transactions">retrieve the transaction result</a>.</p>
+<pre class="highlight swift"><code><span class="n">flow</span><span class="o">.</span><span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">signedTrnaction</span><span class="p">:</span> <span class="n">signedTx</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">account</span><span class="p">):</span>
+        <span class="c1">// Handle Success Result</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+        <span class="c1">// Handle Error</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='create-accounts' class='heading'>Create Accounts</h3>
+
+<p>On Flow, account creation happens inside a transaction. Because the network allows for a many-to-many relationship between public keys and accounts, it&rsquo;s not possible to derive a new account address from a public key offline. </p>
+
+<p>The Flow VM uses a deterministic address generation algorithm to assigen account addresses on chain. You can find more details about address generation in the <a href="https://docs.onflow.org/concepts/accounts-and-keys/">accounts &amp; keys documentation</a>.</p>
+<h4 id='public-key' class='heading'>Public Key</h4>
+
+<p>Flow uses ECDSA key pairs to control access to user accounts. Each key pair can be used in combination with the SHA2-256 or SHA3-256 hashing algorithms.</p>
+
+<p>⚠️ You&rsquo;ll need to authorize at least one public key to control your new account.</p>
+
+<p>Flow represents ECDSA public keys in raw form without additional metadata. Each key is a single byte slice containing a concatenation of its X and Y components in big-endian byte form.</p>
+
+<p>A Flow account can contain zero (not possible to control) or more public keys, referred to as account keys. Read more about <a href="https://docs.onflow.org/concepts/accounts-and-keys/#accounts">accounts in the documentation</a>.</p>
+
+<p>An account key contains the following data:</p>
+
+<ul>
+<li>Raw public key (described above)</li>
+<li>Signature algorithm</li>
+<li>Hash algorithm</li>
+<li>Weight (integer between 0-1000)</li>
+</ul>
+
+<p>Account creation happens inside a transaction, which means that somebody must pay to submit that transaction to the network. We&rsquo;ll call this person the account creator. Make sure you have read <a href="#send-transactions">sending a transaction section</a> first. </p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">accountKey</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">AccountKey</span><span class="p">(</span><span class="nv">publicKey</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">PublicKey</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">),</span>
+                                 <span class="nv">signAlgo</span><span class="p">:</span> <span class="o">.</span><span class="kt">ECDSA_P256</span><span class="p">,</span>
+                                 <span class="nv">hashAlgo</span><span class="p">:</span> <span class="o">.</span><span class="kt">SHA2_256</span><span class="p">,</span>
+                                 <span class="nv">weight</span><span class="p">:</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">flow</span><span class="o">.</span><span class="nf">createAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">publicKeys</span><span class="p">:</span> <span class="p">[</span><span class="n">accountKey</span><span class="p">],</span> <span class="nv">contracts</span><span class="p">:</span> <span class="p">[</span><span class="nv">scriptName</span><span class="p">:</span> <span class="n">script</span><span class="p">],</span> <span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+<span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">account</span><span class="p">):</span>
+        <span class="c1">// Handle Success Result</span>
+    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+        <span class="c1">// Handle Error</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>After the account creation transaction has been submitted you can retrieve the new account address by <a href="#get-transactions">getting the transaction result</a>. </p>
+
+<p>The new account address will be emitted in a system-level <code>flow.AccountCreated</code> event.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">txID</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="nf">createAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">publicKeys</span><span class="p">:</span> <span class="p">[</span><span class="n">accountKey</span><span class="p">],</span> <span class="nv">contracts</span><span class="p">:</span> <span class="p">[</span><span class="nv">scriptName</span><span class="p">:</span> <span class="n">script</span><span class="p">],</span> <span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span><span class="o">.</span><span class="nf">wait</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try!</span> <span class="n">txID</span><span class="o">.</span><span class="nf">onceSealed</span><span class="p">()</span><span class="o">.</span><span class="nf">wait</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">event</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">first</span><span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">"flow.AccountCreated"</span> <span class="p">}</span>
+<span class="k">let</span> <span class="nv">field</span> <span class="o">=</span> <span class="n">event</span><span class="p">?</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">fields</span><span class="p">?</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="nf">toEvent</span><span class="p">()?</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">first</span><span class="p">{</span><span class="nv">$0</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">"address"</span><span class="p">}</span>
+<span class="k">let</span> <span class="nv">address</span> <span class="o">=</span> <span class="n">field</span><span class="p">?</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="nf">toAddress</span><span class="p">()?</span><span class="o">.</span><span class="n">hex</span>
+</code></pre>
+<h3 id='generate-keys' class='heading'>Generate Keys</h3>
+
+<p>To generating the key, please check our another SDK - <a href="https://github.com/zed-io/flow-wallet-kit">Flow Wallet Kit</a></p>
 
           </section>
         </section>

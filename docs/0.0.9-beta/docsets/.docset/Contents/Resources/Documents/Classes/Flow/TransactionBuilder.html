@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>EventPayload Structure Reference</title>
+    <title>TransactionBuilder Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset='utf-8'>
@@ -13,11 +13,11 @@
     <script src="../../js/jazzy.search.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/EventPayload" class="dashAnchor"></a>
-    <a title="EventPayload Structure Reference"></a>
+    <a name="//apple_ref/swift/Class/TransactionBuilder" class="dashAnchor"></a>
+    <a title="TransactionBuilder Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../../index.html"> 0.0.8-beta-doc Docs</a> (3% documented)</p>
+        <p><a href="../../index.html"> 0.0.9-beta Docs</a> (3% documented)</p>
         <p class="header-right"><a href="https://github.com/zed-io/flow-swift"><img src="../../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../../search.json">
@@ -30,7 +30,7 @@
       <p id="breadcrumbs">
         <a href="../../index.html"> Reference</a>
         <img id="carat" src="../../img/carat.png" alt=""/>
-        EventPayload Structure Reference
+        TransactionBuilder Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -97,13 +97,7 @@
                 <a href="../../Classes/Flow/Event.html">– Event</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/Flow/EventResult.html">– EventResult</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../../Classes/Flow/Snapshot.html">– Snapshot</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../../Classes/Flow/EventPayload.html">– EventPayload</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/ID.html">– ID</a>
@@ -245,18 +239,19 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>EventPayload</h1>
+            <h1>TransactionBuilder</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">EventPayload</span> <span class="p">:</span> <span class="kt"><a href="../../Protocols/FlowEntity.html">FlowEntity</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@resultBuilder</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">TransactionBuilder</span></code></pre>
 
                 </div>
               </div>
             <p>Undocumented</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/zed-io/flow-swift/tree/0.0.8-beta-doc/Sources/Flow/Models/FlowEvent.swift#L45-L57">Show on GitHub</a>
+                <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Build/TransactionBuild.swift#L92-L102">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -265,9 +260,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC12EventPayloadV4data10Foundation4DataVvp"></a>
-                    <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC12EventPayloadV4data10Foundation4DataVvp">data</a>
+                    <a name="/s:4FlowAAC18TransactionBuilderC10buildBlockSayAB0B5BuildOGyFZ"></a>
+                    <a name="//apple_ref/swift/Method/buildBlock()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC18TransactionBuilderC10buildBlockSayAB0B5BuildOGyFZ">buildBlock()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -282,12 +277,12 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">buildBlock</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.8-beta-doc/Sources/Flow/Models/FlowEvent.swift#L46">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Build/TransactionBuild.swift#L93">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -295,9 +290,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC12EventPayloadV6fieldsAB8ArgumentVSgvp"></a>
-                    <a name="//apple_ref/swift/Property/fields" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC12EventPayloadV6fieldsAB8ArgumentVSgvp">fields</a>
+                    <a name="/s:4FlowAAC18TransactionBuilderC10buildArrayySayAB0B5BuildOGSayAHGFZ"></a>
+                    <a name="//apple_ref/swift/Method/buildArray(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC18TransactionBuilderC10buildArrayySayAB0B5BuildOGSayAHGFZ">buildArray(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -312,12 +307,42 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">fields</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/Argument.html">Argument</a></span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">buildArray</span><span class="p">(</span><span class="n">_</span> <span class="nv">components</span><span class="p">:</span> <span class="p">[[</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.8-beta-doc/Sources/Flow/Models/FlowEvent.swift#L47">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Build/TransactionBuild.swift#L95-L97">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC18TransactionBuilderC10buildBlockySayAB0B5BuildOGAGd_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/buildBlock(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC18TransactionBuilderC10buildBlockySayAB0B5BuildOGAGd_tFZ">buildBlock(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">buildBlock</span><span class="p">(</span><span class="n">_</span> <span class="nv">components</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Build/TransactionBuild.swift#L99-L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
