@@ -4,6 +4,11 @@ import CryptoKit
 @testable import Flow
 import XCTest
 
+// To avoid unnecessary network call, we have disabled all unit test in here.
+// If you wanna to run it, please change the func name from `exampleXXX` to `testXXX`.
+// For example:
+// func exampleAddContractToAccount() -> func testAddContractToAccount()
+
 final class FlowOperationTests: XCTestCase {
     var address = Flow.Address(hex: "0xe242ccfb4b8ea3e2")
     let publicKey = try! P256.KeyAgreement.PublicKey(rawRepresentation: "adbf18dae6671e6b6a92edf00c79166faba6babf6ec19bd83eabf690f386a9b13c8e48da67973b9cf369f56e92ec25ede5359539f687041d27d0143afd14bca9".hexValue)
@@ -37,35 +42,17 @@ final class FlowOperationTests: XCTestCase {
         signers.append(ECDSA_P256_Signer(address: address, keyIndex: 0, privateKey: privateKey))
     }
 
-    func testCreateAccount() {
-        let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
-                                         signAlgo: .ECDSA_P256,
-                                         hashAlgo: .SHA2_256,
-                                         weight: 1000)
-
-        let txID = try! flow.createAccount(address: address,
-                                           publicKeys: [accountKey],
-                                           contracts: [scriptName: script],
-                                           signers: signers).wait()
-        XCTAssertNotNil(txID)
-        
-        let result = try! txID.onceSealed().wait()
-        let event = result.events.first{ $0.type == "flow.AccountCreated" }
-        let field = event?.payload.fields?.value.toEvent()?.fields.first{$0.name == "address"}
-        XCTAssertNotNil(field?.value.value.toAddress()?.hex)
-    }
-
-    func testAddContractToAccount() {
+    func exampleAddContractToAccount() {
         let texID = try! flow.addContractToAccount(address: address, contractName: scriptName, code: script, signers: signers).wait()
         XCTAssertNotNil(texID)
     }
 
-    func testRemoveAccountKeyByIndex() {
+    func exampleRemoveAccountKeyByIndex() {
         let txID = try! flow.removeAccountKeyByIndex(address: address, keyIndex: 4, signers: signers).wait()
         XCTAssertNotNil(txID)
     }
 
-    func testAddKeyToAccount() {
+    func exampleAddKeyToAccount() {
         let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
                                          signAlgo: .ECDSA_P256,
                                          hashAlgo: .SHA2_256,
@@ -77,7 +64,7 @@ final class FlowOperationTests: XCTestCase {
 
     }
 
-    func testUpdateContractOfAccount() {
+    func exampleUpdateContractOfAccount() {
         let script2 = """
         pub contract HelloWorld {
         
@@ -102,8 +89,28 @@ final class FlowOperationTests: XCTestCase {
         let txID = try! flow.updateContractOfAccount(address: address, contractName: scriptName, script: script2, signers: signers).wait()
         XCTAssertNotNil(txID)
     }
+    
+    func exampleCreateAccount() {
+        let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
+                                         signAlgo: .ECDSA_P256,
+                                         hashAlgo: .SHA2_256,
+                                         weight: 1000)
 
-    func testRemoveContractFromAccount() {
+        let txID = try! flow.createAccount(address: address,
+                                           publicKeys: [accountKey],
+                                           contracts: [scriptName: script],
+                                           signers: signers).wait()
+        
+        print("testCreateAccount -> \(txID.hex)")
+        XCTAssertNotNil(txID)
+        let result = try! txID.onceSealed().wait()
+        let event = result.events.first{ $0.type == "flow.AccountCreated" }
+        let field = event?.payload.fields?.value.toEvent()?.fields.first{$0.name == "address"}
+        let address = field?.value.value.toAddress()
+        XCTAssertNotNil(address?.hex)
+    }
+
+    func exampleRemoveContractFromAccount() {
         let txID = try! flow.removeContractFromAccount(address: address, contractName: scriptName, signers: signers)
         XCTAssertNotNil(txID)
     }
