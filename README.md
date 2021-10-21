@@ -40,7 +40,7 @@ The Access Nodes APIs hosted by DapperLabs are accessible at:
 - Testnet `access.devnet.nodes.onflow.org:9000`
 - Mainnet `access.mainnet.nodes.onflow.org:9000`
 - Local Emulator `127.0.0.1:3569` 
- 
+
 To config the SDK, you just need to provider the chainID for it. The default chainID is **Mainnet**.
 For example, if you want to use testnet, you can config the chainID like this:
 ```swift
@@ -52,15 +52,13 @@ Moreover, if you want to use a custom gRPC endpoint for the access API, here is 
 let endpoint = Flow.ChainID.Endpoint(node: "flow-testnet.g.alchemy.com", port: 443)
 let chainID = Flow.ChainID.custom(name: "Alchemy-Testnet", endpoint:endpoint)
 flow.configure(chainID: chainID)
-``` 
+```
 
 
 ## Querying the Flow Network
 After you have established a connection with an access node, you can query the Flow network to retrieve data about blocks, accounts, events and transactions. We will explore how to retrieve each of these entities in the sections below.
 
 ### Get Blocks
-[<img src="https://raw.githubusercontent.com/onflow/sdks/main/templates/documentation/ref.svg" width="130">]() // TODO specs here
-
 Query the network for block by id, height or get the latest block.
 
 📖 **Block ID** is SHA3-256 hash of the entire block payload. This hash is stored as an ID field on any block response object (ie. response from `GetLatestBlock`). 
@@ -293,8 +291,6 @@ A transaction will be rejected if it is submitted past its expiry block. Flow ca
 A transaction expires after `600` blocks are committed on top of the reference block, which takes about 10 minutes at average Mainnet block rates.
 
 ### Build Transactions
-[<img src="https://raw.githubusercontent.com/onflow/sdks/main/templates/documentation/ref.svg" width="130">]() // TODO specs here
-
 Building a transaction involves setting the required properties explained above and producing a transaction object. 
 
 Here we define a simple transaction script that will be used to execute on the network and serve as a good learning example.
@@ -341,8 +337,6 @@ var unsignedTx = try! flow.buildTransaction{
 After you have successfully [built a transaction](#build-transactions) the next step in the process is to sign it.
 
 ### Sign Transactions
-[<img src="https://raw.githubusercontent.com/onflow/sdks/main/templates/documentation/ref.svg" width="130">]() // TODO specs here
-
 Flow introduces new concepts that allow for more flexibility when creating and signing transactions.
 Before trying the examples below, we recommend that you read through the [transaction signature documentation](https://docs.onflow.org/concepts/accounts-and-keys/).
 
