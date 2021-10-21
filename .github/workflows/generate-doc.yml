@@ -1,0 +1,66 @@
+name: generate-doc
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-docs:
+    runs-on: macos-11
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: master
+
+      - name: Get tag
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+        working-directory: master
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.2
+          bundler-cache: true
+
+      - name: Build doc
+        env:
+          RELEASE_VERSION: ${{steps.vars.outputs.tag}}
+        run: |
+          bundle install
+          bundle exec jazzy --clean --output .build/jazzy --author 'Zed Team' --author_url https://github.com/zed-io/flow-swift --github_url https://github.com/zed-io/flow-swift --github-file-prefix https://github.com/zed-io/flow-swift/tree/${RELEASE_VERSION}
+        working-directory: master
+      
+      - name: Checkout doc
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Clean old doc
+        run: rm -rf docs/current
+        working-directory: gh-pages
+
+      - name: Copy new doc
+        env:
+          G_WORKSPACE: ${{github.workspace}}
+          RELEASE_VERSION: ${{steps.vars.outputs.tag}}
+        run: |
+          mkdir -p docs/current
+          mkdir -p docs/$RELEASE_VERSION
+          cp -R ${G_WORKSPACE}/master/.build/jazzy/* docs/current
+          cp -R ${G_WORKSPACE}/master/.build/jazzy/* docs/$RELEASE_VERSION
+        working-directory: gh-pages
+
+      - name: Commit
+        env:
+          RELEASE_VERSION: ${{steps.vars.outputs.tag}}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generate ${RELEASE_VERSION} docs automatically"
+          git push
+        working-directory: gh-pages

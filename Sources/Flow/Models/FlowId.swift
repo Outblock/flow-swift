@@ -27,18 +27,31 @@ extension Flow {
 }
 
 extension Flow.ID {
+    
+    /// Get notified when transaction's status change to `.finalized`.
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
     public func onceFinalized() -> EventLoopFuture<Flow.TransactionResult> {
         return once(status: .finalized)
     }
 
+    /// Get notified when transaction's status change to `.executed`.
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
     public func onceExecuted() -> EventLoopFuture<Flow.TransactionResult> {
         return once(status: .executed)
     }
 
+    /// Get notified when transaction's status change to `.sealed`.
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
     public func onceSealed() -> EventLoopFuture<Flow.TransactionResult> {
         return once(status: .sealed)
     }
 
+    /// Get notified when transaction's status changed.
+    /// - parameters:
+    ///     - status: The status you want to monitor.
+    ///     - delay: Interval between two queries. Default is 2000 milliseconds.
+    ///     - timeout: Timeout for this request. Default is 60 seconds.
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
     public func once(status: Flow.Transaction.Status,
                      delay: DispatchTimeInterval = .milliseconds(2000),
                      timeout: TimeInterval = 60) -> EventLoopFuture<Flow.TransactionResult> {
