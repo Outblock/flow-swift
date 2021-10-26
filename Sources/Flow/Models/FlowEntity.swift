@@ -23,7 +23,6 @@ public typealias Bytes = [UInt8]
 
 /// Protocol to hanld `Flow` network model
 public protocol FlowEntity {
-
     /// The content of the entity
     var data: Data { get set }
 

@@ -31,12 +31,12 @@ extension Flow {
 }
 
 extension Flow.Transaction {
-
-    /// Sign (Muate) unsigned Flow Transaction with a list of `FlowSigner`
+    /// Sign (Mutate) the payload of Flow Transaction with a list of `FlowSigner`
     /// - parameters:
     ///     - signers: A list of `FlowSigner` to sign the transaction
     /// - returns: The `Flow.Transaction` itself.
-    public mutating func sign(signers: [FlowSigner]) throws -> Flow.Transaction {
+    @discardableResult
+    public mutating func signPayload(signers: [FlowSigner]) throws -> Flow.Transaction {
         guard let signablePlayload = signablePlayload else {
             throw Flow.FError.invaildPlayload
         }
@@ -59,7 +59,7 @@ extension Flow.Transaction {
             }
         }
 
-        // Sign the
+        // Sign the transaction with each authorizer
         for authorizer in authorizers {
             if proposalKey.address == authorizer {
                 continue
@@ -81,8 +81,21 @@ extension Flow.Transaction {
             }
         }
 
+        return self
+    }
+
+    /// Sign (Mutate) the envelope of Flow Transaction with a list of `FlowSigner`
+    /// - parameters:
+    ///     - signers: A list of `FlowSigner` to sign the transaction
+    /// - returns: The `Flow.Transaction` itself.
+    @discardableResult
+    public mutating func signEnvelope(signers: [FlowSigner]) throws -> Flow.Transaction {
         guard let signableEnvelope = signableEnvelope else {
             throw Flow.FError.invaildEnvelope
+        }
+
+        func findSigners(address: Flow.Address, signers: [FlowSigner]) -> [FlowSigner]? {
+            return signers.filter { $0.address == address }
         }
 
         guard let signers = findSigners(address: payerAddress,
@@ -90,12 +103,26 @@ extension Flow.Transaction {
             throw Flow.FError.missingSigner
         }
 
+        // Sign the transaction with payer
         for signer in signers {
             let signature = try signer.sign(signableData: signableEnvelope)
             addEnvelopeSignature(address: payerAddress,
                                  keyIndex: signer.keyIndex,
                                  signature: signature)
         }
+        return self
+    }
+
+    // TODO: Replace it with the combination of `signPayload` and `signEnvelope`
+
+    /// Sign (Mutate) unsigned Flow Transaction with a list of `FlowSigner`
+    /// - parameters:
+    ///     - signers: A list of `FlowSigner` to sign the transaction
+    /// - returns: The `Flow.Transaction` itself.
+    @discardableResult
+    public mutating func sign(signers: [FlowSigner]) throws -> Flow.Transaction {
+        try signPayload(signers: signers)
+        try signEnvelope(signers: signers)
         return self
     }
 }

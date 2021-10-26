@@ -18,7 +18,6 @@
 import Foundation
 
 extension Flow {
-
     /// The signature algorithm supported by flow which include `.ECDSA_P256` and `.ECDSA_SECP256k1`
     public enum SignatureAlgorithm: String, CaseIterable, Codable {
         case unknown

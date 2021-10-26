@@ -19,7 +19,6 @@
 import Foundation
 
 extension String {
-
     /// Convert hex string to bytes
     var hexValue: [UInt8] {
         var startIndex = self.startIndex

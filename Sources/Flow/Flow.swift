@@ -25,7 +25,6 @@ public let flow = Flow.shared
 /// Singleton class to make the class more accessible in global scope
 /// Please use `flow` to access to its singleton entity.
 public final class Flow {
-
     /// Singleton object for `Flow` class
     public static let shared = Flow()
 
@@ -55,7 +54,7 @@ public final class Flow {
     ///     flow.configure(chainID: .testnet)
     /// ```
     ///
-    ///For custom node:
+    /// For custom node:
     /// ```
     ///     let endpoint = Flow.ChainID.Endpoint(node: "flow-testnet.g.alchemy.com", port: 443)
     ///     let chainID = Flow.ChainID.custom(name: "Alchemy-Testnet", endpoint:endpoint)
@@ -64,7 +63,7 @@ public final class Flow {
     ///
     public func configure(chainID: ChainID) {
         self.chainID = chainID
-        self.accessAPI = createAccessAPI(chainID: chainID)
+        accessAPI = createAccessAPI(chainID: chainID)
     }
 
     /// Create an access API client of `Access` by chainID
@@ -77,7 +76,7 @@ public final class Flow {
     ///     let client = flow.createAccessAPI(chainID: .testnet)
     /// ```
     ///
-    ///For custom node:
+    /// For custom node:
     /// ```
     ///     let endpoint = Flow.ChainID.Endpoint(node: "flow-testnet.g.alchemy.com", port: 443)
     ///     let chainID = Flow.ChainID.custom(name: "Alchemy-Testnet", endpoint:endpoint)

@@ -19,7 +19,6 @@
 import Foundation
 
 extension Flow {
-
     /// List of common error in Flow Swift SDK
     public enum FError: String, Error {
         case generic

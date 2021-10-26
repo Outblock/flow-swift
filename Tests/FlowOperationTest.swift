@@ -76,10 +76,8 @@ final class FlowOperationTests: XCTestCase {
                                          hashAlgo: .SHA2_256,
                                          weight: 1000)
 
-
-        let txID  = try! flow.addKeyToAccount(address: address, accountKey: accountKey, signers: signers).wait()
+        let txID = try! flow.addKeyToAccount(address: address, accountKey: accountKey, signers: signers).wait()
         XCTAssertNotNil(txID)
-
     }
 
     func exampleUpdateContractOfAccount() {
@@ -107,7 +105,7 @@ final class FlowOperationTests: XCTestCase {
         let txID = try! flow.updateContractOfAccount(address: address, contractName: scriptName, script: script2, signers: signers).wait()
         XCTAssertNotNil(txID)
     }
-    
+
     func exampleCreateAccount() {
         let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
                                          signAlgo: .ECDSA_P256,
@@ -118,12 +116,12 @@ final class FlowOperationTests: XCTestCase {
                                            publicKeys: [accountKey],
                                            contracts: [scriptName: script],
                                            signers: signers).wait()
-        
+
         print("testCreateAccount -> \(txID.hex)")
         XCTAssertNotNil(txID)
         let result = try! txID.onceSealed().wait()
-        let event = result.events.first{ $0.type == "flow.AccountCreated" }
-        let field = event?.payload.fields?.value.toEvent()?.fields.first{$0.name == "address"}
+        let event = result.events.first { $0.type == "flow.AccountCreated" }
+        let field = event?.payload.fields?.value.toEvent()?.fields.first { $0.name == "address" }
         let address = field?.value.value.toAddress()
         XCTAssertNotNil(address?.hex)
     }

@@ -20,10 +20,8 @@ import BigInt
 import Foundation
 
 extension Flow {
-
     /// The argument for Cadence code for encoding and decoding
     public struct Argument: Codable, Equatable {
-
         /// The type of the argument in `Flow.Cadence.FType`
         public let type: Cadence.FType
 
@@ -250,7 +248,6 @@ extension Flow {
 }
 
 extension Flow.Argument {
-
     /// The data structure for `.path` argument type
     /// More detail can be found here: https://docs.onflow.org/cadence/json-cadence-spec/#path
     public struct Path: Codable, Equatable {

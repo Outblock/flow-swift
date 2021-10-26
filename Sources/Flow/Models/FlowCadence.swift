@@ -24,7 +24,6 @@ extension Flow {
 }
 
 extension Flow.Cadence {
-
     /// All the type in Cadence
     /// Find more detail here: https://docs.onflow.org/cadence/language/values-and-types
     public enum FType: String, Codable, Equatable, CaseIterable {
@@ -111,7 +110,7 @@ extension Flow.Cadence {
         case path(Flow.Argument.Path)
         case reference(Flow.Argument.Reference)
         case capability(Flow.Argument.Capability)
-        case `type`(Flow.Argument.StaticType)
+        case type(Flow.Argument.StaticType)
 
         indirect case array([Flow.Argument])
         indirect case dictionary([Flow.Argument.Dictionary])
@@ -380,7 +379,6 @@ extension Flow.Cadence {
 }
 
 extension Flow.Cadence.FValue {
-
     /// Convert to `Int` type, if it's `.int` type
     /// Otherwise return nil
     /// - returns: The type of `Int?` value.

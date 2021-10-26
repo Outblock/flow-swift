@@ -479,7 +479,7 @@ final class CadenceTypeTests: XCTestCase {
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toEvent(), value)
     }
-    
+
     func testEnumType() throws {
         let jsonString = """
         {
@@ -506,7 +506,7 @@ final class CadenceTypeTests: XCTestCase {
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toEnum(), value)
     }
-    
+
     func testContractType() throws {
         let jsonString = """
         {
@@ -533,7 +533,7 @@ final class CadenceTypeTests: XCTestCase {
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toContract(), value)
     }
-    
+
     func testStaticType() throws {
         let jsonString = """
         {
@@ -549,7 +549,7 @@ final class CadenceTypeTests: XCTestCase {
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toType(), value)
     }
-    
+
     func testCapabilityType() throws {
         let jsonString = """
         {
@@ -567,7 +567,6 @@ final class CadenceTypeTests: XCTestCase {
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toCapability(), value)
     }
-
 
     func testResourceType() throws {
         let jsonString = """

@@ -21,7 +21,6 @@ import GRPC
 import NIO
 
 extension Flow {
-
     /// The network client for access API
     /// More detail can be found here: https://docs.onflow.org/access-api
     public final class AccessAPI: FlowAccessProtocol {
@@ -137,9 +136,9 @@ extension Flow {
 
         /// GetLatestBlock gets the full payload of the latest sealed or unsealed block.
         /// - parameters:
-        ///     - sealed: The flag for the block is sealed or unsealed.
+        ///     - sealed: The flag for the block is sealed or unsealed, default value is `true`.
         /// - returns: A future result in `Flow.Block?` type
-        public func getLatestBlock(sealed: Bool) -> EventLoopFuture<Flow.Block> {
+        public func getLatestBlock(sealed: Bool = true) -> EventLoopFuture<Flow.Block> {
             var request = Flow_Access_GetLatestBlockRequest()
             request.isSealed = sealed
             let promise = clientChannel.eventLoop.makePromise(of: Flow.Block.self)

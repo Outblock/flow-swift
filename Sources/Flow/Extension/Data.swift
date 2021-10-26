@@ -26,7 +26,6 @@ extension Collection {
 }
 
 extension Array where Element == UInt8 {
-
     /// Convert to `Data` type
     var data: Data { .init(self) }
 

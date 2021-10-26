@@ -19,10 +19,8 @@
 import Foundation
 
 extension Flow {
-
     ///
     public struct Event {
-
         ///
         public let type: String
 

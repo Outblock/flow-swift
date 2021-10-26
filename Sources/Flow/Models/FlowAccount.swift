@@ -20,10 +20,8 @@ import BigInt
 import Foundation
 
 extension Flow {
-
     /// The data structure of account in Flow blockchain
     public struct Account {
-
         /// The address of account in `Flow.Address` type
         public let address: Address
 
@@ -46,7 +44,6 @@ extension Flow {
 
     /// The data structure of account key in flow account
     public struct AccountKey {
-
         /// The index of key
         public var id: Int = -1
 

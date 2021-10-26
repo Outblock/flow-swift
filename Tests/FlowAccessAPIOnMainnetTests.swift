@@ -16,19 +16,19 @@
 //  limitations under the License.
 //
 
-import Foundation
 @testable import Flow
+import Foundation
 import XCTest
 
 final class FlowAccessAPIOnMainnetTests: XCTestCase {
     var flowAPI: Flow.AccessAPI!
     var address = Flow.Address(hex: "0x4eb165aa383fd6f9")
-    
+
     override func setUp() {
         super.setUp()
         flowAPI = flow.createAccessAPI(chainID: .mainnet)
     }
-    
+
     func testFlowPing() throws {
         let isConnected = try flowAPI.ping().wait()
         XCTAssertTrue(isConnected)
@@ -63,7 +63,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         let block = try flowAPI.getLatestBlock(sealed: true).wait()
         XCTAssertNotNil(block)
         let account = try flowAPI.getAccountByBlockHeight(address: address, height: block.height).wait()
-        
+
         XCTAssertNotNil(account?.keys.first)
         XCTAssertEqual(address, account?.address)
     }
@@ -126,7 +126,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
                                              .init(name: "from", value: .init(value: .optional(value: .init(value: .address(.init(hex: "0x873becfb539f038d"))))))])))
         XCTAssertNotNil(result)
     }
-    
+
     func testTransactionById() throws {
         let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
         let transaction = try flowAPI.getTransactionById(id: id).wait()

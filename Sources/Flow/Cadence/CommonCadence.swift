@@ -20,11 +20,9 @@ import Foundation
 import NIO
 
 extension Flow {
-
     /// A collection of common operations in Flow
     /// It includes `addKeyToAccount, addContractToAccount, createAccount, removeAccountKeyByIndex, removeContractFromAccount, updateContractOfAccount`
     class CommonCadence {
-
         /// The cadence code for adding key to account
         static let addKeyToAccount = """
             transaction(publicKey: String) {
@@ -88,7 +86,6 @@ extension Flow {
 }
 
 extension Flow {
-
     /// Add public key to account
     /// - parameters:
     ///     - address: The address of Account in `Flow.Address` type.
@@ -96,14 +93,13 @@ extension Flow {
     ///     - signers: A list of `FlowSigner` will sign the transaction.
     /// - returns: A future value will receive transaction id  in `Flow.ID` value.
     public func addKeyToAccount(address: Flow.Address, accountKey: Flow.AccountKey, signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
-
         guard let encodedKey = accountKey.encoded else {
             let promise = flow.accessAPI.clientChannel.eventLoop.makePromise(of: Flow.ID.self)
             promise.fail(Flow.FError.encodeFailure)
             return promise.futureResult
         }
 
-        return try self.sendTransaction(signers: signers) {
+        return try sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.addKeyToAccount
             }
@@ -131,7 +127,7 @@ extension Flow {
                                      code: String,
                                      signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
         let script = Flow.Script(script: code)
-        return try self.sendTransaction(signers: signers) {
+        return try sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.addContractToAccount
             }
@@ -165,7 +161,7 @@ extension Flow {
 
         let pubKeyArg = publicKeys.compactMap { $0.encoded?.hexValue }.compactMap { Flow.Argument(value: .string($0)) }
 
-        return try self.sendTransaction(signers: signers) {
+        return try sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.createAccount
             }
@@ -191,7 +187,7 @@ extension Flow {
     public func removeAccountKeyByIndex(address: Flow.Address,
                                         keyIndex: Int,
                                         signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
-        return try self.sendTransaction(signers: signers) {
+        return try sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.removeAccountKeyByIndex
             }
@@ -210,7 +206,7 @@ extension Flow {
     public func removeContractFromAccount(address: Flow.Address,
                                           contractName: String,
                                           signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
-        return try self.sendTransaction(signers: signers) {
+        return try sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.removeContractFromAccount
             }
@@ -230,7 +226,7 @@ extension Flow {
                                         contractName: String,
                                         script: String,
                                         signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
-        return try self.sendTransaction(signers: signers) {
+        return try sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.updateContractOfAccount
             }

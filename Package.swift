@@ -23,7 +23,7 @@ let package = Package(
         .target(
             name: "Flow",
             dependencies: ["BigInt",
-                           .product(name: "GRPC", package: "grpc-swift"),],
+                           .product(name: "GRPC", package: "grpc-swift")],
             path: "Sources/Flow"
         ),
         .testTarget(

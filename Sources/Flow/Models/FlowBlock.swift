@@ -19,10 +19,8 @@
 import Foundation
 
 extension Flow {
-
     /// Brief information of `Flow.Block`
     public struct BlockHeader {
-
         /// The identification of block
         public let id: ID
 
@@ -62,7 +60,6 @@ extension Flow {
 
     /// The data structure for the block in Flow blockchain
     public struct Block {
-
         /// The identification of block
         public let id: ID
 

@@ -19,7 +19,6 @@
 import Foundation
 
 extension Flow {
-
     /// The model to handle `Cadence` code
     public struct Script: FlowEntity, Equatable {
         public var data: Data
@@ -39,7 +38,6 @@ extension Flow {
 
     /// The model to handle the `Cadence` code response
     public struct ScriptResponse: FlowEntity, Equatable {
-
         public var data: Data
 
         /// Covert `data` into `Flow.Argument` type
@@ -47,7 +45,7 @@ extension Flow {
 
         init(data: Data) {
             self.data = data
-            self.fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
+            fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
         }
     }
 }

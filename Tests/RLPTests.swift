@@ -16,7 +16,6 @@
 //  limitations under the License.
 //
 
-
 import BigInt
 @testable import Flow
 import XCTest

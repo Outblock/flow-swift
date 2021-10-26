@@ -22,7 +22,6 @@ import NIO
 extension Flow {
     /// The ID in Flow chain, which can represent as transaction id, block id and collection id etc.
     public struct ID: FlowEntity, Equatable, Hashable {
-
         public var data: Data
 
         public init(hex: String) {
@@ -40,7 +39,6 @@ extension Flow {
 }
 
 extension Flow.ID {
-
     /// Get notified when transaction's status change to `.finalized`.
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
     public func onceFinalized() -> EventLoopFuture<Flow.TransactionResult> {

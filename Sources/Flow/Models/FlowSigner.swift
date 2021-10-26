@@ -19,7 +19,6 @@ import Foundation
 
 /// A protocol for signer to use private key to sign the data
 public protocol FlowSigner {
-
     /// Address in the flow blockchain
     var address: Flow.Address { get set }
 

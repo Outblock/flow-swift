@@ -42,7 +42,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         flowAPI = flow.createAccessAPI(chainID: .testnet)
         flow.configure(chainID: .testnet)
     }
-    
+
     func testFlowPing() throws {
         let isConnected = try flowAPI.ping().wait()
         XCTAssertTrue(isConnected)
@@ -62,7 +62,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
                                          hashAlgo: .SHA2_256,
                                          weight: 1000)
 
-        var unsignedTx = try! flow.buildTransaction{
+        var unsignedTx = try! flow.buildTransaction {
             cadence {
                 """
                     transaction(publicKey: String) {
@@ -83,7 +83,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             }
 
             arguments {
-                .init(value: .string(accountKey.encoded!.hexValue))
+                [.string(accountKey.encoded!.hexValue)]
             }
 
             // optional
@@ -93,7 +93,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         }
 
         let signedTx = try! unsignedTx.sign(signers: signer)
-        let txId = try! flow.sendTransaction(signedTrnaction: signedTx).wait()
+        let txId = try! flow.sendTransaction(signedTransaction: signedTx).wait()
         XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
     }
@@ -103,14 +103,14 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         let signers = [
             // Address A
             ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
-            ECDSA_P256_Signer(address: addressA, keyIndex: 4, privateKey: privateKeyC), // weight: 500
+            ECDSA_P256_Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA), // weight: 1000
             // Address B
             ECDSA_P256_Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA), // weight: 800
             ECDSA_P256_Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC), // weight: 500
             // Address C
             ECDSA_P256_Signer(address: addressC, keyIndex: 3, privateKey: privateKeyB), // weight: 300
             ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
-            ECDSA_P256_Signer(address: addressC, keyIndex: 4, privateKey: privateKeyA), // weight: 300
+            ECDSA_P256_Signer(address: addressC, keyIndex: 0, privateKey: privateKeyC), // weight: 1000
         ]
 
         let txID = try! flow.sendTransaction(chainID: .testnet, signers: signers) {
@@ -127,7 +127,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             }
 
             proposer {
-                .init(address: addressA, keyIndex: 4)
+                .init(address: addressA, keyIndex: 5)
             }
 
             payer {

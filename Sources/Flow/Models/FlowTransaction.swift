@@ -18,7 +18,9 @@
 import BigInt
 import Foundation
 
+// TODO: Add doc
 extension Flow {
+    /// The data structure of Transaction
     public struct Transaction {
         public var script: Script
         public var arguments: [Argument]
@@ -27,7 +29,11 @@ extension Flow {
         public var proposalKey: TransactionProposalKey
         public var payerAddress: Address
         public var authorizers: [Address]
+
+        /// The list of payload signature
         public var payloadSignatures: [TransactionSignature] = []
+
+        /// The list of envelope signature
         public var envelopeSignatures: [TransactionSignature] = []
 
         public init(script: Flow.Script,
@@ -131,7 +137,7 @@ extension Flow {
                                      gasLimit: gasLimit,
                                      proposalKeyAddress: proposalKey.address.data.paddingZeroLeft(blockSize: 8),
                                      proposalKeyIndex: proposalKey.keyIndex,
-                                     proposalKeySequenceNumber: proposalKey.sequenceNumber,
+                                     proposalKeySequenceNumber: BigUInt(proposalKey.sequenceNumber),
                                      payer: payerAddress.data.paddingZeroLeft(blockSize: 8),
                                      authorizers: authorizers.map { $0.data.paddingZeroLeft(blockSize: 8) })
         }
@@ -288,9 +294,9 @@ extension Flow {
     public struct TransactionProposalKey {
         public let address: Address
         public var keyIndex: Int
-        public var sequenceNumber: BigUInt
+        public var sequenceNumber: BigInt
 
-        public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: BigUInt = 1) {
+        public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: BigInt = -1) {
             self.address = address
             self.keyIndex = keyIndex
             self.sequenceNumber = sequenceNumber
@@ -299,7 +305,7 @@ extension Flow {
         init(value: Flow_Entities_Transaction.ProposalKey) {
             address = Address(bytes: value.address.bytes)
             keyIndex = Int(value.keyID)
-            sequenceNumber = BigUInt(value.sequenceNumber)
+            sequenceNumber = BigInt(value.sequenceNumber)
         }
 
         func toFlowEntity() -> Flow_Entities_Transaction.ProposalKey {

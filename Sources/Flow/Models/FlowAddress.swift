@@ -19,7 +19,6 @@
 import Foundation
 
 extension Flow {
-
     /// The data structure of address in Flow blockchain
     /// At the most time, it represents account address
     public struct Address: FlowEntity, Equatable, Hashable, Codable {

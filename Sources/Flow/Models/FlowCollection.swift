@@ -19,7 +19,6 @@
 import Foundation
 
 extension Flow {
-
     /// A batch of transactions that have been included in the same block
     public struct Collection {
         public let id: ID
