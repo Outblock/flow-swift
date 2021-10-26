@@ -1,19 +1,31 @@
 //
-//  Algorithm.swift
+//  FlowAlgorithm
 //
+//  Copyright 2021 Zed Labs Pty Ltd
 //
-//  Created by lmcmz on 21/7/21.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
 //
-
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
 import Foundation
 
 extension Flow {
+
+    /// The signature algorithm supported by flow which include `.ECDSA_P256` and `.ECDSA_SECP256k1`
     public enum SignatureAlgorithm: String, CaseIterable, Codable {
         case unknown
         case ECDSA_P256
         case ECDSA_SECP256k1
 
-        var algorithm: String {
+        public var algorithm: String {
             switch self {
             case .unknown:
                 return "unknown"
@@ -24,7 +36,7 @@ extension Flow {
             }
         }
 
-        var id: String {
+        public var id: String {
             switch self {
             case .unknown:
                 return "unknown"
@@ -35,7 +47,7 @@ extension Flow {
             }
         }
 
-        var code: Int {
+        public var code: Int {
             switch self {
             case .unknown:
                 return -1
@@ -46,7 +58,7 @@ extension Flow {
             }
         }
 
-        var index: Int {
+        public var index: Int {
             switch self {
             case .unknown:
                 return 0
@@ -57,7 +69,7 @@ extension Flow {
             }
         }
 
-        var curve: String {
+        public var curve: String {
             switch self {
             case .unknown:
                 return "unknown"
@@ -77,6 +89,7 @@ extension Flow {
         }
     }
 
+    /// The hash algorithm supported by flow which include `.SHA2_256`, `.SHA2_384`, `.SHA3_256` and `.SHA3_384`
     public enum HashAlgorithm: String, CaseIterable, Codable {
         case unknown
         case SHA2_256
@@ -84,7 +97,7 @@ extension Flow {
         case SHA3_256
         case SHA3_384
 
-        var algorithm: String {
+        public var algorithm: String {
             switch self {
             case .unknown:
                 return "unknown"
@@ -99,7 +112,7 @@ extension Flow {
             }
         }
 
-        var outputSize: Int {
+        public var outputSize: Int {
             switch self {
             case .unknown:
                 return -1
@@ -114,7 +127,7 @@ extension Flow {
             }
         }
 
-        var id: String {
+        public var id: String {
             switch self {
             case .unknown:
                 return "unknown"
@@ -129,7 +142,7 @@ extension Flow {
             }
         }
 
-        var code: Int {
+        public var code: Int {
             switch self {
             case .unknown:
                 return -1

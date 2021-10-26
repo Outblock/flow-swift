@@ -1,23 +1,41 @@
 //
-//  File.swift
+//  FlowArgument
 //
+//  Copyright 2021 Zed Labs Pty Ltd
 //
-//  Created by lmcmz on 5/9/21.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import BigInt
 import Foundation
 
 extension Flow {
+
+    /// The argument for Cadence code for encoding and decoding
     public struct Argument: Codable, Equatable {
+
+        /// The type of the argument in `Flow.Cadence.FType`
         public let type: Cadence.FType
-        public let value: Flow.Cadence.FValue
+
+        /// The value of the argument in `Flow.Cadence.FValue`
+        public let value: Cadence.FValue
 
         enum CodingKeys: String, CodingKey {
             case type
             case value
         }
 
+        /// Encode argument into json data.
         public var jsonData: Data? {
             let encoder = JSONEncoder()
             guard let jsonData = try? encoder.encode(self) else {
@@ -26,6 +44,7 @@ extension Flow {
             return jsonData
         }
 
+        /// Encode argument into json string.
         public var jsonString: String? {
             guard let data = jsonData else {
                 return nil
@@ -33,16 +52,19 @@ extension Flow {
             return String(data: data, encoding: .utf8)
         }
 
+        /// Initial argument with type and value
         public init(type: Cadence.FType, value: Flow.Cadence.FValue) {
             self.type = type
             self.value = value
         }
 
+        /// Initial argument with value in `Flow.Cadence.FValue` type
         public init(value: Flow.Cadence.FValue) {
             type = value.type
             self.value = value
         }
 
+        /// Decode argument from json string
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             type = try container.decode(Cadence.FType.self, forKey: .type)
@@ -228,6 +250,9 @@ extension Flow {
 }
 
 extension Flow.Argument {
+
+    /// The data structure for `.path` argument type
+    /// More detail can be found here: https://docs.onflow.org/cadence/json-cadence-spec/#path
     public struct Path: Codable, Equatable {
         public let domain: String
         public let identifier: String
@@ -238,26 +263,33 @@ extension Flow.Argument {
         }
     }
 
+    /// The data structure for `.struct, .resource, .event, .contract, .enum` argument type
+    /// More detail can be found here: https://docs.onflow.org/cadence/json-cadence-spec/#composites-struct-resource-event-contract-enum
     public struct Event: Codable, Equatable {
+        /// The identification of the event
         public let id: String
-        public let fields: [EventName]
 
-        public init(id: String, fields: [Flow.Argument.EventName]) {
+        /// The list of value in `Flow.Argument.Event.Name` type.
+        public let fields: [Name]
+
+        public init(id: String, fields: [Flow.Argument.Event.Name]) {
             self.id = id
             self.fields = fields
         }
-    }
 
-    public struct EventName: Codable, Equatable {
-        public let name: String
-        public let value: Flow.Argument
+        /// The data structure for the `fields` in `Flow.Argument.Event`
+        public struct Name: Codable, Equatable {
+            public let name: String
+            public let value: Flow.Argument
 
-        public init(name: String, value: Flow.Argument) {
-            self.name = name
-            self.value = value
+            public init(name: String, value: Flow.Argument) {
+                self.name = name
+                self.value = value
+            }
         }
     }
 
+    /// The data structure for `.reference` argument type
     public struct Reference: Codable, Equatable {
         public let address: String
         public let type: String
@@ -268,6 +300,8 @@ extension Flow.Argument {
         }
     }
 
+    /// The data structure for `.dictionary` argument type
+    /// More detail can be found here: https://docs.onflow.org/cadence/json-cadence-spec/#dictionary
     public struct Dictionary: Codable, Equatable {
         public let key: Flow.Argument
         public let value: Flow.Argument
@@ -278,6 +312,8 @@ extension Flow.Argument {
         }
     }
 
+    /// The data structure for `.capability` argument type
+    /// More detail can be found here: https://docs.onflow.org/cadence/json-cadence-spec/#capability
     public struct Capability: Codable, Equatable {
         public let path: String
         public let address: String
@@ -290,6 +326,8 @@ extension Flow.Argument {
         }
     }
 
+    /// The data structure for `.type` argument type
+    /// More detail can be found here: https://docs.onflow.org/cadence/json-cadence-spec/#type
     public struct StaticType: Codable, Equatable {
         public let staticType: String
 

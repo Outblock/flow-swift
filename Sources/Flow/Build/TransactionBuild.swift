@@ -1,8 +1,19 @@
 //
-//  File.swift
+//  TransactionBuild
 //
+//  Copyright 2021 Zed Labs Pty Ltd
 //
-//  Created by lmcmz on 12/9/21.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import BigInt
@@ -103,7 +114,7 @@ extension Flow {
 }
 
 extension Flow {
-    public func buildTransaction(chainID: Flow.ChainID = flow.defaultChainID,
+    public func buildTransaction(chainID: Flow.ChainID = flow.chainID,
                                  fetchSequenceNumber: Bool = true,
                                  @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.Transaction {
         var script: Flow.Script = .init(data: Data())
@@ -167,12 +178,12 @@ extension Flow {
                                 authorizers: authorizers)
     }
 
-    public func sendTransaction(chainID: ChainID = flow.defaultChainID, signedTrnaction: Transaction) throws -> EventLoopFuture<Flow.ID> {
+    public func sendTransaction(chainID: ChainID = flow.chainID, signedTrnaction: Transaction) throws -> EventLoopFuture<Flow.ID> {
         let api = flow.createAccessAPI(chainID: chainID)
         return api.sendTransaction(transaction: signedTrnaction)
     }
 
-    public func sendTransactionWithWait(chainID: Flow.ChainID = flow.defaultChainID,
+    public func sendTransactionWithWait(chainID: Flow.ChainID = flow.chainID,
                                         signers: [FlowSigner],
                                         @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.ID {
         return try flow.sendTransaction(chainID: chainID,
@@ -180,7 +191,7 @@ extension Flow {
                                         builder: builder).wait()
     }
 
-    public func sendTransaction(chainID: Flow.ChainID = flow.defaultChainID,
+    public func sendTransaction(chainID: Flow.ChainID = flow.chainID,
                                 signers: [FlowSigner],
                                 @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.ID> {
         let api = flow.createAccessAPI(chainID: chainID)
@@ -190,7 +201,7 @@ extension Flow {
         return api.sendTransaction(transaction: signedTx)
     }
 
-    public func sendTransaction(chainID: Flow.ChainID = flow.defaultChainID,
+    public func sendTransaction(chainID: Flow.ChainID = flow.chainID,
                                 signers: [FlowSigner],
                                 @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild],
                                 completion: @escaping (Result<Flow.ID, Error>) -> Void) throws {

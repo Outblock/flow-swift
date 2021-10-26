@@ -1,13 +1,29 @@
 //
-//  File.swift
-//  File
+//  FlowTransaction + Signer
 //
-//  Created by lmcmz on 29/9/21.
+//  Copyright 2021 Zed Labs Pty Ltd
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import Foundation
 
 extension Flow {
+    /// Sign the unsigned transaction with a list of `FlowSigner`
+    /// - parameters:
+    ///     - unsignedTransaction: The transaction to be signed
+    ///     - signers: A list of `FlowSigner` to sign the transaction
+    /// - returns: The signed transaction
     public func signTransaction(unsignedTransaction: Flow.Transaction, signers: [FlowSigner]) throws -> Flow.Transaction {
         var tx = unsignedTransaction
         return try tx.sign(signers: signers)
@@ -15,6 +31,11 @@ extension Flow {
 }
 
 extension Flow.Transaction {
+
+    /// Sign (Muate) unsigned Flow Transaction with a list of `FlowSigner`
+    /// - parameters:
+    ///     - signers: A list of `FlowSigner` to sign the transaction
+    /// - returns: The `Flow.Transaction` itself.
     public mutating func sign(signers: [FlowSigner]) throws -> Flow.Transaction {
         guard let signablePlayload = signablePlayload else {
             throw Flow.FError.invaildPlayload
@@ -24,18 +45,21 @@ extension Flow.Transaction {
             return signers.filter { $0.address == address }
         }
 
+        // Sign with the proposal key first.
+        // If proposer is same as payer, we skip this step
         if proposalKey.address != payerAddress {
             guard let signers = findSigners(address: proposalKey.address, signers: signers) else {
                 throw Flow.FError.missingSigner
             }
             for signer in signers {
-                let signature = try! signer.signature(signableData: signablePlayload)
+                let signature = try signer.sign(signableData: signablePlayload)
                 addPayloadSignature(address: signer.address,
                                     keyIndex: signer.keyIndex,
                                     signature: signature)
             }
         }
 
+        // Sign the
         for authorizer in authorizers {
             if proposalKey.address == authorizer {
                 continue
@@ -50,7 +74,7 @@ extension Flow.Transaction {
             }
 
             for signer in signers {
-                let signature = try! signer.signature(signableData: signablePlayload)
+                let signature = try signer.sign(signableData: signablePlayload)
                 addPayloadSignature(address: authorizer,
                                     keyIndex: signer.keyIndex,
                                     signature: signature)
@@ -67,7 +91,7 @@ extension Flow.Transaction {
         }
 
         for signer in signers {
-            let signature = try! signer.signature(signableData: signableEnvelope)
+            let signature = try signer.sign(signableData: signableEnvelope)
             addEnvelopeSignature(address: payerAddress,
                                  keyIndex: signer.keyIndex,
                                  signature: signature)

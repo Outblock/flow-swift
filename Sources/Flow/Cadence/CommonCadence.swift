@@ -1,16 +1,31 @@
 //
-//  File.swift
-//  File
+//  CommonCadence
 //
-//  Created by lmcmz on 13/10/21.
+//  Copyright 2021 Zed Labs Pty Ltd
 //
-
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
 import Combine
 import Foundation
 import NIO
 
 extension Flow {
+
+    /// A collection of common operations in Flow
+    /// It includes `addKeyToAccount, addContractToAccount, createAccount, removeAccountKeyByIndex, removeContractFromAccount, updateContractOfAccount`
     class CommonCadence {
+
+        /// The cadence code for adding key to account
         static let addKeyToAccount = """
             transaction(publicKey: String) {
                 prepare(signer: AuthAccount) {
@@ -19,6 +34,7 @@ extension Flow {
             }
         """
 
+        /// The cadence code for adding contract to account
         static let addContractToAccount = """
             transaction(name: String, code: String) {
                 prepare(signer: AuthAccount) {
@@ -27,6 +43,7 @@ extension Flow {
             }
         """
 
+        /// The cadence code for creating account
         static let createAccount = """
             transaction(publicKeys: [String], contracts: {String: String}) {
                 prepare(signer: AuthAccount) {
@@ -41,6 +58,7 @@ extension Flow {
             }
         """
 
+        /// The cadence code for removing account key by index
         static let removeAccountKeyByIndex = """
             transaction(keyIndex: Int) {
                 prepare(signer: AuthAccount) {
@@ -49,6 +67,7 @@ extension Flow {
             }
         """
 
+        /// The cadence code for removing contract from account
         static let removeContractFromAccount = """
             transaction(name: String) {
                 prepare(signer: AuthAccount) {
@@ -57,6 +76,7 @@ extension Flow {
             }
         """
 
+        /// The cadence code for updating contract from account
         static let updateContractOfAccount = """
             transaction(name: String, code: String) {
                 prepare(signer: AuthAccount) {
@@ -68,6 +88,13 @@ extension Flow {
 }
 
 extension Flow {
+
+    /// Add public key to account
+    /// - parameters:
+    ///     - address: The address of Account in `Flow.Address` type.
+    ///     - accountKey: The public key to be added in `Flow.AccountKey` type.
+    ///     - signers: A list of `FlowSigner` will sign the transaction.
+    /// - returns: A future value will receive transaction id  in `Flow.ID` value.
     public func addKeyToAccount(address: Flow.Address, accountKey: Flow.AccountKey, signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
 
         guard let encodedKey = accountKey.encoded else {
@@ -92,6 +119,13 @@ extension Flow {
         }
     }
 
+    /// Add cadence contract to account
+    /// - parameters:
+    ///     - address: The address of Account in `Flow.Address` type.
+    ///     - contractName: The name of the cadence script.
+    ///     - code: Cadence code of the contract.
+    ///     - signers: A list of `FlowSigner` will sign the transaction.
+    /// - returns: A future value will receive transaction id  in `Flow.ID` value.
     public func addContractToAccount(address: Flow.Address,
                                      contractName: String,
                                      code: String,
@@ -113,6 +147,13 @@ extension Flow {
         }
     }
 
+    /// Create a account in Flow blockchain
+    /// - parameters:
+    ///     - address: The proposer address of Account in `Flow.Address` type.
+    ///     - publicKeys: A list of publicKeys to be added in the new account.
+    ///     - contracts: A collection of cadence contracts, contract name is the `key`, cadence code is the `value`.
+    ///     - signers: A list of `FlowSigner` will sign the transaction.
+    /// - returns: A future value will receive transaction id  in `Flow.ID` value.
     public func createAccount(address: Flow.Address,
                               publicKeys: [Flow.AccountKey],
                               contracts: [String: String] = [:],
@@ -140,6 +181,13 @@ extension Flow {
         }
     }
 
+    /// Removing a public key from an account
+    /// - parameters:
+    ///     - address: The proposer address of Account in `Flow.Address` type.
+    ///     - publicKeys: A list of publicKeys to be added in the new account.
+    ///     - contracts: A collection of cadence contracts, contract name is the `key`, cadence code is the `value`.
+    ///     - signers: A list of `FlowSigner` will sign the transaction.
+    /// - returns: A future value will receive transaction id  in `Flow.ID` value.
     public func removeAccountKeyByIndex(address: Flow.Address,
                                         keyIndex: Int,
                                         signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {

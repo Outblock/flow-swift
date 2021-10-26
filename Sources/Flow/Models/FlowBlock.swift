@@ -1,16 +1,35 @@
 //
-//  FlowBlock.swift
+//  FlowBlock
 //
+//  Copyright 2021 Zed Labs Pty Ltd
 //
-//  Created by lmcmz on 21/7/21.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 //
 
 import Foundation
 
 extension Flow {
+
+    /// Brief information of `Flow.Block`
     public struct BlockHeader {
+
+        /// The identification of block
         public let id: ID
+
+        /// The identification of previous block
         public let parentId: ID
+
+        /// The height of block
         public let height: UInt64
 
         init(value: Flow_Entities_Block) {
@@ -26,6 +45,7 @@ extension Flow {
         }
     }
 
+    /// The data structure of `Flow.Block` which is `sealed`
     public struct BlockSeal {
         public let id: ID
         public let executionReceiptId: ID
@@ -40,13 +60,28 @@ extension Flow {
         }
     }
 
+    /// The data structure for the block in Flow blockchain
     public struct Block {
+
+        /// The identification of block
         public let id: ID
+
+        /// The identification of previous block
         public let parentId: ID
+
+        /// The height of block
         public let height: UInt64
+
+        /// The time when the block is created
         public let timestamp: Date
+
+        // TODO: add doc
         public var collectionGuarantees: [CollectionGuarantee]
+
+        // TODO: add doc
         public var blockSeals: [BlockSeal]
+
+        /// The list of signature of the block
         public var signatures: [Signature]
 
         init(value: Flow_Entities_Block) {
