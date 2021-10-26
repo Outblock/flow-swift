@@ -17,7 +17,7 @@
     <a title="Flow Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> 0.1.0-beta Docs</a> (37% documented)</p>
+        <p><a href="../index.html"> 0.1.1-beta Docs</a> (45% documented)</p>
         <p class="header-right"><a href="https://github.com/zed-io/flow-swift"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -252,7 +252,7 @@ Singleton class to make the class more accessible in global scope
 Please use <code><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></code> to access to its singleton entity.</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Flow.swift#L27-L90">Show on GitHub</a>
+                <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Flow.swift#L27-L89">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -283,7 +283,7 @@ Please use <code><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Flow.swift#L30">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Flow.swift#L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -314,7 +314,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Flow.swift#L37">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Flow.swift#L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -344,7 +344,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Flow.swift#L40">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Flow.swift#L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -378,13 +378,13 @@ The default value is <code>.mainnet</code>.</p>
                         <p>Config the chainID for Flow Swift SDK</p>
 
 <p>For using default node:</p>
-<pre class="highlight swift"><code>     <span class="n">flow</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="o">.</span><span class="n">testnet</span><span class="p">)</span>
+<pre class="highlight swift"><code>    <span class="n">flow</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="o">.</span><span class="n">testnet</span><span class="p">)</span>
 </code></pre>
 
 <p>For custom node:</p>
-<pre class="highlight swift"><code>     <span class="k">let</span> <span class="nv">endpoint</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="kt">Endpoint</span><span class="p">(</span><span class="nv">node</span><span class="p">:</span> <span class="s">"flow-testnet.g.alchemy.com"</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="mi">443</span><span class="p">)</span>
-     <span class="k">let</span> <span class="nv">chainID</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="nf">custom</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Alchemy-Testnet"</span><span class="p">,</span> <span class="nv">endpoint</span><span class="p">:</span><span class="n">endpoint</span><span class="p">)</span>
-     <span class="n">flow</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="n">chainID</span><span class="p">)</span>
+<pre class="highlight swift"><code>    <span class="k">let</span> <span class="nv">endpoint</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="kt">Endpoint</span><span class="p">(</span><span class="nv">node</span><span class="p">:</span> <span class="s">"flow-testnet.g.alchemy.com"</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="mi">443</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">chainID</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="nf">custom</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Alchemy-Testnet"</span><span class="p">,</span> <span class="nv">endpoint</span><span class="p">:</span><span class="n">endpoint</span><span class="p">)</span>
+    <span class="n">flow</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="n">chainID</span><span class="p">)</span>
 </code></pre>
 
                       </div>
@@ -416,7 +416,7 @@ The default value is <code>.mainnet</code>.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Flow.swift#L65-L68">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Flow.swift#L64-L67">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -437,13 +437,13 @@ The default value is <code>.mainnet</code>.</p>
                         <p>Create an access API client of <code>Access</code> by chainID</p>
 
 <p>For using default node:</p>
-<pre class="highlight swift"><code>     <span class="k">let</span> <span class="nv">client</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="nf">createAccessAPI</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="o">.</span><span class="n">testnet</span><span class="p">)</span>
+<pre class="highlight swift"><code>    <span class="k">let</span> <span class="nv">client</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="nf">createAccessAPI</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="o">.</span><span class="n">testnet</span><span class="p">)</span>
 </code></pre>
 
 <p>For custom node:</p>
-<pre class="highlight swift"><code>     <span class="k">let</span> <span class="nv">endpoint</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="kt">Endpoint</span><span class="p">(</span><span class="nv">node</span><span class="p">:</span> <span class="s">"flow-testnet.g.alchemy.com"</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="mi">443</span><span class="p">)</span>
-     <span class="k">let</span> <span class="nv">chainID</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="nf">custom</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Alchemy-Testnet"</span><span class="p">,</span> <span class="nv">endpoint</span><span class="p">:</span><span class="n">endpoint</span><span class="p">)</span>
-     <span class="k">let</span> <span class="nv">client</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="nf">createAccessAPI</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="n">chainID</span><span class="p">)</span>
+<pre class="highlight swift"><code>    <span class="k">let</span> <span class="nv">endpoint</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="kt">Endpoint</span><span class="p">(</span><span class="nv">node</span><span class="p">:</span> <span class="s">"flow-testnet.g.alchemy.com"</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="mi">443</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">chainID</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="nf">custom</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Alchemy-Testnet"</span><span class="p">,</span> <span class="nv">endpoint</span><span class="p">:</span><span class="n">endpoint</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">client</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="nf">createAccessAPI</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="n">chainID</span><span class="p">)</span>
 </code></pre>
 
                       </div>
@@ -479,7 +479,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>An <code><a href="../Classes/Flow/AccessAPI.html">AccessAPI</a></code> client</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Flow.swift#L87-L89">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Flow.swift#L86-L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -497,7 +497,7 @@ The default value is <code>.mainnet</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The list of all the acceptable property</p>
 
                         <a href="../Classes/Flow/TransactionBuild.html" class="slightly-smaller">See more</a>
                       </div>
@@ -510,7 +510,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Build/TransactionBuild.swift#L92-L100">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Build/TransactionBuild.swift#L163-L185">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -528,7 +528,7 @@ The default value is <code>.mainnet</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Use domain-specific language (DSL) to construct <code><a href="../Classes/Flow/Transaction.html">Flow.Transaction</a></code></p>
 
                         <a href="../Classes/Flow/TransactionBuilder.html" class="slightly-smaller">See more</a>
                       </div>
@@ -542,7 +542,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Build/TransactionBuild.swift#L103-L113">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Build/TransactionBuild.swift#L189-L199">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -550,9 +550,9 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC16buildTransaction7chainID19fetchSequenceNumber7builderAB0C0VAB05ChainE0O_SbSayAB0C5BuildOGyXEtKF"></a>
-                    <a name="//apple_ref/swift/Method/buildTransaction(chainID:fetchSequenceNumber:builder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC16buildTransaction7chainID19fetchSequenceNumber7builderAB0C0VAB05ChainE0O_SbSayAB0C5BuildOGyXEtKF">buildTransaction(chainID:<wbr>fetchSequenceNumber:<wbr>builder:<wbr>)</a>
+                    <a name="/s:4FlowAAC21asyncBuildTransaction7chainID7builder7NIOCore15EventLoopFutureCyAB0D0VGAB05ChainF0O_SayAB0dC0OGyXEtKF"></a>
+                    <a name="//apple_ref/swift/Method/asyncBuildTransaction(chainID:builder:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC21asyncBuildTransaction7chainID7builder7NIOCore15EventLoopFutureCyAB0D0VGAB05ChainF0O_SayAB0dC0OGyXEtKF">asyncBuildTransaction(chainID:<wbr>builder:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -560,7 +560,73 @@ The default value is <code>.mainnet</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Build flow transaction using <code><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></code> with async way</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">asyncBuildTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span>
+                                  <span class="kd">@Flow</span> <span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></span> <span class="nv">builder</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>chainID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The chain id for the transaction, the default value is <code>flow.chainID</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>builder</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The list of <code><a href="../Classes/Flow/TransactionBuild.html">Flow.TransactionBuild</a></code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The type of <code>EventLoopFuture&lt;Flow.Transaction&gt;</code></p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Build/TransactionBuild.swift#L208-L296">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC16buildTransaction7chainID7builderAB0C0VAB05ChainE0O_SayAB0C5BuildOGyXEtKF"></a>
+                    <a name="//apple_ref/swift/Method/buildTransaction(chainID:builder:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC16buildTransaction7chainID7builderAB0C0VAB05ChainE0O_SayAB0C5BuildOGyXEtKF">buildTransaction(chainID:<wbr>builder:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build flow transaction using <code><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></code></p>
 
                       </div>
                       <div class="declaration">
@@ -568,13 +634,47 @@ The default value is <code>.mainnet</code>.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">buildTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span>
-                             <span class="nv">fetchSequenceNumber</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
                              <span class="kd">@Flow</span> <span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></span> <span class="nv">builder</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span></code></pre>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>chainID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The chain id for the transaction, the default value is <code>flow.chainID</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>builder</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The list of <code><a href="../Classes/Flow/TransactionBuild.html">Flow.TransactionBuild</a></code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The type of <code><a href="../Classes/Flow/Transaction.html">Flow.Transaction</a></code></p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Build/TransactionBuild.swift#L117-L179">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Build/TransactionBuild.swift#L303-L306">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -582,9 +682,9 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC15sendTransaction7chainID15signedTrnaction7NIOCore15EventLoopFutureCyAB0E0VGAB05ChainE0O_AB0C0VtKF"></a>
-                    <a name="//apple_ref/swift/Method/sendTransaction(chainID:signedTrnaction:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC15sendTransaction7chainID15signedTrnaction7NIOCore15EventLoopFutureCyAB0E0VGAB05ChainE0O_AB0C0VtKF">sendTransaction(chainID:<wbr>signedTrnaction:<wbr>)</a>
+                    <a name="/s:4FlowAAC15sendTransaction7chainID06signedC07NIOCore15EventLoopFutureCyAB0E0VGAB05ChainE0O_AB0C0VtKF"></a>
+                    <a name="//apple_ref/swift/Method/sendTransaction(chainID:signedTransaction:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC15sendTransaction7chainID06signedC07NIOCore15EventLoopFutureCyAB0E0VGAB05ChainE0O_AB0C0VtKF">sendTransaction(chainID:<wbr>signedTransaction:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -592,19 +692,54 @@ The default value is <code>.mainnet</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Send signed Transaction to the network</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span> <span class="nv">signedTrnaction</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span> <span class="nv">signedTransaction</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>chainID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The chain id for the transaction, the default value is <code>flow.chainID</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>signedTransaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The signed Flow transaction</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future value of transaction id</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Build/TransactionBuild.swift#L181-L184">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Build/TransactionBuild.swift#L313-L316">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -622,7 +757,7 @@ The default value is <code>.mainnet</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Send signed Transaction to the network in sync way</p>
 
                       </div>
                       <div class="declaration">
@@ -635,8 +770,43 @@ The default value is <code>.mainnet</code>.</p>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>chainID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The chain id for the transaction, the default value is <code>flow.chainID</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>signedTransaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The signed Flow transaction</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The transaction id</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Build/TransactionBuild.swift#L186-L192">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Build/TransactionBuild.swift#L323-L329">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -654,7 +824,7 @@ The default value is <code>.mainnet</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Build, sign and send transaction to the network</p>
 
                       </div>
                       <div class="declaration">
@@ -667,8 +837,55 @@ The default value is <code>.mainnet</code>.</p>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>chainID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The chain id for the transaction, the default value is <code>flow.chainID</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>signers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A list of <code><a href="../Protocols/FlowSigner.html">FlowSigner</a></code>, which will sign the transaction</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>builder</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The list of <code><a href="../Classes/Flow/TransactionBuild.html">Flow.TransactionBuild</a></code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The transaction id</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Build/TransactionBuild.swift#L194-L202">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Build/TransactionBuild.swift#L337-L345">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -686,7 +903,7 @@ The default value is <code>.mainnet</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Build, sign and send transaction to the network with block</p>
 
                       </div>
                       <div class="declaration">
@@ -700,8 +917,63 @@ The default value is <code>.mainnet</code>.</p>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>chainID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The chain id for the transaction, the default value is <code>flow.chainID</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>signers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A list of <code><a href="../Protocols/FlowSigner.html">FlowSigner</a></code>, which will sign the transaction</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>builder</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The list of <code><a href="../Classes/Flow/TransactionBuild.html">Flow.TransactionBuild</a></code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to handle the response</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Build/TransactionBuild.swift#L204-L214">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Build/TransactionBuild.swift#L353-L363">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -778,7 +1050,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Cadence/CommonCadence.swift#L98-L120">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Cadence/CommonCadence.swift#L95-L116">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -870,7 +1142,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Cadence/CommonCadence.swift#L129-L148">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Cadence/CommonCadence.swift#L125-L144">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -962,7 +1234,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Cadence/CommonCadence.swift#L157-L182">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Cadence/CommonCadence.swift#L153-L178">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1053,7 +1325,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Cadence/CommonCadence.swift#L191-L208">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Cadence/CommonCadence.swift#L187-L204">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1085,7 +1357,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Cadence/CommonCadence.swift#L210-L227">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Cadence/CommonCadence.swift#L206-L223">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1118,7 +1390,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Cadence/CommonCadence.swift#L229-L247">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Cadence/CommonCadence.swift#L225-L243">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1150,7 +1422,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Error/FlowError.swift#L24-L38">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Error/FlowError.swift#L23-L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1181,7 +1453,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAccount.swift#L25-L45">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowAccount.swift#L24-L43">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1212,7 +1484,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAccount.swift#L48-L102">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowAccount.swift#L46-L99">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1244,7 +1516,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAddress.swift#L25-L44">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowAddress.swift#L24-L43">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1275,7 +1547,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L23-L90">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowAlgorithm.swift#L22-L89">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1306,7 +1578,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L93-L182">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowAlgorithm.swift#L92-L181">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1337,7 +1609,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowArgument.swift#L25-L249">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowArgument.swift#L24-L247">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1368,7 +1640,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowBlock.swift#L24-L46">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowBlock.swift#L23-L44">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1399,7 +1671,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowBlock.swift#L49-L61">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowBlock.swift#L47-L59">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1430,7 +1702,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowBlock.swift#L64-L96">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowBlock.swift#L62-L93">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1461,7 +1733,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowCadence.swift#L23">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowCadence.swift#L23">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1492,7 +1764,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowChainId.swift#L24-L105">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowChainId.swift#L23-L103">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1523,7 +1795,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowCollection.swift#L24-L32">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowCollection.swift#L23-L31">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1553,7 +1825,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowCollection.swift#L35-L43">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowCollection.swift#L34-L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1584,7 +1856,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowDomainTag.swift#L24-L41">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowDomainTag.swift#L23-L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1614,7 +1886,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowEvent.swift#L24-L71">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowEvent.swift#L23-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1645,7 +1917,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowEvent.swift#L73-L75">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowEvent.swift#L71-L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1676,7 +1948,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowId.swift#L24-L39">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowId.swift#L24-L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1707,7 +1979,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowScript.swift#L24-L38">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowScript.swift#L23-L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1738,7 +2010,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowScript.swift#L41-L52">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowScript.swift#L40-L50">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1769,7 +2041,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowSignature.swift#L24-L34">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowSignature.swift#L23-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1834,7 +2106,7 @@ At the most time, it represents account address</p>
                         <p>The signed transaction</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowTransaction+Signer.swift#L27-L30">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowTransaction+Signer.swift#L27-L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1852,7 +2124,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The data structure of Transaction</p>
 
                         <a href="../Classes/Flow/Transaction.html" class="slightly-smaller">See more</a>
                       </div>
@@ -1865,7 +2137,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowTransaction.swift#L22-L189">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowTransaction.swift#L24-L195">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1895,7 +2167,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowTransaction.swift#L267-L286">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowTransaction.swift#L273-L292">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1926,7 +2198,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowTransaction.swift#L288-L312">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowTransaction.swift#L294-L318">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1957,7 +2229,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowTransaction.swift#L314-L358">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/FlowTransaction.swift#L320-L364">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1988,7 +2260,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/Signer.swift#L22-L36">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/Signer.swift#L22-L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2019,7 +2291,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/Signer.swift#L38-L40">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Models/Signer.swift#L38-L40">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2052,7 +2324,7 @@ More detail can be found here: <a href="https://docs.onflow.org/access-api">http
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L27-L501">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.1-beta/Sources/Flow/Network/FlowAccessAPI.swift#L26-L500">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
