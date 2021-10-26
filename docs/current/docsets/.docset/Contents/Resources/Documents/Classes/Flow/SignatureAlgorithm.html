@@ -17,7 +17,7 @@
     <a title="SignatureAlgorithm Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../../index.html"> 0.0.9-beta Docs</a> (3% documented)</p>
+        <p><a href="../../index.html"> 0.1.0-beta Docs</a> (37% documented)</p>
         <p class="header-right"><a href="https://github.com/zed-io/flow-swift"><img src="../../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../../search.json">
@@ -52,12 +52,6 @@
                 <a href="../../Classes/Flow/FError.html">– FError</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/Flow/SignatureAlgorithm.html">– SignatureAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../../Classes/Flow/Account.html">– Account</a>
               </li>
               <li class="nav-group-task">
@@ -65,6 +59,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/Address.html">– Address</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Flow/SignatureAlgorithm.html">– SignatureAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/Argument.html">– Argument</a>
@@ -85,10 +85,10 @@
                 <a href="../../Classes/Flow/ChainID.html">– ChainID</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/Flow.html#/s:4FlowAAC10CollectionV">– Collection</a>
+                <a href="../../Classes/Flow/Collection.html">– Collection</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/Flow.html#/s:4FlowAAC19CollectionGuaranteeV">– CollectionGuarantee</a>
+                <a href="../../Classes/Flow/CollectionGuarantee.html">– CollectionGuarantee</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/DomainTag.html">– DomainTag</a>
@@ -247,10 +247,10 @@
 
                 </div>
               </div>
-            <p>Undocumented</p>
+            <p>The signature algorithm supported by flow which include <code>.ECDSA_P256</code> and <code>.ECDSA_SECP256k1</code></p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Models/Algorithm.swift#L11-L78">Show on GitHub</a>
+                <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L23-L90">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -281,7 +281,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Models/Algorithm.swift#L12">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -311,7 +311,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Models/Algorithm.swift#L13">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -341,7 +341,157 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Models/Algorithm.swift#L14">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L26">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC18SignatureAlgorithmO9algorithmSSvp"></a>
+                    <a name="//apple_ref/swift/Property/algorithm" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC18SignatureAlgorithmO9algorithmSSvp">algorithm</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">algorithm</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L28-L37">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC18SignatureAlgorithmO2idSSvp"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC18SignatureAlgorithmO2idSSvp">id</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L39-L48">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC18SignatureAlgorithmO4codeSivp"></a>
+                    <a name="//apple_ref/swift/Property/code" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC18SignatureAlgorithmO4codeSivp">code</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">code</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L50-L59">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC18SignatureAlgorithmO5indexSivp"></a>
+                    <a name="//apple_ref/swift/Property/index" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC18SignatureAlgorithmO5indexSivp">index</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">index</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L61-L70">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC18SignatureAlgorithmO5curveSSvp"></a>
+                    <a name="//apple_ref/swift/Property/curve" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC18SignatureAlgorithmO5curveSSvp">curve</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">curve</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowAlgorithm.swift#L72-L81">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -351,7 +501,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/zed-io/flow-swift" target="_blank" rel="external noopener">Zed Team</a>. All rights reserved. (Last updated: 2021-10-21)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/zed-io/flow-swift" target="_blank" rel="external noopener">Zed Team</a>. All rights reserved. (Last updated: 2021-10-26)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

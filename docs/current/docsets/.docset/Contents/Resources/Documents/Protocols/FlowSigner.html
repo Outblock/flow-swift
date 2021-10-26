@@ -17,7 +17,7 @@
     <a title="FlowSigner Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> 0.0.9-beta Docs</a> (3% documented)</p>
+        <p><a href="../index.html"> 0.1.0-beta Docs</a> (37% documented)</p>
         <p class="header-right"><a href="https://github.com/zed-io/flow-swift"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -52,12 +52,6 @@
                 <a href="../Classes/Flow/FError.html">– FError</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/Flow/SignatureAlgorithm.html">– SignatureAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Classes/Flow/Account.html">– Account</a>
               </li>
               <li class="nav-group-task">
@@ -65,6 +59,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Flow/Address.html">– Address</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/SignatureAlgorithm.html">– SignatureAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Flow/Argument.html">– Argument</a>
@@ -85,10 +85,10 @@
                 <a href="../Classes/Flow/ChainID.html">– ChainID</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/Flow.html#/s:4FlowAAC10CollectionV">– Collection</a>
+                <a href="../Classes/Flow/Collection.html">– Collection</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/Flow.html#/s:4FlowAAC19CollectionGuaranteeV">– CollectionGuarantee</a>
+                <a href="../Classes/Flow/CollectionGuarantee.html">– CollectionGuarantee</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Flow/DomainTag.html">– DomainTag</a>
@@ -247,10 +247,10 @@
 
                 </div>
               </div>
-            <p>Undocumented</p>
+            <p>A protocol for signer to use private key to sign the data</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Models/FlowSigner.swift#L10-L14">Show on GitHub</a>
+                <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowSigner.swift#L21-L34">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -269,7 +269,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Address in the flow blockchain</p>
 
                       </div>
                       <div class="declaration">
@@ -281,7 +281,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Models/FlowSigner.swift#L11">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowSigner.swift#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -299,7 +299,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The index of the public key</p>
 
                       </div>
                       <div class="declaration">
@@ -311,7 +311,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Models/FlowSigner.swift#L12">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowSigner.swift#L27">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -319,9 +319,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4Flow0A6SignerP9signature12signableData10Foundation0E0VAH_tKF"></a>
-                    <a name="//apple_ref/swift/Method/signature(signableData:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4Flow0A6SignerP9signature12signableData10Foundation0E0VAH_tKF">signature(signableData:<wbr>)</a>
+                    <a name="/s:4Flow0A6SignerP4sign12signableData10Foundation0E0VAH_tKF"></a>
+                    <a name="//apple_ref/swift/Method/sign(signableData:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow0A6SignerP4sign12signableData10Foundation0E0VAH_tKF">sign(signableData:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -329,19 +329,42 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Sign the data with account private key</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">signature</span><span class="p">(</span><span class="nv">signableData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sign</span><span class="p">(</span><span class="nv">signableData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>signableData</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The data to be signed</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The signed data</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Models/FlowSigner.swift#L13">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Models/FlowSigner.swift#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -351,7 +374,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/zed-io/flow-swift" target="_blank" rel="external noopener">Zed Team</a>. All rights reserved. (Last updated: 2021-10-21)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/zed-io/flow-swift" target="_blank" rel="external noopener">Zed Team</a>. All rights reserved. (Last updated: 2021-10-26)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

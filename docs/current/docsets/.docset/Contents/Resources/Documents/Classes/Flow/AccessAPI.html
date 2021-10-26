@@ -17,7 +17,7 @@
     <a title="AccessAPI Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../../index.html"> 0.0.9-beta Docs</a> (3% documented)</p>
+        <p><a href="../../index.html"> 0.1.0-beta Docs</a> (37% documented)</p>
         <p class="header-right"><a href="https://github.com/zed-io/flow-swift"><img src="../../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../../search.json">
@@ -52,12 +52,6 @@
                 <a href="../../Classes/Flow/FError.html">– FError</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/Flow/SignatureAlgorithm.html">– SignatureAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../../Classes/Flow/Account.html">– Account</a>
               </li>
               <li class="nav-group-task">
@@ -65,6 +59,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/Address.html">– Address</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Flow/SignatureAlgorithm.html">– SignatureAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/Argument.html">– Argument</a>
@@ -85,10 +85,10 @@
                 <a href="../../Classes/Flow/ChainID.html">– ChainID</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/Flow.html#/s:4FlowAAC10CollectionV">– Collection</a>
+                <a href="../../Classes/Flow/Collection.html">– Collection</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/Flow.html#/s:4FlowAAC19CollectionGuaranteeV">– CollectionGuarantee</a>
+                <a href="../../Classes/Flow/CollectionGuarantee.html">– CollectionGuarantee</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/DomainTag.html">– DomainTag</a>
@@ -248,10 +248,11 @@
 
                 </div>
               </div>
-            <p>Undocumented</p>
+            <p>The network client for access API
+More detail can be found here: <a href="https://docs.onflow.org/access-api">https://docs.onflow.org/access-api</a></p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L13-L396">Show on GitHub</a>
+                <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L27-L501">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -279,7 +280,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Ping will return a successful response if the Access API is ready and available.</p>
 
                       </div>
                       <div class="declaration">
@@ -290,8 +291,12 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Bool</code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L41-L53">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L57-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -309,7 +314,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Gets the latest block header.</p>
 
                       </div>
                       <div class="declaration">
@@ -320,8 +325,12 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow/BlockHeader.html">Flow.BlockHeader</a></code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L55-L68">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L73-L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -339,7 +348,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Gets a block header by ID.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If the response has no block, it will return nil
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -350,8 +364,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>id</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The id for the block in <code><a href="../../Classes/Flow/ID.html">Flow.ID</a></code> type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Flow.BlockHeader?</code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L70-L88">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L93-L111">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -369,7 +406,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Gets a block header by height.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If the response has no block, it will return nil
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -380,8 +422,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>height</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The height for the block in <code>UInt64</code> type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Flow.BlockHeader?</code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L90-L108">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L118-L136">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -399,7 +464,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>GetLatestBlock gets the full payload of the latest sealed or unsealed block.</p>
 
                       </div>
                       <div class="declaration">
@@ -410,8 +475,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sealed</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The flag for the block is sealed or unsealed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Flow.Block?</code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L110-L124">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L142-L156">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -429,7 +517,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Gets a full block by ID.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If the response has no block, it will return nil
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -440,8 +533,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>id</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The id for the block.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Flow.Block?</code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L126-L144">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L163-L181">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -459,7 +575,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Gets a full block by height.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If the response has no block, it will return nil
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -470,8 +591,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>height</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The height for the block in <code>UInt64</code> type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Flow.Block?</code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L146-L164">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L188-L206">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -489,19 +633,47 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Gets a collection by ID.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If the response has no collection, it will return nil
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getCollectionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ID.html">ID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow.html#/s:4FlowAAC10CollectionV">Collection</a></span><span class="p">?</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getCollectionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ID.html">ID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/Collection.html">Collection</a></span><span class="p">?</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>id</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The id for the collection.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Flow.Collection?</code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L166-L184">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L213-L231">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -519,7 +691,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Submit a signed transaction to the network.</p>
 
                       </div>
                       <div class="declaration">
@@ -530,8 +702,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The signed transaction in <code><a href="../../Classes/Flow/Transaction.html">Flow.Transaction</a></code> type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow/ID.html">Flow.ID</a></code> type as transaction id.</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L186-L200">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L237-L251">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -549,7 +744,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get a transaction by ID.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If the response has no transaction, it will return nil
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -560,8 +760,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>id</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The id for the transaction.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Flow.Transaction?</code> type as transaction.</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L202-L220">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L258-L276">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -579,7 +802,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get a transaction result by ID.</p>
 
                       </div>
                       <div class="declaration">
@@ -590,8 +813,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>id</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The id for the transaction.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow.html#/s:4FlowAAC17TransactionResultV">Flow.TransactionResult</a></code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L222-L237">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L282-L297">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -609,7 +855,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get an account result at lastest block.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If the response has no account, it will return nil
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -620,8 +871,31 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>address</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The address of account.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Flow.Account?</code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L239-L257">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L304-L322">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -639,7 +913,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Get an account result by height.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If the response has no account, it will return nil
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -650,8 +929,43 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>address</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The address of account.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>height</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The height of flow block.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code>Flow.Account?</code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L259-L278">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L330-L349">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -669,7 +983,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Executes a read-only Cadence script against the latest sealed execution state.</p>
 
                       </div>
                       <div class="declaration">
@@ -680,8 +994,43 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>script</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The script content cadence code.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>arguments</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The arguments for the cadence code.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow/ScriptResponse.html">Flow.ScriptResponse</a></code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L280-L295">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L356-L371">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -699,19 +1048,66 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Executes a ready-only Cadence script against the execution state at the block with the given ID.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">executeScriptAtBlockId</span><span class="p">(</span><span class="nv">script</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/Script.html">Script</a></span><span class="p">,</span> <span class="n">blockId</span> <span class="nv">_</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ID.html">ID</a></span><span class="p">,</span> <span class="nv">arguments</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/Argument.html">Argument</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ScriptResponse.html">ScriptResponse</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">executeScriptAtBlockId</span><span class="p">(</span><span class="nv">script</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/Script.html">Script</a></span><span class="p">,</span> <span class="nv">blockId</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ID.html">ID</a></span><span class="p">,</span> <span class="nv">arguments</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/Argument.html">Argument</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ScriptResponse.html">ScriptResponse</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>script</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The script content cadence code.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>blockId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The id of the block</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>arguments</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The arguments for the cadence code.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow/ScriptResponse.html">Flow.ScriptResponse</a></code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L297-L312">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L379-L395">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -729,7 +1125,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Executes a ready-only Cadence script against the execution state at the block with the given block height.</p>
 
                       </div>
                       <div class="declaration">
@@ -740,8 +1136,55 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>script</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The script content cadence code.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>height</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The height of the block</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>arguments</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The arguments for the cadence code.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow/ScriptResponse.html">Flow.ScriptResponse</a></code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L314-L330">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L403-L419">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -759,7 +1202,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Retrieves events emitted within the specified block range.</p>
 
                       </div>
                       <div class="declaration">
@@ -770,8 +1213,43 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The type of event.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>range</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The range of the block height</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow/Event/Result.html">Flow.Event.Result</a></code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L332-L348">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L426-L442">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -789,7 +1267,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Retrieves events for the specified block IDs and event type.</p>
 
                       </div>
                       <div class="declaration">
@@ -800,8 +1278,43 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The type of event.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>ids</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The list of the block id</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow/Event/Result.html">Flow.Event.Result</a></code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L350-L365">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L449-L464">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -819,7 +1332,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Retrieves the Flow network details</p>
 
                       </div>
                       <div class="declaration">
@@ -830,8 +1343,12 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow/ChainID.html">Flow.ChainID</a></code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L367-L380">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L468-L481">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -849,7 +1366,9 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Retrieves the latest sealed protocol state
+snapshot. Used by Flow nodes joining the network to bootstrap a
+space-efficient local state.</p>
 
                       </div>
                       <div class="declaration">
@@ -860,8 +1379,12 @@
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A future result in <code><a href="../../Classes/Flow/Snapshot.html">Flow.Snapshot</a></code> type</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI.swift#L382-L395">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI.swift#L487-L500">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -891,7 +1414,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L12-L14">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L23-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -921,7 +1444,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L16-L18">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L27-L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -951,7 +1474,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L20-L22">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L31-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -981,7 +1504,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L24-L26">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L35-L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1011,7 +1534,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L28-L30">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L39-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1041,7 +1564,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L32-L34">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L43-L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1071,7 +1594,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L36-L38">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L47-L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1096,12 +1619,12 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getCollectionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ID.html">ID</a></span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../../Typealiases.html#/s:4Flow8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow.html#/s:4FlowAAC10CollectionV">Collection</a></span><span class="p">?</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getCollectionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ID.html">ID</a></span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../../Typealiases.html#/s:4Flow8Callbacka">Callback</a></span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/Collection.html">Collection</a></span><span class="p">?</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L40-L42">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L51-L53">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1131,7 +1654,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L44-L46">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L55-L57">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1161,7 +1684,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L48-L50">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L59-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1191,7 +1714,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L52-L54">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L63-L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1221,7 +1744,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L56-L58">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L67-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1251,7 +1774,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L60-L62">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L71-L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1281,7 +1804,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L64-L66">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L75-L77">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1311,7 +1834,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L68-L70">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L79-L81">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1341,7 +1864,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L72-L74">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L83-L85">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1371,7 +1894,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L76-L78">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L87-L89">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1401,7 +1924,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L80-L82">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L91-L93">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1431,7 +1954,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L84-L86">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L95-L97">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1461,7 +1984,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zed-io/flow-swift/tree/0.0.9-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L88-L90">Show on GitHub</a>
+                        <a href="https://github.com/zed-io/flow-swift/tree/0.1.0-beta/Sources/Flow/Network/FlowAccessAPI+Block.swift#L99-L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1471,7 +1994,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="https://github.com/zed-io/flow-swift" target="_blank" rel="external noopener">Zed Team</a>. All rights reserved. (Last updated: 2021-10-21)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/zed-io/flow-swift" target="_blank" rel="external noopener">Zed Team</a>. All rights reserved. (Last updated: 2021-10-26)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
