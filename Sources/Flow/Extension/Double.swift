@@ -1,5 +1,5 @@
 //
-//  FlowError
+//  Double.swift
 //
 //  Copyright 2021 Zed Labs Pty Ltd
 //
@@ -18,28 +18,9 @@
 
 import Foundation
 
-extension Flow {
-    /// List of common error in Flow Swift SDK
-    public enum FError: String, Error {
-        case generic
-        case urlEmpty
-        case urlInvaild
-        case declined
-        case encodeFailure
-        case decodeFailure
-        case unauthenticated
-        case emptyProposer
-        case invaildPlayload
-        case invaildEnvelope
-        case invaildAccountInfo
-        case missingSigner
-        case preparingTransactionFailed
-        case timeout
-    }
-}
-
-extension Flow.FError: LocalizedError {
-    public var errorDescription: String? {
-        return rawValue
+extension Double {
+    func roundToDecimal(_ fractionDigits: Int) -> Double {
+        let multiplier = pow(10, Double(fractionDigits))
+        return (self * multiplier).rounded() / multiplier
     }
 }

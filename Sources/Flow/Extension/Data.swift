@@ -152,11 +152,3 @@ extension Data {
         return bytes
     }
 }
-
-extension Array where Iterator.Element: Hashable {
-    func hash(into hasher: inout Hasher) {
-        for obj in self {
-            hasher.combine(obj)
-        }
-    }
-}

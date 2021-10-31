@@ -22,12 +22,27 @@ import Foundation
 extension Flow {
     /// The data structure of Transaction
     public struct Transaction {
+
+        /// A valid cadence script.
         public var script: Script
+
+        /// Any arguments to the script if needed should be supplied via a function that returns an array of arguments.
         public var arguments: [Argument]
+
+        /// The ID of the block to execute the interaction at.
         public var referenceBlockId: ID
+
+        /// Compute (Gas) limit for query. Read the documentation about computation cost for information about how computation cost is calculated on Flow.
+        /// More detail here: https://docs.onflow.org/flow-go-sdk/building-transactions/#gas-limit
         public var gasLimit: BigUInt
+
+        /// The valid key of proposer role.
         public var proposalKey: TransactionProposalKey
+
+        /// The address of payer
         public var payerAddress: Address
+
+        /// The list of authorizer's address
         public var authorizers: [Address]
 
         /// The list of payload signature
@@ -102,29 +117,35 @@ extension Flow {
                                envelopeSignatures: envelopeSignatures ?? self.envelopeSignatures)
         }
 
+        /// RLP Encoded data of Envelope
         public var encodedEnvelope: Data? {
             return RLP.encode(payloadEnvelope.rlpList)
         }
 
+        /// RLP Encoded data of Envelope in hex string
         public var envelopeMessage: String? {
             guard let data = RLP.encode(payloadEnvelope.rlpList) else { return nil }
             return data.hexValue
         }
 
+        /// RLP Encoded data of Envelope with `DomainTag.transaction` prefix
         public var signableEnvelope: Data? {
             guard let data = RLP.encode(payloadEnvelope.rlpList) else { return nil }
             return DomainTag.transaction.normalize + data
         }
 
+        /// RLP Encoded data of Payload
         public var encodedPayload: Data? {
             return RLP.encode(payload.rlpList)
         }
 
+        /// RLP Encoded data of Payload in hex string
         public var payloadMessage: String? {
             guard let data = RLP.encode(payload.rlpList) else { return nil }
             return data.hexValue
         }
 
+        /// RLP Encoded data of Payload with `DomainTag.transaction` prefix
         public var signablePlayload: Data? {
             guard let data = RLP.encode(payload.rlpList) else { return nil }
             return DomainTag.transaction.normalize + data
@@ -189,7 +210,7 @@ extension Flow {
             envelopeSignatures = envelopeSignatures.sorted(by: <)
         }
 
-        public func getSingerIndex(address: Flow.Address) -> Int? {
+        func getSingerIndex(address: Flow.Address) -> Int? {
             return signers.first { $0.key == address }?.value
         }
     }
@@ -200,6 +221,7 @@ protocol RLPEncodable {
 }
 
 extension Flow.Transaction {
+    /// The transaction status
     public enum Status: Int, CaseIterable, Comparable, Equatable {
         case unknown = 0
         case pending = 1
@@ -208,15 +230,8 @@ extension Flow.Transaction {
         case sealed = 4
         case expired = 5
 
-        var isExpired: Bool { rawValue == 5 }
-        var isSealed: Bool { rawValue >= 4 }
-        var isExecuted: Bool { rawValue >= 3 }
-        var isFinalized: Bool { rawValue >= 2 }
-        var isPending: Bool { rawValue >= 1 }
-        var isUnknown: Bool { rawValue >= 0 }
-
-        init(num: Int) {
-            self = Status.allCases.first { $0.rawValue == num } ?? .unknown
+        public init(_ rawValue: Int) {
+            self = Status.allCases.first { $0.rawValue == rawValue } ?? .unknown
         }
 
         public static func < (lhs: Flow.Transaction.Status, rhs: Flow.Transaction.Status) -> Bool {
@@ -224,6 +239,7 @@ extension Flow.Transaction {
         }
     }
 
+    /// Internal struct for payload RLP encoding
     struct Payload: RLPEncodable {
         let script: Data
         let arguments: [Data]
@@ -241,6 +257,7 @@ extension Flow.Transaction {
         }
     }
 
+    /// Internal struct for Envelope RLP encoding
     struct PayloadEnvelope: RLPEncodable {
         var payload: Payload
         var payloadSignatures: [EnvelopeSignature]
@@ -270,30 +287,47 @@ extension Flow.Transaction {
 }
 
 extension Flow {
+
+    /// The transaction result in the chain
     public struct TransactionResult {
-        let status: Transaction.Status
+
+        /// The status of transaction
+        public let status: Transaction.Status
+
+        /// The error message for the transaction
+        public let errorMessage: String
+
+        /// The emitted events by this transaction
+        public let events: [Event]
+
+        /// The status code of transaction
         let statusCode: Int
-        let errorMessage: String
-        let events: [Event]
 
         init(value: Flow_Execution_GetTransactionResultResponse) {
-            status = Transaction.Status(num: Int(value.statusCode))
+            status = Transaction.Status(Int(value.statusCode))
             statusCode = Int(value.statusCode)
             errorMessage = value.errorMessage
             events = value.events.compactMap { Event(value: $0) }
         }
 
         init(value: Flow_Access_TransactionResultResponse) {
-            status = Transaction.Status(num: Int(value.status.rawValue))
+            status = Transaction.Status(Int(value.status.rawValue))
             statusCode = Int(value.statusCode)
             errorMessage = value.errorMessage
             events = value.events.compactMap { Flow.Event(value: $0) }
         }
     }
 
+    /// The class to represent the proposer key information in the transaction
     public struct TransactionProposalKey {
+        /// The address of account
         public let address: Address
+
+        /// The index of public key in account
         public var keyIndex: Int
+
+        /// The sequence numbers to ensure that each transaction runs at most once
+        /// Similarly to transaction nonces in Ethereum
         public var sequenceNumber: BigInt
 
         public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: BigInt = -1) {
@@ -318,19 +352,34 @@ extension Flow {
     }
 
     public struct TransactionSignature: Comparable {
-        let address: Address
-        var signerIndex: Int
-        let keyIndex: Int
-        let signature: Data
 
-        init(value: Flow_Entities_Transaction.Signature) {
+        /// The address of the signature
+        public let address: Address
+
+        /// The index of the signed key
+        public let keyIndex: Int
+
+        /// Signature Data
+        public let signature: Data
+
+        /// Interal index for sort signature
+        var signerIndex: Int
+
+        internal init(value: Flow_Entities_Transaction.Signature) {
             address = Address(bytes: value.address.bytes)
             keyIndex = Int(value.keyID)
             signature = value.signature
             signerIndex = Int(value.keyID)
         }
 
-        public init(address: Flow.Address, signerIndex: Int, keyIndex: Int, signature: Data) {
+        public init(address: Flow.Address, keyIndex: Int, signature: Data) {
+            self.address = address
+            self.signerIndex = keyIndex
+            self.keyIndex = keyIndex
+            self.signature = signature
+        }
+
+        internal init(address: Flow.Address, signerIndex: Int, keyIndex: Int, signature: Data) {
             self.address = address
             self.signerIndex = signerIndex
             self.keyIndex = keyIndex
@@ -344,17 +393,17 @@ extension Flow {
             return lhs.signerIndex < rhs.signerIndex
         }
 
-        func buildUpon(address: Flow.Address? = nil,
-                       signerIndex: Int? = nil,
-                       keyIndex: Int? = nil,
-                       signature: Data? = nil) -> TransactionSignature {
+        internal func buildUpon(address: Flow.Address? = nil,
+                                signerIndex: Int? = nil,
+                                keyIndex: Int? = nil,
+                                signature: Data? = nil) -> TransactionSignature {
             return TransactionSignature(address: address ?? self.address,
                                         signerIndex: signerIndex ?? self.signerIndex,
                                         keyIndex: keyIndex ?? self.keyIndex,
                                         signature: signature ?? self.signature)
         }
 
-        func toFlowEntity() -> Flow_Entities_Transaction.Signature {
+        internal func toFlowEntity() -> Flow_Entities_Transaction.Signature {
             var entity = Flow_Entities_Transaction.Signature()
             entity.address = address.bytes.data
             entity.keyID = UInt32(keyIndex)

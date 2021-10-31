@@ -62,7 +62,7 @@ extension Flow {
         /// The sequence number for the key, it must be equal or larger than zero
         public var sequenceNumber: Int = -1
 
-        // TODO: add doc here
+        /// Indicate the key is revoked or not
         public var revoked: Bool = false
 
         init(value: Flow_Entities_AccountKey) {

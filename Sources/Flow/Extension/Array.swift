@@ -1,5 +1,5 @@
 //
-//  FlowError
+//  Array.swift
 //
 //  Copyright 2021 Zed Labs Pty Ltd
 //
@@ -18,28 +18,16 @@
 
 import Foundation
 
-extension Flow {
-    /// List of common error in Flow Swift SDK
-    public enum FError: String, Error {
-        case generic
-        case urlEmpty
-        case urlInvaild
-        case declined
-        case encodeFailure
-        case decodeFailure
-        case unauthenticated
-        case emptyProposer
-        case invaildPlayload
-        case invaildEnvelope
-        case invaildAccountInfo
-        case missingSigner
-        case preparingTransactionFailed
-        case timeout
+extension Array where Iterator.Element: Hashable {
+    func hash(into hasher: inout Hasher) {
+        for obj in self {
+            hasher.combine(obj)
+        }
     }
 }
 
-extension Flow.FError: LocalizedError {
-    public var errorDescription: String? {
-        return rawValue
+extension Array where Element == Flow.Cadence.FValue {
+    public func toArguments() -> [Flow.Argument] {
+        return compactMap(Flow.Argument.init)
     }
 }

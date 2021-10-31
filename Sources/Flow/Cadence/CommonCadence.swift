@@ -21,7 +21,7 @@ import NIO
 
 extension Flow {
     /// A collection of common operations in Flow
-    /// It includes `addKeyToAccount, addContractToAccount, createAccount, removeAccountKeyByIndex, removeContractFromAccount, updateContractOfAccount`
+    /// It includes `addKeyToAccount`, `addContractToAccount`, `createAccount`, `removeAccountKeyByIndex`, `removeContractFromAccount`, `updateContractOfAccount`
     class CommonCadence {
         /// The cadence code for adding key to account
         static let addKeyToAccount = """
@@ -81,6 +81,55 @@ extension Flow {
                     signer.contracts.update__experimental(name: name, code: code.decodeHex())
                 }
             }
+        """
+
+        /// The cadence code to verify user signature
+        static let verifyUserSignature = """
+        import Crypto
+
+        pub fun main(
+          message: String,
+          rawPublicKeys: [String],
+          weights: [UFix64],
+          signAlgos: [UInt],
+          signatures: [String],
+        ): Bool {
+
+          let keyList = Crypto.KeyList()
+
+          var i = 0
+          for rawPublicKey in rawPublicKeys {
+            keyList.add(
+              PublicKey(
+                publicKey: rawPublicKey.decodeHex(),
+                signatureAlgorithm: signAlgos[i] == 2 ? SignatureAlgorithm.ECDSA_P256 : SignatureAlgorithm.ECDSA_secp256k1
+              ),
+              hashAlgorithm: HashAlgorithm.SHA3_256,
+              weight: weights[i],
+            )
+            i = i + 1
+          }
+
+          let signatureSet: [Crypto.KeyListSignature] = []
+
+          var j = 0
+          for signature in signatures {
+            signatureSet.append(
+              Crypto.KeyListSignature(
+                keyIndex: j,
+                signature: signature.decodeHex()
+              )
+            )
+            j = j + 1
+          }
+
+          let signedData = message.decodeHex()
+
+          return keyList.verify(
+            signatureSet: signatureSet,
+            signedData: signedData
+          )
+        }
         """
     }
 }
@@ -239,6 +288,50 @@ extension Flow {
             authorizers {
                 address
             }
+        }
+    }
+
+    public func verifyUserSignature(message: String,
+                                    signatures: [Flow.TransactionSignature]) throws -> EventLoopFuture<Flow.ScriptResponse> {
+
+        let futures: [EventLoopFuture<Flow.Account>] = signatures.compactMap { signature in
+            flow.accessAPI.getAccountAtLatestBlock(address: signature.address).unwrap(orError: FError.invaildAccountInfo)
+        }
+
+        return EventLoopFuture.whenAllComplete(futures, on: flow.accessAPI.clientChannel.eventLoop).map { results in
+            results.compactMap { result -> Flow.Account? in
+                switch result {
+                case let .success(account):
+                    return account
+                case .failure(_):
+                    // TODO: Handle error here
+                    return nil
+                }
+            }
+        }.flatMap { accounts -> EventLoopFuture<Flow.ScriptResponse>  in
+
+            var weights: [Flow.Cadence.FValue] = []
+            var signAlgos: [Flow.Cadence.FValue] = []
+            var sigs: [Flow.Cadence.FValue] = []
+            var publicKeys: [Flow.Cadence.FValue] = []
+            signatures.forEach { sig in
+                if  let account = accounts.first(where: { $0.address == sig.address }),
+                    let key = account.keys[safe: sig.keyIndex] {
+                    weights.append(.ufix64(Double(key.weight)))
+                    signAlgos.append(.uint(UInt(key.signAlgo.code)))
+                    sigs.append(.string(sig.signature.hexValue))
+                    publicKeys.append(.string(key.publicKey.hex))
+                }
+            }
+
+            let arguments: [Flow.Argument] = [.string(message),
+                                              .array(publicKeys.toArguments()),
+                                              .array(weights.toArguments()),
+                                              .array(signAlgos.toArguments()),
+                                              .array(sigs.toArguments()), ].toArguments()
+            return flow.accessAPI.executeScriptAtLatestBlock(script:
+                                                                Flow.Script(script: CommonCadence.verifyUserSignature),
+                                                             arguments: arguments)
         }
     }
 }
