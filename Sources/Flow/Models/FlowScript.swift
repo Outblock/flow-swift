@@ -23,8 +23,12 @@ extension Flow {
     public struct Script: FlowEntity, Equatable {
         public var data: Data
 
-        public init(script: String) {
-            data = script.data(using: .utf8) ?? Data()
+        public var text: String {
+            String(data: data, encoding: .utf8) ?? ""
+        }
+
+        public init(text: String) {
+            data = text.data(using: .utf8) ?? Data()
         }
 
         public init(data: Data) {
@@ -51,7 +55,7 @@ extension Flow {
 }
 
 extension Flow.Script: CustomStringConvertible {
-    public var description: String { String(data: data, encoding: .utf8) ?? "" }
+    public var description: String { text }
 }
 
 extension Flow.ScriptResponse: CustomStringConvertible {

@@ -25,7 +25,7 @@ import NIO
 ///     - text: Cadence code in `String` type.
 /// - returns: The type of `Flow.TransactionBuild.script`
 public func cadence(text: () -> String) -> Flow.TransactionBuild {
-    return Flow.TransactionBuild.script(Flow.Script(script: text()))
+    return Flow.TransactionBuild.script(Flow.Script(text: text()))
 }
 
 /// Build flow transaction with cadence code with `Flow.Script` input.

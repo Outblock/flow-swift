@@ -175,7 +175,7 @@ extension Flow {
                                      contractName: String,
                                      code: String,
                                      signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
-        let script = Flow.Script(script: code)
+        let script = Flow.Script(text: code)
         return try sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.addContractToAccount
@@ -205,7 +205,7 @@ extension Flow {
                               signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
         let contractArg = contracts.compactMap { name, cadence in
             Flow.Argument.Dictionary(key: .init(value: .string(name)),
-                                     value: .init(value: .string(Flow.Script(script: cadence).hex)))
+                                     value: .init(value: .string(Flow.Script(text: cadence).hex)))
         }
 
         let pubKeyArg = publicKeys.compactMap { $0.encoded?.hexValue }.compactMap { Flow.Argument(value: .string($0)) }
@@ -280,7 +280,7 @@ extension Flow {
                 CommonCadence.updateContractOfAccount
             }
             arguments {
-                [.string(contractName), .string(Flow.Script(script: script).hex)]
+                [.string(contractName), .string(Flow.Script(text: script).hex)]
             }
             proposer {
                 address
@@ -330,7 +330,7 @@ extension Flow {
                                               .array(signAlgos.toArguments()),
                                               .array(sigs.toArguments()), ].toArguments()
             return flow.accessAPI.executeScriptAtLatestBlock(script:
-                                                                Flow.Script(script: CommonCadence.verifyUserSignature),
+                                                                Flow.Script(text: CommonCadence.verifyUserSignature),
                                                              arguments: arguments)
         }
     }

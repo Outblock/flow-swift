@@ -79,7 +79,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
     }
 
     func testExecuteScriptAtLastestBlock() throws {
-        let script = Flow.Script(script: """
+        let script = Flow.Script(text: """
         pub struct SomeStruct {
           pub var x: Int
           pub var y: Int

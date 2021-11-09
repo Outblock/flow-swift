@@ -21,7 +21,7 @@ import BigInt
 import XCTest
 
 final class RLPTests: XCTestCase {
-    let baseTx = Flow.Transaction(script: Flow.Script(script: "transaction { execute { log(\"Hello, World!\") } }"),
+    let baseTx = Flow.Transaction(script: Flow.Script(text: "transaction { execute { log(\"Hello, World!\") } }"),
                                   arguments: [],
                                   referenceBlockId: Flow.ID(hex: "f0e4c2f76c58916ec258f246851bea091d14d4247a2fc3e18694461b1816e13b"),
                                   gasLimit: BigUInt(42),
@@ -129,7 +129,7 @@ final class RLPTests: XCTestCase {
     }
 
     func testEmptyCadence() {
-        let tx = baseTx.buildUpOn(script: Flow.Script(script: ""))
+        let tx = baseTx.buildUpOn(script: Flow.Script(text: ""))
         guard let signablePlayload = tx.signablePlayload else {
             XCTFail("RLP encode error")
             return
