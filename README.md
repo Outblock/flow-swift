@@ -9,7 +9,8 @@
     <a href="">Contribute</a> ·
     <a href="">Report a Bug</a>
   </p>
-</div><br />
+</div>
+<br/>
 
 ## Overview 
 

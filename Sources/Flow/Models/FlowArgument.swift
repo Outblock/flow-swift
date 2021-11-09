@@ -279,6 +279,11 @@ extension Flow.Argument {
             public let name: String
             public let value: Flow.Argument
 
+            public init(name: String, value: Flow.Cadence.FValue) {
+                self.name = name
+                self.value = value.toArgument()
+            }
+            
             public init(name: String, value: Flow.Argument) {
                 self.name = name
                 self.value = value
@@ -303,6 +308,11 @@ extension Flow.Argument {
         public let key: Flow.Argument
         public let value: Flow.Argument
 
+        public init(key: Flow.Cadence.FValue, value: Flow.Cadence.FValue) {
+            self.key = key.toArgument()
+            self.value = value.toArgument()
+        }
+        
         public init(key: Flow.Argument, value: Flow.Argument) {
             self.key = key
             self.value = value
