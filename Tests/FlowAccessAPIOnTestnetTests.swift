@@ -135,7 +135,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
                                                 fields: [.init(name: "x", value: .init(value: .int(1))),
                                                          .init(name: "y", value: .init(value: .int(2)))]))]
             }
-            
+
             proposer {
                 .init(address: addressA, keyIndex: 5)
             }
@@ -153,6 +153,4 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         let result = try! txID.onceSealed().wait()
         XCTAssertEqual(result.status, .sealed)
     }
-    
-    
 }

@@ -22,7 +22,6 @@ import Foundation
 extension Flow {
     /// The data structure of Transaction
     public struct Transaction {
-
         /// A valid cadence script.
         public var script: Script
 
@@ -287,10 +286,8 @@ extension Flow.Transaction {
 }
 
 extension Flow {
-
     /// The transaction result in the chain
     public struct TransactionResult {
-
         /// The status of transaction
         public let status: Transaction.Status
 
@@ -352,7 +349,6 @@ extension Flow {
     }
 
     public struct TransactionSignature: Comparable {
-
         /// The address of the signature
         public let address: Address
 
@@ -374,7 +370,7 @@ extension Flow {
 
         public init(address: Flow.Address, keyIndex: Int, signature: Data) {
             self.address = address
-            self.signerIndex = keyIndex
+            signerIndex = keyIndex
             self.keyIndex = keyIndex
             self.signature = signature
         }

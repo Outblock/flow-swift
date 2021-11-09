@@ -293,7 +293,6 @@ extension Flow {
 
     public func verifyUserSignature(message: String,
                                     signatures: [Flow.TransactionSignature]) throws -> EventLoopFuture<Flow.ScriptResponse> {
-
         let futures: [EventLoopFuture<Flow.Account>] = signatures.compactMap { signature in
             flow.accessAPI.getAccountAtLatestBlock(address: signature.address).unwrap(orError: FError.invaildAccountInfo)
         }
@@ -303,20 +302,20 @@ extension Flow {
                 switch result {
                 case let .success(account):
                     return account
-                case .failure(_):
+                case .failure:
                     // TODO: Handle error here
                     return nil
                 }
             }
-        }.flatMap { accounts -> EventLoopFuture<Flow.ScriptResponse>  in
+        }.flatMap { accounts -> EventLoopFuture<Flow.ScriptResponse> in
 
             var weights: [Flow.Cadence.FValue] = []
             var signAlgos: [Flow.Cadence.FValue] = []
             var sigs: [Flow.Cadence.FValue] = []
             var publicKeys: [Flow.Cadence.FValue] = []
             signatures.forEach { sig in
-                if  let account = accounts.first(where: { $0.address == sig.address }),
-                    let key = account.keys[safe: sig.keyIndex] {
+                if let account = accounts.first(where: { $0.address == sig.address }),
+                   let key = account.keys[safe: sig.keyIndex] {
                     weights.append(.ufix64(Double(key.weight)))
                     signAlgos.append(.uint(UInt(key.signAlgo.code)))
                     sigs.append(.string(sig.signature.hexValue))
@@ -328,7 +327,7 @@ extension Flow {
                                               .array(publicKeys.toArguments()),
                                               .array(weights.toArguments()),
                                               .array(signAlgos.toArguments()),
-                                              .array(sigs.toArguments()), ].toArguments()
+                                              .array(sigs.toArguments()),].toArguments()
             return flow.accessAPI.executeScriptAtLatestBlock(script:
                                                                 Flow.Script(text: CommonCadence.verifyUserSignature),
                                                              arguments: arguments)

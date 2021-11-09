@@ -1,4 +1,5 @@
 //
+import Combine
 //  FlowSigner
 //
 //  Copyright 2021 Zed Labs Pty Ltd
@@ -16,7 +17,6 @@
 //  limitations under the License.
 //
 import Foundation
-import Combine
 
 /// A protocol for signer to use private key to sign the data
 public protocol FlowSigner {
@@ -35,8 +35,8 @@ public protocol FlowSigner {
     //    func signAsync(signableData: Data) -> Future<Data, Error>
 }
 
-//extension FlowSigner {
+// extension FlowSigner {
 //    func signAsync(signableData: Data) -> Future<Data, Error> {
 //        return Future { $0(.failure(Flow.FError.generic)) }
 //    }
-//}
+// }
