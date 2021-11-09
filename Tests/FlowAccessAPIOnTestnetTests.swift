@@ -116,16 +116,26 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         let txID = try! flow.sendTransaction(chainID: .testnet, signers: signers) {
             cadence {
                 """
-                    transaction {
-                        prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
-                          log(signer1.address)
-                          log(signer2.address)
-                          log(signer3.address)
-                      }
-                    }
+                import HelloWorld from 0xe242ccfb4b8ea3e2
+                
+                   transaction(test: String, testInt: HelloWorld.SomeStruct) {
+                       prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
+                            log(signer1.address)
+                            log(signer2.address)
+                            log(signer3.address)
+                            log(test)
+                            log(testInt)
+                       }
+                   }
                 """
             }
 
+            arguments {
+                [.string("Test"), .struct(.init(id: "A.e242ccfb4b8ea3e2.HelloWorld.SomeStruct",
+                                                fields: [.init(name: "x", value: .init(value: .int(1))),
+                                                         .init(name: "y", value: .init(value: .int(2)))]))]
+            }
+            
             proposer {
                 .init(address: addressA, keyIndex: 5)
             }
@@ -143,4 +153,6 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         let result = try! txID.onceSealed().wait()
         XCTAssertEqual(result.status, .sealed)
     }
+    
+    
 }
