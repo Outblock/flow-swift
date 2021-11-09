@@ -42,3 +42,7 @@ extension Flow {
         }
     }
 }
+
+extension Flow.Address: CustomStringConvertible {
+    public var description: String { data.hexValue }
+}

@@ -16,6 +16,7 @@
 //  limitations under the License.
 //
 import Foundation
+import Combine
 
 /// A protocol for signer to use private key to sign the data
 public protocol FlowSigner {
@@ -30,4 +31,12 @@ public protocol FlowSigner {
     ///     - signableData: The data to be signed
     /// - returns: The signed data
     func sign(signableData: Data) throws -> Data
+
+    //    func signAsync(signableData: Data) -> Future<Data, Error>
 }
+
+//extension FlowSigner {
+//    func signAsync(signableData: Data) -> Future<Data, Error> {
+//        return Future { $0(.failure(Flow.FError.generic)) }
+//    }
+//}

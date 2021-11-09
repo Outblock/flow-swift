@@ -38,6 +38,10 @@ extension Flow {
     }
 }
 
+extension Flow.ID: CustomStringConvertible {
+    public var description: String { data.hexValue }
+}
+
 extension Flow.ID {
     /// Get notified when transaction's status change to `.finalized`.
     /// - returns: A future that will receive the `Flow.TransactionResult` value.

@@ -49,3 +49,18 @@ extension Flow {
         }
     }
 }
+
+extension Flow.Script: CustomStringConvertible {
+    public var description: String { String(data: data, encoding: .utf8) ?? "" }
+}
+
+extension Flow.ScriptResponse: CustomStringConvertible {
+    public var description: String {
+        guard let object = try? JSONSerialization.jsonObject(with: data),
+              let jsonData = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return ""
+        }
+        return jsonString
+    }
+}

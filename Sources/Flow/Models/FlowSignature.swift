@@ -32,3 +32,7 @@ extension Flow {
         }
     }
 }
+
+extension Flow.Signature: CustomStringConvertible {
+    public var description: String { data.hexValue }
+}

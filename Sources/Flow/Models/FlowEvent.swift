@@ -72,3 +72,7 @@ extension Flow {
         public var data: Data
     }
 }
+
+extension Flow.Snapshot: CustomStringConvertible {
+    public var description: String { data.hexValue }
+}
