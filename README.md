@@ -19,7 +19,7 @@ SDKs are open source, and you can use them according to the licence.
 
 The library client specifications can be found here:
 
-https://zed-io.github.io/flow-swift/
+https://outblock.github.io/flow-swift/
 
 
 ## Getting Started
@@ -29,7 +29,7 @@ https://zed-io.github.io/flow-swift/
 This is a Swift Package, and can be installed via Xcode with the URL of this repository:
 
 ```swift
-.package(name: "Flow", url: "https://github.com/zed-io/flow-swift.git", from: "0.1.3-beta")
+.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.1.3-beta")
 ```
 
 ## Config
@@ -115,7 +115,8 @@ Retrieve transactions from the network by providing a transaction ID. After a tr
 
 ⚠️ The transaction ID provided must be from the current spork.
 
-📖 **Transaction status** represents the state of transaction in the blockchain. Status can change until is finalized.
+📖 **Transaction status** represents the state of transaction in the blockchain. Status can change until is finali
+.
 
 | Status      | Final | Description |
 | ----------- | ----------- | ----------- |
