@@ -22,15 +22,15 @@ extension Flow {
     public struct PublicKey: FlowEntity, Equatable {
         public var data: Data
 
-        init(hex: String) {
+        public init(hex: String) {
             data = hex.hexValue.data
         }
 
-        init(data: Data) {
+        public init(data: Data) {
             self.data = data
         }
 
-        init(bytes: [UInt8]) {
+        public init(bytes: [UInt8]) {
             data = bytes.data
         }
     }
