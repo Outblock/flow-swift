@@ -23,8 +23,8 @@ import Foundation
 struct ECDSA_P256_Signer: FlowSigner {
     var address: Flow.Address
     var keyIndex: Int
-    var hash: Flow.HashAlgorithm = .SHA2_256
-    var signature: Flow.SignatureAlgorithm = .ECDSA_P256
+    var hashAlgo: Flow.HashAlgorithm = .SHA2_256
+    var signatureAlgo: Flow.SignatureAlgorithm = .ECDSA_P256
 
     var privateKey: P256.Signing.PrivateKey
 

@@ -55,13 +55,17 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
 
     func testCanCreateAccount() throws {
         // Example in Testnet
+        
+        // Admin key
         let address = addressC
         let signer = [ECDSA_P256_Signer(address: address, keyIndex: 0, privateKey: privateKeyC)]
+        
+        // User publick key
         let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
                                          signAlgo: .ECDSA_P256,
                                          hashAlgo: .SHA2_256,
                                          weight: 1000)
-
+        
         var unsignedTx = try! flow.buildTransaction {
             cadence {
                 """

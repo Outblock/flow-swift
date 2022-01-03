@@ -24,7 +24,13 @@ public protocol FlowSigner {
     var address: Flow.Address { get set }
 
     /// The index of the public key
-    var keyIndex: Int { get set }
+    var hashAlgo: Flow.HashAlgorithm  { get set }
+    
+    /// The index of the public key
+    var signatureAlgo: Flow.SignatureAlgorithm  { get set }
+    
+    // The index of the public key
+     var keyIndex: Int { get set }
 
     /// Sign the data with account private key
     /// - parameters:
@@ -32,6 +38,7 @@ public protocol FlowSigner {
     /// - returns: The signed data
     func sign(signableData: Data) throws -> Data
 
+    // TODO: - Add async sign method
     //    func signAsync(signableData: Data) -> Future<Data, Error>
 }
 

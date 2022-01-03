@@ -79,11 +79,11 @@ extension Flow {
             }
         }
 
-        init(code: Int) {
+        public init(code: Int) {
             self = SignatureAlgorithm.allCases.first { $0.code == code } ?? .unknown
         }
 
-        init(cadence index: Int) {
+        public init(index: Int) {
             self = SignatureAlgorithm.allCases.first { $0.index == index } ?? .unknown
         }
     }
@@ -156,7 +156,7 @@ extension Flow {
             }
         }
 
-        var index: Int {
+        public var index: Int {
             switch self {
             case .unknown:
                 return 0
@@ -171,11 +171,11 @@ extension Flow {
             }
         }
 
-        init(code: Int) {
+        public init(code: Int) {
             self = HashAlgorithm.allCases.first { $0.code == code } ?? .unknown
         }
 
-        init(cadence index: Int) {
+        public init(cadence index: Int) {
             self = HashAlgorithm.allCases.first { $0.index == index } ?? .unknown
         }
     }
