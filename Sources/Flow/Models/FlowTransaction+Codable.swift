@@ -30,8 +30,8 @@ extension Flow.Transaction: Codable {
         try container.encode(proposalKey, forKey: .proposalKey)
         try container.encode(payerAddress, forKey: .payerAddress)
         try container.encode(authorizers, forKey: .authorizers)
-        try container.encode(payloadSignatures.map { $0.signature.hexValue }, forKey: .payloadSignatures)
-        try container.encode(envelopeSignatures.map { $0.signature.hexValue }, forKey: .envelopeSignatures)
+        try container.encode(payloadSignatures, forKey: .payloadSignatures)
+        try container.encode(envelopeSignatures, forKey: .envelopeSignatures)
     }
 
     public init(from decoder: Decoder) throws {
