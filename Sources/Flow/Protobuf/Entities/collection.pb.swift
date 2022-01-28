@@ -25,7 +25,7 @@ public struct Flow_Entities_Collection {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var id: Data = Data()
+    public var id = Data()
 
     public var transactionIds: [Data] = []
 
@@ -39,7 +39,7 @@ public struct Flow_Entities_CollectionGuarantee {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var collectionID: Data = Data()
+    public var collectionID = Data()
 
     public var signatures: [Data] = []
 

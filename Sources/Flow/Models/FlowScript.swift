@@ -18,9 +18,9 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     /// The model to handle `Cadence` code
-    public struct Script: FlowEntity, Equatable {
+    struct Script: FlowEntity, Equatable {
         public var data: Data
 
         public var text: String {
@@ -41,7 +41,7 @@ extension Flow {
     }
 
     /// The model to handle the `Cadence` code response
-    public struct ScriptResponse: FlowEntity, Equatable {
+    struct ScriptResponse: FlowEntity, Equatable {
         public var data: Data
 
         /// Covert `data` into `Flow.Argument` type
@@ -58,11 +58,29 @@ extension Flow.Script: CustomStringConvertible {
     public var description: String { text }
 }
 
+extension Flow.Script: Codable {
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(text)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let scriptString = try container.decode(String.self, forKey: .data)
+        data = scriptString.data(using: .utf8) ?? Data()
+    }
+}
+
 extension Flow.ScriptResponse: CustomStringConvertible {
     public var description: String {
         guard let object = try? JSONSerialization.jsonObject(with: data),
               let jsonData = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted),
-              let jsonString = String(data: jsonData, encoding: .utf8) else {
+              let jsonString = String(data: jsonData, encoding: .utf8)
+        else {
             return ""
         }
         return jsonString

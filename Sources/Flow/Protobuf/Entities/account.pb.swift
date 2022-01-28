@@ -25,11 +25,11 @@ public struct Flow_Entities_Account {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var address: Data = Data()
+    public var address = Data()
 
     public var balance: UInt64 = 0
 
-    public var code: Data = Data()
+    public var code = Data()
 
     public var keys: [Flow_Entities_AccountKey] = []
 
@@ -47,7 +47,7 @@ public struct Flow_Entities_AccountKey {
 
     public var index: UInt32 = 0
 
-    public var publicKey: Data = Data()
+    public var publicKey = Data()
 
     public var signAlgo: UInt32 = 0
 

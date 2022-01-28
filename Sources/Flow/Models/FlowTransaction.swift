@@ -19,9 +19,9 @@ import BigInt
 import Foundation
 
 // TODO: Add doc
-extension Flow {
+public extension Flow {
     /// The data structure of Transaction
-    public struct Transaction {
+    struct Transaction {
         /// A valid cadence script.
         public var script: Script
 
@@ -58,7 +58,8 @@ extension Flow {
                     payerAddress: Flow.Address,
                     authorizers: [Flow.Address],
                     payloadSignatures: [Flow.TransactionSignature] = [],
-                    envelopeSignatures: [Flow.TransactionSignature] = []) {
+                    envelopeSignatures: [Flow.TransactionSignature] = [])
+        {
             self.script = script
             self.arguments = arguments
             self.referenceBlockId = referenceBlockId
@@ -104,7 +105,8 @@ extension Flow {
                               payerAddress: Flow.Address? = nil,
                               authorizers: [Flow.Address]? = nil,
                               payloadSignatures: [Flow.TransactionSignature]? = nil,
-                              envelopeSignatures: [Flow.TransactionSignature]? = nil) -> Transaction {
+                              envelopeSignatures: [Flow.TransactionSignature]? = nil) -> Transaction
+        {
             return Transaction(script: script ?? self.script,
                                arguments: arguments ?? self.arguments,
                                referenceBlockId: referenceBlockId ?? self.referenceBlockId,
@@ -285,9 +287,9 @@ extension Flow.Transaction {
     }
 }
 
-extension Flow {
+public extension Flow {
     /// The transaction result in the chain
-    public struct TransactionResult {
+    struct TransactionResult {
         /// The status of transaction
         public let status: Transaction.Status
 
@@ -316,7 +318,7 @@ extension Flow {
     }
 
     /// The class to represent the proposer key information in the transaction
-    public struct TransactionProposalKey {
+    struct TransactionProposalKey {
         /// The address of account
         public let address: Address
 
@@ -348,7 +350,7 @@ extension Flow {
         }
     }
 
-    public struct TransactionSignature: Comparable {
+    struct TransactionSignature: Comparable {
         /// The address of the signature
         public let address: Address
 
@@ -392,7 +394,8 @@ extension Flow {
         internal func buildUpon(address: Flow.Address? = nil,
                                 signerIndex: Int? = nil,
                                 keyIndex: Int? = nil,
-                                signature: Data? = nil) -> TransactionSignature {
+                                signature: Data? = nil) -> TransactionSignature
+        {
             return TransactionSignature(address: address ?? self.address,
                                         signerIndex: signerIndex ?? self.signerIndex,
                                         keyIndex: keyIndex ?? self.keyIndex,
@@ -406,5 +409,51 @@ extension Flow {
             entity.signature = signature
             return entity
         }
+    }
+}
+
+extension Flow.TransactionProposalKey: Codable {
+    enum CodingKeys: String, CodingKey {
+        case address
+        case keyIndex
+        case sequenceNumber
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(address, forKey: .address)
+        try container.encode(keyIndex, forKey: .keyIndex)
+        try container.encode(String(sequenceNumber), forKey: .sequenceNumber)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        address = try container.decode(Flow.Address.self, forKey: .address)
+        keyIndex = try container.decode(Int.self, forKey: .keyIndex)
+        sequenceNumber = try container.decode(BigInt.self, forKey: .sequenceNumber)
+    }
+}
+
+extension Flow.TransactionSignature: Codable {
+    enum CodingKeys: String, CodingKey {
+        case address
+        case keyIndex
+        case signature
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(address.hex, forKey: .address)
+        try container.encode(keyIndex, forKey: .keyIndex)
+        try container.encode(signature.hexValue, forKey: .signature)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        address = try container.decode(Flow.Address.self, forKey: .address)
+        keyIndex = try container.decode(Int.self, forKey: .keyIndex)
+        let signatureString = try container.decode(String.self, forKey: .signature)
+        signature = signatureString.hexValue.data
+        signerIndex = -1
     }
 }

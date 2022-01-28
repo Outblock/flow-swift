@@ -25,18 +25,19 @@ extension Collection {
     }
 }
 
-extension Array where Element == UInt8 {
+public extension Array where Element == UInt8 {
     /// Convert to `Data` type
-    var data: Data { .init(self) }
+    internal var data: Data { .init(self) }
 
     /// Convert bytes to hex string
-    public var hexValue: String { map { .init(format: "%02x", $0) }.joined() }
+    var hexValue: String { map { .init(format: "%02x", $0) }.joined() }
 
     /// Mutate data with adding zero padding to the left until fulfil the block size
     /// - parameters:
     ///     - blockSize: The size of block.
     /// - returns: self in `Data` type.
-    public mutating func padZeroLeft(blockSize: Int) -> [UInt8] {
+    @discardableResult
+    mutating func padZeroLeft(blockSize: Int) -> [UInt8] {
         while count < blockSize {
             insert(0, at: 0)
         }
@@ -47,7 +48,8 @@ extension Array where Element == UInt8 {
     /// - parameters:
     ///     - blockSize: The size of block.
     /// - returns: self in `Data` type.
-    public mutating func padZeroRight(blockSize: Int) -> [UInt8] {
+    @discardableResult
+    mutating func padZeroRight(blockSize: Int) -> [UInt8] {
         while count < blockSize {
             append(0)
         }
@@ -58,7 +60,7 @@ extension Array where Element == UInt8 {
     /// - parameters:
     ///     - blockSize: The size of block.
     /// - returns: A new `[UInt8]` type with padding zero.
-    public func paddingZeroLeft(blockSize: Int) -> [UInt8] {
+    func paddingZeroLeft(blockSize: Int) -> [UInt8] {
         var bytes = self
         while bytes.count < blockSize {
             bytes.insert(0, at: 0)
@@ -70,7 +72,7 @@ extension Array where Element == UInt8 {
     /// - parameters:
     ///     - blockSize: The size of block.
     /// - returns: A new `[UInt8]` type with padding zero.
-    public func paddingZeroRight(blockSize: Int) -> [UInt8] {
+    func paddingZeroRight(blockSize: Int) -> [UInt8] {
         var bytes = self
         while bytes.count < blockSize {
             bytes.append(0)
@@ -79,14 +81,14 @@ extension Array where Element == UInt8 {
     }
 }
 
-extension Data {
+public extension Data {
     /// Convert data to list of byte
-    var bytes: Bytes {
+    internal var bytes: Bytes {
         return Bytes(self)
     }
 
     /// Initial the data with hex string
-    static func fromHex(_ hex: String) -> Data? {
+    internal static func fromHex(_ hex: String) -> Data? {
         let string = hex.lowercased().stripHexPrefix()
         guard let array = string.data(using: .utf8)?.bytes else {
             return nil
@@ -102,7 +104,7 @@ extension Data {
     }
 
     /// Convert data to hex string
-    public var hexValue: String {
+    var hexValue: String {
         return reduce("") { $0 + String(format: "%02x", $1) }
     }
 
@@ -110,7 +112,7 @@ extension Data {
     /// - parameters:
     ///     - blockSize: The size of block.
     /// - returns: self in `Data` type.
-    public mutating func padZeroLeft(blockSize: Int) -> Data {
+    mutating func padZeroLeft(blockSize: Int) -> Data {
         while count < blockSize {
             insert(0, at: 0)
         }
@@ -121,7 +123,7 @@ extension Data {
     /// - parameters:
     ///     - blockSize: The size of block.
     /// - returns: self in `Data` type.
-    public mutating func padZeroRight(blockSize: Int) -> Data {
+    mutating func padZeroRight(blockSize: Int) -> Data {
         while count < blockSize {
             append(0)
         }
@@ -132,7 +134,7 @@ extension Data {
     /// - parameters:
     ///     - blockSize: The size of block.
     /// - returns: A new `Data` type with padding zero.
-    public func paddingZeroLeft(blockSize: Int) -> Data {
+    func paddingZeroLeft(blockSize: Int) -> Data {
         var bytes = self
         while bytes.count < blockSize {
             bytes.insert(0, at: 0)
@@ -144,7 +146,7 @@ extension Data {
     /// - parameters:
     ///     - blockSize: The size of block.
     /// - returns: A new `Data` type with padding zero.
-    public func paddingZeroRight(blockSize: Int) -> Data {
+    func paddingZeroRight(blockSize: Int) -> Data {
         var bytes = self
         while bytes.count < blockSize {
             bytes.append(0)

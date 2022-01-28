@@ -57,7 +57,7 @@ public struct Flow_Access_GetBlockHeaderByIDRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var id: Data = Data()
+    public var id = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -115,7 +115,7 @@ public struct Flow_Access_GetBlockByIDRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var id: Data = Data()
+    public var id = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -161,7 +161,7 @@ public struct Flow_Access_GetCollectionByIDRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var id: Data = Data()
+    public var id = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -217,7 +217,7 @@ public struct Flow_Access_SendTransactionResponse {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var id: Data = Data()
+    public var id = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -229,7 +229,7 @@ public struct Flow_Access_GetTransactionRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var id: Data = Data()
+    public var id = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -267,11 +267,11 @@ public struct Flow_Access_TransactionResultResponse {
 
     public var statusCode: UInt32 = 0
 
-    public var errorMessage: String = String()
+    public var errorMessage = String()
 
     public var events: [Flow_Entities_Event] = []
 
-    public var blockID: Data = Data()
+    public var blockID = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -283,7 +283,7 @@ public struct Flow_Access_GetAccountRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var address: Data = Data()
+    public var address = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -317,7 +317,7 @@ public struct Flow_Access_GetAccountAtLatestBlockRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var address: Data = Data()
+    public var address = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -351,7 +351,7 @@ public struct Flow_Access_GetAccountAtBlockHeightRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var address: Data = Data()
+    public var address = Data()
 
     public var blockHeight: UInt64 = 0
 
@@ -365,7 +365,7 @@ public struct Flow_Access_ExecuteScriptAtLatestBlockRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var script: Data = Data()
+    public var script = Data()
 
     public var arguments: [Data] = []
 
@@ -379,9 +379,9 @@ public struct Flow_Access_ExecuteScriptAtBlockIDRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var blockID: Data = Data()
+    public var blockID = Data()
 
-    public var script: Data = Data()
+    public var script = Data()
 
     public var arguments: [Data] = []
 
@@ -397,7 +397,7 @@ public struct Flow_Access_ExecuteScriptAtBlockHeightRequest {
 
     public var blockHeight: UInt64 = 0
 
-    public var script: Data = Data()
+    public var script = Data()
 
     public var arguments: [Data] = []
 
@@ -411,7 +411,7 @@ public struct Flow_Access_ExecuteScriptResponse {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var value: Data = Data()
+    public var value = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -423,7 +423,7 @@ public struct Flow_Access_GetEventsForHeightRangeRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var type: String = String()
+    public var type = String()
 
     public var startHeight: UInt64 = 0
 
@@ -439,7 +439,7 @@ public struct Flow_Access_GetEventsForBlockIDsRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var type: String = String()
+    public var type = String()
 
     public var blockIds: [Data] = []
 
@@ -462,7 +462,7 @@ public struct Flow_Access_EventsResponse {
         // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
         // methods supported on all messages.
 
-        public var blockID: Data = Data()
+        public var blockID = Data()
 
         public var blockHeight: UInt64 = 0
 
@@ -503,7 +503,7 @@ public struct Flow_Access_GetNetworkParametersResponse {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var ChainID: String = String()
+    public var ChainID = String()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -525,7 +525,7 @@ public struct Flow_Access_ProtocolStateSnapshotResponse {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var serializedSnapshot: Data = Data()
+    public var serializedSnapshot = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -687,7 +687,7 @@ extension Flow_Access_BlockHeaderResponse: SwiftProtobuf.Message, SwiftProtobuf.
     }
 
     public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-        if let v = self._block {
+        if let v = _block {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
@@ -815,7 +815,7 @@ extension Flow_Access_BlockResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
     }
 
     public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-        if let v = self._block {
+        if let v = _block {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
@@ -879,7 +879,7 @@ extension Flow_Access_CollectionResponse: SwiftProtobuf.Message, SwiftProtobuf._
     }
 
     public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-        if let v = self._collection {
+        if let v = _collection {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
@@ -911,7 +911,7 @@ extension Flow_Access_SendTransactionRequest: SwiftProtobuf.Message, SwiftProtob
     }
 
     public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-        if let v = self._transaction {
+        if let v = _transaction {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
@@ -1007,7 +1007,7 @@ extension Flow_Access_TransactionResponse: SwiftProtobuf.Message, SwiftProtobuf.
     }
 
     public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-        if let v = self._transaction {
+        if let v = _transaction {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
@@ -1127,7 +1127,7 @@ extension Flow_Access_GetAccountResponse: SwiftProtobuf.Message, SwiftProtobuf._
     }
 
     public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-        if let v = self._account {
+        if let v = _account {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
@@ -1191,7 +1191,7 @@ extension Flow_Access_AccountResponse: SwiftProtobuf.Message, SwiftProtobuf._Mes
     }
 
     public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-        if let v = self._account {
+        if let v = _account {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)
@@ -1548,7 +1548,7 @@ extension Flow_Access_EventsResponse.Result: SwiftProtobuf.Message, SwiftProtobu
         if !events.isEmpty {
             try visitor.visitRepeatedMessageField(value: events, fieldNumber: 3)
         }
-        if let v = self._blockTimestamp {
+        if let v = _blockTimestamp {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
         }
         try unknownFields.traverse(visitor: &visitor)

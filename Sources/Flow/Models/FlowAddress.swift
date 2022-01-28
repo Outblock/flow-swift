@@ -18,10 +18,10 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     /// The data structure of address in Flow blockchain
     /// At the most time, it represents account address
-    public struct Address: FlowEntity, Equatable, Hashable, Codable {
+    struct Address: FlowEntity, Equatable, Hashable {
         public var data: Data
 
         public init(hex: String) {
@@ -35,11 +35,23 @@ extension Flow {
         internal init(bytes: [UInt8]) {
             data = bytes.data
         }
+    }
+}
 
-        public func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
-            try container.encode(hex.addHexPrefix())
-        }
+extension Flow.Address: Codable {
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(hex.addHexPrefix())
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let scriptString = try container.decode(String.self, forKey: .data)
+        data = scriptString.hexValue.data
     }
 }
 

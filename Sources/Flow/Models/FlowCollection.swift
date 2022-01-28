@@ -18,9 +18,9 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     /// A batch of transactions that have been included in the same block
-    public struct Collection {
+    struct Collection {
         public let id: ID
         public let transactionIds: [ID]
 
@@ -31,7 +31,7 @@ extension Flow {
     }
 
     ///
-    public struct CollectionGuarantee {
+    struct CollectionGuarantee {
         public let id: ID
         public let signatures: [Signature]
 

@@ -57,8 +57,8 @@ public protocol Flow_Execution_ExecutionAPIClientProtocol: GRPCClient {
     ) -> UnaryCall<Flow_Execution_GetTransactionResultRequest, Flow_Execution_GetTransactionResultResponse>
 }
 
-extension Flow_Execution_ExecutionAPIClientProtocol {
-    public var serviceName: String {
+public extension Flow_Execution_ExecutionAPIClientProtocol {
+    var serviceName: String {
         return "flow.execution.ExecutionAPI"
     }
 
@@ -68,7 +68,7 @@ extension Flow_Execution_ExecutionAPIClientProtocol {
     ///   - request: Request to send to Ping.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func ping(
+    func ping(
         _ request: Flow_Execution_PingRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Execution_PingRequest, Flow_Execution_PingResponse> {
@@ -86,7 +86,7 @@ extension Flow_Execution_ExecutionAPIClientProtocol {
     ///   - request: Request to send to GetAccountAtBlockID.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getAccountAtBlockID(
+    func getAccountAtBlockID(
         _ request: Flow_Execution_GetAccountAtBlockIDRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Execution_GetAccountAtBlockIDRequest, Flow_Execution_GetAccountAtBlockIDResponse> {
@@ -105,7 +105,7 @@ extension Flow_Execution_ExecutionAPIClientProtocol {
     ///   - request: Request to send to ExecuteScriptAtBlockID.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func executeScriptAtBlockID(
+    func executeScriptAtBlockID(
         _ request: Flow_Execution_ExecuteScriptAtBlockIDRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Execution_ExecuteScriptAtBlockIDRequest, Flow_Execution_ExecuteScriptAtBlockIDResponse> {
@@ -124,7 +124,7 @@ extension Flow_Execution_ExecutionAPIClientProtocol {
     ///   - request: Request to send to GetEventsForBlockIDs.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getEventsForBlockIDs(
+    func getEventsForBlockIDs(
         _ request: Flow_Execution_GetEventsForBlockIDsRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Execution_GetEventsForBlockIDsRequest, Flow_Execution_GetEventsForBlockIDsResponse> {
@@ -142,7 +142,7 @@ extension Flow_Execution_ExecutionAPIClientProtocol {
     ///   - request: Request to send to GetTransactionResult.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getTransactionResult(
+    func getTransactionResult(
         _ request: Flow_Execution_GetTransactionResultRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Execution_GetTransactionResultRequest, Flow_Execution_GetTransactionResultResponse> {
@@ -218,12 +218,12 @@ public protocol Flow_Execution_ExecutionAPIProvider: CallHandlerProvider {
     func getTransactionResult(request: Flow_Execution_GetTransactionResultRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Flow_Execution_GetTransactionResultResponse>
 }
 
-extension Flow_Execution_ExecutionAPIProvider {
-    public var serviceName: Substring { return "flow.execution.ExecutionAPI" }
+public extension Flow_Execution_ExecutionAPIProvider {
+    var serviceName: Substring { return "flow.execution.ExecutionAPI" }
 
     /// Determines, calls and returns the appropriate request handler, depending on the request's method.
     /// Returns nil for methods not handled by this service.
-    public func handle(
+    func handle(
         method name: Substring,
         context: CallHandlerContext
     ) -> GRPCServerHandlerProtocol? {

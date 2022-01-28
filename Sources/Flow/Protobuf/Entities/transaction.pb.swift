@@ -80,11 +80,11 @@ public struct Flow_Entities_Transaction {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var script: Data = Data()
+    public var script = Data()
 
     public var arguments: [Data] = []
 
-    public var referenceBlockID: Data = Data()
+    public var referenceBlockID = Data()
 
     public var gasLimit: UInt64 = 0
 
@@ -98,7 +98,7 @@ public struct Flow_Entities_Transaction {
     /// Clears the value of `proposalKey`. Subsequent reads from it will return its default value.
     public mutating func clearProposalKey() { _proposalKey = nil }
 
-    public var payer: Data = Data()
+    public var payer = Data()
 
     public var authorizers: [Data] = []
 
@@ -113,7 +113,7 @@ public struct Flow_Entities_Transaction {
         // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
         // methods supported on all messages.
 
-        public var address: Data = Data()
+        public var address = Data()
 
         public var keyID: UInt32 = 0
 
@@ -129,11 +129,11 @@ public struct Flow_Entities_Transaction {
         // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
         // methods supported on all messages.
 
-        public var address: Data = Data()
+        public var address = Data()
 
         public var keyID: UInt32 = 0
 
-        public var signature: Data = Data()
+        public var signature = Data()
 
         public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -207,7 +207,7 @@ extension Flow_Entities_Transaction: SwiftProtobuf.Message, SwiftProtobuf._Messa
         if gasLimit != 0 {
             try visitor.visitSingularUInt64Field(value: gasLimit, fieldNumber: 4)
         }
-        if let v = self._proposalKey {
+        if let v = _proposalKey {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
         }
         if !payer.isEmpty {

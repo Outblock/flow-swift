@@ -18,9 +18,9 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     /// List of common error in Flow Swift SDK
-    public enum FError: String, Error {
+    enum FError: String, Error {
         case generic
         case urlEmpty
         case urlInvaild

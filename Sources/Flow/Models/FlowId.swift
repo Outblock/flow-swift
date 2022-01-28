@@ -19,9 +19,9 @@
 import Foundation
 import NIO
 
-extension Flow {
+public extension Flow {
     /// The ID in Flow chain, which can represent as transaction id, block id and collection id etc.
-    public struct ID: FlowEntity, Equatable, Hashable {
+    struct ID: FlowEntity, Equatable, Hashable {
         public var data: Data
 
         public init(hex: String) {
@@ -38,26 +38,43 @@ extension Flow {
     }
 }
 
+extension Flow.ID: Codable {
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(hex)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let scriptString = try container.decode(String.self, forKey: .data)
+        data = scriptString.hexValue.data
+    }
+}
+
 extension Flow.ID: CustomStringConvertible {
     public var description: String { data.hexValue }
 }
 
-extension Flow.ID {
+public extension Flow.ID {
     /// Get notified when transaction's status change to `.finalized`.
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
-    public func onceFinalized() -> EventLoopFuture<Flow.TransactionResult> {
+    func onceFinalized() -> EventLoopFuture<Flow.TransactionResult> {
         return once(status: .finalized)
     }
 
     /// Get notified when transaction's status change to `.executed`.
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
-    public func onceExecuted() -> EventLoopFuture<Flow.TransactionResult> {
+    func onceExecuted() -> EventLoopFuture<Flow.TransactionResult> {
         return once(status: .executed)
     }
 
     /// Get notified when transaction's status change to `.sealed`.
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
-    public func onceSealed() -> EventLoopFuture<Flow.TransactionResult> {
+    func onceSealed() -> EventLoopFuture<Flow.TransactionResult> {
         return once(status: .sealed)
     }
 
@@ -67,9 +84,10 @@ extension Flow.ID {
     ///     - delay: Interval between two queries. Default is 2000 milliseconds.
     ///     - timeout: Timeout for this request. Default is 60 seconds.
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
-    public func once(status: Flow.Transaction.Status,
-                     delay: DispatchTimeInterval = .milliseconds(2000),
-                     timeout: TimeInterval = 60) -> EventLoopFuture<Flow.TransactionResult> {
+    func once(status: Flow.Transaction.Status,
+              delay: DispatchTimeInterval = .milliseconds(2000),
+              timeout: TimeInterval = 60) -> EventLoopFuture<Flow.TransactionResult>
+    {
         let accessAPI = flow.accessAPI
         let promise = accessAPI.clientChannel.eventLoop.makePromise(of: Flow.TransactionResult.self)
         let timeoutDate = Date(timeIntervalSinceNow: timeout)

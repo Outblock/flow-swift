@@ -19,14 +19,14 @@
 import BigInt
 import Foundation
 
-extension Flow {
-    public class Cadence {}
+public extension Flow {
+    class Cadence {}
 }
 
-extension Flow.Cadence {
+public extension Flow.Cadence {
     /// All the type in Cadence
     /// Find more detail here: https://docs.onflow.org/cadence/language/values-and-types
-    public enum FType: String, Codable, Equatable, CaseIterable {
+    enum FType: String, Codable, Equatable, CaseIterable {
         case void = "Void"
         case optional = "Optional"
         case bool = "Bool"
@@ -75,7 +75,7 @@ extension Flow.Cadence {
         }
     }
 
-    public enum FValue: Encodable, Equatable {
+    enum FValue: Encodable, Equatable {
         case void
         indirect case optional(value: Flow.Argument)
         case bool(Bool)
@@ -378,11 +378,11 @@ extension Flow.Cadence {
     }
 }
 
-extension Flow.Cadence.FValue {
+public extension Flow.Cadence.FValue {
     /// Convert to `Int` type, if it's `.int` type
     /// Otherwise return nil
     /// - returns: The type of `Int?` value.
-    public func toInt() -> Int? {
+    func toInt() -> Int? {
         if case let .int(value) = self {
             return value
         }
@@ -392,7 +392,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `UInt` type, if it's `.uint` type
     /// Otherwise return nil
     /// - returns: The type of `UInt?` value.
-    public func toUInt() -> UInt? {
+    func toUInt() -> UInt? {
         if case let .uint(value) = self {
             return value
         }
@@ -402,7 +402,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Int8` type, if it's `.int8` type
     /// Otherwise return nil
     /// - returns: The type of `Int8?` value.
-    public func toInt8() -> Int8? {
+    func toInt8() -> Int8? {
         if case let .int8(value) = self {
             return value
         }
@@ -412,7 +412,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `UInt8` type, if it's `.uint8` type
     /// Otherwise return nil
     /// - returns: The type of `UInt8?` value.
-    public func toUInt8() -> UInt8? {
+    func toUInt8() -> UInt8? {
         if case let .uint8(value) = self {
             return value
         }
@@ -422,7 +422,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Int16` type, if it's `.int16` type
     /// Otherwise return nil
     /// - returns: The type of `Int16?` value.
-    public func toInt16() -> Int16? {
+    func toInt16() -> Int16? {
         if case let .int16(value) = self {
             return value
         }
@@ -432,7 +432,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `UInt16` type, if it's `.uint16` type
     /// Otherwise return nil
     /// - returns: The type of `UInt16?` value.
-    public func toUInt16() -> UInt16? {
+    func toUInt16() -> UInt16? {
         if case let .uint16(value) = self {
             return value
         }
@@ -442,7 +442,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Int32` type, if it's `.int32` type
     /// Otherwise return nil
     /// - returns: The type of `Int32?` value.
-    public func toInt32() -> Int32? {
+    func toInt32() -> Int32? {
         if case let .int32(value) = self {
             return value
         }
@@ -452,7 +452,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `UInt32` type, if it's `.uint32` type
     /// Otherwise return nil
     /// - returns: The type of `UInt32?` value.
-    public func toUInt32() -> UInt32? {
+    func toUInt32() -> UInt32? {
         if case let .uint32(value) = self {
             return value
         }
@@ -462,7 +462,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Int64` type, if it's `.int64` type
     /// Otherwise return nil
     /// - returns: The type of `Int64?` value.
-    public func toInt64() -> Int64? {
+    func toInt64() -> Int64? {
         if case let .int64(value) = self {
             return value
         }
@@ -472,7 +472,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `UInt64` type, if it's `.uint64` type
     /// Otherwise return nil
     /// - returns: The type of `UInt64?` value.
-    public func toUInt64() -> UInt64? {
+    func toUInt64() -> UInt64? {
         if case let .uint64(value) = self {
             return value
         }
@@ -482,7 +482,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `BigInt` type, if it's `.int128` type
     /// Otherwise return nil
     /// - returns: The type of `BigInt?` value.
-    public func toInt128() -> BigInt? {
+    func toInt128() -> BigInt? {
         if case let .int128(value) = self {
             return value
         }
@@ -492,7 +492,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `BigInt` type, if it's `.uint128` type
     /// Otherwise return nil
     /// - returns: The type of `BigInt?` value.
-    public func toUInt128() -> BigUInt? {
+    func toUInt128() -> BigUInt? {
         if case let .uint128(value) = self {
             return value
         }
@@ -502,7 +502,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `BigInt` type, if it's `.int256` type
     /// Otherwise return nil
     /// - returns: The type of `BigInt?` value.
-    public func toInt256() -> BigInt? {
+    func toInt256() -> BigInt? {
         if case let .int256(value) = self {
             return value
         }
@@ -512,7 +512,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `BigInt` type, if it's `.uint256` type
     /// Otherwise return nil
     /// - returns: The type of `BigInt?` value.
-    public func toUInt256() -> BigUInt? {
+    func toUInt256() -> BigUInt? {
         if case let .uint256(value) = self {
             return value
         }
@@ -522,7 +522,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `UInt8` type, if it's `.word8` type
     /// Otherwise return nil
     /// - returns: The type of `UInt8?` value.
-    public func toWord8() -> UInt8? {
+    func toWord8() -> UInt8? {
         if case let .word8(value) = self {
             return value
         }
@@ -532,7 +532,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `UInt16` type, if it's `.word16` type
     /// Otherwise return nil
     /// - returns: The type of `UInt16?` value.
-    public func toWord16() -> UInt16? {
+    func toWord16() -> UInt16? {
         if case let .word16(value) = self {
             return value
         }
@@ -542,7 +542,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `UInt32` type, if it's `.word32` type
     /// Otherwise return nil
     /// - returns: The type of `UInt32?` value.
-    public func toWord32() -> UInt32? {
+    func toWord32() -> UInt32? {
         if case let .word32(value) = self {
             return value
         }
@@ -552,7 +552,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `UInt64` type, if it's `.word64` type
     /// Otherwise return nil
     /// - returns: The type of `UInt64?` value.
-    public func toWord64() -> UInt64? {
+    func toWord64() -> UInt64? {
         if case let .word64(value) = self {
             return value
         }
@@ -562,7 +562,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Double` type, if it's `.fix64` type
     /// Otherwise return nil
     /// - returns: The type of `Double?` value.
-    public func toFix64() -> Double? {
+    func toFix64() -> Double? {
         if case let .fix64(value) = self {
             return value
         }
@@ -572,7 +572,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Double` type, if it's `.ufix64` type
     /// Otherwise return nil
     /// - returns: The type of `Double?` value.
-    public func toUFix64() -> Double? {
+    func toUFix64() -> Double? {
         if case let .ufix64(value) = self {
             return value
         }
@@ -582,7 +582,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument` type, if it's `.optional` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument?` value.
-    public func toOptional() -> Flow.Argument? {
+    func toOptional() -> Flow.Argument? {
         if case let .optional(value) = self {
             return value
         }
@@ -592,7 +592,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Bool` type, if it's `.bool` type
     /// Otherwise return nil
     /// - returns: The type of `Bool?` value.
-    public func toBool() -> Bool? {
+    func toBool() -> Bool? {
         if case let .bool(value) = self {
             return value
         }
@@ -602,7 +602,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `String` type, if it's `.string` type
     /// Otherwise return nil
     /// - returns: The type of `String?` value.
-    public func toString() -> String? {
+    func toString() -> String? {
         if case let .string(value) = self {
             return value
         }
@@ -612,7 +612,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `String` type, if it's `.character` type
     /// Otherwise return nil
     /// - returns: The type of `String?` value.
-    public func toCharacter() -> String? {
+    func toCharacter() -> String? {
         if case let .character(value) = self {
             return value
         }
@@ -622,7 +622,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Address` type, if it's `.address` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Address?` value.
-    public func toAddress() -> Flow.Address? {
+    func toAddress() -> Flow.Address? {
         if case let .address(value) = self {
             return value
         }
@@ -632,7 +632,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument.Path` type, if it's `.path` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument.Path?` value.
-    public func toPath() -> Flow.Argument.Path? {
+    func toPath() -> Flow.Argument.Path? {
         if case let .path(value) = self {
             return value
         }
@@ -642,7 +642,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument.Reference` type, if it's `.reference` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument.Reference?` value.
-    public func toReference() -> Flow.Argument.Reference? {
+    func toReference() -> Flow.Argument.Reference? {
         if case let .reference(value) = self {
             return value
         }
@@ -652,7 +652,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `[Flow.Argument]` type, if it's `.array` type
     /// Otherwise return nil
     /// - returns: The type of `[Flow.Argument]?` value.
-    public func toArray() -> [Flow.Argument]? {
+    func toArray() -> [Flow.Argument]? {
         if case let .array(value) = self {
             return value
         }
@@ -662,7 +662,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `[Flow.Argument.Dictionary]` type, if it's `.dictionary` type
     /// Otherwise return nil
     /// - returns: The type of `[Flow.Argument.Dictionary]?` value.
-    public func toDictionary() -> [Flow.Argument.Dictionary]? {
+    func toDictionary() -> [Flow.Argument.Dictionary]? {
         if case let .dictionary(value) = self {
             return value
         }
@@ -672,7 +672,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument.Event` type, if it's `.struct` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument.Event?` value.
-    public func toStruct() -> Flow.Argument.Event? {
+    func toStruct() -> Flow.Argument.Event? {
         if case let .struct(value) = self {
             return value
         }
@@ -682,7 +682,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument.Event` type, if it's `.resource` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument.Event?` value.
-    public func toResource() -> Flow.Argument.Event? {
+    func toResource() -> Flow.Argument.Event? {
         if case let .resource(value) = self {
             return value
         }
@@ -692,7 +692,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument.Event` type, if it's `.event` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument.Event?` value.
-    public func toEvent() -> Flow.Argument.Event? {
+    func toEvent() -> Flow.Argument.Event? {
         if case let .event(value) = self {
             return value
         }
@@ -702,7 +702,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument.Event` type, if it's `.enum` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument.Event?` value.
-    public func toEnum() -> Flow.Argument.Event? {
+    func toEnum() -> Flow.Argument.Event? {
         if case let .enum(value) = self {
             return value
         }
@@ -712,7 +712,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument.Event` type, if it's `.contract` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument.Event?` value.
-    public func toContract() -> Flow.Argument.Event? {
+    func toContract() -> Flow.Argument.Event? {
         if case let .contract(value) = self {
             return value
         }
@@ -722,7 +722,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument.StaticType` type, if it's `.type` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument.StaticType?` value.
-    public func toType() -> Flow.Argument.StaticType? {
+    func toType() -> Flow.Argument.StaticType? {
         if case let .type(value) = self {
             return value
         }
@@ -732,7 +732,7 @@ extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument.Capability` type, if it's `.capability` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument.Capability?` value.
-    public func toCapability() -> Flow.Argument.Capability? {
+    func toCapability() -> Flow.Argument.Capability? {
         if case let .capability(value) = self {
             return value
         }

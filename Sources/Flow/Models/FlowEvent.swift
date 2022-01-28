@@ -18,9 +18,9 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     ///
-    public struct Event {
+    struct Event {
         ///
         public let type: String
 
@@ -68,7 +68,7 @@ extension Flow {
         }
     }
 
-    public struct Snapshot: FlowEntity, Equatable {
+    struct Snapshot: FlowEntity, Equatable {
         public var data: Data
     }
 }

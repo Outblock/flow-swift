@@ -33,12 +33,12 @@ public protocol FlowEntity {
     var hex: String { get }
 }
 
-extension FlowEntity {
-    public var bytes: Bytes {
+public extension FlowEntity {
+    var bytes: Bytes {
         data.bytes
     }
 
-    public var hex: String {
+    var hex: String {
         bytes.hexValue
     }
 }

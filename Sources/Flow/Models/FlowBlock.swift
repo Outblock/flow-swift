@@ -18,9 +18,9 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     /// Brief information of `Flow.Block`
-    public struct BlockHeader {
+    struct BlockHeader {
         /// The identification of block
         public let id: ID
 
@@ -44,7 +44,7 @@ extension Flow {
     }
 
     /// The data structure of `Flow.Block` which is `sealed`
-    public struct BlockSeal {
+    struct BlockSeal {
         public let id: ID
         public let executionReceiptId: ID
         public let executionReceiptSignatures: [Signature]
@@ -59,7 +59,7 @@ extension Flow {
     }
 
     /// The data structure for the block in Flow blockchain
-    public struct Block {
+    struct Block {
         /// The identification of block
         public let id: ID
 

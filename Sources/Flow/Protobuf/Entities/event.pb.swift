@@ -25,15 +25,15 @@ public struct Flow_Entities_Event {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var type: String = String()
+    public var type = String()
 
-    public var transactionID: Data = Data()
+    public var transactionID = Data()
 
     public var transactionIndex: UInt32 = 0
 
     public var eventIndex: UInt32 = 0
 
-    public var payload: Data = Data()
+    public var payload = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 

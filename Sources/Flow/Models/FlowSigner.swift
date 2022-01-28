@@ -24,13 +24,13 @@ public protocol FlowSigner {
     var address: Flow.Address { get set }
 
     /// The index of the public key
-    var hashAlgo: Flow.HashAlgorithm  { get set }
-    
+    var hashAlgo: Flow.HashAlgorithm { get set }
+
     /// The index of the public key
-    var signatureAlgo: Flow.SignatureAlgorithm  { get set }
-    
+    var signatureAlgo: Flow.SignatureAlgorithm { get set }
+
     // The index of the public key
-     var keyIndex: Int { get set }
+    var keyIndex: Int { get set }
 
     /// Sign the data with account private key
     /// - parameters:

@@ -18,9 +18,9 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     /// The model to handle the signature data, which can present as a hex string
-    public struct Signature: FlowEntity, Equatable {
+    struct Signature: FlowEntity, Equatable {
         public var data: Data
 
         public init(data: Data) {

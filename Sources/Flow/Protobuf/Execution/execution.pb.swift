@@ -45,9 +45,9 @@ public struct Flow_Execution_GetAccountAtBlockIDRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var blockID: Data = Data()
+    public var blockID = Data()
 
-    public var address: Data = Data()
+    public var address = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -81,9 +81,9 @@ public struct Flow_Execution_ExecuteScriptAtBlockIDRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var blockID: Data = Data()
+    public var blockID = Data()
 
-    public var script: Data = Data()
+    public var script = Data()
 
     public var arguments: [Data] = []
 
@@ -97,7 +97,7 @@ public struct Flow_Execution_ExecuteScriptAtBlockIDResponse {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var value: Data = Data()
+    public var value = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -118,7 +118,7 @@ public struct Flow_Execution_GetEventsForBlockIDsResponse {
         // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
         // methods supported on all messages.
 
-        public var blockID: Data = Data()
+        public var blockID = Data()
 
         public var blockHeight: UInt64 = 0
 
@@ -137,7 +137,7 @@ public struct Flow_Execution_GetEventsForBlockIDsRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var type: String = String()
+    public var type = String()
 
     public var blockIds: [Data] = []
 
@@ -151,9 +151,9 @@ public struct Flow_Execution_GetTransactionResultRequest {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var blockID: Data = Data()
+    public var blockID = Data()
 
-    public var transactionID: Data = Data()
+    public var transactionID = Data()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -167,7 +167,7 @@ public struct Flow_Execution_GetTransactionResultResponse {
 
     public var statusCode: UInt32 = 0
 
-    public var errorMessage: String = String()
+    public var errorMessage = String()
 
     public var events: [Flow_Entities_Event] = []
 
@@ -273,7 +273,7 @@ extension Flow_Execution_GetAccountAtBlockIDResponse: SwiftProtobuf.Message, Swi
     }
 
     public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-        if let v = self._account {
+        if let v = _account {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
         }
         try unknownFields.traverse(visitor: &visitor)

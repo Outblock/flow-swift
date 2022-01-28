@@ -18,9 +18,9 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     /// The prefix when encoding transaction and user with RLP
-    public enum DomainTag: String {
+    enum DomainTag: String {
         /// The tag for transaction
         case transaction = "FLOW-V0.0-transaction"
 

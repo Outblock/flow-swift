@@ -26,8 +26,8 @@ extension Array where Iterator.Element: Hashable {
     }
 }
 
-extension Array where Element == Flow.Cadence.FValue {
-    public func toArguments() -> [Flow.Argument] {
+public extension Array where Element == Flow.Cadence.FValue {
+    func toArguments() -> [Flow.Argument] {
         return compactMap(Flow.Argument.init)
     }
 }

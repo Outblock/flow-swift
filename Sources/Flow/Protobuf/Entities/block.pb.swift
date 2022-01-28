@@ -25,9 +25,9 @@ public struct Flow_Entities_Block {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var id: Data = Data()
+    public var id = Data()
 
-    public var parentID: Data = Data()
+    public var parentID = Data()
 
     public var height: UInt64 = 0
 
@@ -98,7 +98,7 @@ extension Flow_Entities_Block: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
         if height != 0 {
             try visitor.visitSingularUInt64Field(value: height, fieldNumber: 3)
         }
-        if let v = self._timestamp {
+        if let v = _timestamp {
             try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
         }
         if !collectionGuarantees.isEmpty {

@@ -137,8 +137,8 @@ public protocol Flow_Access_AccessAPIClientProtocol: GRPCClient {
     ) -> UnaryCall<Flow_Access_GetLatestProtocolStateSnapshotRequest, Flow_Access_ProtocolStateSnapshotResponse>
 }
 
-extension Flow_Access_AccessAPIClientProtocol {
-    public var serviceName: String {
+public extension Flow_Access_AccessAPIClientProtocol {
+    var serviceName: String {
         return "flow.access.AccessAPI"
     }
 
@@ -148,7 +148,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to Ping.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func ping(
+    func ping(
         _ request: Flow_Access_PingRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_PingRequest, Flow_Access_PingResponse> {
@@ -166,7 +166,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetLatestBlockHeader.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getLatestBlockHeader(
+    func getLatestBlockHeader(
         _ request: Flow_Access_GetLatestBlockHeaderRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetLatestBlockHeaderRequest, Flow_Access_BlockHeaderResponse> {
@@ -184,7 +184,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetBlockHeaderByID.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getBlockHeaderByID(
+    func getBlockHeaderByID(
         _ request: Flow_Access_GetBlockHeaderByIDRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetBlockHeaderByIDRequest, Flow_Access_BlockHeaderResponse> {
@@ -202,7 +202,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetBlockHeaderByHeight.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getBlockHeaderByHeight(
+    func getBlockHeaderByHeight(
         _ request: Flow_Access_GetBlockHeaderByHeightRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetBlockHeaderByHeightRequest, Flow_Access_BlockHeaderResponse> {
@@ -221,7 +221,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetLatestBlock.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getLatestBlock(
+    func getLatestBlock(
         _ request: Flow_Access_GetLatestBlockRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetLatestBlockRequest, Flow_Access_BlockResponse> {
@@ -239,7 +239,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetBlockByID.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getBlockByID(
+    func getBlockByID(
         _ request: Flow_Access_GetBlockByIDRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetBlockByIDRequest, Flow_Access_BlockResponse> {
@@ -257,7 +257,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetBlockByHeight.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getBlockByHeight(
+    func getBlockByHeight(
         _ request: Flow_Access_GetBlockByHeightRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetBlockByHeightRequest, Flow_Access_BlockResponse> {
@@ -275,7 +275,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetCollectionByID.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getCollectionByID(
+    func getCollectionByID(
         _ request: Flow_Access_GetCollectionByIDRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetCollectionByIDRequest, Flow_Access_CollectionResponse> {
@@ -293,7 +293,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to SendTransaction.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func sendTransaction(
+    func sendTransaction(
         _ request: Flow_Access_SendTransactionRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_SendTransactionRequest, Flow_Access_SendTransactionResponse> {
@@ -311,7 +311,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetTransaction.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getTransaction(
+    func getTransaction(
         _ request: Flow_Access_GetTransactionRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetTransactionRequest, Flow_Access_TransactionResponse> {
@@ -329,7 +329,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetTransactionResult.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getTransactionResult(
+    func getTransactionResult(
         _ request: Flow_Access_GetTransactionRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetTransactionRequest, Flow_Access_TransactionResultResponse> {
@@ -350,7 +350,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetAccount.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getAccount(
+    func getAccount(
         _ request: Flow_Access_GetAccountRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetAccountRequest, Flow_Access_GetAccountResponse> {
@@ -369,7 +369,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetAccountAtLatestBlock.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getAccountAtLatestBlock(
+    func getAccountAtLatestBlock(
         _ request: Flow_Access_GetAccountAtLatestBlockRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetAccountAtLatestBlockRequest, Flow_Access_AccountResponse> {
@@ -388,7 +388,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetAccountAtBlockHeight.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getAccountAtBlockHeight(
+    func getAccountAtBlockHeight(
         _ request: Flow_Access_GetAccountAtBlockHeightRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetAccountAtBlockHeightRequest, Flow_Access_AccountResponse> {
@@ -407,7 +407,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to ExecuteScriptAtLatestBlock.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func executeScriptAtLatestBlock(
+    func executeScriptAtLatestBlock(
         _ request: Flow_Access_ExecuteScriptAtLatestBlockRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_ExecuteScriptAtLatestBlockRequest, Flow_Access_ExecuteScriptResponse> {
@@ -426,7 +426,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to ExecuteScriptAtBlockID.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func executeScriptAtBlockID(
+    func executeScriptAtBlockID(
         _ request: Flow_Access_ExecuteScriptAtBlockIDRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_ExecuteScriptAtBlockIDRequest, Flow_Access_ExecuteScriptResponse> {
@@ -445,7 +445,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to ExecuteScriptAtBlockHeight.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func executeScriptAtBlockHeight(
+    func executeScriptAtBlockHeight(
         _ request: Flow_Access_ExecuteScriptAtBlockHeightRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_ExecuteScriptAtBlockHeightRequest, Flow_Access_ExecuteScriptResponse> {
@@ -464,7 +464,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetEventsForHeightRange.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getEventsForHeightRange(
+    func getEventsForHeightRange(
         _ request: Flow_Access_GetEventsForHeightRangeRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetEventsForHeightRangeRequest, Flow_Access_EventsResponse> {
@@ -483,7 +483,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetEventsForBlockIDs.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getEventsForBlockIDs(
+    func getEventsForBlockIDs(
         _ request: Flow_Access_GetEventsForBlockIDsRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetEventsForBlockIDsRequest, Flow_Access_EventsResponse> {
@@ -501,7 +501,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetNetworkParameters.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getNetworkParameters(
+    func getNetworkParameters(
         _ request: Flow_Access_GetNetworkParametersRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetNetworkParametersRequest, Flow_Access_GetNetworkParametersResponse> {
@@ -521,7 +521,7 @@ extension Flow_Access_AccessAPIClientProtocol {
     ///   - request: Request to send to GetLatestProtocolStateSnapshot.
     ///   - callOptions: Call options.
     /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-    public func getLatestProtocolStateSnapshot(
+    func getLatestProtocolStateSnapshot(
         _ request: Flow_Access_GetLatestProtocolStateSnapshotRequest,
         callOptions: CallOptions? = nil
     ) -> UnaryCall<Flow_Access_GetLatestProtocolStateSnapshotRequest, Flow_Access_ProtocolStateSnapshotResponse> {
@@ -704,12 +704,12 @@ public protocol Flow_Access_AccessAPIProvider: CallHandlerProvider {
     func getLatestProtocolStateSnapshot(request: Flow_Access_GetLatestProtocolStateSnapshotRequest, context: StatusOnlyCallContext) -> EventLoopFuture<Flow_Access_ProtocolStateSnapshotResponse>
 }
 
-extension Flow_Access_AccessAPIProvider {
-    public var serviceName: Substring { return "flow.access.AccessAPI" }
+public extension Flow_Access_AccessAPIProvider {
+    var serviceName: Substring { return "flow.access.AccessAPI" }
 
     /// Determines, calls and returns the appropriate request handler, depending on the request's method.
     /// Returns nil for methods not handled by this service.
-    public func handle(
+    func handle(
         method name: Substring,
         context: CallHandlerContext
     ) -> GRPCServerHandlerProtocol? {

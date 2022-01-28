@@ -18,9 +18,9 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     /// Identification the enviroment of flow
-    public enum ChainID: CaseIterable, Hashable {
+    enum ChainID: CaseIterable, Hashable {
         /// Unknow enviroment as a fallback cause
         case unknown
 

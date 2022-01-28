@@ -39,9 +39,9 @@ final class FlowOperationTests: XCTestCase {
     let scriptName = "HelloWorld"
     let script = """
     pub contract HelloWorld {
-    
+
         pub let greeting: String
-    
+
         pub fun hello(): String {
             return self.greeting
         }
@@ -83,7 +83,7 @@ final class FlowOperationTests: XCTestCase {
     func exampleUpdateContractOfAccount() {
         let script2 = """
         pub contract HelloWorld {
-        
+
         pub struct SomeStruct {
           pub var x: Int
           pub var y: Int
@@ -93,9 +93,9 @@ final class FlowOperationTests: XCTestCase {
             self.y = y
           }
         }
-        
+
             pub let greeting: String
-        
+
             init() {
                 self.greeting = "Hello World!"
             }
@@ -130,20 +130,19 @@ final class FlowOperationTests: XCTestCase {
         let txID = try! flow.removeContractFromAccount(address: address, contractName: scriptName, signers: signers)
         XCTAssertNotNil(txID)
     }
-    
-    func testVerifyUserSignature(){
+
+    func testVerifyUserSignature() {
         flow.configure(chainID: .testnet)
         let message = "464c4f572d56302e302d7472616e73616374696f6e0000000000000000000000f901c2f901beb8c8202020207472616e73616374696f6e287075626c69634b65793a20537472696e6729207b0a202020202020202070726570617265287369676e65723a20417574684163636f756e7429207b0a2020202020202020202020206c6574206163636f756e74203d20417574684163636f756e742870617965723a207369676e6572290a2020202020202020202020206163636f756e742e6164645075626c69634b6579287075626c69634b65792e6465636f64654865782829290a20202020202020207d0a202020207df8b0b8ae7b2274797065223a22537472696e67222c2276616c7565223a226638343762383430643438373830326236366535633034393865616431633366353736623731383934396133353030323138653937613661346136326266363961386230303139373839363339626337616361636136336635383839633165373235316331393036366162623039666364366232373365333934613861633465653161333337326630323031383230336538227da0754c45b98673eb4548a0e956a5bedbbf3741cfc8a76101d3cb528b80f8c3714a8203e888e242ccfb4b8ea3e2806c88e242ccfb4b8ea3e2c988e242ccfb4b8ea3e2c0"
-    
+
         let signature = "65a563848ef65dcf369c153e41d41fbe7341314f072fa2265527d15d5470a36c752fced23a1a76a3ff5713daf0875a68b1404177d0e150515c89f70fecc41c2b".hexValue.data
         let result = try! flow.verifyUserSignature(message: message,
-                                 signatures: [Flow.TransactionSignature(address: Flow.Address(hex: "0xe242ccfb4b8ea3e2"),
-                                                                        keyIndex: 0,
-                                                                        signature: signature)]).wait()
+                                                   signatures: [Flow.TransactionSignature(address: Flow.Address(hex: "0xe242ccfb4b8ea3e2"),
+                                                                                          keyIndex: 0,
+                                                                                          signature: signature)]).wait()
 
         // Tried fcl js one, it also failed in there, need to check
 //        XCTAssertEqual(result.fields?.value.toBool(), true)
         XCTAssertNotNil(result)
     }
-    
 }

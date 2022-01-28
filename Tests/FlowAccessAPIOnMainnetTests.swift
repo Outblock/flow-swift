@@ -16,6 +16,7 @@
 //  limitations under the License.
 //
 
+import CryptoKit
 @testable import Flow
 import Foundation
 import XCTest
@@ -105,6 +106,52 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertEqual(firstStruct.fields.first!.value.value.toInt(), 1)
         XCTAssertEqual(firstStruct.fields.last!.name, "y")
         XCTAssertEqual(firstStruct.fields.last!.value.value.toInt(), 2)
+    }
+
+    func testVerifySignature() throws {
+        let script = Flow.Script(text: """
+        import Crypto
+        pub fun main(
+          publicKey: String,
+          signature: String,
+          message: String
+        ): Bool {
+
+            let signatureBytes = signature.decodeHex()
+            let messageBytes = message.utf8
+
+            let pk = PublicKey(
+                    publicKey: publicKey.decodeHex(),
+                    signatureAlgorithm: SignatureAlgorithm.ECDSA_P256
+            )
+
+            return pk.verify(
+                signature: signatureBytes,
+                signedData: messageBytes,
+                domainSeparationTag: "FLOW-V0.0-user",
+                hashAlgorithm: HashAlgorithm.SHA2_256)
+        }
+        """)
+
+        let pubk = "5e2bff8d76a5cb2e59b621324c015b98b6131f5715fa8f4e66b6e75276056eb2d28ce8f1c113f562ed8d09bdd4edf6e30dd2ebdc4a4515f48be024e1749b58cc"
+        let sig = "bd7fdac4282f2afca4b509fb809700b89b79472cbdf58ce8a4e3b0e16633cd854cf1165f632ee61eb23c830ba6b5f8f8f1b3e1f4880212c8bda4874568cbf717"
+
+        let uid = "3h7BjWUYuqQMI8O96Lxwol4Lxl62"
+
+        let snapshot = try flowAPI.executeScriptAtLatestBlock(script: script,
+                                                              arguments: [.init(value: .string(pubk)),
+                                                                          .init(value: .string(sig)),
+                                                                          .init(value: .string(uid))]).wait()
+        XCTAssertNotNil(snapshot)
+        XCTAssertEqual(.bool(true), snapshot.fields?.value)
+//
+//        guard case let .array(value: value) = snapshot.fields!.value else { XCTFail(); return }
+//        guard case let .struct(value: firstStruct) = value.first!.value else { XCTFail(); return }
+//
+//        XCTAssertEqual(firstStruct.fields.first!.name, "x")
+//        XCTAssertEqual(firstStruct.fields.first!.value.value.toInt(), 1)
+//        XCTAssertEqual(firstStruct.fields.last!.name, "y")
+//        XCTAssertEqual(firstStruct.fields.last!.value.value.toInt(), 2)
     }
 
     func testGetCollectionById() throws {

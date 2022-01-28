@@ -18,25 +18,25 @@
 
 import Foundation
 
-extension Flow {
+public extension Flow {
     /// Sign the unsigned transaction with a list of `FlowSigner`
     /// - parameters:
     ///     - unsignedTransaction: The transaction to be signed
     ///     - signers: A list of `FlowSigner` to sign the transaction
     /// - returns: The signed transaction
-    public func signTransaction(unsignedTransaction: Flow.Transaction, signers: [FlowSigner]) throws -> Flow.Transaction {
+    func signTransaction(unsignedTransaction: Flow.Transaction, signers: [FlowSigner]) throws -> Flow.Transaction {
         var tx = unsignedTransaction
         return try tx.sign(signers: signers)
     }
 }
 
-extension Flow.Transaction {
+public extension Flow.Transaction {
     /// Sign (Mutate) the payload of Flow Transaction with a list of `FlowSigner`
     /// - parameters:
     ///     - signers: A list of `FlowSigner` to sign the transaction
     /// - returns: The `Flow.Transaction` itself.
     @discardableResult
-    public mutating func signPayload(signers: [FlowSigner]) throws -> Flow.Transaction {
+    mutating func signPayload(signers: [FlowSigner]) throws -> Flow.Transaction {
         guard let signablePlayload = signablePlayload else {
             throw Flow.FError.invaildPlayload
         }
@@ -89,7 +89,7 @@ extension Flow.Transaction {
     ///     - signers: A list of `FlowSigner` to sign the transaction
     /// - returns: The `Flow.Transaction` itself.
     @discardableResult
-    public mutating func signEnvelope(signers: [FlowSigner]) throws -> Flow.Transaction {
+    mutating func signEnvelope(signers: [FlowSigner]) throws -> Flow.Transaction {
         guard let signableEnvelope = signableEnvelope else {
             throw Flow.FError.invaildEnvelope
         }
@@ -99,7 +99,8 @@ extension Flow.Transaction {
         }
 
         guard let signers = findSigners(address: payerAddress,
-                                        signers: signers) else {
+                                        signers: signers)
+        else {
             throw Flow.FError.missingSigner
         }
 
@@ -120,7 +121,7 @@ extension Flow.Transaction {
     ///     - signers: A list of `FlowSigner` to sign the transaction
     /// - returns: The `Flow.Transaction` itself.
     @discardableResult
-    public mutating func sign(signers: [FlowSigner]) throws -> Flow.Transaction {
+    mutating func sign(signers: [FlowSigner]) throws -> Flow.Transaction {
         try signPayload(signers: signers)
         try signEnvelope(signers: signers)
         return self

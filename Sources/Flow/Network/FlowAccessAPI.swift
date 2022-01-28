@@ -20,10 +20,10 @@ import Foundation
 import GRPC
 import NIO
 
-extension Flow {
+public extension Flow {
     /// The network client for access API
     /// More detail can be found here: https://docs.onflow.org/access-api
-    public final class AccessAPI: FlowAccessProtocol {
+    final class AccessAPI: FlowAccessProtocol {
         internal var clientChannel: ClientConnection
         internal var accessClient: Flow_Access_AccessAPIClient
 

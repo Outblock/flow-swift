@@ -25,9 +25,9 @@ public struct Flow_Entities_BlockSeal {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var blockID: Data = Data()
+    public var blockID = Data()
 
-    public var executionReceiptID: Data = Data()
+    public var executionReceiptID = Data()
 
     public var executionReceiptSignatures: [Data] = []
 

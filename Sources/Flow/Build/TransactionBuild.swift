@@ -158,9 +158,9 @@ public func refBlock(text: () -> Flow.ID) -> Flow.TransactionBuild {
     return Flow.TransactionBuild.refBlock(text())
 }
 
-extension Flow {
+public extension Flow {
     /// The list of all the acceptable property
-    public enum TransactionBuild {
+    enum TransactionBuild {
         /// Cadence script
         case script(Flow.Script)
 
@@ -186,7 +186,7 @@ extension Flow {
 
     /// Use domain-specific language (DSL) to construct `Flow.Transaction`
     @resultBuilder
-    public class TransactionBuilder {
+    enum TransactionBuilder {
         public static func buildBlock() -> [Flow.TransactionBuild] { [] }
 
         public static func buildArray(_ components: [[Flow.TransactionBuild]]) -> [Flow.TransactionBuild] {
@@ -199,14 +199,15 @@ extension Flow {
     }
 }
 
-extension Flow {
+public extension Flow {
     /// Build flow transaction using `TransactionBuilder` with async way
     /// - parameters:
     ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
     ///     - builder: The list of `Flow.TransactionBuild`
     /// - returns: The type of `EventLoopFuture<Flow.Transaction>`
-    public func asyncBuildTransaction(chainID: Flow.ChainID = flow.chainID,
-                                      @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.Transaction> {
+    func asyncBuildTransaction(chainID: Flow.ChainID = flow.chainID,
+                               @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.Transaction>
+    {
         var script: Flow.Script = .init(data: Data())
         var agrument: [Flow.Argument] = []
         var authorizers: [Flow.Address] = []
@@ -300,8 +301,9 @@ extension Flow {
     ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
     ///     - builder: The list of `Flow.TransactionBuild`
     /// - returns: The type of `Flow.Transaction`
-    public func buildTransaction(chainID: Flow.ChainID = flow.chainID,
-                                 @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.Transaction {
+    func buildTransaction(chainID: Flow.ChainID = flow.chainID,
+                          @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.Transaction
+    {
         return try asyncBuildTransaction(chainID: chainID, builder: builder).wait()
     }
 
@@ -310,7 +312,7 @@ extension Flow {
     ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
     ///     - signedTransaction: The signed Flow transaction
     /// - returns: A future value of transaction id
-    public func sendTransaction(chainID: ChainID = flow.chainID, signedTransaction: Transaction) throws -> EventLoopFuture<Flow.ID> {
+    func sendTransaction(chainID: ChainID = flow.chainID, signedTransaction: Transaction) throws -> EventLoopFuture<Flow.ID> {
         let api = flow.createAccessAPI(chainID: chainID)
         return api.sendTransaction(transaction: signedTransaction)
     }
@@ -320,9 +322,10 @@ extension Flow {
     ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
     ///     - signedTransaction: The signed Flow transaction
     /// - returns: The transaction id
-    public func sendTransactionWithWait(chainID: Flow.ChainID = flow.chainID,
-                                        signers: [FlowSigner],
-                                        @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.ID {
+    func sendTransactionWithWait(chainID: Flow.ChainID = flow.chainID,
+                                 signers: [FlowSigner],
+                                 @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.ID
+    {
         return try flow.sendTransaction(chainID: chainID,
                                         signers: signers,
                                         builder: builder).wait()
@@ -334,9 +337,10 @@ extension Flow {
     ///     - signers: A list of `FlowSigner`, which will sign the transaction
     ///     - builder: The list of `Flow.TransactionBuild`
     /// - returns: The transaction id
-    public func sendTransaction(chainID: Flow.ChainID = flow.chainID,
-                                signers: [FlowSigner],
-                                @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.ID> {
+    func sendTransaction(chainID: Flow.ChainID = flow.chainID,
+                         signers: [FlowSigner],
+                         @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.ID>
+    {
         let api = flow.createAccessAPI(chainID: chainID)
         let unsignedTx = try buildTransaction(chainID: chainID, builder: builder)
         let signedTx = try flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
@@ -350,10 +354,11 @@ extension Flow {
     ///     - signers: A list of `FlowSigner`, which will sign the transaction
     ///     - builder: The list of `Flow.TransactionBuild`
     ///     - completion: The block to handle the response
-    public func sendTransaction(chainID: Flow.ChainID = flow.chainID,
-                                signers: [FlowSigner],
-                                @Flow .TransactionBuilder builder: () -> [Flow.TransactionBuild],
-                                completion: @escaping (Result<Flow.ID, Error>) -> Void) throws {
+    func sendTransaction(chainID: Flow.ChainID = flow.chainID,
+                         signers: [FlowSigner],
+                         @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild],
+                         completion: @escaping (Result<Flow.ID, Error>) -> Void) throws
+    {
         let api = flow.createAccessAPI(chainID: chainID)
         let unsignedTx = try buildTransaction(chainID: chainID, builder: builder)
         let signedTx = try flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
