@@ -20,13 +20,37 @@ import Foundation
 
 public extension Flow {
     /// The prefix when encoding transaction and user with RLP
-    enum DomainTag: String {
+    enum DomainTag {
+        
+        public typealias RawValue = String
+        
         /// The tag for transaction
-        case transaction = "FLOW-V0.0-transaction"
+        case transaction
 
         /// The tag for user
-        case user = "FLOW-V0.0-user"
+        case user
+        
+        /// Custom domain tag
+        case custom(String)
 
+        /// The rawValue for domain tag
+        public var rawValue: String {
+            switch self {
+            case .transaction:
+                return "FLOW-V0.0-transaction"
+            case .user:
+                return "FLOW-V0.0-user"
+            case .custom(let tag):
+                return tag
+            }
+        }
+        
+        /// Init a domain tag by string
+        /// If it's not the default one, then it will return a .custom(string) type
+        public init?(rawValue: String) {
+            self = [DomainTag.user, DomainTag.transaction].first{ $0.rawValue == rawValue } ?? .custom(rawValue)
+        }
+        
         /// Convert tag string into data with `.uft8` format
         /// And padding zero to right until 32 bytes long.
         public var normalize: Data {
