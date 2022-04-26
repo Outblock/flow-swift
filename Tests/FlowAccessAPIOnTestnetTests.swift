@@ -47,6 +47,17 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         let isConnected = try flowAPI.ping().wait()
         XCTAssertTrue(isConnected)
     }
+    
+    func testFlowFee() throws {
+        let result = try! flow.accessAPI.executeScriptAtLatestBlock(script: .init(text: """
+                                                                import FlowFees from 0x912d5440f7e3769e
+
+                                                                       pub fun main(): FlowFees.FeeParameters {
+                                                                         return FlowFees.getFeeParameters()
+                                                                       }
+                                                                """)).wait()
+        print(result)
+    }
 
     func testNetworkParameters() throws {
         let ChainID = try flowAPI.getNetworkParameters().wait()
@@ -69,12 +80,21 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         var unsignedTx = try! flow.buildTransaction {
             cadence {
                 """
-                    transaction(publicKey: String) {
-                        prepare(signer: AuthAccount) {
-                            let account = AuthAccount(payer: signer)
-                            account.addPublicKey(publicKey.decodeHex())
-                        }
+                import Crypto
+                transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64) {
+                    prepare(signer: AuthAccount) {
+                        let key = PublicKey(
+                            publicKey: publicKey.decodeHex(),
+                            signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
+                        )
+                        let account = AuthAccount(payer: signer)
+                        account.keys.add(
+                            publicKey: key,
+                            hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
+                            weight: weight
+                        )
                     }
+                }
                 """
             }
 
@@ -87,7 +107,12 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             }
 
             arguments {
-                [.string(accountKey.encoded!.hexValue)]
+                [
+                    .string(accountKey.publicKey.hex),
+                    .uint8(UInt8(accountKey.signAlgo.code)),
+                    .uint8(UInt8(accountKey.hashAlgo.code)),
+                    .ufix64(1000)
+                ]
             }
 
             // optional

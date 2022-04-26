@@ -27,7 +27,7 @@ extension Flow {
         static let addKeyToAccount = """
             transaction(publicKey: String) {
                 prepare(signer: AuthAccount) {
-                    signer.addPublicKey(publicKey.decodeHex())
+                    signer.keys.add(publicKey.decodeHex())
                 }
             }
         """
@@ -47,7 +47,7 @@ extension Flow {
                 prepare(signer: AuthAccount) {
                     let acct = AuthAccount(payer: signer)
                     for key in publicKeys {
-                        acct.addPublicKey(key.decodeHex())
+                        acct.keys.add(key.decodeHex())
                     }
                     for contract in contracts.keys {
                         acct.contracts.add(name: contract, code: contracts[contract]!.decodeHex())
