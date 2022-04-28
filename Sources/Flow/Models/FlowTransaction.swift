@@ -446,7 +446,6 @@ extension Flow.TransactionSignature: Codable {
         try container.encode(address, forKey: .address)
         try container.encode(keyIndex, forKey: .keyIndex)
         try container.encode(signature.hexValue, forKey: .signature)
-        try container.encode(signerIndex, forKey: .signature)
     }
 
     public init(from decoder: Decoder) throws {
