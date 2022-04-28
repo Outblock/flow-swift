@@ -113,7 +113,7 @@ final class FlowOperationTests: XCTestCase {
                                          weight: 1000)
 
         let txID = try! flow.createAccount(address: address,
-                                           publicKeys: [accountKey],
+                                           accountKey: accountKey,
                                            contracts: [scriptName: script],
                                            signers: signers).wait()
 

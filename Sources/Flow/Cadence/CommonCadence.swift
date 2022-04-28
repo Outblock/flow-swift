@@ -25,9 +25,18 @@ extension Flow {
     enum CommonCadence {
         /// The cadence code for adding key to account
         static let addKeyToAccount = """
-            transaction(publicKey: String) {
+            import Crypto
+            transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64) {
                 prepare(signer: AuthAccount) {
-                    signer.keys.add(publicKey.decodeHex())
+                    let key = PublicKey(
+                        publicKey: publicKey.decodeHex(),
+                        signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
+                    )
+                    signer.keys.add(
+                        publicKey: key,
+                        hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
+                        weight: weight
+                    )
                 }
             }
         """
@@ -43,12 +52,20 @@ extension Flow {
 
         /// The cadence code for creating account
         static let createAccount = """
-            transaction(publicKeys: [String], contracts: {String: String}) {
+            import Crypto
+            transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64, contracts: {String: String}) {
                 prepare(signer: AuthAccount) {
-                    let acct = AuthAccount(payer: signer)
-                    for key in publicKeys {
-                        acct.keys.add(key.decodeHex())
-                    }
+                    let key = PublicKey(
+                        publicKey: publicKey.decodeHex(),
+                        signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
+                    )
+                    let account = AuthAccount(payer: signer)
+                    account.keys.add(
+                        publicKey: key,
+                        hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
+                        weight: weight
+                    )
+                    
                     for contract in contracts.keys {
                         acct.contracts.add(name: contract, code: contracts[contract]!.decodeHex())
                     }
@@ -142,18 +159,17 @@ public extension Flow {
     ///     - signers: A list of `FlowSigner` will sign the transaction.
     /// - returns: A future value will receive transaction id  in `Flow.ID` value.
     func addKeyToAccount(address: Flow.Address, accountKey: Flow.AccountKey, signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
-        guard let encodedKey = accountKey.encoded else {
-            let promise = flow.accessAPI.clientChannel.eventLoop.makePromise(of: Flow.ID.self)
-            promise.fail(Flow.FError.encodeFailure)
-            return promise.futureResult
-        }
-
         return try sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.addKeyToAccount
             }
             arguments {
-                .init(value: .string(encodedKey.hexValue))
+                [
+                    .string(accountKey.publicKey.hex),
+                    .uint8(UInt8(accountKey.signAlgo.index)),
+                    .uint8(UInt8(accountKey.hashAlgo.code)),
+                    .ufix64(1000)
+                ]
             }
             proposer {
                 address
@@ -201,7 +217,7 @@ public extension Flow {
     ///     - signers: A list of `FlowSigner` will sign the transaction.
     /// - returns: A future value will receive transaction id  in `Flow.ID` value.
     func createAccount(address: Flow.Address,
-                       publicKeys: [Flow.AccountKey],
+                       accountKey: Flow.AccountKey,
                        contracts: [String: String] = [:],
                        signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID>
     {
@@ -210,14 +226,18 @@ public extension Flow {
                                      value: .init(value: .string(Flow.Script(text: cadence).hex)))
         }
 
-        let pubKeyArg = publicKeys.compactMap { $0.encoded?.hexValue }.compactMap { Flow.Argument(value: .string($0)) }
-
         return try sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.createAccount
             }
             arguments {
-                [.array(pubKeyArg), .dictionary(contractArg)]
+                [
+                    .string(accountKey.publicKey.hex),
+                    .uint8(UInt8(accountKey.signAlgo.index)),
+                    .uint8(UInt8(accountKey.hashAlgo.code)),
+                    .ufix64(1000),
+                    .dictionary(contractArg)
+                ]
             }
             proposer {
                 address

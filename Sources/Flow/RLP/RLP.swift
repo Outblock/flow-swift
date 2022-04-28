@@ -9,7 +9,7 @@
 import BigInt
 import Foundation
 
-public struct RLP {
+public enum RLP {
     public static func encode(_ item: Any) -> Data? {
         switch item {
         case let int as Int:

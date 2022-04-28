@@ -109,7 +109,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             arguments {
                 [
                     .string(accountKey.publicKey.hex),
-                    .uint8(UInt8(accountKey.signAlgo.code)),
+                    .uint8(UInt8(accountKey.signAlgo.index)),
                     .uint8(UInt8(accountKey.hashAlgo.code)),
                     .ufix64(1000)
                 ]
@@ -122,6 +122,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         }
 
         let signedTx = try! unsignedTx.sign(signers: signer)
+        
         let txId = try! flow.sendTransaction(signedTransaction: signedTx).wait()
         XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
