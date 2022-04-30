@@ -55,17 +55,43 @@ final class DomainTests: XCTestCase {
         var unsignedTx = try! flow.buildTransaction {
             cadence {
                 """
-                import HelloWorld from 0xe242ccfb4b8ea3e2
+                import Domains from 0xb05b2abb42335e88
+                import Flowns from 0xb05b2abb42335e88
+                import NonFungibleToken from 0x631e88ae7f1d7c20
+                import FungibleToken from 0x9a0766d93b6608b7
 
-                   transaction(test: String, testInt: HelloWorld.SomeStruct) {
-                       prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
-                            log(signer1.address)
-                            log(signer2.address)
-                            log(signer3.address)
-                            log(test)
-                            log(testInt)
-                       }
+                transaction(name: String) {
+                 let client: &{Flowns.AdminPrivate}
+                 let receiver: Capability<&{NonFungibleToken.Receiver}>
+                 prepare(user: AuthAccount, lilico: AuthAccount, flowns: AuthAccount) {
+                   let userAcc = getAccount(user.address)
+                    // check user balance
+                   let userBalRef = userAcc.getCapability(/public/flowTokenBalance).borrow<&{FungibleToken.Balance}>()
+                   if balanceRef.balance < 0.001 {
+                     let vaultRef = flowns.borrow<&FungibleToken.Vault>(from: /storage/flowTokenVault)
+                     let userReceiverRef =  userAcc.getCapability(/public/flowTokenReceiver).borrow<&{FungibleToken.Receiver}>()
+                     userReceiverRef.deposit(from: <- vaultRef.withdraw(amount: 0.001))
                    }
+                 
+                   // init user's domain collection
+                   if user.getCapability<&{NonFungibleToken.Receiver}>(Domains.CollectionPublicPath).check() == false {
+                     if user.borrow<&Domains.Collection>(from: Domains.CollectionStoragePath) != nil {
+                       user.unlink(Domains.CollectionPublicPath)
+                       user.link<&Domains.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, Domains.CollectionPublic}>(Domains.CollectionPublicPath, target: Domains.CollectionStoragePath)
+                     } else {
+                       user.save(<- Domains.createEmptyCollection(), to: Domains.CollectionStoragePath)
+                       user.link<&Domains.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, Domains.CollectionPublic}>(Domains.CollectionPublicPath, target: Domains.CollectionStoragePath)
+                     }
+                   }
+
+                   self.receiver = userAcc.getCapability<&{NonFungibleToken.Receiver}>(Domains.CollectionPublicPath)
+                   
+                   self.client = flowns.borrow<&{Flowns.AdminPrivate}>(from: Flowns.FlownsAdminStoragePath) ?? panic("Could not borrow admin client")
+                 }
+                 execute {
+                   self.client.mintDomain(domainId: 1, name: name, duration: 3153600000.00, receiver: self.receiver)
+                 }
+                }
                 """
             }
 
@@ -74,7 +100,7 @@ final class DomainTests: XCTestCase {
             }
 
             authorizers {
-                [self.addressC, self.addressA, .init(hex: "0xe5be88e3e38c0e1d")]
+                [self.addressC, self.addressA, .init(hex: "0xb05b2abb42335e88")]
             }
             
             payer {
@@ -82,9 +108,7 @@ final class DomainTests: XCTestCase {
             }
 
             arguments {
-                [.string("Test"), .struct(.init(id: "A.e242ccfb4b8ea3e2.HelloWorld.SomeStruct",
-                                                fields: [.init(name: "x", value: .init(value: .int(1))),
-                                                         .init(name: "y", value: .init(value: .int(2)))]))]
+                [.string("Test")]
             }
 
             // optional
@@ -106,7 +130,7 @@ final class DomainTests: XCTestCase {
         
         
 //      Replace me
-        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://flowns")!, method: .post, data: jsonData)
+        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://flowns-app-beta.vercel.app/api/auth/sign")!, method: .post, data: jsonData)
         let signedTx = try! unpaidTx.signEnvelope(signers: signers)
         
         let txId = try! flow.sendTransaction(signedTransaction: signedTx).wait()
