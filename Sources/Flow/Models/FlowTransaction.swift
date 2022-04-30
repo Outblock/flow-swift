@@ -423,14 +423,14 @@ extension Flow.TransactionProposalKey: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(address, forKey: .address)
         try container.encode(keyIndex, forKey: .keyIndex)
-        try container.encode(String(sequenceNumber), forKey: .sequenceNumber)
+        try container.encode(UInt64(sequenceNumber), forKey: .sequenceNumber)
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         address = try container.decode(Flow.Address.self, forKey: .address)
         keyIndex = try container.decode(Int.self, forKey: .keyIndex)
-        sequenceNumber = try container.decode(BigInt.self, forKey: .sequenceNumber)
+        sequenceNumber = BigInt(try container.decode(UInt64.self, forKey: .sequenceNumber))
     }
 }
 
