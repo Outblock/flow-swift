@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Hao Fu on 28/4/2022.
 //
@@ -106,10 +106,10 @@ final class DomainTests: XCTestCase {
                    let userAcc = getAccount(user.address)
                     // check user balance
                    let userBalRef = userAcc.getCapability(/public/flowTokenBalance).borrow<&{FungibleToken.Balance}>()
-                   if balanceRef.balance < 0.001 {
+                   if userBalRef!.balance < 0.001 {
                      let vaultRef = flowns.borrow<&FungibleToken.Vault>(from: /storage/flowTokenVault)
                      let userReceiverRef =  userAcc.getCapability(/public/flowTokenReceiver).borrow<&{FungibleToken.Receiver}>()
-                     userReceiverRef.deposit(from: <- vaultRef.withdraw(amount: 0.001))
+                     userReceiverRef!.deposit(from: <- vaultRef!.withdraw(amount: 0.001))
                    }
                  
                    // init user's domain collection
@@ -128,7 +128,7 @@ final class DomainTests: XCTestCase {
                    self.client = flowns.borrow<&{Flowns.AdminPrivate}>(from: Flowns.FlownsAdminStoragePath) ?? panic("Could not borrow admin client")
                  }
                  execute {
-                   self.client.mintDomain(domainId: 1, name: name, duration: 3153600000.00, receiver: self.receiver)
+                   self.client.mintDomain(domainId: 2, name: name, duration: 3153600000.00, receiver: self.receiver)
                  }
                 }
                 """
@@ -147,7 +147,7 @@ final class DomainTests: XCTestCase {
             }
 
             arguments {
-                [.string("Test")]
+                [.string("lilico1234")]
             }
 
             // optional
@@ -157,7 +157,6 @@ final class DomainTests: XCTestCase {
         }
 
         let notFinishedTx = try! unsignedTx.signPayload(signers: getSigners())
-        
         let model = TestModel(transaction: notFinishedTx, message: notFinishedTx.signablePlayload?.hexValue ?? "")
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -169,10 +168,8 @@ final class DomainTests: XCTestCase {
         print("<-------------  RAW TRANSACTION END  ------------->")
         
         
-//      Replace me
-        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://739c-118-113-135-6.ap.ngrok.io/api/auth/sign")!, method: .post, data: jsonData)
+        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://beta.flowns.org/api/auth/sign")!, method: .post, data: jsonData)
         let signedTx = try! unpaidTx.signEnvelope(signers: getSigners())
-        
         
         let jsonData2 = try! encoder.encode(signedTx)
         let jsonString2 = String(data: jsonData2, encoding: .utf8)!
