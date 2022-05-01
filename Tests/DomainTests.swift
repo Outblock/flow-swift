@@ -117,11 +117,12 @@ final class DomainTests: XCTestCase {
             }
         }
 
-        let notFinishedSignedTx = try! unsignedTx.signPayload(signers: signers)
+        let notFinishedTx = try! unsignedTx.signPayload(signers: signers)
         
+        let model = TestModel(transaction: notFinishedTx, message: notFinishedTx.signablePlayload?.hexValue ?? "")
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
-        let jsonData = try! encoder.encode(notFinishedSignedTx)
+        let jsonData = try! encoder.encode(model)
         let jsonString = String(data: jsonData, encoding: .utf8)!
         
         print("<-------------  RAW TRANSACTION  ------------->")
@@ -145,6 +146,11 @@ final class DomainTests: XCTestCase {
         XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
     }
+}
+
+struct TestModel: Codable {
+    let transaction: Flow.Transaction
+    let message: String
 }
 
 final class API {
