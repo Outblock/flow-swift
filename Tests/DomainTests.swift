@@ -27,30 +27,69 @@ final class DomainTests: XCTestCase {
     var addressC = Flow.Address(hex: "0xe242ccfb4b8ea3e2")
     let publicKeyC = try! P256.KeyAgreement.PublicKey(rawRepresentation: "adbf18dae6671e6b6a92edf00c79166faba6babf6ec19bd83eabf690f386a9b13c8e48da67973b9cf369f56e92ec25ede5359539f687041d27d0143afd14bca9".hexValue)
     let privateKeyC = try! P256.Signing.PrivateKey(rawRepresentation: "1eb79c40023143821983dc79b4e639789ea42452e904fda719f5677a1f144208".hexValue)
-
+    
     override func setUp() {
         super.setUp()
         flowAPI = flow.createAccessAPI(chainID: .testnet)
         flow.configure(chainID: .testnet)
     }
     
+    func getSigners() -> [FlowSigner] {
+        return [
+            // Address A
+    //            ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
+            ECDSA_P256_Signer(address: self.addressA, keyIndex: 0, privateKey: privateKeyA), // weight: 1000
+            // Address B
+            ECDSA_P256_Signer(address: self.addressB, keyIndex: 2, privateKey: privateKeyA), // weight: 800
+            ECDSA_P256_Signer(address: self.addressB, keyIndex: 1, privateKey: privateKeyC), // weight: 500
+            // Address C
+    //            ECDSA_P256_Signer(address: addressC, keyIndex: 3, privateKey: privateKeyB), // weight: 300
+    //            ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
+            ECDSA_P256_Signer(address: self.addressC, keyIndex: 0, privateKey: privateKeyC), // weight: 1000
+        ]
+    }
+    
+    func testSingleSign() {
+        var unsignedTx = try! flow.buildTransaction {
+            cadence {
+                """
+                import HelloWorld from 0xe242ccfb4b8ea3e2
+                transaction(test: String) {
+                   prepare(signer: AuthAccount) {
+                        log(signer.address)
+                        log(test)
+                   }
+                }
+                """
+            }
+
+            proposer {
+                Flow.TransactionProposalKey(address: addressC, keyIndex: 0)
+            }
+
+            authorizers {
+                [self.addressA]
+            }
+            
+            arguments {
+                [.string("Test")]
+            }
+
+            // optional
+            gasLimit {
+                1000
+            }
+        }
+
+        let signedTx = try! unsignedTx.sign(signers: getSigners())
+        let txId = try! flow.sendTransaction(signedTransaction: signedTx).wait()
+        XCTAssertNotNil(txId)
+        print("txid --> \(txId.hex)")
+    }
+    
     @available(iOS 15.0, *)
     func testMultiplePartySign() async throws {
         // Example in Testnet
-
-        // Admin key
-        let signers = [
-            // Address A
-//            ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
-            ECDSA_P256_Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA), // weight: 1000
-            // Address B
-            ECDSA_P256_Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA), // weight: 800
-            ECDSA_P256_Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC), // weight: 500
-            // Address C
-//            ECDSA_P256_Signer(address: addressC, keyIndex: 3, privateKey: privateKeyB), // weight: 300
-//            ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
-            ECDSA_P256_Signer(address: addressC, keyIndex: 0, privateKey: privateKeyC), // weight: 1000
-        ]
 
         var unsignedTx = try! flow.buildTransaction {
             cadence {
@@ -117,7 +156,7 @@ final class DomainTests: XCTestCase {
             }
         }
 
-        let notFinishedTx = try! unsignedTx.signPayload(signers: signers)
+        let notFinishedTx = try! unsignedTx.signPayload(signers: getSigners())
         
         let model = TestModel(transaction: notFinishedTx, message: notFinishedTx.signablePlayload?.hexValue ?? "")
         let encoder = JSONEncoder()
@@ -131,8 +170,8 @@ final class DomainTests: XCTestCase {
         
         
 //      Replace me
-        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://4e84-118-113-135-6.ap.ngrok.io/api/auth/sign")!, method: .post, data: jsonData)
-        let signedTx = try! unpaidTx.signEnvelope(signers: signers)
+        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://739c-118-113-135-6.ap.ngrok.io/api/auth/sign")!, method: .post, data: jsonData)
+        let signedTx = try! unpaidTx.signEnvelope(signers: getSigners())
         
         
         let jsonData2 = try! encoder.encode(signedTx)
