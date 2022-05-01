@@ -49,8 +49,8 @@ extension Flow.Address: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let scriptString = try container.decode(String.self, forKey: .data)
+        let container = try decoder.singleValueContainer()
+        let scriptString = try container.decode(String.self)
         data = scriptString.hexValue.data
     }
 }
