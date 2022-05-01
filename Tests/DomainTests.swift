@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Hao Fu on 28/4/2022.
 //
@@ -67,10 +67,10 @@ final class DomainTests: XCTestCase {
                    let userAcc = getAccount(user.address)
                     // check user balance
                    let userBalRef = userAcc.getCapability(/public/flowTokenBalance).borrow<&{FungibleToken.Balance}>()
-                   if balanceRef.balance < 0.001 {
+                   if userBalRef!.balance < 0.001 {
                      let vaultRef = flowns.borrow<&FungibleToken.Vault>(from: /storage/flowTokenVault)
                      let userReceiverRef =  userAcc.getCapability(/public/flowTokenReceiver).borrow<&{FungibleToken.Receiver}>()
-                     userReceiverRef.deposit(from: <- vaultRef.withdraw(amount: 0.001))
+                     userReceiverRef!.deposit(from: <- vaultRef!.withdraw(amount: 0.001))
                    }
                  
                    // init user's domain collection
@@ -89,7 +89,7 @@ final class DomainTests: XCTestCase {
                    self.client = flowns.borrow<&{Flowns.AdminPrivate}>(from: Flowns.FlownsAdminStoragePath) ?? panic("Could not borrow admin client")
                  }
                  execute {
-                   self.client.mintDomain(domainId: 1, name: name, duration: 3153600000.00, receiver: self.receiver)
+                   self.client.mintDomain(domainId: 2, name: name, duration: 3153600000.00, receiver: self.receiver)
                  }
                 }
                 """
@@ -108,7 +108,7 @@ final class DomainTests: XCTestCase {
             }
 
             arguments {
-                [.string("Test")]
+                [.string("lilico1234")]
             }
 
             // optional
@@ -117,11 +117,12 @@ final class DomainTests: XCTestCase {
             }
         }
 
-        let notFinishedSignedTx = try! unsignedTx.signPayload(signers: signers)
+        let notFinishedTx = try! unsignedTx.signPayload(signers: signers)
         
+        let model = TestModel(transaction: notFinishedTx, message: notFinishedTx.signablePlayload?.hexValue ?? "")
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
-        let jsonData = try! encoder.encode(notFinishedSignedTx)
+        let jsonData = try! encoder.encode(model)
         let jsonString = String(data: jsonData, encoding: .utf8)!
         
         print("<-------------  RAW TRANSACTION  ------------->")
@@ -130,13 +131,26 @@ final class DomainTests: XCTestCase {
         
         
 //      Replace me
-        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://flowns-app-beta.vercel.app/api/auth/sign")!, method: .post, data: jsonData)
+        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://beta.flowns.org/api/auth/sign")!, method: .post, data: jsonData)
         let signedTx = try! unpaidTx.signEnvelope(signers: signers)
+        
+        
+        let jsonData2 = try! encoder.encode(signedTx)
+        let jsonString2 = String(data: jsonData2, encoding: .utf8)!
+        
+        print("<-------------  SIGNED TRANSACTION  ------------->")
+        print(jsonString2)
+        print("<-------------  SIGNED TRANSACTION END  ------------->")
         
         let txId = try! flow.sendTransaction(signedTransaction: signedTx).wait()
         XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
     }
+}
+
+struct TestModel: Codable {
+    let transaction: Flow.Transaction
+    let message: String
 }
 
 final class API {
@@ -172,8 +186,13 @@ final class API {
         print("<-------------  FETCH RESPONSE END ------------->")
         
         let decoder = JSONDecoder()
-        let response = try decoder.decode(T.self, from: data)
-        return response
+        do {
+            let response = try decoder.decode(T.self, from: data)
+            return response
+        } catch {
+            print(error)
+            throw error
+        }
     }
     
     static func buildURL(url: URL, params: [String: String]?) -> URL? {
