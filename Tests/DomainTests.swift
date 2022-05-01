@@ -130,8 +130,16 @@ final class DomainTests: XCTestCase {
         
         
 //      Replace me
-        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://flowns-app-beta.vercel.app/api/auth/sign")!, method: .post, data: jsonData)
+        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://4e84-118-113-135-6.ap.ngrok.io/api/auth/sign")!, method: .post, data: jsonData)
         let signedTx = try! unpaidTx.signEnvelope(signers: signers)
+        
+        
+        let jsonData2 = try! encoder.encode(signedTx)
+        let jsonString2 = String(data: jsonData2, encoding: .utf8)!
+        
+        print("<-------------  SIGNED TRANSACTION  ------------->")
+        print(jsonString2)
+        print("<-------------  SIGNED TRANSACTION END  ------------->")
         
         let txId = try! flow.sendTransaction(signedTransaction: signedTx).wait()
         XCTAssertNotNil(txId)
@@ -172,8 +180,13 @@ final class API {
         print("<-------------  FETCH RESPONSE END ------------->")
         
         let decoder = JSONDecoder()
-        let response = try decoder.decode(T.self, from: data)
-        return response
+        do {
+            let response = try decoder.decode(T.self, from: data)
+            return response
+        } catch {
+            print(error)
+            throw error
+        }
     }
     
     static func buildURL(url: URL, params: [String: String]?) -> URL? {
