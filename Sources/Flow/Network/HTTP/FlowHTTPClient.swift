@@ -36,19 +36,12 @@ extension Flow {
                 throw Flow.FError.urlInvaild
             }
 
-            print(url)
             var request = URLRequest(url: url)
             request.httpMethod = target.method.rawValue
 
             if let bodyObject = body {
                 let encoder = JSONEncoder()
                 encoder.keyEncodingStrategy = .convertToSnakeCase
-                do {
-//                    _ = try decoder.decode(T.self, from: data)
-                    _ = try encoder.encode(AnyEncodable(bodyObject))
-                } catch  {
-                    print(error)
-                }
                 let data = try encoder.encode(AnyEncodable(bodyObject))
                 request.httpBody = data
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -61,14 +54,7 @@ extension Flow {
             
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .formatted(dateFormatter)
-            decoder.dataDecodingStrategy = .base64
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
-            do {
-                _ = try decoder.decode(T.self, from: data)
-            } catch  {
-                print(error)
-            }
             
             return try decoder.decode(T.self, from: data)
         }
