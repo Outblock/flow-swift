@@ -47,7 +47,7 @@ public extension Flow {
         /// Covert `data` into `Flow.Argument` type
         public var fields: Argument?
 
-        init(data: Data) {
+        public init(data: Data) {
             self.data = data
             fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
         }

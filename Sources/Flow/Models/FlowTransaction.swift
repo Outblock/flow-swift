@@ -92,20 +92,6 @@ public extension Flow {
             self.envelopeSignatures = envelopeSignatures
         }
 
-        func toFlowEntity() -> Flow_Entities_Transaction {
-            var transaction = Flow_Entities_Transaction()
-            transaction.script = script.bytes.data
-            transaction.arguments = arguments.compactMap { try? JSONEncoder().encode($0) }
-            transaction.referenceBlockID = referenceBlockId.bytes.data
-            transaction.gasLimit = UInt64(gasLimit)
-            transaction.proposalKey = proposalKey.toFlowEntity()
-            transaction.payer = payer.bytes.data
-            transaction.authorizers = authorizers.compactMap { $0.bytes.data }
-            transaction.payloadSignatures = payloadSignatures.compactMap { $0.toFlowEntity() }
-            transaction.envelopeSignatures = envelopeSignatures.compactMap { $0.toFlowEntity() }
-            return transaction
-        }
-
         public func buildUpOn(script: Flow.Script? = nil,
                               arguments: [Flow.Argument]? = nil,
                               referenceBlockId: Flow.ID? = nil,
@@ -392,14 +378,6 @@ public extension Flow {
             self.keyIndex = keyIndex
             self.sequenceNumber = BigInt(sequenceNumber)
         }
-
-        func toFlowEntity() -> Flow_Entities_Transaction.ProposalKey {
-            var entity = Flow_Entities_Transaction.ProposalKey()
-            entity.address = address.bytes.data
-            entity.keyID = UInt32(keyIndex)
-            entity.sequenceNumber = UInt64(sequenceNumber)
-            return entity
-        }
     }
 
     struct TransactionSignature: Comparable {
@@ -414,13 +392,6 @@ public extension Flow {
 
         /// Interal index for sort signature
         var signerIndex: Int
-
-        internal init(value: Flow_Entities_Transaction.Signature) {
-            address = Address(bytes: value.address.bytes)
-            keyIndex = Int(value.keyID)
-            signature = value.signature
-            signerIndex = Int(value.keyID)
-        }
 
         public init(address: Flow.Address, keyIndex: Int, signature: Data) {
             self.address = address
@@ -452,14 +423,6 @@ public extension Flow {
                                         signerIndex: signerIndex ?? self.signerIndex,
                                         keyIndex: keyIndex ?? self.keyIndex,
                                         signature: signature ?? self.signature)
-        }
-
-        internal func toFlowEntity() -> Flow_Entities_Transaction.Signature {
-            var entity = Flow_Entities_Transaction.Signature()
-            entity.address = address.bytes.data
-            entity.keyID = UInt32(keyIndex)
-            entity.signature = signature
-            return entity
         }
     }
 }

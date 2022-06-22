@@ -15,7 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "BigInt", url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
-        .package(url: "https://github.com/grpc/grpc-swift.git", from: "1.0.0"),
+        .package(url: "https://github.com/grpc/grpc-swift.git", from: "1.8.0"),
     ],
     targets: [
         .target(
@@ -29,7 +29,7 @@ let package = Package(
                 path: "Sources/FlowGRPC"),
         .testTarget(
             name: "FlowTests",
-            dependencies: ["Flow"],
+            dependencies: ["Flow", "FlowGRPC"],
             path: "Tests"
         ),
     ]

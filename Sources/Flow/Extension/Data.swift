@@ -27,7 +27,7 @@ extension Collection {
 
 public extension Array where Element == UInt8 {
     /// Convert to `Data` type
-    internal var data: Data { .init(self) }
+    var data: Data { .init(self) }
 
     /// Convert bytes to hex string
     var hexValue: String { map { .init(format: "%02x", $0) }.joined() }

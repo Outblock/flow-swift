@@ -62,14 +62,14 @@ public extension Flow {
                 self.blockTimestamp = blockTimestamp
                 self.events = events
             }
-            
+
             public init(from decoder: Decoder) throws {
                 let container = try decoder.container(keyedBy: CodingKeys.self)
-                self.blockId = try container.decode(Flow.ID.self, forKey: .blockId)
+                blockId = try container.decode(Flow.ID.self, forKey: .blockId)
                 let blockHeight = try container.decode(String.self, forKey: .blockHeight)
                 self.blockHeight = UInt64(blockHeight) ?? 0
-                self.blockTimestamp = try container.decode(Date.self, forKey: .blockTimestamp)
-                self.events = try container.decode([Flow.Event].self, forKey: .events)
+                blockTimestamp = try container.decode(Date.self, forKey: .blockTimestamp)
+                events = try container.decode([Flow.Event].self, forKey: .events)
             }
         }
 
@@ -100,6 +100,10 @@ public extension Flow {
 
     struct Snapshot: FlowEntity, Equatable, Codable {
         public var data: Data
+
+        public init(data: Data) {
+            self.data = data
+        }
     }
 }
 

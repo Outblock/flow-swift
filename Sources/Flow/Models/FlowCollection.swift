@@ -24,11 +24,6 @@ public extension Flow {
         public let id: ID
         public let transactionIds: [ID]
 
-        init(value: Flow_Entities_Collection) {
-            id = ID(bytes: value.id.bytes)
-            transactionIds = value.transactionIds.compactMap { ID(bytes: $0.bytes) }
-        }
-
         public init(id: Flow.ID, transactionIds: [Flow.ID]) {
             self.id = id
             self.transactionIds = transactionIds
@@ -55,11 +50,6 @@ public extension Flow {
         public init(id: Flow.ID, signatures: [Flow.Signature]) {
             collectionId = id
             self.signatures = signatures
-        }
-
-        init(value: Flow_Entities_CollectionGuarantee) {
-            collectionId = ID(bytes: value.collectionID.bytes)
-            signatures = value.signatures.compactMap { Signature(data: $0) }
         }
     }
 }

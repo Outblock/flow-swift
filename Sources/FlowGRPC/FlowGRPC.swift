@@ -122,6 +122,20 @@ public extension Flow.Transaction {
                   payloadSignatures: value.payloadSignatures.compactMap { Flow.TransactionSignature(value: $0) },
                   envelopeSignatures: value.envelopeSignatures.compactMap { Flow.TransactionSignature(value: $0) })
     }
+
+    func toFlowEntity() -> Flow_Entities_Transaction {
+        var transaction = Flow_Entities_Transaction()
+        transaction.script = script.bytes.data
+        transaction.arguments = arguments.compactMap { try? JSONEncoder().encode($0) }
+        transaction.referenceBlockID = referenceBlockId.bytes.data
+        transaction.gasLimit = UInt64(gasLimit)
+        transaction.proposalKey = proposalKey.toFlowEntity()
+        transaction.payer = payer.bytes.data
+        transaction.authorizers = authorizers.compactMap { $0.bytes.data }
+        transaction.payloadSignatures = payloadSignatures.compactMap { $0.toFlowEntity() }
+        transaction.envelopeSignatures = envelopeSignatures.compactMap { $0.toFlowEntity() }
+        return transaction
+    }
 }
 
 public extension Flow.TransactionSignature {
@@ -130,6 +144,14 @@ public extension Flow.TransactionSignature {
                   keyIndex: Int(value.keyID),
                   signature: value.signature)
     }
+
+    func toFlowEntity() -> Flow_Entities_Transaction.Signature {
+        var entity = Flow_Entities_Transaction.Signature()
+        entity.address = address.bytes.data
+        entity.keyID = UInt32(keyIndex)
+        entity.signature = signature
+        return entity
+    }
 }
 
 public extension Flow.TransactionProposalKey {
@@ -137,5 +159,13 @@ public extension Flow.TransactionProposalKey {
         self.init(address: Flow.Address(data: value.address),
                   keyIndex: Int(value.keyID),
                   sequenceNumber: Int64(value.sequenceNumber))
+    }
+
+    func toFlowEntity() -> Flow_Entities_Transaction.ProposalKey {
+        var entity = Flow_Entities_Transaction.ProposalKey()
+        entity.address = address.bytes.data
+        entity.keyID = UInt32(keyIndex)
+        entity.sequenceNumber = UInt64(sequenceNumber)
+        return entity
     }
 }
