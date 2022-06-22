@@ -81,38 +81,23 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
 
     func testExecuteScriptAtLastestBlock() async throws {
         let script = Flow.Script(text: """
-
-            import Domains from 0xb05b2abb42335e88
-            import Flowns from 0xb05b2abb42335e88
-
-            pub fun getDetail(nameHash: String): Domains.DomainDetail? {
-              let address = Domains.getRecords(nameHash) ?? panic("Domain not exist")
-              let account = getAccount(address)
-              let collectionCap = account.getCapability<&{Domains.CollectionPublic}>(Domains.CollectionPublicPath)
-              let collection = collectionCap.borrow()!
-              var detail: Domains.DomainDetail? = nil
-
-              let id = Domains.getDomainId(nameHash)
-              if id != nil && !Domains.isDeprecated(nameHash: nameHash, domainId: id!) {
-                let domain = collection.borrowDomain(id: id!)
-                detail = domain.getDetail()
-              }
-
-              return detail
+            pub struct SomeStruct {
+                  pub var x: Int
+                  pub var y: Int
+                  init(x: Int, y: Int) {
+                    self.x = x
+                    self.y = y
+                  }
             }
-
-            pub fun main(name: String, root: String) : Domains.DomainDetail? {
-              let prefix = "0x"
-              let rootHahsh = Flowns.hash(node: "", lable: root)
-              let nameHash = prefix.concat(Flowns.hash(node: rootHahsh, lable: name))
-              return getDetail(nameHash: nameHash)
+            
+            pub fun main(): [SomeStruct] {
+              return [SomeStruct(x: 1, y: 2), SomeStruct(x: 3, y: 4)]
             }
 
             """
         )
 
-        let API = flow.createAccessAPI(chainID: .testnet)
-        let snapshot = try await API.executeScriptAtLatestBlock(script: script, arguments: [.init(value: .string("testinbox")), .init(value: .string("meow"))])
+        let snapshot = try await flowAPI.executeScriptAtLatestBlock(script: script)
         XCTAssertNotNil(snapshot)
         XCTAssertEqual(Flow.Cadence.FType.array, snapshot.fields?.type)
 
@@ -171,12 +156,12 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
 //        XCTAssertEqual(firstStruct.fields.last!.value.value.toInt(), 2)
     }
 
-    func testGetCollectionById() throws {
-        // Can't find a valid collection ID as example
+//    func testGetCollectionById() async throws {
+//        // Can't find a valid collection ID as example
 //        let id = Flow.ID(hex: "53cc748124358855ec4d975ce6511ba016f5d2dfcead1527fd858579fc7baf76")
-//        let collection = try flowAPI.getCollectionById(id: id).wait()
+//        let collection = try await flowAPI.getCollectionById(id: id)
 //        XCTAssertNotNil(collection)
-    }
+//    }
 
     func testTransactionResultById() async throws {
         let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")

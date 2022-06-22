@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BigInt
 
 extension Flow {
     struct BlockHeaderResponse: Codable {
@@ -30,5 +31,19 @@ extension Flow {
     struct BlockPayloadResponse: Codable {
         let collectionGuarantees: [Flow.CollectionGuarantee]
         let blockSeals: [BlockSeal]
+    }
+    
+    struct ScriptRequest: Codable {
+        let script: String
+        let arguments: [String]
+        
+        init(script: Flow.Script, arguments: [Flow.Argument]) {
+            self.script = script.data.base64EncodedString()
+            self.arguments = arguments.compactMap{ $0.jsonString?.data(using: .utf8)?.base64EncodedString() }
+        }
+    }
+    
+    struct TransactionIdResponse: Codable {
+        let id: ID
     }
 }

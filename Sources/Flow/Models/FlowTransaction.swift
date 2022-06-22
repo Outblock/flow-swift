@@ -478,8 +478,8 @@ extension Flow.TransactionProposalKey: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(address, forKey: .address)
-        try container.encode(keyIndex, forKey: .keyIndex)
-        try container.encode(UInt64(sequenceNumber), forKey: .sequenceNumber)
+        try container.encode(String(keyIndex), forKey: .keyIndex)
+        try container.encode(String(sequenceNumber), forKey: .sequenceNumber)
     }
 
     public init(from decoder: Decoder) throws {
@@ -502,8 +502,8 @@ extension Flow.TransactionSignature: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(address, forKey: .address)
-        try container.encode(keyIndex, forKey: .keyIndex)
-        try container.encode(signature.hexValue, forKey: .signature)
+        try container.encode(String(keyIndex), forKey: .keyIndex)
+        try container.encode(signature.base64EncodedString(), forKey: .signature)
     }
 
     public init(from decoder: Decoder) throws {

@@ -23,10 +23,10 @@ extension Flow.Transaction: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(script, forKey: .script)
-        try container.encode(arguments, forKey: .arguments)
+        try container.encode(script.data.base64EncodedString(), forKey: .script)
+        try container.encode(arguments.compactMap{ $0.jsonString?.data(using: .utf8)?.base64EncodedString() }, forKey: .arguments)
         try container.encode(referenceBlockId, forKey: .referenceBlockId)
-        try container.encode(UInt64(gasLimit), forKey: .gasLimit)
+        try container.encode(String(gasLimit), forKey: .gasLimit)
         try container.encode(proposalKey, forKey: .proposalKey)
         try container.encode(payer, forKey: .payer)
         try container.encode(authorizers, forKey: .authorizers)

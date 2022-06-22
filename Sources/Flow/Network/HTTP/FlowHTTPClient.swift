@@ -25,28 +25,36 @@ extension Flow {
                 throw FError.urlInvaild
             }
             urlComponents.path = target.path
-            urlComponents.queryItems = parameters?.map { (key: String, value: String) in
-                URLQueryItem(name: key, value: value)
+            
+            if let parametersList = parameters, parametersList.keys.count > 0 {
+                urlComponents.queryItems = parametersList.compactMap { (key: String, value: String) in
+                    URLQueryItem(name: key, value: value)
+                }
             }
 
             guard let url = urlComponents.url else {
                 throw Flow.FError.urlInvaild
             }
 
+            print(url)
             var request = URLRequest(url: url)
             request.httpMethod = target.method.rawValue
 
             if let bodyObject = body {
                 let encoder = JSONEncoder()
-                encoder.dataEncodingStrategy = .base64
+                encoder.keyEncodingStrategy = .convertToSnakeCase
+                do {
+//                    _ = try decoder.decode(T.self, from: data)
+                    _ = try encoder.encode(AnyEncodable(bodyObject))
+                } catch  {
+                    print(error)
+                }
                 let data = try encoder.encode(AnyEncodable(bodyObject))
                 request.httpBody = data
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             }
-
-//            let config = URLSessionConfiguration()
-//            config.identifier = "FLOW ACCESS HTTP"
-            let (data, _) = try await URLSession.shared.data(for: request)
             
+            let (data, _) = try await URLSession.shared.data(for: request)
             let dateFormatter = DateFormatter()
             // 2022-06-22T15:32:09.08595992Z
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSS'Z'"
@@ -126,7 +134,8 @@ extension Flow {
         }
 
         func sendTransaction(transaction: Flow.Transaction) async throws -> Flow.ID {
-            return try await request(Flow.AccessEndpoint.sendTransaction(transaction: transaction))
+            let result: TransactionIdResponse = try await request(Flow.AccessEndpoint.sendTransaction(transaction: transaction))
+            return result.id
         }
 
         func getTransactionById(id: Flow.ID) async throws -> Flow.Transaction {

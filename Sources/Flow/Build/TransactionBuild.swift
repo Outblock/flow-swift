@@ -269,7 +269,7 @@ public extension Flow {
         proposalKey = key
         return Flow.Transaction(script: script,
                                 arguments: agrument,
-                                referenceBlockId: refBlock!,
+                                referenceBlockId: id,
                                 gasLimit: gasLimit,
                                 proposalKey: proposalKey,
                                 // If payer is empty, then use propser as payer

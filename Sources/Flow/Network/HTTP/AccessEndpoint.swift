@@ -50,6 +50,16 @@ extension Flow.AccessEndpoint: TargetType {
             return .requestParameters(["block_height" : "sealed", "expand" : "contracts,keys"])
         case let .getAccountByBlockHeight(_, height):
             return .requestParameters(["block_height" : String(height), "expand" : "contracts,keys"])
+        case .getCollectionById:
+            return .requestParameters(["expand" : "transactions"])
+        case let .executeScriptAtLatestBlock(script, arguments):
+            return .requestParameters(["block_height" : "sealed"], body: Flow.ScriptRequest(script: script, arguments: arguments))
+        case let .executeScriptAtBlockHeight(script, height, arguments):
+            return .requestParameters(["block_height" : String(height)], body: Flow.ScriptRequest(script: script, arguments: arguments))
+        case let .executeScriptAtBlockId(script, id, arguments):
+            return .requestParameters(["block_id" : id.hex], body: Flow.ScriptRequest(script: script, arguments: arguments))
+        case let .sendTransaction(tx):
+            return .requestParameters([:], body: tx)
         default:
             return .requestParameters()
         }
@@ -92,6 +102,14 @@ extension Flow.AccessEndpoint: TargetType {
             return "/v1/transaction_results/\(id.hex)"
         case let .getTransactionById(id):
             return "/v1/transactions/\(id.hex)"
+        case let .getCollectionById(id):
+            return "/v1/collections/\(id.hex)"
+        case .executeScriptAtLatestBlock,
+                .executeScriptAtBlockId,
+                .executeScriptAtBlockHeight:
+            return "/v1/scripts"
+        case .sendTransaction:
+            return "/v1/transactions"
         default:
             return ""
         }
