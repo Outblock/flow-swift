@@ -29,15 +29,26 @@ public extension Flow {
         public let transactionIndex: Int
         public let eventIndex: Int
         public let payload: Payload
-
-        init(value: Flow_Entities_Event) {
-            type = value.type
-            transactionId = ID(data: value.transactionID)
-            transactionIndex = Int(value.transactionIndex)
-            eventIndex = Int(value.eventIndex)
-            payload = Payload(bytes: value.payload.bytes)
+        
+        public init(type: String, transactionId: Flow.ID, transactionIndex: Int, eventIndex: Int, payload: Flow.Event.Payload) {
+            self.type = type
+            self.transactionId = transactionId
+            self.transactionIndex = transactionIndex
+            self.eventIndex = eventIndex
+            self.payload = payload
         }
-
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.type = try container.decode(String.self, forKey: .type)
+            self.transactionId = try container.decode(Flow.ID.self, forKey: .transactionId)
+            let transactionIndex = try container.decode(String.self, forKey: .transactionIndex)
+            self.transactionIndex = Int(transactionIndex) ?? -1
+            let eventIndex = try container.decode(String.self, forKey: .eventIndex)
+            self.eventIndex = Int(eventIndex) ?? -1
+            self.payload = try container.decode(Flow.Event.Payload.self, forKey: .payload)
+        }
+        
         /// The event result
         public struct Result: Codable {
             public let blockId: ID
@@ -45,11 +56,11 @@ public extension Flow {
             public let blockTimestamp: Date
             public var events: [Event]
 
-            init(value: Flow_Access_EventsResponse.Result) {
-                blockId = ID(data: value.blockID)
-                blockHeight = value.blockHeight
-                blockTimestamp = value.blockTimestamp.date
-                events = value.events.compactMap { Event(value: $0) }
+            public init(blockId: Flow.ID, blockHeight: UInt64, blockTimestamp: Date, events: [Flow.Event]) {
+                self.blockId = blockId
+                self.blockHeight = blockHeight
+                self.blockTimestamp = blockTimestamp
+                self.events = events
             }
         }
 
@@ -57,13 +68,23 @@ public extension Flow {
             public var data: Data
             public var fields: Flow.Argument?
 
-            init(data: Data) {
+            public init(data: Data) {
                 self.data = data
                 fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
             }
 
-            init(bytes: [UInt8]) {
+            public init(bytes: [UInt8]) {
                 self.init(data: bytes.data)
+            }
+            
+            enum CodingKeys: CodingKey {
+                case data
+            }
+            
+            public init(from decoder: Decoder) throws {
+                let container = try decoder.singleValueContainer()
+                data = try container.decode(Data.self)
+                fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
             }
         }
     }

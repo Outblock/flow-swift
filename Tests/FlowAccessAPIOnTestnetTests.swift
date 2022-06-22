@@ -59,14 +59,14 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         print(result)
     }
 
-    func testNetworkParameters() async throws {
-        let ChainID = try await flowAPI.getNetworkParameters()
-        XCTAssertEqual(ChainID, Flow.ChainID.testnet)
-
-        let pk = P256.KeyAgreement.PrivateKey()
-        print(pk.rawRepresentation.hexValue)
-        print(pk.publicKey.rawRepresentation.hexValue)
-    }
+//    func testNetworkParameters() async throws {
+//        let ChainID = try await flowAPI.getNetworkParameters()
+//        XCTAssertEqual(ChainID, Flow.ChainID.testnet)
+//
+//        let pk = P256.KeyAgreement.PrivateKey()
+//        print(pk.rawRepresentation.hexValue)
+//        print(pk.publicKey.rawRepresentation.hexValue)
+//    }
 
     func testCanCreateAccount() async throws {
         // Example in Testnet

@@ -51,7 +51,7 @@ extension Flow.AccessEndpoint: TargetType {
         case let .getAccountByBlockHeight(_, height):
             return .requestParameters(["block_height" : String(height), "expand" : "contracts,keys"])
         default:
-            return .requestPlain
+            return .requestParameters()
         }
     }
 
@@ -88,6 +88,10 @@ extension Flow.AccessEndpoint: TargetType {
             return "/v1/accounts/\(address.hex)"
         case let .getAccountByBlockHeight(address, _):
             return "/v1/accounts/\(address.hex)"
+        case let .getTransactionResultById(id):
+            return "/v1/transaction_results/\(id.hex)"
+        case let .getTransactionById(id):
+            return "/v1/transactions/\(id.hex)"
         default:
             return ""
         }
@@ -138,8 +142,6 @@ public protocol TargetType {
 // }
 
 public enum Task {
-    /// A request with no additional data.
-    case requestPlain
 
     /// A requests body set with encoded parameters.
     case requestParameters(_ parameters: [String: String]? = nil, body: Encodable? = nil)

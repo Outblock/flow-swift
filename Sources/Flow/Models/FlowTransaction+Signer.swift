@@ -47,7 +47,7 @@ public extension Flow.Transaction {
 
         // Sign with the proposal key first.
         // If proposer is same as payer, we skip this step
-        if proposalKey.address != payerAddress {
+        if proposalKey.address != payer {
             guard let signers = findSigners(address: proposalKey.address, signers: signers) else {
                 throw Flow.FError.missingSigner
             }
@@ -65,7 +65,7 @@ public extension Flow.Transaction {
                 continue
             }
 
-            if payerAddress == authorizer {
+            if payer == authorizer {
                 continue
             }
 
@@ -98,7 +98,7 @@ public extension Flow.Transaction {
             return signers.filter { $0.address == address }
         }
 
-        guard let signers = findSigners(address: payerAddress,
+        guard let signers = findSigners(address: payer,
                                         signers: signers)
         else {
             throw Flow.FError.missingSigner
@@ -107,7 +107,7 @@ public extension Flow.Transaction {
         // Sign the transaction with payer
         for signer in signers {
             let signature = try await signer.sign(signableData: signableEnvelope)
-            addEnvelopeSignature(address: payerAddress,
+            addEnvelopeSignature(address: payer,
                                  keyIndex: signer.keyIndex,
                                  signature: signature)
         }

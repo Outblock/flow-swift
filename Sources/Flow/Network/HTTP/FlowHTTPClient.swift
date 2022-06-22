@@ -66,7 +66,7 @@ extension Flow {
         }
 
         func ping() async throws -> Bool {
-            let result: [Flow.BlockResponse] = try await request(Flow.AccessEndpoint.ping)
+            let result: [Flow.BlockHeaderResponse] = try await request(Flow.AccessEndpoint.ping)
             guard let block = result.first else {
                 return false
             }

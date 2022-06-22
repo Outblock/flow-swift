@@ -44,9 +44,9 @@ public protocol FlowAccessProtocol {
 
     func getEventsForBlockIds(type: String, ids: Set<Flow.ID>) async throws -> [Flow.Event.Result]
 
-    func getNetworkParameters() async throws -> Flow.ChainID
+//    func getNetworkParameters() async throws -> Flow.ChainID
 
-    func getLatestProtocolStateSnapshot() async throws -> Flow.Snapshot
+//    func getLatestProtocolStateSnapshot() async throws -> Flow.Snapshot
 }
 
 extension FlowAccessProtocol {

@@ -35,10 +35,10 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertTrue(isConnected)
     }
 
-    func testNetworkParameters() async throws {
-        let ChainID = try await flowAPI.getNetworkParameters()
-        XCTAssertEqual(ChainID, Flow.ChainID.mainnet)
-    }
+//    func testNetworkParameters() async throws {
+//        let ChainID = try await flowAPI.getNetworkParameters()
+//        XCTAssertEqual(ChainID, Flow.ChainID.mainnet)
+//    }
 
     func testBlockHeader() async throws {
         let blockHeader = try await flowAPI.getLatestBlockHeader()
@@ -74,10 +74,10 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertNotNil(block)
     }
 
-    func testGetLatestProtocolStateSnapshot() async throws {
-        let snapshot = try await flowAPI.getLatestProtocolStateSnapshot()
-        XCTAssertNotNil(snapshot)
-    }
+//    func testGetLatestProtocolStateSnapshot() async throws {
+//        let snapshot = try await flowAPI.getLatestProtocolStateSnapshot()
+//        XCTAssertNotNil(snapshot)
+//    }
 
     func testExecuteScriptAtLastestBlock() async throws {
         let script = Flow.Script(text: """
@@ -198,7 +198,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertEqual(transaction.arguments.first?.value, .path(.init(domain: "public", identifier: "zelosAccountingTokenReceiver")))
         XCTAssertEqual(transaction.arguments.last?.type, .ufix64)
         XCTAssertEqual(transaction.arguments.last?.value.toUFix64(), 99.0)
-        XCTAssertEqual(transaction.payerAddress.bytes.hexValue, "1f56a1e665826a52")
+        XCTAssertEqual(transaction.payer.bytes.hexValue, "1f56a1e665826a52")
         XCTAssertNotNil(transaction)
     }
 }

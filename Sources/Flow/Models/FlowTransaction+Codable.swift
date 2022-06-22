@@ -15,7 +15,7 @@ extension Flow.Transaction: Codable {
         case referenceBlockId
         case gasLimit
         case proposalKey
-        case payerAddress
+        case payer
         case authorizers
         case payloadSignatures
         case envelopeSignatures
@@ -28,7 +28,7 @@ extension Flow.Transaction: Codable {
         try container.encode(referenceBlockId, forKey: .referenceBlockId)
         try container.encode(UInt64(gasLimit), forKey: .gasLimit)
         try container.encode(proposalKey, forKey: .proposalKey)
-        try container.encode(payerAddress, forKey: .payerAddress)
+        try container.encode(payer, forKey: .payer)
         try container.encode(authorizers, forKey: .authorizers)
         try container.encode(payloadSignatures, forKey: .payloadSignatures)
         try container.encode(envelopeSignatures, forKey: .envelopeSignatures)
@@ -37,11 +37,15 @@ extension Flow.Transaction: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         script = try container.decode(Flow.Script.self, forKey: .script)
-        arguments = try container.decode([Flow.Argument].self, forKey: .arguments)
+        let argumentsArray = try container.decode([String].self, forKey: .arguments)
+        arguments = try argumentsArray.compactMap{ Data(base64Encoded: $0) }.compactMap{ data in
+            try JSONDecoder().decode(Flow.Argument.self, from: data)
+        }
         referenceBlockId = try container.decode(Flow.ID.self, forKey: .referenceBlockId)
-        gasLimit = BigUInt(try container.decode(UInt64.self, forKey: .gasLimit))
+        let gasLimitString = try container.decode(String.self, forKey: .gasLimit)
+        gasLimit = BigUInt(gasLimitString) ?? BigUInt(0)
         proposalKey = try container.decode(Flow.TransactionProposalKey.self, forKey: .proposalKey)
-        payerAddress = try container.decode(Flow.Address.self, forKey: .payerAddress)
+        payer = try container.decode(Flow.Address.self, forKey: .payer)
         authorizers = try container.decode([Flow.Address].self, forKey: .authorizers)
         payloadSignatures = try container.decode([Flow.TransactionSignature].self, forKey: .payloadSignatures)
         envelopeSignatures = try container.decode([Flow.TransactionSignature].self, forKey: .envelopeSignatures)

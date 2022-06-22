@@ -76,7 +76,7 @@ public extension Flow {
         public let weight: Int
 
         /// The sequence number for the key, it must be equal or larger than zero
-        public var sequenceNumber: Int = -1
+        public var sequenceNumber: Int64 = -1
 
         /// Indicate the key is revoked or not
         public var revoked: Bool = false
@@ -101,7 +101,7 @@ public extension Flow {
             let weightString = try container.decode(String.self, forKey: .weight)
             weight = Int(weightString) ?? -1
             let sequenceNumberString = try container.decode(String.self, forKey: .sequenceNumber)
-            self.sequenceNumber = Int(sequenceNumberString) ?? -1
+            self.sequenceNumber = Int64(sequenceNumberString) ?? -1
             self.revoked = try container.decode(Bool.self, forKey: .revoked)
         }
 
@@ -110,7 +110,7 @@ public extension Flow {
                     signAlgo: SignatureAlgorithm,
                     hashAlgo: HashAlgorithm,
                     weight: Int,
-                    sequenceNumber: Int = -1,
+                    sequenceNumber: Int64 = -1,
                     revoked: Bool = false)
         {
             self.index = index

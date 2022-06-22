@@ -211,7 +211,7 @@ public extension Flow {
         var script: Flow.Script = .init(data: Data())
         var agrument: [Flow.Argument] = []
         var authorizers: [Flow.Address] = []
-        var payerAddress: Flow.Address?
+        var payer: Flow.Address?
         var proposer: Flow.TransactionProposalKey?
         var gasLimit = BigUInt(100)
         var refBlock: Flow.ID?
@@ -225,7 +225,7 @@ public extension Flow {
             case let .authorizers(value):
                 authorizers = value
             case let .payer(value):
-                payerAddress = value
+                payer = value
             case let .proposer(value):
                 proposer = value
             case let .gasLimit(value):
@@ -256,7 +256,7 @@ public extension Flow {
                 }
                 return TransactionProposalKey(address: account.address,
                                               keyIndex: proposalKey.keyIndex,
-                                              sequenceNumber: BigInt(accountKey.sequenceNumber))
+                                              sequenceNumber: Int64(accountKey.sequenceNumber))
             }
 
             return proposalKey
@@ -273,7 +273,7 @@ public extension Flow {
                                 gasLimit: gasLimit,
                                 proposalKey: proposalKey,
                                 // If payer is empty, then use propser as payer
-                                payerAddress: payerAddress ?? proposalKey.address,
+                                payer: payer ?? proposalKey.address,
                                 authorizers: authorizers)
     }
 
