@@ -8,7 +8,6 @@
 import Flow
 import Foundation
 
-
 public final class FlowGRPC {}
 
 extension Flow.BlockHeader {
@@ -60,14 +59,13 @@ public extension Flow.CollectionGuarantee {
     }
 }
 
-
 public extension Flow.AccountKey {
-    init(value: Flow_Entities_AccountKey) {        
+    init(value: Flow_Entities_AccountKey) {
         self.init(index: Int(value.index),
                   publicKey: Flow.PublicKey(data: value.publicKey),
                   signAlgo: Flow.SignatureAlgorithm(code: Int(value.signAlgo)),
                   hashAlgo: Flow.HashAlgorithm(code: Int(value.hashAlgo)),
-                  weight:  Int(value.weight),
+                  weight: Int(value.weight),
                   sequenceNumber: Int64(value.sequenceNumber),
                   revoked: value.revoked)
     }
@@ -79,13 +77,10 @@ public extension Flow.Account {
                   balance: value.balance,
                   keys: value.keys.compactMap { Flow.AccountKey(value: $0) },
                   contracts: value.contracts.compactMapValues { Flow.Code(data: $0) })
-        
     }
 }
-    
 
-public extension Flow.TransactionResult{
-    
+public extension Flow.TransactionResult {
     init(value: Flow_Access_TransactionResultResponse) {
         self.init(status: Flow.Transaction.Status(Int(value.status.rawValue)),
                   errorMessage: value.errorMessage,
@@ -96,9 +91,7 @@ public extension Flow.TransactionResult{
     }
 }
 
-
 public extension Flow.Event {
-    
     init(value: Flow_Entities_Event) {
         self.init(type: value.type,
                   transactionId: Flow.ID(data: value.transactionID),
@@ -119,7 +112,6 @@ public extension Flow.Event.Result {
 
 public extension Flow.Transaction {
     init(value: Flow_Entities_Transaction) {
-        
         self.init(script: Flow.Script(data: value.script),
                   arguments: value.arguments.compactMap { try? JSONDecoder().decode(Flow.Argument.self, from: $0) },
                   referenceBlockId: Flow.ID(data: value.referenceBlockID),
@@ -127,10 +119,9 @@ public extension Flow.Transaction {
                   proposalKey: Flow.TransactionProposalKey(value: value.proposalKey),
                   payer: Flow.Address(data: value.payer),
                   authorizers: value.authorizers.compactMap { Flow.Address(data: $0) },
-                  payloadSignatures:  value.payloadSignatures.compactMap { Flow.TransactionSignature(value: $0) },
+                  payloadSignatures: value.payloadSignatures.compactMap { Flow.TransactionSignature(value: $0) },
                   envelopeSignatures: value.envelopeSignatures.compactMap { Flow.TransactionSignature(value: $0) })
     }
-    
 }
 
 public extension Flow.TransactionSignature {
@@ -142,7 +133,6 @@ public extension Flow.TransactionSignature {
 }
 
 public extension Flow.TransactionProposalKey {
-    
     init(value: Flow_Entities_Transaction.ProposalKey) {
         self.init(address: Flow.Address(data: value.address),
                   keyIndex: Int(value.keyID),

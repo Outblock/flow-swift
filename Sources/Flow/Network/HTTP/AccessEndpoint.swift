@@ -27,13 +27,10 @@ extension Flow {
         case executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument])
         case getEventsForHeightRange(type: String, range: ClosedRange<UInt64>)
         case getEventsForBlockIds(type: String, ids: Set<Flow.ID>)
-        case getNetworkParameters
-        case getLatestProtocolStateSnapshot
     }
 }
 
 extension Flow.AccessEndpoint: TargetType {
-    
     var task: Task {
         switch self {
         case .ping, .getLatestBlockHeader:
@@ -41,25 +38,29 @@ extension Flow.AccessEndpoint: TargetType {
         case let .getBlockHeaderByHeight(height: height):
             return .requestParameters(["height": String(height)])
         case .getBlockById:
-            return .requestParameters(["expand" : "payload"])
+            return .requestParameters(["expand": "payload"])
         case let .getBlockByHeight(height):
-            return .requestParameters(["height": String(height), "expand" : "payload"])
+            return .requestParameters(["height": String(height), "expand": "payload"])
         case let .getLatestBlock(sealed: sealed):
-            return .requestParameters(["height" : sealed ? "sealed" : "finalized", "expand" : "payload"])
+            return .requestParameters(["height": sealed ? "sealed" : "finalized", "expand": "payload"])
         case .getAccountAtLatestBlock:
-            return .requestParameters(["block_height" : "sealed", "expand" : "contracts,keys"])
+            return .requestParameters(["block_height": "sealed", "expand": "contracts,keys"])
         case let .getAccountByBlockHeight(_, height):
-            return .requestParameters(["block_height" : String(height), "expand" : "contracts,keys"])
+            return .requestParameters(["block_height": String(height), "expand": "contracts,keys"])
         case .getCollectionById:
-            return .requestParameters(["expand" : "transactions"])
+            return .requestParameters(["expand": "transactions"])
         case let .executeScriptAtLatestBlock(script, arguments):
-            return .requestParameters(["block_height" : "sealed"], body: Flow.ScriptRequest(script: script, arguments: arguments))
+            return .requestParameters(["block_height": "sealed"], body: Flow.ScriptRequest(script: script, arguments: arguments))
         case let .executeScriptAtBlockHeight(script, height, arguments):
-            return .requestParameters(["block_height" : String(height)], body: Flow.ScriptRequest(script: script, arguments: arguments))
+            return .requestParameters(["block_height": String(height)], body: Flow.ScriptRequest(script: script, arguments: arguments))
         case let .executeScriptAtBlockId(script, id, arguments):
-            return .requestParameters(["block_id" : id.hex], body: Flow.ScriptRequest(script: script, arguments: arguments))
+            return .requestParameters(["block_id": id.hex], body: Flow.ScriptRequest(script: script, arguments: arguments))
         case let .sendTransaction(tx):
             return .requestParameters([:], body: tx)
+        case let .getEventsForHeightRange(type, range):
+            return .requestParameters(["type": type, "start_height": String(range.lowerBound), "end_height": String(range.upperBound)])
+        case let .getEventsForBlockIds(type, ids):
+            return .requestParameters(["type": type, "block_ids": ids.compactMap { $0.hex }.joined(separator: ",")])
         default:
             return .requestParameters()
         }
@@ -86,9 +87,9 @@ extension Flow.AccessEndpoint: TargetType {
     var path: String {
         switch self {
         case .ping,
-                .getLatestBlockHeader,
-                .getBlockByHeight,
-                .getLatestBlock:
+             .getLatestBlockHeader,
+             .getBlockByHeight,
+             .getLatestBlock:
             return "/v1/blocks"
         case let .getBlockHeaderById(id):
             return "/v1/blocks/\(id.hex)"
@@ -105,11 +106,13 @@ extension Flow.AccessEndpoint: TargetType {
         case let .getCollectionById(id):
             return "/v1/collections/\(id.hex)"
         case .executeScriptAtLatestBlock,
-                .executeScriptAtBlockId,
-                .executeScriptAtBlockHeight:
+             .executeScriptAtBlockId,
+             .executeScriptAtBlockHeight:
             return "/v1/scripts"
         case .sendTransaction:
             return "/v1/transactions"
+        case .getEventsForBlockIds, .getEventsForHeightRange:
+            return "/v1/events"
         default:
             return ""
         }
@@ -143,13 +146,11 @@ public protocol TargetType {
 }
 
 public enum Task {
-
     /// A requests body set with encoded parameters.
     case requestParameters(_ parameters: [String: String]? = nil, body: Encodable? = nil)
 }
 
 struct AnyEncodable: Encodable {
-
     private let encodable: Encodable
 
     public init(_ encodable: Encodable) {

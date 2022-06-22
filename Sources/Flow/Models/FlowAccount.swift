@@ -33,28 +33,28 @@ public extension Flow {
 
         /// The dictionary of all cadence contracts
         public var contracts: [String: Code]?
-        
-        public init(address: Flow.Address, balance: BigInt, keys: [Flow.AccountKey], contracts: [String : Flow.Code]) {
+
+        public init(address: Flow.Address, balance: BigInt, keys: [Flow.AccountKey], contracts: [String: Flow.Code]) {
             self.address = address
             self.balance = balance
             self.keys = keys
             self.contracts = contracts
         }
-        
-        public init(address: Flow.Address, balance: UInt64, keys: [Flow.AccountKey], contracts: [String : Flow.Code]) {
+
+        public init(address: Flow.Address, balance: UInt64, keys: [Flow.AccountKey], contracts: [String: Flow.Code]) {
             self.address = address
             self.balance = BigInt(balance)
             self.keys = keys
             self.contracts = contracts
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.address = try container.decode(Flow.Address.self, forKey: .address)
+            address = try container.decode(Flow.Address.self, forKey: .address)
             let balanceString = try container.decode(String.self, forKey: .balance)
-            self.balance =  BigInt(balanceString) ??  BigInt(-1)
-            self.keys = try container.decode([Flow.AccountKey].self, forKey: .keys)
-            self.contracts = try? container.decode([String : Flow.Code].self, forKey: .contracts)
+            balance = BigInt(balanceString) ?? BigInt(-1)
+            keys = try container.decode([Flow.AccountKey].self, forKey: .keys)
+            contracts = try? container.decode([String: Flow.Code].self, forKey: .contracts)
         }
     }
 
@@ -80,7 +80,7 @@ public extension Flow {
 
         /// Indicate the key is revoked or not
         public var revoked: Bool = false
-        
+
         enum CodingKeys: String, CodingKey {
             case index
             case publicKey
@@ -90,19 +90,19 @@ public extension Flow {
             case sequenceNumber
             case revoked
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let indexString = try container.decode(String.self, forKey: .index)
-            self.index = Int(indexString) ?? -1
-            self.publicKey = try container.decode(Flow.PublicKey.self, forKey: .publicKey)
-            self.signAlgo = try container.decode(Flow.SignatureAlgorithm.self, forKey: .signAlgo)
-            self.hashAlgo = try container.decode(Flow.HashAlgorithm.self, forKey: .hashAlgo)
+            index = Int(indexString) ?? -1
+            publicKey = try container.decode(Flow.PublicKey.self, forKey: .publicKey)
+            signAlgo = try container.decode(Flow.SignatureAlgorithm.self, forKey: .signAlgo)
+            hashAlgo = try container.decode(Flow.HashAlgorithm.self, forKey: .hashAlgo)
             let weightString = try container.decode(String.self, forKey: .weight)
             weight = Int(weightString) ?? -1
             let sequenceNumberString = try container.decode(String.self, forKey: .sequenceNumber)
-            self.sequenceNumber = Int64(sequenceNumberString) ?? -1
-            self.revoked = try container.decode(Bool.self, forKey: .revoked)
+            sequenceNumber = Int64(sequenceNumberString) ?? -1
+            revoked = try container.decode(Bool.self, forKey: .revoked)
         }
 
         public init(index: Int = -1,

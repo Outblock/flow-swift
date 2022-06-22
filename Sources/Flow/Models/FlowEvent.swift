@@ -29,7 +29,7 @@ public extension Flow {
         public let transactionIndex: Int
         public let eventIndex: Int
         public let payload: Payload
-        
+
         public init(type: String, transactionId: Flow.ID, transactionIndex: Int, eventIndex: Int, payload: Flow.Event.Payload) {
             self.type = type
             self.transactionId = transactionId
@@ -37,18 +37,18 @@ public extension Flow {
             self.eventIndex = eventIndex
             self.payload = payload
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = try container.decode(String.self, forKey: .type)
-            self.transactionId = try container.decode(Flow.ID.self, forKey: .transactionId)
+            type = try container.decode(String.self, forKey: .type)
+            transactionId = try container.decode(Flow.ID.self, forKey: .transactionId)
             let transactionIndex = try container.decode(String.self, forKey: .transactionIndex)
             self.transactionIndex = Int(transactionIndex) ?? -1
             let eventIndex = try container.decode(String.self, forKey: .eventIndex)
             self.eventIndex = Int(eventIndex) ?? -1
-            self.payload = try container.decode(Flow.Event.Payload.self, forKey: .payload)
+            payload = try container.decode(Flow.Event.Payload.self, forKey: .payload)
         }
-        
+
         /// The event result
         public struct Result: Codable {
             public let blockId: ID
@@ -76,11 +76,11 @@ public extension Flow {
             public init(bytes: [UInt8]) {
                 self.init(data: bytes.data)
             }
-            
+
             enum CodingKeys: CodingKey {
                 case data
             }
-            
+
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
                 data = try container.decode(Data.self)

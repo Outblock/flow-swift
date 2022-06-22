@@ -43,17 +43,17 @@ public extension Flow {
         enum CodingKeys: CodingKey {
             case collectionId
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             collectionId = try container.decode(Flow.ID.self, forKey: .collectionId)
-            
+
             // HTTP return signature as string, mismatch with gRPC one
             signatures = []
         }
-        
+
         public init(id: Flow.ID, signatures: [Flow.Signature]) {
-            self.collectionId = id
+            collectionId = id
             self.signatures = signatures
         }
 

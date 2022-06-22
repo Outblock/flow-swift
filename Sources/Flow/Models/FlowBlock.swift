@@ -29,7 +29,7 @@ public extension Flow {
 
         /// The height of block
         public let height: UInt64
-        
+
         /// The time when the block is created
         public let timestamp: Date
 
@@ -39,7 +39,7 @@ public extension Flow {
             self.height = height
             self.timestamp = timestamp
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let heightString = try container.decode(String.self, forKey: .height)
@@ -65,7 +65,7 @@ public extension Flow {
             case blockId
             case executionReceiptId = "resultId"
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             blockId = try container.decode(ID.self, forKey: .blockId)
@@ -73,9 +73,9 @@ public extension Flow {
             executionReceiptSignatures = nil
             resultApprovalSignatures = nil
         }
-        
+
         public init(id: Flow.ID, executionReceiptId: Flow.ID, executionReceiptSignatures: [Flow.Signature], resultApprovalSignatures: [Flow.Signature]) {
-            self.blockId = id
+            blockId = id
             self.executionReceiptId = executionReceiptId
             self.executionReceiptSignatures = executionReceiptSignatures
             self.resultApprovalSignatures = resultApprovalSignatures

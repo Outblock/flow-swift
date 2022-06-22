@@ -70,9 +70,7 @@ public extension Flow {
             self.payloadSignatures = payloadSignatures
             self.envelopeSignatures = envelopeSignatures
         }
-        
-        
-        
+
         public init(script: Flow.Script,
                     arguments: [Flow.Argument],
                     referenceBlockId: Flow.ID,
@@ -241,7 +239,7 @@ extension Flow.Transaction {
         case executed = 3
         case sealed = 4
         case expired = 5
-        
+
         var stringValue: String {
             switch self {
             case .unknown:
@@ -258,17 +256,17 @@ extension Flow.Transaction {
                 return "Finalized"
             }
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let value = try container.decode(String.self)
             self.init(value)
         }
-        
+
         init(_ rawString: String) {
             self = Status.allCases.first { $0.stringValue == rawString } ?? .unknown
         }
-        
+
         public init(_ rawValue: Int) {
             self = Status.allCases.first { $0.rawValue == rawValue } ?? .unknown
         }
@@ -339,11 +337,10 @@ public extension Flow {
 
         /// The status code of transaction
         let statusCode: Int
-        
+
         public let blockId: ID
-        
+
         public let computationUsed: String
-        
 
 //        init(value: Flow_Execution_GetTransactionResultResponse) {
 //            status = Transaction.Status(Int(value.statusCode))
@@ -351,7 +348,7 @@ public extension Flow {
 //            errorMessage = value.errorMessage
 //            events = value.events.compactMap { Event(value: $0) }
 //        }
-        
+
         public init(status: Transaction.Status, errorMessage: String, events: [Event], statusCode: Int, blockId: ID, computationUsed: String) {
             self.status = status
             self.errorMessage = errorMessage
@@ -360,17 +357,16 @@ public extension Flow {
             self.blockId = blockId
             self.computationUsed = computationUsed
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.status = try container.decode(Flow.Transaction.Status.self, forKey: .status)
-            self.errorMessage = try container.decode(String.self, forKey: .errorMessage)
-            self.events = try container.decode([Flow.Event].self, forKey: .events)
-            self.statusCode = try container.decode(Int.self, forKey: .statusCode)
-            self.blockId = try container.decode(Flow.ID.self, forKey: .blockId)
-            self.computationUsed = try container.decode(String.self, forKey: .computationUsed)
+            status = try container.decode(Flow.Transaction.Status.self, forKey: .status)
+            errorMessage = try container.decode(String.self, forKey: .errorMessage)
+            events = try container.decode([Flow.Event].self, forKey: .events)
+            statusCode = try container.decode(Int.self, forKey: .statusCode)
+            blockId = try container.decode(Flow.ID.self, forKey: .blockId)
+            computationUsed = try container.decode(String.self, forKey: .computationUsed)
         }
-        
     }
 
     /// The class to represent the proposer key information in the transaction
@@ -390,13 +386,13 @@ public extension Flow {
 //            self.keyIndex = keyIndex
 //            self.sequenceNumber = sequenceNumber
 //        }
-        
+
         public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: Int64 = -1) {
             self.address = address
             self.keyIndex = keyIndex
             self.sequenceNumber = BigInt(sequenceNumber)
         }
-        
+
         func toFlowEntity() -> Flow_Entities_Transaction.ProposalKey {
             var entity = Flow_Entities_Transaction.ProposalKey()
             entity.address = address.bytes.data

@@ -1,8 +1,8 @@
 /**
-*  AsyncCompatibilityKit
-*  Copyright (c) John Sundell 2021
-*  MIT license, see LICENSE.md file for details
-*/
+ *  AsyncCompatibilityKit
+ *  Copyright (c) John Sundell 2021
+ *  MIT license, see LICENSE.md file for details
+ */
 
 import Combine
 
@@ -26,7 +26,7 @@ public extension Publisher {
                     switch completion {
                     case .finished:
                         continuation.finish()
-                    case .failure(let error):
+                    case let .failure(error):
                         continuation.finish(throwing: error)
                     }
                 }, receiveValue: { value in

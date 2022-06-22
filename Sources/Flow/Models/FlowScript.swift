@@ -51,7 +51,7 @@ public extension Flow {
             self.data = data
             fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let string = try container.decode(String.self)

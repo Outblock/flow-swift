@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 extension Flow {
     class FlowHTTPAPI: FlowAccessProtocol {
         static let client = FlowHTTPAPI()
@@ -25,7 +24,7 @@ extension Flow {
                 throw FError.urlInvaild
             }
             urlComponents.path = target.path
-            
+
             if let parametersList = parameters, parametersList.keys.count > 0 {
                 urlComponents.queryItems = parametersList.compactMap { (key: String, value: String) in
                     URLQueryItem(name: key, value: value)
@@ -46,22 +45,22 @@ extension Flow {
                 request.httpBody = data
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             }
-            
+
             if let headers = target.headers {
-                headers.forEach{
+                headers.forEach {
                     request.setValue($1, forHTTPHeaderField: $0)
                 }
             }
-            
+
             let (data, _) = try await URLSession.shared.data(for: request)
             let dateFormatter = DateFormatter()
             // 2022-06-22T15:32:09.08595992Z
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSS'Z'"
-            
+
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .formatted(dateFormatter)
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
+
             return try decoder.decode(T.self, from: data)
         }
 
@@ -166,12 +165,12 @@ extension Flow {
             return try await request(Flow.AccessEndpoint.getEventsForBlockIds(type: type, ids: ids))
         }
 
-        func getNetworkParameters() async throws -> Flow.ChainID {
-            return try await request(Flow.AccessEndpoint.getNetworkParameters)
-        }
-
-        func getLatestProtocolStateSnapshot() async throws -> Flow.Snapshot {
-            return try await request(Flow.AccessEndpoint.getLatestProtocolStateSnapshot)
-        }
+//        func getNetworkParameters() async throws -> Flow.ChainID {
+//            return try await request(Flow.AccessEndpoint.getNetworkParameters)
+//        }
+//
+//        func getLatestProtocolStateSnapshot() async throws -> Flow.Snapshot {
+//            return try await request(Flow.AccessEndpoint.getLatestProtocolStateSnapshot)
+//        }
     }
 }

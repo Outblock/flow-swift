@@ -89,7 +89,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
                     self.y = y
                   }
             }
-            
+
             pub fun main(): [SomeStruct] {
               return [SomeStruct(x: 1, y: 2), SomeStruct(x: 3, y: 4)]
             }

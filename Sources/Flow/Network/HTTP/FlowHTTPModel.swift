@@ -1,22 +1,22 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Hao Fu on 23/6/2022.
 //
 
-import Foundation
 import BigInt
+import Foundation
 
 extension Flow {
     struct BlockHeaderResponse: Codable {
         let header: Flow.BlockHeader
     }
-    
+
     struct BlockResponse: Codable {
         let header: Flow.BlockHeader
         let payload: BlockPayloadResponse
-        
+
         func toFlowBlock() -> Flow.Block {
             return .init(id: header.id,
                          parentId: header.parentId,
@@ -27,22 +27,22 @@ extension Flow {
                          signatures: [])
         }
     }
-    
+
     struct BlockPayloadResponse: Codable {
         let collectionGuarantees: [Flow.CollectionGuarantee]
         let blockSeals: [BlockSeal]
     }
-    
+
     struct ScriptRequest: Codable {
         let script: String
         let arguments: [String]
-        
+
         init(script: Flow.Script, arguments: [Flow.Argument]) {
             self.script = script.data.base64EncodedString()
-            self.arguments = arguments.compactMap{ $0.jsonString?.data(using: .utf8)?.base64EncodedString() }
+            self.arguments = arguments.compactMap { $0.jsonString?.data(using: .utf8)?.base64EncodedString() }
         }
     }
-    
+
     struct TransactionIdResponse: Codable {
         let id: ID
     }

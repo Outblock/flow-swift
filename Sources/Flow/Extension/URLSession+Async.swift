@@ -1,8 +1,8 @@
 /**
-*  AsyncCompatibilityKit
-*  Copyright (c) John Sundell 2021
-*  MIT license, see LICENSE.md file for details
-*/
+ *  AsyncCompatibilityKit
+ *  Copyright (c) John Sundell 2021
+ *  MIT license, see LICENSE.md file for details
+ */
 
 import Foundation
 

@@ -33,7 +33,7 @@ public extension Flow {
         public init(bytes: [UInt8]) {
             data = bytes.data
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let hexString = try container.decode(String.self)
@@ -43,11 +43,11 @@ public extension Flow {
 
     struct Code: FlowEntity, Equatable, Codable {
         public var data: Data
-        
+
         public init(data: Data) {
             self.data = data
         }
-        
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let uftString = try container.decode(String.self)

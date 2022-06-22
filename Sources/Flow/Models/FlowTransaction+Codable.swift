@@ -24,7 +24,7 @@ extension Flow.Transaction: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(script.data.base64EncodedString(), forKey: .script)
-        try container.encode(arguments.compactMap{ $0.jsonString?.data(using: .utf8)?.base64EncodedString() }, forKey: .arguments)
+        try container.encode(arguments.compactMap { $0.jsonString?.data(using: .utf8)?.base64EncodedString() }, forKey: .arguments)
         try container.encode(referenceBlockId, forKey: .referenceBlockId)
         try container.encode(String(gasLimit), forKey: .gasLimit)
         try container.encode(proposalKey, forKey: .proposalKey)
@@ -38,7 +38,7 @@ extension Flow.Transaction: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         script = try container.decode(Flow.Script.self, forKey: .script)
         let argumentsArray = try container.decode([String].self, forKey: .arguments)
-        arguments = try argumentsArray.compactMap{ Data(base64Encoded: $0) }.compactMap{ data in
+        arguments = try argumentsArray.compactMap { Data(base64Encoded: $0) }.compactMap { data in
             try JSONDecoder().decode(Flow.Argument.self, from: data)
         }
         referenceBlockId = try container.decode(Flow.ID.self, forKey: .referenceBlockId)

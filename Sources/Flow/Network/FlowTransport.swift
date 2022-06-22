@@ -23,7 +23,7 @@ public extension Flow {
 
         public var gRPCEndpoint: Endpoint? {
             switch self {
-            case let .HTTP:
+            case .HTTP:
                 return nil
             case let .gRPC(endpoint):
                 return endpoint
