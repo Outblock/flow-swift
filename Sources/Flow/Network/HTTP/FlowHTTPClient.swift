@@ -47,6 +47,12 @@ extension Flow {
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             }
             
+            if let headers = target.headers {
+                headers.forEach{
+                    request.setValue($1, forHTTPHeaderField: $0)
+                }
+            }
+            
             let (data, _) = try await URLSession.shared.data(for: request)
             let dateFormatter = DateFormatter()
             // 2022-06-22T15:32:09.08595992Z

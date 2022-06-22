@@ -116,7 +116,7 @@ extension Flow.AccessEndpoint: TargetType {
     }
 
     var headers: [String: String]? {
-        nil
+        return ["Content-Type": "application/json"]
     }
 }
 
@@ -135,37 +135,18 @@ public protocol TargetType {
     /// The HTTP method used in the request.
     var method: Method { get }
 
-    /// Provides stub data for use in testing. Default is `Data()`.
-//    var sampleData: Data { get }
-
     /// The type of HTTP task to be performed.
     var task: Task { get }
 
-    /// The type of validation to perform on the request. Default is `.none`.
-//    var validationType: ValidationType { get }
-
     /// The headers to be used in the request.
     var headers: [String: String]? { get }
-
-//    var decoder: Decoder { get }
 }
-
-// public extension TargetType {
-//
-//    /// The type of validation to perform on the request. Default is `.none`.
-//    var validationType: ValidationType { .none }
-//
-//    /// Provides stub data for use in testing. Default is `Data()`.
-//    var sampleData: Data { Data() }
-// }
 
 public enum Task {
 
     /// A requests body set with encoded parameters.
     case requestParameters(_ parameters: [String: String]? = nil, body: Encodable? = nil)
 }
-
-
 
 struct AnyEncodable: Encodable {
 
