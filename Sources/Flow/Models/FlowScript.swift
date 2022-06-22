@@ -41,7 +41,7 @@ public extension Flow {
     }
 
     /// The model to handle the `Cadence` code response
-    struct ScriptResponse: FlowEntity, Equatable {
+    struct ScriptResponse: FlowEntity, Equatable, Codable {
         public var data: Data
 
         /// Covert `data` into `Flow.Argument` type

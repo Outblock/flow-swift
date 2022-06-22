@@ -23,7 +23,7 @@ import CryptoKit
 import XCTest
 
 final class FlowAccessAPIOnTestnetTests: XCTestCase {
-    var flowAPI: Flow.AccessAPI!
+    var flowAPI: FlowAccessProtocol!
 
     let addressA = Flow.Address(hex: "0xc6de0d94160377cd")
     let publicKeyA = try! P256.KeyAgreement.PublicKey(rawRepresentation: "d487802b66e5c0498ead1c3f576b718949a3500218e97a6a4a62bf69a8b0019789639bc7acaca63f5889c1e7251c19066abb09fcd6b273e394a8ac4ee1a3372f".hexValue)
@@ -43,41 +43,47 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         flow.configure(chainID: .testnet)
     }
 
-    func testFlowPing() throws {
-        let isConnected = try flowAPI.ping().wait()
+    func testFlowPing() async throws {
+        let isConnected = try await flowAPI.ping()
         XCTAssertTrue(isConnected)
     }
-    
-    func testFlowFee() throws {
-        let result = try! flow.accessAPI.executeScriptAtLatestBlock(script: .init(text: """
-                                                                import FlowFees from 0x912d5440f7e3769e
 
-                                                                       pub fun main(): FlowFees.FeeParameters {
-                                                                         return FlowFees.getFeeParameters()
-                                                                       }
-                                                                """)).wait()
+    func testFlowFee() async throws {
+        let result = try! await flow.accessAPI.executeScriptAtLatestBlock(script: .init(text: """
+        import FlowFees from 0x912d5440f7e3769e
+
+               pub fun main(): FlowFees.FeeParameters {
+                 return FlowFees.getFeeParameters()
+               }
+        """))
         print(result)
     }
 
-    func testNetworkParameters() throws {
-        let ChainID = try flowAPI.getNetworkParameters().wait()
+    func testNetworkParameters() async throws {
+        let ChainID = try await flowAPI.getNetworkParameters()
         XCTAssertEqual(ChainID, Flow.ChainID.testnet)
+
+        let pk = P256.KeyAgreement.PrivateKey()
+        print(pk.rawRepresentation.hexValue)
+        print(pk.publicKey.rawRepresentation.hexValue)
     }
 
-    func testCanCreateAccount() throws {
+    func testCanCreateAccount() async throws {
         // Example in Testnet
 
+        flow.configure(chainID: .mainnet)
         // Admin key
-        let address = addressC
-        let signer = [ECDSA_P256_Signer(address: address, keyIndex: 0, privateKey: privateKeyC)]
+        let address = Flow.Address(hex: "0x33f75ff0b830dcec")
+        let privateKey = try! P256.Signing.PrivateKey(rawRepresentation: "1c81765fccd9a3b9ed4d1c50c4fb139da499231246e7758d1ee7cb63e1d7713f".hexValue)
+        let signer = [ECDSA_P256_Signer(address: address, keyIndex: 26, privateKey: privateKey)]
 
         // User publick key
-        let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
+        let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: "74c4e3ec6803c7b7f399a27e457b4060ae0b3b2fd4cf1933ddaa7891fdc74e2b2c4a6ba2db1a447b7e086c0e42df15c4b47ffd607b74dd990525d2e7f94368cf"),
                                          signAlgo: .ECDSA_P256,
                                          hashAlgo: .SHA2_256,
                                          weight: 1000)
 
-        var unsignedTx = try! flow.buildTransaction {
+        var unsignedTx = try! await flow.buildTransaction {
             cadence {
                 """
                 import Crypto
@@ -99,7 +105,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             }
 
             proposer {
-                Flow.TransactionProposalKey(address: addressC, keyIndex: 0)
+                Flow.TransactionProposalKey(address: address, keyIndex: 26)
             }
 
             authorizers {
@@ -111,7 +117,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
                     .string(accountKey.publicKey.hex),
                     .uint8(UInt8(accountKey.signAlgo.index)),
                     .uint8(UInt8(accountKey.hashAlgo.code)),
-                    .ufix64(1000)
+                    .ufix64(1000),
                 ]
             }
 
@@ -121,14 +127,14 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             }
         }
 
-        let signedTx = try! unsignedTx.sign(signers: signer)
-        
-        let txId = try! flow.sendTransaction(signedTransaction: signedTx).wait()
+        let signedTx = try! await unsignedTx.sign(signers: signer)
+
+        let txId = try! await flow.sendTransaction(signedTransaction: signedTx)
         XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
     }
 
-    func testMultipleSigner() throws {
+    func testMultipleSigner() async throws {
         // Example in Testnet
         let signers = [
             // Address A
@@ -143,7 +149,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             ECDSA_P256_Signer(address: addressC, keyIndex: 0, privateKey: privateKeyC), // weight: 1000
         ]
 
-        let txID = try! flow.sendTransaction(chainID: .testnet, signers: signers) {
+        let txID = try! await flow.sendTransaction(chainID: .testnet, signers: signers) {
             cadence {
                 """
                 import HelloWorld from 0xe242ccfb4b8ea3e2
@@ -177,10 +183,10 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             authorizers {
                 [self.addressC, self.addressB, self.addressA]
             }
-        }.wait()
+        }
 
         print("tx id -> \(txID.hex)")
-        let result = try! txID.onceSealed().wait()
-        XCTAssertEqual(result.status, .sealed)
+//        let result = try! await txID.onceSealed()
+//        XCTAssertEqual(result.status, .sealed)
     }
 }

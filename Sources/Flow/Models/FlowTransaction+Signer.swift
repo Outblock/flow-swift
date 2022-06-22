@@ -24,9 +24,9 @@ public extension Flow {
     ///     - unsignedTransaction: The transaction to be signed
     ///     - signers: A list of `FlowSigner` to sign the transaction
     /// - returns: The signed transaction
-    func signTransaction(unsignedTransaction: Flow.Transaction, signers: [FlowSigner]) throws -> Flow.Transaction {
+    func signTransaction(unsignedTransaction: Flow.Transaction, signers: [FlowSigner]) async throws -> Flow.Transaction {
         var tx = unsignedTransaction
-        return try tx.sign(signers: signers)
+        return try await tx.sign(signers: signers)
     }
 }
 
@@ -36,7 +36,7 @@ public extension Flow.Transaction {
     ///     - signers: A list of `FlowSigner` to sign the transaction
     /// - returns: The `Flow.Transaction` itself.
     @discardableResult
-    mutating func signPayload(signers: [FlowSigner]) throws -> Flow.Transaction {
+    mutating func signPayload(signers: [FlowSigner]) async throws -> Flow.Transaction {
         guard let signablePlayload = signablePlayload else {
             throw Flow.FError.invaildPlayload
         }
@@ -52,7 +52,7 @@ public extension Flow.Transaction {
                 throw Flow.FError.missingSigner
             }
             for signer in signers {
-                let signature = try signer.sign(signableData: signablePlayload)
+                let signature = try await signer.sign(signableData: signablePlayload)
                 addPayloadSignature(address: signer.address,
                                     keyIndex: signer.keyIndex,
                                     signature: signature)
@@ -74,7 +74,7 @@ public extension Flow.Transaction {
             }
 
             for signer in signers {
-                let signature = try signer.sign(signableData: signablePlayload)
+                let signature = try await signer.sign(signableData: signablePlayload)
                 addPayloadSignature(address: authorizer,
                                     keyIndex: signer.keyIndex,
                                     signature: signature)
@@ -89,7 +89,7 @@ public extension Flow.Transaction {
     ///     - signers: A list of `FlowSigner` to sign the transaction
     /// - returns: The `Flow.Transaction` itself.
     @discardableResult
-    mutating func signEnvelope(signers: [FlowSigner]) throws -> Flow.Transaction {
+    mutating func signEnvelope(signers: [FlowSigner]) async throws -> Flow.Transaction {
         guard let signableEnvelope = signableEnvelope else {
             throw Flow.FError.invaildEnvelope
         }
@@ -106,7 +106,7 @@ public extension Flow.Transaction {
 
         // Sign the transaction with payer
         for signer in signers {
-            let signature = try signer.sign(signableData: signableEnvelope)
+            let signature = try await signer.sign(signableData: signableEnvelope)
             addEnvelopeSignature(address: payerAddress,
                                  keyIndex: signer.keyIndex,
                                  signature: signature)
@@ -121,9 +121,9 @@ public extension Flow.Transaction {
     ///     - signers: A list of `FlowSigner` to sign the transaction
     /// - returns: The `Flow.Transaction` itself.
     @discardableResult
-    mutating func sign(signers: [FlowSigner]) throws -> Flow.Transaction {
-        try signPayload(signers: signers)
-        try signEnvelope(signers: signers)
+    mutating func sign(signers: [FlowSigner]) async throws -> Flow.Transaction {
+        try await signPayload(signers: signers)
+        try await signEnvelope(signers: signers)
         return self
     }
 }

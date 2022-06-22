@@ -36,10 +36,10 @@ public final class Flow {
     public private(set) var chainID = ChainID.mainnet
 
     /// The access API client
-    public private(set) var accessAPI: AccessAPI
+    public private(set) var accessAPI: FlowAccessProtocol
 
     init() {
-        accessAPI = AccessAPI(chainID: chainID)
+        accessAPI = FlowHTTPAPI(chainID: chainID)
     }
 
     // MARK: - AccessAPI
@@ -83,7 +83,7 @@ public final class Flow {
     ///     let client = flow.createAccessAPI(chainID: chainID)
     /// ```
     ///
-    public func createAccessAPI(chainID: ChainID) -> AccessAPI {
-        return AccessAPI(chainID: chainID)
+    public func createAccessAPI(chainID: ChainID) -> FlowAccessProtocol {
+        return FlowHTTPAPI(chainID: chainID)
     }
 }

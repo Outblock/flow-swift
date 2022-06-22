@@ -5,16 +5,15 @@
 //  Created by Hao Fu on 28/4/2022.
 //
 
-import Foundation
 @testable import BigInt
+import Combine
 import CryptoKit
 @testable import Flow
+import Foundation
 import XCTest
-import Combine
 
 final class DomainTests: XCTestCase {
-    
-    var flowAPI: Flow.AccessAPI!
+    var flowAPI: FlowAccessProtocol!
 
     let addressA = Flow.Address(hex: "0xc6de0d94160377cd")
     let publicKeyA = try! P256.KeyAgreement.PublicKey(rawRepresentation: "d487802b66e5c0498ead1c3f576b718949a3500218e97a6a4a62bf69a8b0019789639bc7acaca63f5889c1e7251c19066abb09fcd6b273e394a8ac4ee1a3372f".hexValue)
@@ -27,30 +26,30 @@ final class DomainTests: XCTestCase {
     var addressC = Flow.Address(hex: "0xe242ccfb4b8ea3e2")
     let publicKeyC = try! P256.KeyAgreement.PublicKey(rawRepresentation: "adbf18dae6671e6b6a92edf00c79166faba6babf6ec19bd83eabf690f386a9b13c8e48da67973b9cf369f56e92ec25ede5359539f687041d27d0143afd14bca9".hexValue)
     let privateKeyC = try! P256.Signing.PrivateKey(rawRepresentation: "1eb79c40023143821983dc79b4e639789ea42452e904fda719f5677a1f144208".hexValue)
-    
+
     override func setUp() {
         super.setUp()
         flowAPI = flow.createAccessAPI(chainID: .testnet)
         flow.configure(chainID: .testnet)
     }
-    
+
     func getSigners() -> [FlowSigner] {
         return [
             // Address A
-    //            ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
-            ECDSA_P256_Signer(address: self.addressA, keyIndex: 0, privateKey: privateKeyA), // weight: 1000
+            //            ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
+            ECDSA_P256_Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA), // weight: 1000
             // Address B
-            ECDSA_P256_Signer(address: self.addressB, keyIndex: 2, privateKey: privateKeyA), // weight: 800
-            ECDSA_P256_Signer(address: self.addressB, keyIndex: 1, privateKey: privateKeyC), // weight: 500
+            ECDSA_P256_Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA), // weight: 800
+            ECDSA_P256_Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC), // weight: 500
             // Address C
-    //            ECDSA_P256_Signer(address: addressC, keyIndex: 3, privateKey: privateKeyB), // weight: 300
-    //            ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
-            ECDSA_P256_Signer(address: self.addressC, keyIndex: 0, privateKey: privateKeyC), // weight: 1000
+            //            ECDSA_P256_Signer(address: addressC, keyIndex: 3, privateKey: privateKeyB), // weight: 300
+            //            ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
+            ECDSA_P256_Signer(address: addressC, keyIndex: 0, privateKey: privateKeyC), // weight: 1000
         ]
     }
-    
-    func testSingleSign() {
-        var unsignedTx = try! flow.buildTransaction {
+
+    func testSingleSign() async throws {
+        var unsignedTx = try! await flow.buildTransaction {
             cadence {
                 """
                 import HelloWorld from 0xe242ccfb4b8ea3e2
@@ -70,7 +69,7 @@ final class DomainTests: XCTestCase {
             authorizers {
                 [self.addressA]
             }
-            
+
             arguments {
                 [.string("Test")]
             }
@@ -81,17 +80,17 @@ final class DomainTests: XCTestCase {
             }
         }
 
-        let signedTx = try! unsignedTx.sign(signers: getSigners())
-        let txId = try! flow.sendTransaction(signedTransaction: signedTx).wait()
+        let signedTx = try! await unsignedTx.sign(signers: getSigners())
+        let txId = try! await flow.sendTransaction(signedTransaction: signedTx)
         XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
     }
-    
+
     @available(iOS 15.0, *)
     func testMultiplePartySign() async throws {
         // Example in Testnet
 
-        var unsignedTx = try! flow.buildTransaction {
+        var unsignedTx = try! await flow.buildTransaction {
             cadence {
                 """
                 import Domains from 0xb05b2abb42335e88
@@ -111,7 +110,7 @@ final class DomainTests: XCTestCase {
                      let userReceiverRef =  userAcc.getCapability(/public/flowTokenReceiver).borrow<&{FungibleToken.Receiver}>()
                      userReceiverRef!.deposit(from: <- vaultRef!.withdraw(amount: 0.001))
                    }
-                 
+
                    // init user's domain collection
                    if user.getCapability<&{NonFungibleToken.Receiver}>(Domains.CollectionPublicPath).check() == false {
                      if user.borrow<&Domains.Collection>(from: Domains.CollectionStoragePath) != nil {
@@ -124,7 +123,7 @@ final class DomainTests: XCTestCase {
                    }
 
                    self.receiver = userAcc.getCapability<&{NonFungibleToken.Receiver}>(Domains.CollectionPublicPath)
-                   
+
                    self.client = flowns.borrow<&{Flowns.AdminPrivate}>(from: Flowns.FlownsAdminStoragePath) ?? panic("Could not borrow admin client")
                  }
                  execute {
@@ -141,7 +140,7 @@ final class DomainTests: XCTestCase {
             authorizers {
                 [self.addressC, self.addressA, .init(hex: "0xb05b2abb42335e88")]
             }
-            
+
             payer {
                 self.addressA
             }
@@ -156,29 +155,28 @@ final class DomainTests: XCTestCase {
             }
         }
 
-        let notFinishedTx = try! unsignedTx.signPayload(signers: getSigners())
+        let notFinishedTx = try! await unsignedTx.signPayload(signers: getSigners())
         let model = TestModel(transaction: notFinishedTx, message: notFinishedTx.signablePlayload?.hexValue ?? "")
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         let jsonData = try! encoder.encode(model)
         let jsonString = String(data: jsonData, encoding: .utf8)!
-        
+
         print("<-------------  RAW TRANSACTION  ------------->")
         print(jsonString)
         print("<-------------  RAW TRANSACTION END  ------------->")
-        
-        
-        var unpaidTx:Flow.Transaction = try await API.fetch(url: URL(string: "https://beta.flowns.org/api/auth/sign")!, method: .post, data: jsonData)
-        let signedTx = try! unpaidTx.signEnvelope(signers: getSigners())
-        
+
+        var unpaidTx: Flow.Transaction = try await API.fetch(url: URL(string: "https://beta.flowns.org/api/auth/sign")!, method: .post, data: jsonData)
+        let signedTx = try! await unpaidTx.signEnvelope(signers: getSigners())
+
         let jsonData2 = try! encoder.encode(signedTx)
         let jsonString2 = String(data: jsonData2, encoding: .utf8)!
-        
+
         print("<-------------  SIGNED TRANSACTION  ------------->")
         print(jsonString2)
         print("<-------------  SIGNED TRANSACTION END  ------------->")
-        
-        let txId = try! flow.sendTransaction(signedTransaction: signedTx).wait()
+
+        let txId = try! await flow.sendTransaction(signedTransaction: signedTx)
         XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
     }
@@ -189,17 +187,17 @@ struct TestModel: Codable {
     let message: String
 }
 
-final class API {
+enum API {
     enum HTTPMethod: String {
         case get = "GET"
         case post = "POST"
     }
-    
+
     enum APIError: Error {
         case buildURL
         case requestFailed
     }
-    
+
     @available(iOS 15.0, *)
     static func fetch<T: Decodable>(url: URL, method: HTTPMethod = .get, params: [String: String]? = [:], data: Data? = nil) async throws -> T {
         guard let fullURL = buildURL(url: url, params: params) else {
@@ -213,14 +211,14 @@ final class API {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("*/*", forHTTPHeaderField: "Accept")
         }
-        
+
         let (data, _) = try await URLSession.shared.data(for: request)
-        
+
         let jsonString = String(data: data, encoding: .utf8)!
         print("<-------------  FETCH RESPONSE  ------------->")
         print(jsonString)
         print("<-------------  FETCH RESPONSE END ------------->")
-        
+
         let decoder = JSONDecoder()
         do {
             let response = try decoder.decode(T.self, from: data)
@@ -230,7 +228,7 @@ final class API {
             throw error
         }
     }
-    
+
     static func buildURL(url: URL, params: [String: String]?) -> URL? {
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return nil

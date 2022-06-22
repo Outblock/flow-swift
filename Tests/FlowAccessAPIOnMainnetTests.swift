@@ -22,80 +22,97 @@ import Foundation
 import XCTest
 
 final class FlowAccessAPIOnMainnetTests: XCTestCase {
-    var flowAPI: Flow.AccessAPI!
-    var address = Flow.Address(hex: "0x4eb165aa383fd6f9")
+    var flowAPI: FlowAccessProtocol!
+    var address = Flow.Address(hex: "0x2b06c41f44a05656")
 
     override func setUp() {
         super.setUp()
         flowAPI = flow.createAccessAPI(chainID: .mainnet)
     }
 
-    func testFlowPing() throws {
-        let isConnected = try flowAPI.ping().wait()
+    func testFlowPing() async throws {
+        let isConnected = try await flowAPI.ping()
         XCTAssertTrue(isConnected)
     }
 
-    func testNetworkParameters() throws {
-        let ChainID = try flowAPI.getNetworkParameters().wait()
+    func testNetworkParameters() async throws {
+        let ChainID = try await flowAPI.getNetworkParameters()
         XCTAssertEqual(ChainID, Flow.ChainID.mainnet)
     }
 
-    func testBlockHeader() throws {
-        let blockHeader = try flowAPI.getLatestBlockHeader().wait()
+    func testBlockHeader() async throws {
+        let blockHeader = try await flowAPI.getLatestBlockHeader()
         XCTAssertNotNil(blockHeader)
     }
 
-    func testGetAccount() throws {
-        let account = try flowAPI.getAccountAtLatestBlock(address: address).wait()
-        XCTAssertNotNil(account?.keys.first)
-        XCTAssertEqual(address, account?.address)
+    func testGetAccount() async throws {
+        let account = try await flowAPI.getAccountAtLatestBlock(address: address)
+        XCTAssertNotNil(account.keys.first)
+        XCTAssertEqual(address, account.address)
     }
 
-    func testGetBlockHeaderByID() throws {
-        let block = try flowAPI.getLatestBlock(sealed: true).wait()
+    func testGetBlockHeaderByID() async throws {
+        let block = try await flowAPI.getLatestBlock(sealed: true)
         XCTAssertNotNil(block)
 
-        let blockHeader = try flowAPI.getBlockById(id: block.id).wait()
+        let blockHeader = try await flowAPI.getBlockById(id: block.id)
         XCTAssertNotNil(blockHeader)
-        XCTAssertEqual(blockHeader?.height, block.height)
+        XCTAssertEqual(blockHeader.height, block.height)
     }
 
-    func testGetAccountByHeight() throws {
-        let block = try flowAPI.getLatestBlock(sealed: true).wait()
+    func testGetAccountByHeight() async throws {
+        let block = try await flowAPI.getLatestBlock(sealed: true)
         XCTAssertNotNil(block)
-        let account = try flowAPI.getAccountByBlockHeight(address: address, height: block.height).wait()
+        let account = try await flowAPI.getAccountByBlockHeight(address: address, height: block.height)
 
-        XCTAssertNotNil(account?.keys.first)
-        XCTAssertEqual(address, account?.address)
+        XCTAssertNotNil(account.keys.first)
+        XCTAssertEqual(address, account.address)
     }
 
-    func testGetLatestBlock() throws {
-        let block = try flowAPI.getLatestBlock(sealed: true).wait()
+    func testGetLatestBlock() async throws {
+        let block = try await flowAPI.getLatestBlock(sealed: true)
         XCTAssertNotNil(block)
     }
 
-    func testGetLatestProtocolStateSnapshot() throws {
-        let snapshot = try flowAPI.getLatestProtocolStateSnapshot().wait()
+    func testGetLatestProtocolStateSnapshot() async throws {
+        let snapshot = try await flowAPI.getLatestProtocolStateSnapshot()
         XCTAssertNotNil(snapshot)
     }
 
-    func testExecuteScriptAtLastestBlock() throws {
+    func testExecuteScriptAtLastestBlock() async throws {
         let script = Flow.Script(text: """
-        pub struct SomeStruct {
-          pub var x: Int
-          pub var y: Int
 
-          init(x: Int, y: Int) {
-            self.x = x
-            self.y = y
-          }
-        }
+            import Domains from 0xb05b2abb42335e88
+            import Flowns from 0xb05b2abb42335e88
 
-        pub fun main(): [SomeStruct] {
-          return [SomeStruct(x: 1, y: 2), SomeStruct(x: 3, y: 4)]
-        }
-        """)
-        let snapshot = try flowAPI.executeScriptAtLatestBlock(script: script).wait()
+            pub fun getDetail(nameHash: String): Domains.DomainDetail? {
+              let address = Domains.getRecords(nameHash) ?? panic("Domain not exist")
+              let account = getAccount(address)
+              let collectionCap = account.getCapability<&{Domains.CollectionPublic}>(Domains.CollectionPublicPath)
+              let collection = collectionCap.borrow()!
+              var detail: Domains.DomainDetail? = nil
+
+              let id = Domains.getDomainId(nameHash)
+              if id != nil && !Domains.isDeprecated(nameHash: nameHash, domainId: id!) {
+                let domain = collection.borrowDomain(id: id!)
+                detail = domain.getDetail()
+              }
+
+              return detail
+            }
+
+            pub fun main(name: String, root: String) : Domains.DomainDetail? {
+              let prefix = "0x"
+              let rootHahsh = Flowns.hash(node: "", lable: root)
+              let nameHash = prefix.concat(Flowns.hash(node: rootHahsh, lable: name))
+              return getDetail(nameHash: nameHash)
+            }
+
+            """
+        )
+
+        let API = flow.createAccessAPI(chainID: .testnet)
+        let snapshot = try await API.executeScriptAtLatestBlock(script: script, arguments: [.init(value: .string("testinbox")), .init(value: .string("meow"))])
         XCTAssertNotNil(snapshot)
         XCTAssertEqual(Flow.Cadence.FType.array, snapshot.fields?.type)
 
@@ -108,7 +125,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertEqual(firstStruct.fields.last!.value.value.toInt(), 2)
     }
 
-    func testVerifySignature() throws {
+    func testVerifySignature() async throws {
         let script = Flow.Script(text: """
         import Crypto
         pub fun main(
@@ -138,10 +155,10 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
 
         let uid = "3h7BjWUYuqQMI8O96Lxwol4Lxl62"
 
-        let snapshot = try flowAPI.executeScriptAtLatestBlock(script: script,
-                                                              arguments: [.init(value: .string(pubk)),
-                                                                          .init(value: .string(sig)),
-                                                                          .init(value: .string(uid))]).wait()
+        let snapshot = try await flowAPI.executeScriptAtLatestBlock(script: script,
+                                                                    arguments: [.init(value: .string(pubk)),
+                                                                                .init(value: .string(sig)),
+                                                                                .init(value: .string(uid))])
         XCTAssertNotNil(snapshot)
         XCTAssertEqual(.bool(true), snapshot.fields?.value)
 //
@@ -161,9 +178,9 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
 //        XCTAssertNotNil(collection)
     }
 
-    func testTransactionResultById() throws {
+    func testTransactionResultById() async throws {
         let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
-        let result = try flowAPI.getTransactionResultById(id: id).wait()
+        let result = try await flowAPI.getTransactionResultById(id: id)
         XCTAssertEqual(result.events.count, 3)
         XCTAssertEqual(result.events.first?.type, "A.c38aea683c0c4d38.Eternal.Withdraw")
         XCTAssertEqual(result.events.first?.payload.fields?.type, .event)
@@ -174,14 +191,14 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertNotNil(result)
     }
 
-    func testTransactionById() throws {
+    func testTransactionById() async throws {
         let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
-        let transaction = try flowAPI.getTransactionById(id: id).wait()
-        XCTAssertEqual(transaction?.arguments.first?.type, .path)
-        XCTAssertEqual(transaction?.arguments.first?.value, .path(.init(domain: "public", identifier: "zelosAccountingTokenReceiver")))
-        XCTAssertEqual(transaction?.arguments.last?.type, .ufix64)
-        XCTAssertEqual(transaction?.arguments.last?.value.toUFix64(), 99.0)
-        XCTAssertEqual(transaction?.payerAddress.bytes.hexValue, "1f56a1e665826a52")
+        let transaction = try await flowAPI.getTransactionById(id: id)
+        XCTAssertEqual(transaction.arguments.first?.type, .path)
+        XCTAssertEqual(transaction.arguments.first?.value, .path(.init(domain: "public", identifier: "zelosAccountingTokenReceiver")))
+        XCTAssertEqual(transaction.arguments.last?.type, .ufix64)
+        XCTAssertEqual(transaction.arguments.last?.value.toUFix64(), 99.0)
+        XCTAssertEqual(transaction.payerAddress.bytes.hexValue, "1f56a1e665826a52")
         XCTAssertNotNil(transaction)
     }
 }

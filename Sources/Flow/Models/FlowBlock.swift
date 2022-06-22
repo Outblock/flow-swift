@@ -20,7 +20,7 @@ import Foundation
 
 public extension Flow {
     /// Brief information of `Flow.Block`
-    struct BlockHeader {
+    struct BlockHeader: Codable {
         /// The identification of block
         public let id: ID
 
@@ -29,37 +29,61 @@ public extension Flow {
 
         /// The height of block
         public let height: UInt64
+        
+        /// The time when the block is created
+        public let timestamp: Date
 
-        init(value: Flow_Entities_Block) {
-            id = ID(bytes: value.id.bytes)
-            parentId = ID(bytes: value.parentID.bytes)
-            height = value.height
+        public init(id: Flow.ID, parentId: Flow.ID, height: UInt64, timestamp: Date) {
+            self.id = id
+            self.parentId = parentId
+            self.height = height
+            self.timestamp = timestamp
         }
-
-        init(value: Flow_Entities_BlockHeader) {
-            id = ID(bytes: value.id.bytes)
-            parentId = ID(bytes: value.parentID.bytes)
-            height = value.height
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let heightString = try container.decode(String.self, forKey: .height)
+            if let heightUInt = UInt64(heightString) {
+                height = heightUInt
+            } else {
+                height = 0
+            }
+            id = try container.decode(ID.self, forKey: .id)
+            parentId = try container.decode(ID.self, forKey: .parentId)
+            timestamp = try container.decode(Date.self, forKey: .timestamp)
         }
     }
 
     /// The data structure of `Flow.Block` which is `sealed`
-    struct BlockSeal {
-        public let id: ID
+    struct BlockSeal: Codable {
+        public let blockId: ID
         public let executionReceiptId: ID
-        public let executionReceiptSignatures: [Signature]
-        public let resultApprovalSignatures: [Signature]
+        public let executionReceiptSignatures: [Signature]?
+        public let resultApprovalSignatures: [Signature]?
 
-        init(value: Flow_Entities_BlockSeal) {
-            id = ID(bytes: value.blockID.bytes)
-            executionReceiptId = ID(bytes: value.executionReceiptID.bytes)
-            executionReceiptSignatures = value.executionReceiptSignatures.compactMap { Signature(data: $0) }
-            resultApprovalSignatures = value.resultApprovalSignatures.compactMap { Signature(data: $0) }
+        enum CodingKeys: String, CodingKey {
+            case blockId
+            case executionReceiptId = "resultId"
+        }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            blockId = try container.decode(ID.self, forKey: .blockId)
+            executionReceiptId = try container.decode(ID.self, forKey: .executionReceiptId)
+            executionReceiptSignatures = nil
+            resultApprovalSignatures = nil
+        }
+        
+        public init(id: Flow.ID, executionReceiptId: Flow.ID, executionReceiptSignatures: [Flow.Signature], resultApprovalSignatures: [Flow.Signature]) {
+            self.blockId = id
+            self.executionReceiptId = executionReceiptId
+            self.executionReceiptSignatures = executionReceiptSignatures
+            self.resultApprovalSignatures = resultApprovalSignatures
         }
     }
 
     /// The data structure for the block in Flow blockchain
-    struct Block {
+    struct Block: Codable {
         /// The identification of block
         public let id: ID
 
@@ -79,16 +103,23 @@ public extension Flow {
         public var blockSeals: [BlockSeal]
 
         /// The list of signature of the block
-        public var signatures: [Signature]
+        public var signatures: [Signature]?
 
-        init(value: Flow_Entities_Block) {
-            id = ID(bytes: value.id.bytes)
-            parentId = ID(bytes: value.parentID.bytes)
-            height = value.height
-            timestamp = value.timestamp.date
-            collectionGuarantees = value.collectionGuarantees.compactMap { CollectionGuarantee(value: $0) }
-            blockSeals = value.blockSeals.compactMap { BlockSeal(value: $0) }
-            signatures = value.signatures.compactMap { Signature(data: $0) }
+        public init(id: Flow.ID,
+                    parentId: Flow.ID,
+                    height: UInt64,
+                    timestamp: Date,
+                    collectionGuarantees: [Flow.CollectionGuarantee],
+                    blockSeals: [Flow.BlockSeal],
+                    signatures: [Flow.Signature])
+        {
+            self.id = id
+            self.parentId = parentId
+            self.height = height
+            self.timestamp = timestamp
+            self.collectionGuarantees = collectionGuarantees
+            self.blockSeals = blockSeals
+            self.signatures = signatures
         }
     }
 }

@@ -19,7 +19,7 @@
 import Foundation
 
 public extension Flow {
-    struct PublicKey: FlowEntity, Equatable {
+    struct PublicKey: FlowEntity, Equatable, Codable {
         public var data: Data
 
         public init(hex: String) {
@@ -33,9 +33,25 @@ public extension Flow {
         public init(bytes: [UInt8]) {
             data = bytes.data
         }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let hexString = try container.decode(String.self)
+            data = hexString.hexValue.data
+        }
     }
 
-    struct Code: FlowEntity, Equatable {
+    struct Code: FlowEntity, Equatable, Codable {
         public var data: Data
+        
+        public init(data: Data) {
+            self.data = data
+        }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let uftString = try container.decode(String.self)
+            data = uftString.data(using: .utf8) ?? Data()
+        }
     }
 }

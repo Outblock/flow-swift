@@ -223,7 +223,7 @@ protocol RLPEncodable {
 
 extension Flow.Transaction {
     /// The transaction status
-    public enum Status: Int, CaseIterable, Comparable, Equatable {
+    public enum Status: Int, CaseIterable, Comparable, Equatable, Codable {
         case unknown = 0
         case pending = 1
         case finalized = 2
@@ -289,7 +289,7 @@ extension Flow.Transaction {
 
 public extension Flow {
     /// The transaction result in the chain
-    struct TransactionResult {
+    struct TransactionResult: Codable {
         /// The status of transaction
         public let status: Transaction.Status
 

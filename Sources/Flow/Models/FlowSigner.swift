@@ -36,7 +36,7 @@ public protocol FlowSigner {
     /// - parameters:
     ///     - signableData: The data to be signed
     /// - returns: The signed data
-    func sign(signableData: Data) throws -> Data
+    func sign(signableData: Data) async throws -> Data
 
     // TODO: - Add async sign method
     //    func signAsync(signableData: Data) -> Future<Data, Error>

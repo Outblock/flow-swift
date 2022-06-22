@@ -20,7 +20,7 @@ import Foundation
 
 public extension Flow {
     ///
-    struct Event {
+    struct Event: Codable {
         ///
         public let type: String
 
@@ -39,7 +39,7 @@ public extension Flow {
         }
 
         /// The event result
-        public struct Result {
+        public struct Result: Codable {
             public let blockId: ID
             public let blockHeight: UInt64
             public let blockTimestamp: Date
@@ -53,7 +53,7 @@ public extension Flow {
             }
         }
 
-        public struct Payload: FlowEntity {
+        public struct Payload: FlowEntity, Codable {
             public var data: Data
             public var fields: Flow.Argument?
 
@@ -68,7 +68,7 @@ public extension Flow {
         }
     }
 
-    struct Snapshot: FlowEntity, Equatable {
+    struct Snapshot: FlowEntity, Equatable, Codable {
         public var data: Data
     }
 }

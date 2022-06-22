@@ -10,10 +10,8 @@ let package = Package(
         .macOS(.v10_15),
     ],
     products: [
-        .library(
-            name: "Flow",
-            targets: ["Flow"]
-        ),
+        .library(name: "Flow", targets: ["Flow"]),
+        .library(name: "FlowGRPC", targets: ["FlowGRPC"]),
     ],
     dependencies: [
         .package(name: "BigInt", url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
@@ -22,10 +20,13 @@ let package = Package(
     targets: [
         .target(
             name: "Flow",
-            dependencies: ["BigInt",
-                           .product(name: "GRPC", package: "grpc-swift")],
+            dependencies: ["BigInt", .product(name: "GRPC", package: "grpc-swift")],
             path: "Sources/Flow"
         ),
+        .target(name: "FlowGRPC",
+                dependencies: ["Flow",
+                               .product(name: "GRPC", package: "grpc-swift")],
+                path: "Sources/FlowGRPC"),
         .testTarget(
             name: "FlowTests",
             dependencies: ["Flow"],
