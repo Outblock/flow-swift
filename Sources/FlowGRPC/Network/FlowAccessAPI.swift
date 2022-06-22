@@ -26,7 +26,7 @@ public extension Flow {
     /// More detail can be found here: https://docs.onflow.org/access-api
     @available(iOS 13, *)
     final class GRPCAccessAPI: FlowAccessProtocol {
-        internal init(clientChannel: ClientConnection, accessClient: Flow_Access_AccessAPIClient) {
+        public init(clientChannel: ClientConnection, accessClient: Flow_Access_AccessAPIClient) {
             self.clientChannel = clientChannel
             self.accessClient = accessClient
         }
@@ -34,7 +34,7 @@ public extension Flow {
         internal var clientChannel: ClientConnection
         internal var accessClient: Flow_Access_AccessAPIClient
 
-        convenience init?(chainID: Flow.ChainID) {
+        public convenience init?(chainID: Flow.ChainID) {
             guard let endpoint = chainID.defaultNode.gRPCEndpoint, let port = endpoint.port else {
                 return nil
             }
@@ -49,7 +49,7 @@ public extension Flow {
                       accessClient: Flow_Access_AccessAPIClient(channel: clientChannel))
         }
 
-        init(host: String, port: Int = 9000) {
+        public init(host: String, port: Int = 9000) {
             let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
             let config = ClientConnection.Configuration.default(target: ConnectionTarget.hostAndPort(host, port),
                                                                 eventLoopGroup: eventLoopGroup)
@@ -57,7 +57,7 @@ public extension Flow {
             accessClient = Flow_Access_AccessAPIClient(channel: clientChannel)
         }
 
-        init(config: ClientConnection.Configuration) {
+        public init(config: ClientConnection.Configuration) {
             clientChannel = ClientConnection(configuration: config)
             accessClient = Flow_Access_AccessAPIClient(channel: clientChannel)
         }

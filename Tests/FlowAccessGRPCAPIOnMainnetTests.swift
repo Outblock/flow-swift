@@ -28,7 +28,7 @@ final class FlowAccessGRPCAPIOnMainnetTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        flowAPI = flow.createAccessAPI(chainID: .mainnet)
+        flowAPI = Flow.GRPCAccessAPI(chainID: .mainnet)!
     }
 
     func testFlowPing() async throws {
