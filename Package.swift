@@ -11,25 +11,19 @@ let package = Package(
     ],
     products: [
         .library(name: "Flow", targets: ["Flow"]),
-        .library(name: "FlowGRPC", targets: ["FlowGRPC"]),
     ],
     dependencies: [
         .package(name: "BigInt", url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
-        .package(url: "https://github.com/grpc/grpc-swift.git", from: "1.8.0"),
     ],
     targets: [
         .target(
             name: "Flow",
-            dependencies: ["BigInt", .product(name: "GRPC", package: "grpc-swift")],
+            dependencies: ["BigInt"],
             path: "Sources/Flow"
         ),
-        .target(name: "FlowGRPC",
-                dependencies: ["Flow",
-                               .product(name: "GRPC", package: "grpc-swift")],
-                path: "Sources/FlowGRPC"),
         .testTarget(
             name: "FlowTests",
-            dependencies: ["Flow", "FlowGRPC"],
+            dependencies: ["Flow"],
             path: "Tests"
         ),
     ]

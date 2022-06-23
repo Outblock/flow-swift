@@ -18,7 +18,6 @@
 
 import Combine
 import Foundation
-// import NIO
 
 public extension Flow {
     /// The ID in Flow chain, which can represent as transaction id, block id and collection id etc.
