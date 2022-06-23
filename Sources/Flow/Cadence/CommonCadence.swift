@@ -65,7 +65,7 @@ extension Flow {
                         hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
                         weight: weight
                     )
-                    
+
                     for contract in contracts.keys {
                         acct.contracts.add(name: contract, code: contracts[contract]!.decodeHex())
                     }
@@ -158,8 +158,8 @@ public extension Flow {
     ///     - accountKey: The public key to be added in `Flow.AccountKey` type.
     ///     - signers: A list of `FlowSigner` will sign the transaction.
     /// - returns: A future value will receive transaction id  in `Flow.ID` value.
-    func addKeyToAccount(address: Flow.Address, accountKey: Flow.AccountKey, signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID> {
-        return try sendTransaction(signers: signers) {
+    func addKeyToAccount(address: Flow.Address, accountKey: Flow.AccountKey, signers: [FlowSigner]) async throws -> Flow.ID {
+        return try await sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.addKeyToAccount
             }
@@ -168,7 +168,7 @@ public extension Flow {
                     .string(accountKey.publicKey.hex),
                     .uint8(UInt8(accountKey.signAlgo.index)),
                     .uint8(UInt8(accountKey.hashAlgo.code)),
-                    .ufix64(1000)
+                    .ufix64(1000),
                 ]
             }
             proposer {
@@ -190,10 +190,10 @@ public extension Flow {
     func addContractToAccount(address: Flow.Address,
                               contractName: String,
                               code: String,
-                              signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID>
+                              signers: [FlowSigner]) async throws -> Flow.ID
     {
         let script = Flow.Script(text: code)
-        return try sendTransaction(signers: signers) {
+        return try await sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.addContractToAccount
             }
@@ -219,14 +219,14 @@ public extension Flow {
     func createAccount(address: Flow.Address,
                        accountKey: Flow.AccountKey,
                        contracts: [String: String] = [:],
-                       signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID>
+                       signers: [FlowSigner]) async throws -> Flow.ID
     {
         let contractArg = contracts.compactMap { name, cadence in
             Flow.Argument.Dictionary(key: .init(value: .string(name)),
                                      value: .init(value: .string(Flow.Script(text: cadence).hex)))
         }
 
-        return try sendTransaction(signers: signers) {
+        return try await sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.createAccount
             }
@@ -236,7 +236,7 @@ public extension Flow {
                     .uint8(UInt8(accountKey.signAlgo.index)),
                     .uint8(UInt8(accountKey.hashAlgo.code)),
                     .ufix64(1000),
-                    .dictionary(contractArg)
+                    .dictionary(contractArg),
                 ]
             }
             proposer {
@@ -257,9 +257,9 @@ public extension Flow {
     /// - returns: A future value will receive transaction id  in `Flow.ID` value.
     func removeAccountKeyByIndex(address: Flow.Address,
                                  keyIndex: Int,
-                                 signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID>
+                                 signers: [FlowSigner]) async throws -> Flow.ID
     {
-        return try sendTransaction(signers: signers) {
+        return try await sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.removeAccountKeyByIndex
             }
@@ -277,9 +277,9 @@ public extension Flow {
 
     func removeContractFromAccount(address: Flow.Address,
                                    contractName: String,
-                                   signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID>
+                                   signers: [FlowSigner]) async throws -> Flow.ID
     {
-        return try sendTransaction(signers: signers) {
+        return try await sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.removeContractFromAccount
             }
@@ -298,9 +298,9 @@ public extension Flow {
     func updateContractOfAccount(address: Flow.Address,
                                  contractName: String,
                                  script: String,
-                                 signers: [FlowSigner]) throws -> EventLoopFuture<Flow.ID>
+                                 signers: [FlowSigner]) async throws -> Flow.ID
     {
-        return try sendTransaction(signers: signers) {
+        return try await sendTransaction(signers: signers) {
             cadence {
                 CommonCadence.updateContractOfAccount
             }
@@ -316,48 +316,48 @@ public extension Flow {
         }
     }
 
-    func verifyUserSignature(message: String,
-                             signatures: [Flow.TransactionSignature]) throws -> EventLoopFuture<Flow.ScriptResponse>
-    {
-        let futures: [EventLoopFuture<Flow.Account>] = signatures.compactMap { signature in
-            flow.accessAPI.getAccountAtLatestBlock(address: signature.address).unwrap(orError: FError.invaildAccountInfo)
-        }
-
-        return EventLoopFuture.whenAllComplete(futures, on: flow.accessAPI.clientChannel.eventLoop).map { results in
-            results.compactMap { result -> Flow.Account? in
-                switch result {
-                case let .success(account):
-                    return account
-                case .failure:
-                    // TODO: Handle error here
-                    return nil
-                }
-            }
-        }.flatMap { accounts -> EventLoopFuture<Flow.ScriptResponse> in
-
-            var weights: [Flow.Cadence.FValue] = []
-            var signAlgos: [Flow.Cadence.FValue] = []
-            var sigs: [Flow.Cadence.FValue] = []
-            var publicKeys: [Flow.Cadence.FValue] = []
-            signatures.forEach { sig in
-                if let account = accounts.first(where: { $0.address == sig.address }),
-                   let key = account.keys[safe: sig.keyIndex]
-                {
-                    weights.append(.ufix64(Double(key.weight)))
-                    signAlgos.append(.uint(UInt(key.signAlgo.code)))
-                    sigs.append(.string(sig.signature.hexValue))
-                    publicKeys.append(.string(key.publicKey.hex))
-                }
-            }
-
-            let arguments: [Flow.Argument] = [.string(message),
-                                              .array(publicKeys.toArguments()),
-                                              .array(weights.toArguments()),
-                                              .array(signAlgos.toArguments()),
-                                              .array(sigs.toArguments())].toArguments()
-            return flow.accessAPI.executeScriptAtLatestBlock(script:
-                Flow.Script(text: CommonCadence.verifyUserSignature),
-                arguments: arguments)
-        }
-    }
+//    func verifyUserSignature(message: String,
+//                             signatures: [Flow.TransactionSignature]) throws -> Future<Flow.ScriptResponse, Error>
+//    {
+//        let futures: [EventLoopFuture<Flow.Account>] = signatures.compactMap { signature in
+//            flow.accessAPI.getAccountAtLatestBlock(address: signature.address).unwrap(orError: FError.invaildAccountInfo)
+//        }
+//
+//        return EventLoopFuture.whenAllComplete(futures, on: flow.accessAPI.clientChannel.eventLoop).map { results in
+//            results.compactMap { result -> Flow.Account? in
+//                switch result {
+//                case let .success(account):
+//                    return account
+//                case .failure:
+//                    // TODO: Handle error here
+//                    return nil
+//                }
+//            }
+//        }.flatMap { accounts -> EventLoopFuture<Flow.ScriptResponse> in
+//
+//            var weights: [Flow.Cadence.FValue] = []
+//            var signAlgos: [Flow.Cadence.FValue] = []
+//            var sigs: [Flow.Cadence.FValue] = []
+//            var publicKeys: [Flow.Cadence.FValue] = []
+//            signatures.forEach { sig in
+//                if let account = accounts.first(where: { $0.address == sig.address }),
+//                   let key = account.keys[safe: sig.keyIndex]
+//                {
+//                    weights.append(.ufix64(Double(key.weight)))
+//                    signAlgos.append(.uint(UInt(key.signAlgo.code)))
+//                    sigs.append(.string(sig.signature.hexValue))
+//                    publicKeys.append(.string(key.publicKey.hex))
+//                }
+//            }
+//
+//            let arguments: [Flow.Argument] = [.string(message),
+//                                              .array(publicKeys.toArguments()),
+//                                              .array(weights.toArguments()),
+//                                              .array(signAlgos.toArguments()),
+//                                              .array(sigs.toArguments())].toArguments()
+//            return flow.accessAPI.executeScriptAtLatestBlock(script:
+//                Flow.Script(text: CommonCadence.verifyUserSignature),
+//                arguments: arguments)
+//        }
+//    }
 }

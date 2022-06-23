@@ -35,6 +35,7 @@ public extension Flow {
         case missingSigner
         case preparingTransactionFailed
         case timeout
+        case invaildResponse
     }
 }
 

@@ -41,15 +41,23 @@ public extension Flow {
     }
 
     /// The model to handle the `Cadence` code response
-    struct ScriptResponse: FlowEntity, Equatable {
+    struct ScriptResponse: FlowEntity, Equatable, Codable {
         public var data: Data
 
         /// Covert `data` into `Flow.Argument` type
         public var fields: Argument?
 
-        init(data: Data) {
+        public init(data: Data) {
             self.data = data
             fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let string = try container.decode(String.self)
+            data = Data(base64Encoded: string) ?? Data()
+            fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
+//            self.fields = try container.decodeIfPresent(Flow.Argument.self, forKey: Flow.ScriptResponse.CodingKeys.fields)
         }
     }
 }

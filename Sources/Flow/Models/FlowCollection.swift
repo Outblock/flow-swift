@@ -20,24 +20,36 @@ import Foundation
 
 public extension Flow {
     /// A batch of transactions that have been included in the same block
-    struct Collection {
+    struct Collection: Codable {
         public let id: ID
         public let transactionIds: [ID]
 
-        init(value: Flow_Entities_Collection) {
-            id = ID(bytes: value.id.bytes)
-            transactionIds = value.transactionIds.compactMap { ID(bytes: $0.bytes) }
+        public init(id: Flow.ID, transactionIds: [Flow.ID]) {
+            self.id = id
+            self.transactionIds = transactionIds
         }
     }
 
     ///
-    struct CollectionGuarantee {
-        public let id: ID
+    struct CollectionGuarantee: Codable {
+        public let collectionId: ID
         public let signatures: [Signature]
 
-        init(value: Flow_Entities_CollectionGuarantee) {
-            id = ID(bytes: value.collectionID.bytes)
-            signatures = value.signatures.compactMap { Signature(data: $0) }
+        enum CodingKeys: CodingKey {
+            case collectionId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            collectionId = try container.decode(Flow.ID.self, forKey: .collectionId)
+
+            // HTTP return signature as string, mismatch with gRPC one
+            signatures = []
+        }
+
+        public init(id: Flow.ID, signatures: [Flow.Signature]) {
+            collectionId = id
+            self.signatures = signatures
         }
     }
 }

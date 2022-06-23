@@ -11,13 +11,13 @@ import CryptoKit
 import XCTest
 
 final class CodableTests: XCTestCase {
-    var flowAPI: Flow.AccessAPI!
+    var flowAPI: FlowAccessProtocol!
 
     var addressC = Flow.Address(hex: "0xe242ccfb4b8ea3e2")
     let publicKeyC = try! P256.KeyAgreement.PublicKey(rawRepresentation: "adbf18dae6671e6b6a92edf00c79166faba6babf6ec19bd83eabf690f386a9b13c8e48da67973b9cf369f56e92ec25ede5359539f687041d27d0143afd14bca9".hexValue)
     let privateKeyC = try! P256.Signing.PrivateKey(rawRepresentation: "1eb79c40023143821983dc79b4e639789ea42452e904fda719f5677a1f144208".hexValue)
 
-    func testEncodeTx() throws {
+    func testEncodeTx() async throws {
         // Example in Testnet
 
         // Admin key
@@ -32,7 +32,7 @@ final class CodableTests: XCTestCase {
 
         flow.configure(chainID: .testnet)
 
-        var unsignedTx = try! flow.buildTransaction {
+        var unsignedTx = try! await flow.buildTransaction {
             cadence {
                 """
                     transaction(publicKey: String) {
@@ -62,7 +62,7 @@ final class CodableTests: XCTestCase {
             }
         }
 
-        let signedTx = try! unsignedTx.sign(signers: signer)
+        let signedTx = try! await unsignedTx.sign(signers: signer)
 
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase

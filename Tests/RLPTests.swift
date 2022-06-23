@@ -28,7 +28,7 @@ final class RLPTests: XCTestCase {
                                   proposalKey: Flow.TransactionProposalKey(address: Flow.Address(hex: "01"),
                                                                            keyIndex: 4,
                                                                            sequenceNumber: 10),
-                                  payerAddress: Flow.Address(hex: "01"),
+                                  payer: Flow.Address(hex: "01"),
                                   authorizers: [Flow.Address(hex: "01")],
                                   payloadSignatures: [
                                       Flow.TransactionSignature(address: Flow.Address(hex: "01"),

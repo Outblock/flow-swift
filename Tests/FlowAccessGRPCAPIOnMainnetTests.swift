@@ -18,16 +18,17 @@
 
 import CryptoKit
 @testable import Flow
+import FlowGRPC
 import Foundation
 import XCTest
 
-final class FlowAccessAPIOnMainnetTests: XCTestCase {
+final class FlowAccessGRPCAPIOnMainnetTests: XCTestCase {
     var flowAPI: FlowAccessProtocol!
     var address = Flow.Address(hex: "0x2b06c41f44a05656")
 
     override func setUp() {
         super.setUp()
-        flowAPI = flow.createAccessAPI(chainID: .mainnet)
+        flowAPI = Flow.GRPCAccessAPI(chainID: .mainnet)!
     }
 
     func testFlowPing() async throws {

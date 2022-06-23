@@ -17,8 +17,8 @@
 //
 
 import BigInt
+import Combine
 import Foundation
-import NIO
 
 /// Build flow transaction with cadence code with `String` input.
 /// - parameters:
@@ -205,13 +205,13 @@ public extension Flow {
     ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
     ///     - builder: The list of `Flow.TransactionBuild`
     /// - returns: The type of `EventLoopFuture<Flow.Transaction>`
-    func asyncBuildTransaction(chainID: Flow.ChainID = flow.chainID,
-                               @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.Transaction>
+    func buildTransaction(chainID: Flow.ChainID = flow.chainID,
+                          @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) async throws -> Flow.Transaction
     {
         var script: Flow.Script = .init(data: Data())
         var agrument: [Flow.Argument] = []
         var authorizers: [Flow.Address] = []
-        var payerAddress: Flow.Address?
+        var payer: Flow.Address?
         var proposer: Flow.TransactionProposalKey?
         var gasLimit = BigUInt(100)
         var refBlock: Flow.ID?
@@ -225,7 +225,7 @@ public extension Flow {
             case let .authorizers(value):
                 authorizers = value
             case let .payer(value):
-                payerAddress = value
+                payer = value
             case let .proposer(value):
                 proposer = value
             case let .gasLimit(value):
@@ -239,72 +239,42 @@ public extension Flow {
             throw Flow.FError.emptyProposer
         }
 
-        func resolveBlockId(api: AccessAPI, refBlock: Flow.ID?) -> EventLoopFuture<Flow.ID> {
+        func resolveBlockId(api: FlowAccessProtocol = flow.accessAPI, refBlock: Flow.ID?) async throws -> Flow.ID {
             if let blockID = refBlock {
-                let promise = api.clientChannel.eventLoop.makePromise(of: Flow.ID.self)
-                promise.succeed(blockID)
-                return promise.futureResult
+                return blockID
             } else {
-                return api.getLatestBlock(sealed: true).map { $0.id }
+                let block = try await api.getLatestBlock(sealed: true)
+                return block.id
             }
         }
 
-        func resolveProposalKey(api: AccessAPI, proposalKey: Flow.TransactionProposalKey) -> EventLoopFuture<Flow.TransactionProposalKey> {
+        func resolveProposalKey(api: FlowAccessProtocol = flow.accessAPI, proposalKey: Flow.TransactionProposalKey) async throws -> Flow.TransactionProposalKey {
             if proposalKey.sequenceNumber == -1 {
-                return api.getAccountAtLatestBlock(address: proposalKey.address)
-                    .unwrap(orError: FError.emptyProposer)
-                    .flatMapThrowing { account in
-                        guard let accountKey = account.keys[safe: proposalKey.keyIndex] else {
-                            throw Flow.FError.preparingTransactionFailed
-                        }
-                        return TransactionProposalKey(address: account.address,
-                                                      keyIndex: proposalKey.keyIndex,
-                                                      sequenceNumber: BigInt(accountKey.sequenceNumber))
-                    }
+                let account = try await api.getAccountAtLatestBlock(address: proposalKey.address)
+                guard let accountKey = account.keys[safe: proposalKey.keyIndex] else {
+                    throw Flow.FError.preparingTransactionFailed
+                }
+                return TransactionProposalKey(address: account.address,
+                                              keyIndex: proposalKey.keyIndex,
+                                              sequenceNumber: Int64(accountKey.sequenceNumber))
             }
-            let promise = api.clientChannel.eventLoop.makePromise(of: Flow.TransactionProposalKey.self)
-            promise.succeed(proposalKey)
-            return promise.futureResult
+
+            return proposalKey
         }
 
         let api = Flow.shared.createAccessAPI(chainID: chainID)
-        let promise = api.clientChannel.eventLoop.makePromise(of: Flow.Transaction.self)
 
-        resolveBlockId(api: api, refBlock: refBlock)
-            .flatMap { id -> EventLoopFuture<Flow.TransactionProposalKey> in
-                refBlock = id
-                return resolveProposalKey(api: api, proposalKey: proposalKey)
-            }.whenComplete { result in
-                switch result {
-                case let .success(key):
-                    proposalKey = key
-
-                    let transaction = Flow.Transaction(script: script,
-                                                       arguments: agrument,
-                                                       referenceBlockId: refBlock!,
-                                                       gasLimit: gasLimit,
-                                                       proposalKey: proposalKey,
-                                                       // If payer is empty, then use propser as payer
-                                                       payerAddress: payerAddress ?? proposalKey.address,
-                                                       authorizers: authorizers)
-                    promise.succeed(transaction)
-                case let .failure(error):
-                    promise.fail(error)
-                }
-            }
-
-        return promise.futureResult
-    }
-
-    /// Build flow transaction using `TransactionBuilder`
-    /// - parameters:
-    ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
-    ///     - builder: The list of `Flow.TransactionBuild`
-    /// - returns: The type of `Flow.Transaction`
-    func buildTransaction(chainID: Flow.ChainID = flow.chainID,
-                          @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.Transaction
-    {
-        return try asyncBuildTransaction(chainID: chainID, builder: builder).wait()
+        let id = try await resolveBlockId(api: api, refBlock: refBlock)
+        let key = try await resolveProposalKey(api: api, proposalKey: proposalKey)
+        proposalKey = key
+        return Flow.Transaction(script: script,
+                                arguments: agrument,
+                                referenceBlockId: id,
+                                gasLimit: gasLimit,
+                                proposalKey: proposalKey,
+                                // If payer is empty, then use propser as payer
+                                payer: payer ?? proposalKey.address,
+                                authorizers: authorizers)
     }
 
     /// Send signed Transaction to the network
@@ -312,23 +282,9 @@ public extension Flow {
     ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
     ///     - signedTransaction: The signed Flow transaction
     /// - returns: A future value of transaction id
-    func sendTransaction(chainID: ChainID = flow.chainID, signedTransaction: Transaction) throws -> EventLoopFuture<Flow.ID> {
+    func sendTransaction(chainID: ChainID = flow.chainID, signedTransaction: Transaction) async throws -> Flow.ID {
         let api = flow.createAccessAPI(chainID: chainID)
-        return api.sendTransaction(transaction: signedTransaction)
-    }
-
-    /// Send signed Transaction to the network in sync way
-    /// - parameters:
-    ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
-    ///     - signedTransaction: The signed Flow transaction
-    /// - returns: The transaction id
-    func sendTransactionWithWait(chainID: Flow.ChainID = flow.chainID,
-                                 signers: [FlowSigner],
-                                 @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> Flow.ID
-    {
-        return try flow.sendTransaction(chainID: chainID,
-                                        signers: signers,
-                                        builder: builder).wait()
+        return try await api.sendTransaction(transaction: signedTransaction)
     }
 
     /// Build, sign and send transaction to the network
@@ -339,31 +295,12 @@ public extension Flow {
     /// - returns: The transaction id
     func sendTransaction(chainID: Flow.ChainID = flow.chainID,
                          signers: [FlowSigner],
-                         @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) throws -> EventLoopFuture<Flow.ID>
+                         @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) async throws -> Flow.ID
     {
         let api = flow.createAccessAPI(chainID: chainID)
-        let unsignedTx = try buildTransaction(chainID: chainID, builder: builder)
-        let signedTx = try flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
+        let unsignedTx = try await buildTransaction(chainID: chainID, builder: builder)
+        let signedTx = try await flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
 
-        return api.sendTransaction(transaction: signedTx)
-    }
-
-    /// Build, sign and send transaction to the network with block
-    /// - parameters:
-    ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
-    ///     - signers: A list of `FlowSigner`, which will sign the transaction
-    ///     - builder: The list of `Flow.TransactionBuild`
-    ///     - completion: The block to handle the response
-    func sendTransaction(chainID: Flow.ChainID = flow.chainID,
-                         signers: [FlowSigner],
-                         @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild],
-                         completion: @escaping (Result<Flow.ID, Error>) -> Void) throws
-    {
-        let api = flow.createAccessAPI(chainID: chainID)
-        let unsignedTx = try buildTransaction(chainID: chainID, builder: builder)
-        let signedTx = try flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
-        let call = api.sendTransaction(transaction: signedTx)
-        call.whenSuccess { completion(Result.success($0)) }
-        call.whenFailure { completion(Result.failure($0)) }
+        return try await api.sendTransaction(transaction: signedTx)
     }
 }

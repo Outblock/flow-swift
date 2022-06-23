@@ -39,7 +39,7 @@ public extension Flow {
         public var proposalKey: TransactionProposalKey
 
         /// The address of payer
-        public var payerAddress: Address
+        public var payer: Address
 
         /// The list of authorizer's address
         public var authorizers: [Address]
@@ -55,7 +55,7 @@ public extension Flow {
                     referenceBlockId: Flow.ID,
                     gasLimit: BigUInt,
                     proposalKey: Flow.TransactionProposalKey,
-                    payerAddress: Flow.Address,
+                    payer: Flow.Address,
                     authorizers: [Flow.Address],
                     payloadSignatures: [Flow.TransactionSignature] = [],
                     envelopeSignatures: [Flow.TransactionSignature] = [])
@@ -65,36 +65,31 @@ public extension Flow {
             self.referenceBlockId = referenceBlockId
             self.gasLimit = gasLimit
             self.proposalKey = proposalKey
-            self.payerAddress = payerAddress
+            self.payer = payer
             self.authorizers = authorizers
             self.payloadSignatures = payloadSignatures
             self.envelopeSignatures = envelopeSignatures
         }
 
-        init(value: Flow_Entities_Transaction) {
-            script = Script(bytes: value.script.bytes)
-            arguments = value.arguments.compactMap { try? JSONDecoder().decode(Argument.self, from: $0) }
-            referenceBlockId = ID(bytes: value.referenceBlockID.bytes)
-            gasLimit = BigUInt(value.gasLimit)
-            proposalKey = TransactionProposalKey(value: value.proposalKey)
-            payerAddress = Address(bytes: value.payer.bytes)
-            authorizers = value.authorizers.compactMap { Address(bytes: $0.bytes) }
-            payloadSignatures = value.payloadSignatures.compactMap { TransactionSignature(value: $0) }
-            envelopeSignatures = value.envelopeSignatures.compactMap { TransactionSignature(value: $0) }
-        }
-
-        func toFlowEntity() -> Flow_Entities_Transaction {
-            var transaction = Flow_Entities_Transaction()
-            transaction.script = script.bytes.data
-            transaction.arguments = arguments.compactMap { try? JSONEncoder().encode($0) }
-            transaction.referenceBlockID = referenceBlockId.bytes.data
-            transaction.gasLimit = UInt64(gasLimit)
-            transaction.proposalKey = proposalKey.toFlowEntity()
-            transaction.payer = payerAddress.bytes.data
-            transaction.authorizers = authorizers.compactMap { $0.bytes.data }
-            transaction.payloadSignatures = payloadSignatures.compactMap { $0.toFlowEntity() }
-            transaction.envelopeSignatures = envelopeSignatures.compactMap { $0.toFlowEntity() }
-            return transaction
+        public init(script: Flow.Script,
+                    arguments: [Flow.Argument],
+                    referenceBlockId: Flow.ID,
+                    gasLimit: UInt64,
+                    proposalKey: Flow.TransactionProposalKey,
+                    payer: Flow.Address,
+                    authorizers: [Flow.Address],
+                    payloadSignatures: [Flow.TransactionSignature] = [],
+                    envelopeSignatures: [Flow.TransactionSignature] = [])
+        {
+            self.script = script
+            self.arguments = arguments
+            self.referenceBlockId = referenceBlockId
+            self.gasLimit = BigUInt(gasLimit)
+            self.proposalKey = proposalKey
+            self.payer = payer
+            self.authorizers = authorizers
+            self.payloadSignatures = payloadSignatures
+            self.envelopeSignatures = envelopeSignatures
         }
 
         public func buildUpOn(script: Flow.Script? = nil,
@@ -102,7 +97,7 @@ public extension Flow {
                               referenceBlockId: Flow.ID? = nil,
                               gasLimit: BigUInt? = nil,
                               proposalKey: Flow.TransactionProposalKey? = nil,
-                              payerAddress: Flow.Address? = nil,
+                              payer: Flow.Address? = nil,
                               authorizers: [Flow.Address]? = nil,
                               payloadSignatures: [Flow.TransactionSignature]? = nil,
                               envelopeSignatures: [Flow.TransactionSignature]? = nil) -> Transaction
@@ -112,7 +107,7 @@ public extension Flow {
                                referenceBlockId: referenceBlockId ?? self.referenceBlockId,
                                gasLimit: gasLimit ?? self.gasLimit,
                                proposalKey: proposalKey ?? self.proposalKey,
-                               payerAddress: payerAddress ?? self.payerAddress,
+                               payer: payer ?? self.payer,
                                authorizers: authorizers ?? self.authorizers,
                                payloadSignatures: payloadSignatures ?? self.payloadSignatures,
                                envelopeSignatures: envelopeSignatures ?? self.envelopeSignatures)
@@ -160,7 +155,7 @@ public extension Flow {
                                      proposalKeyAddress: proposalKey.address.data.paddingZeroLeft(blockSize: 8),
                                      proposalKeyIndex: proposalKey.keyIndex,
                                      proposalKeySequenceNumber: BigUInt(proposalKey.sequenceNumber),
-                                     payer: payerAddress.data.paddingZeroLeft(blockSize: 8),
+                                     payerData: payer.data.paddingZeroLeft(blockSize: 8),
                                      authorizers: authorizers.map { $0.data.paddingZeroLeft(blockSize: 8) })
         }
 
@@ -186,7 +181,7 @@ public extension Flow {
                 }
             }
             addSigner(address: proposalKey.address)
-            addSigner(address: payerAddress)
+            addSigner(address: payer)
             authorizers.forEach { addSigner(address: $0) }
             return signer
         }
@@ -223,13 +218,40 @@ protocol RLPEncodable {
 
 extension Flow.Transaction {
     /// The transaction status
-    public enum Status: Int, CaseIterable, Comparable, Equatable {
+    public enum Status: Int, CaseIterable, Comparable, Equatable, Codable {
         case unknown = 0
         case pending = 1
         case finalized = 2
         case executed = 3
         case sealed = 4
         case expired = 5
+
+        var stringValue: String {
+            switch self {
+            case .unknown:
+                return "Unknown"
+            case .pending:
+                return "Pending"
+            case .executed:
+                return "Executed"
+            case .sealed:
+                return "Sealed"
+            case .expired:
+                return "Expired"
+            case .finalized:
+                return "Finalized"
+            }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let value = try container.decode(String.self)
+            self.init(value)
+        }
+
+        init(_ rawString: String) {
+            self = Status.allCases.first { $0.stringValue == rawString } ?? .unknown
+        }
 
         public init(_ rawValue: Int) {
             self = Status.allCases.first { $0.rawValue == rawValue } ?? .unknown
@@ -249,7 +271,7 @@ extension Flow.Transaction {
         let proposalKeyAddress: Data
         let proposalKeyIndex: Int
         let proposalKeySequenceNumber: BigUInt
-        let payer: Data
+        let payerData: Data
         let authorizers: [Data]
 
         var rlpList: [Any] {
@@ -289,7 +311,7 @@ extension Flow.Transaction {
 
 public extension Flow {
     /// The transaction result in the chain
-    struct TransactionResult {
+    struct TransactionResult: Codable {
         /// The status of transaction
         public let status: Transaction.Status
 
@@ -302,18 +324,34 @@ public extension Flow {
         /// The status code of transaction
         let statusCode: Int
 
-        init(value: Flow_Execution_GetTransactionResultResponse) {
-            status = Transaction.Status(Int(value.statusCode))
-            statusCode = Int(value.statusCode)
-            errorMessage = value.errorMessage
-            events = value.events.compactMap { Event(value: $0) }
+        public let blockId: ID
+
+        public let computationUsed: String
+
+//        init(value: Flow_Execution_GetTransactionResultResponse) {
+//            status = Transaction.Status(Int(value.statusCode))
+//            statusCode = Int(value.statusCode)
+//            errorMessage = value.errorMessage
+//            events = value.events.compactMap { Event(value: $0) }
+//        }
+
+        public init(status: Transaction.Status, errorMessage: String, events: [Event], statusCode: Int, blockId: ID, computationUsed: String) {
+            self.status = status
+            self.errorMessage = errorMessage
+            self.events = events
+            self.statusCode = statusCode
+            self.blockId = blockId
+            self.computationUsed = computationUsed
         }
 
-        init(value: Flow_Access_TransactionResultResponse) {
-            status = Transaction.Status(Int(value.status.rawValue))
-            statusCode = Int(value.statusCode)
-            errorMessage = value.errorMessage
-            events = value.events.compactMap { Flow.Event(value: $0) }
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            status = try container.decode(Flow.Transaction.Status.self, forKey: .status)
+            errorMessage = try container.decode(String.self, forKey: .errorMessage)
+            events = try container.decode([Flow.Event].self, forKey: .events)
+            statusCode = try container.decode(Int.self, forKey: .statusCode)
+            blockId = try container.decode(Flow.ID.self, forKey: .blockId)
+            computationUsed = try container.decode(String.self, forKey: .computationUsed)
         }
     }
 
@@ -329,24 +367,16 @@ public extension Flow {
         /// Similarly to transaction nonces in Ethereum
         public var sequenceNumber: BigInt
 
-        public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: BigInt = -1) {
+//        public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: BigInt = -1) {
+//            self.address = address
+//            self.keyIndex = keyIndex
+//            self.sequenceNumber = sequenceNumber
+//        }
+
+        public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: Int64 = -1) {
             self.address = address
             self.keyIndex = keyIndex
-            self.sequenceNumber = sequenceNumber
-        }
-
-        init(value: Flow_Entities_Transaction.ProposalKey) {
-            address = Address(bytes: value.address.bytes)
-            keyIndex = Int(value.keyID)
-            sequenceNumber = BigInt(value.sequenceNumber)
-        }
-
-        func toFlowEntity() -> Flow_Entities_Transaction.ProposalKey {
-            var entity = Flow_Entities_Transaction.ProposalKey()
-            entity.address = address.bytes.data
-            entity.keyID = UInt32(keyIndex)
-            entity.sequenceNumber = UInt64(sequenceNumber)
-            return entity
+            self.sequenceNumber = BigInt(sequenceNumber)
         }
     }
 
@@ -362,13 +392,6 @@ public extension Flow {
 
         /// Interal index for sort signature
         var signerIndex: Int
-
-        internal init(value: Flow_Entities_Transaction.Signature) {
-            address = Address(bytes: value.address.bytes)
-            keyIndex = Int(value.keyID)
-            signature = value.signature
-            signerIndex = Int(value.keyID)
-        }
 
         public init(address: Flow.Address, keyIndex: Int, signature: Data) {
             self.address = address
@@ -401,14 +424,6 @@ public extension Flow {
                                         keyIndex: keyIndex ?? self.keyIndex,
                                         signature: signature ?? self.signature)
         }
-
-        internal func toFlowEntity() -> Flow_Entities_Transaction.Signature {
-            var entity = Flow_Entities_Transaction.Signature()
-            entity.address = address.bytes.data
-            entity.keyID = UInt32(keyIndex)
-            entity.signature = signature
-            return entity
-        }
     }
 }
 
@@ -422,15 +437,17 @@ extension Flow.TransactionProposalKey: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(address, forKey: .address)
-        try container.encode(keyIndex, forKey: .keyIndex)
-        try container.encode(UInt64(sequenceNumber), forKey: .sequenceNumber)
+        try container.encode(String(keyIndex), forKey: .keyIndex)
+        try container.encode(String(sequenceNumber), forKey: .sequenceNumber)
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         address = try container.decode(Flow.Address.self, forKey: .address)
-        keyIndex = try container.decode(Int.self, forKey: .keyIndex)
-        sequenceNumber = BigInt(try container.decode(UInt64.self, forKey: .sequenceNumber))
+        let keyIndex = try container.decode(String.self, forKey: .keyIndex)
+        self.keyIndex = Int(keyIndex) ?? -1
+        let sequenceNumber = try container.decode(String.self, forKey: .sequenceNumber)
+        self.sequenceNumber = BigInt(sequenceNumber) ?? BigInt(-1)
     }
 }
 
@@ -444,14 +461,15 @@ extension Flow.TransactionSignature: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(address, forKey: .address)
-        try container.encode(keyIndex, forKey: .keyIndex)
-        try container.encode(signature.hexValue, forKey: .signature)
+        try container.encode(String(keyIndex), forKey: .keyIndex)
+        try container.encode(signature.base64EncodedString(), forKey: .signature)
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         address = try container.decode(Flow.Address.self, forKey: .address)
-        keyIndex = try container.decode(Int.self, forKey: .keyIndex)
+        let keyIndex = try container.decode(String.self, forKey: .keyIndex)
+        self.keyIndex = Int(keyIndex) ?? -1
         let signatureString = try container.decode(String.self, forKey: .signature)
         signature = signatureString.hexValue.data
         signerIndex = -1

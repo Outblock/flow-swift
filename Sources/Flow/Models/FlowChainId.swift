@@ -20,7 +20,7 @@ import Foundation
 
 public extension Flow {
     /// Identification the enviroment of flow
-    enum ChainID: CaseIterable, Hashable {
+    enum ChainID: CaseIterable, Hashable, Codable {
         /// Unknow enviroment as a fallback cause
         case unknown
 
@@ -41,7 +41,7 @@ public extension Flow {
         case emulator
 
         /// Custom chainID with custom `Endpoint`
-        case custom(name: String, endpoint: Endpoint)
+        case custom(name: String, transport: Flow.Transport)
 
         /// List of other type chain id exclude custom type
         public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .canarynet, .emulator]
@@ -68,37 +68,58 @@ public extension Flow {
             self = ChainID.allCases.first { $0.name == name } ?? .unknown
         }
 
-        /// Endpoint information for gRPC node
-        public struct Endpoint: Hashable, Equatable {
-            public let node: String
-            public let port: Int
+        public static func == (lhs: Flow.ChainID, rhs: Flow.ChainID) -> Bool {
+            return lhs.name == rhs.name && lhs.defaultNode == rhs.defaultNode
+        }
 
-            public init(node: String, port: Int) {
-                self.node = node
-                self.port = port
+//        func transport() -> Flow.Transport {
+//
+//        }
+
+//        public func hash(into hasher: inout Hasher) {
+//            hasher.combine()
+//        }
+
+        public var defaultHTTPNode: Flow.Transport {
+            switch self {
+            case .mainnet:
+                return .HTTP(URL(string: "https://rest-mainnet.onflow.org/")!)
+            case .testnet:
+                return .HTTP(URL(string: "https://rest-testnet.onflow.org/")!)
+            case let .custom(_, transport):
+                return transport
+            default:
+                return .HTTP(URL(string: "https://rest-testnet.onflow.org/")!)
             }
         }
 
         /// Default node for `.mainnet, .testnet, .canarynet, .emulator`
-        public var defaultNode: Endpoint {
+        public var defaultNode: Flow.Transport {
             switch self {
             case .mainnet:
-                return Endpoint(node: "access.mainnet.nodes.onflow.org", port: 9000)
+                return .gRPC(.init(node: "access.mainnet.nodes.onflow.org", port: 9000))
             case .testnet:
-                return Endpoint(node: "access.devnet.nodes.onflow.org", port: 9000)
+                return .gRPC(.init(node: "access.devnet.nodes.onflow.org", port: 9000))
             case .canarynet:
-                return Endpoint(node: "access.canary.nodes.onflow.org", port: 9000)
+                return .gRPC(.init(node: "access.canary.nodes.onflow.org", port: 9000))
             case .emulator:
-                return Endpoint(node: "127.0.0.1", port: 9000)
+                return .gRPC(.init(node: "127.0.0.1", port: 9000))
             case let .custom(_, endpoint):
                 return endpoint
             default:
-                return Endpoint(node: "access.mainnet.nodes.onflow.org", port: 9000)
+                return .gRPC(.init(node: "access.mainnet.nodes.onflow.org", port: 9000))
             }
         }
 
-        public static func == (lhs: Flow.ChainID, rhs: Flow.ChainID) -> Bool {
-            return lhs.name == rhs.name && lhs.defaultNode == rhs.defaultNode
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(name)
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let string = try container.decode(String.self)
+            self.init(name: string)
         }
     }
 }

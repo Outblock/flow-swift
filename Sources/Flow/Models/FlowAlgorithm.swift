@@ -22,7 +22,7 @@ public extension Flow {
     enum SignatureAlgorithm: String, CaseIterable, Codable {
         case unknown
         case ECDSA_P256
-        case ECDSA_SECP256k1
+        case ECDSA_SECP256k1 = "ECDSA_secp256k1"
 
         public var algorithm: String {
             switch self {
