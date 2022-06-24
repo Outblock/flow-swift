@@ -106,14 +106,25 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         let snapshot = try await flowAPI.executeScriptAtLatestBlock(script: script)
         XCTAssertNotNil(snapshot)
         XCTAssertEqual(Flow.Cadence.FType.array, snapshot.fields?.type)
-
+        
+        struct SomeStruct: Codable {
+            var x: Int
+            var y: Int
+        }
+        
+        guard let result = try? snapshot.fields?.decode([SomeStruct].self) else {
+            XCTFail();
+            return
+        }
+        print(result)
+        
         guard case let .array(value: value) = snapshot.fields!.value else { XCTFail(); return }
         guard case let .struct(value: firstStruct) = value.first!.value else { XCTFail(); return }
 
         XCTAssertEqual(firstStruct.fields.first!.name, "x")
-        XCTAssertEqual(firstStruct.fields.first!.value.value.toInt(), 1)
+        XCTAssertEqual(result.first?.x, 1)
         XCTAssertEqual(firstStruct.fields.last!.name, "y")
-        XCTAssertEqual(firstStruct.fields.last!.value.value.toInt(), 2)
+        XCTAssertEqual(result.first?.y, 2)
     }
 
     func testVerifySignature() async throws {
