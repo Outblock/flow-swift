@@ -110,3 +110,22 @@ public extension Flow {
 extension Flow.Snapshot: CustomStringConvertible {
     public var description: String { data.hexValue }
 }
+
+extension Flow.Event.Payload: FlowCodable {
+    
+    func decode() -> Any? {
+        return fields?.decode()
+    }
+    
+    public func decode<T: Decodable>(_ decodable: T.Type) throws -> T? {
+        return try fields?.decode(decodable)
+    }
+    
+    public func decode<T: Decodable>() throws -> T {
+        guard let result: T = try? fields?.decode() else {
+            throw Flow.FError.decodeFailure
+        }
+        return result
+    }
+}
+

@@ -32,8 +32,6 @@ extension Flow.Argument: FlowCodable {
             throw Flow.FError.decodeFailure
         }
         
-        print(value)
-        
         if let some = value as? T {
             return some
         }
@@ -47,35 +45,11 @@ extension Flow.Argument: FlowCodable {
             let model = try JSONDecoder().decode(T.self, from: data)
             return model
         } catch {
-            print(error)
             throw Flow.FError.decodeFailure
         }
     }
     
     public func decode<T: Decodable>(_ decodable: T.Type) throws -> T? {
-//        guard let value = decode() else {
-//            throw Flow.FError.decodeFailure
-//        }
-//
-//        print(value)
-//
-//        if let some = value as? T {
-//            return some
-//        }
-//
-//        guard JSONSerialization.isValidJSONObject(value) else {
-//            throw Flow.FError.decodeFailure
-//        }
-//
-//        do {
-//            let data = try JSONSerialization.data(withJSONObject: value, options: [.fragmentsAllowed, .sortedKeys])
-//            let model = try JSONDecoder().decode(decodable.self, from: data)
-//            return model
-//        } catch {
-//            print(error)
-//            throw Flow.FError.decodeFailure
-//        }
-//        return
         guard let result: T = try? decode() else {
             throw Flow.FError.decodeFailure
         }
@@ -87,7 +61,7 @@ extension Flow.Argument: FlowCodable {
         case .int:
             return value.toInt()
         case .address:
-            return value.toAddress()
+            return value.toAddress()?.hex
         case .struct:
             guard let event = value.toStruct() else {
                 return nil
@@ -218,7 +192,6 @@ extension Flow.Argument: FlowCodable {
     
     private func modelToDict(result: Encodable) -> [String: Any]? {
         guard let data = try? JSONEncoder().encode(result),
-//                JSONSerialization.isValidJSONObject(data),
                 let model = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else {
             return nil
         }

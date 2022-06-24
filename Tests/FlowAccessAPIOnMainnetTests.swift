@@ -163,14 +163,6 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
                                                                                 .init(value: .string(uid))])
         XCTAssertNotNil(snapshot)
         XCTAssertEqual(.bool(true), snapshot.fields?.value)
-//
-//        guard case let .array(value: value) = snapshot.fields!.value else { XCTFail(); return }
-//        guard case let .struct(value: firstStruct) = value.first!.value else { XCTFail(); return }
-//
-//        XCTAssertEqual(firstStruct.fields.first!.name, "x")
-//        XCTAssertEqual(firstStruct.fields.first!.value.value.toInt(), 1)
-//        XCTAssertEqual(firstStruct.fields.last!.name, "y")
-//        XCTAssertEqual(firstStruct.fields.last!.value.value.toInt(), 2)
     }
 
 //    func testGetCollectionById() async throws {
@@ -183,13 +175,24 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
     func testTransactionResultById() async throws {
         let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
         let result = try await flowAPI.getTransactionResultById(id: id)
+        
         XCTAssertEqual(result.events.count, 3)
         XCTAssertEqual(result.events.first?.type, "A.c38aea683c0c4d38.Eternal.Withdraw")
+        
+        struct TestType: Codable {
+            let id: UInt64
+            let from: String
+        }
+        
+        let test: TestType = try result.events.first!.payload.decode()
+        
         XCTAssertEqual(result.events.first?.payload.fields?.type, .event)
-        XCTAssertEqual(result.events.first?.payload.fields?.value,
-                       .event(.init(id: "A.c38aea683c0c4d38.Eternal.Withdraw",
-                                    fields: [.init(name: "id", value: .init(value: .uint64(11800))),
-                                             .init(name: "from", value: .init(value: .optional(value: .init(value: .address(.init(hex: "0x873becfb539f038d"))))))])))
+        XCTAssertEqual(test.id, 11800)
+        XCTAssertEqual(test.from.addHexPrefix(), "0x873becfb539f038d")
+//        XCTAssertEqual(result.events.first?.payload.fields?.value,
+//                       .event(.init(id: "A.c38aea683c0c4d38.Eternal.Withdraw",
+//                                    fields: [.init(name: "id", value: .init(value: .uint64(11800))),
+//                                             .init(name: "from", value: .init(value: .optional(value: .init(value: .address(.init(hex: "0x873becfb539f038d"))))))])))
         XCTAssertNotNil(result)
     }
 
