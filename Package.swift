@@ -4,13 +4,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "Flow",
+    name: "flow-swift",
     platforms: [
         .iOS(.v13),
         .macOS(.v10_15),
     ],
     products: [
-        .library(name: "Flow", targets: ["Flow"]),
+        .library(name: "flow-swift", targets: ["Flow"]),
     ],
     dependencies: [
         .package(name: "BigInt", url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
