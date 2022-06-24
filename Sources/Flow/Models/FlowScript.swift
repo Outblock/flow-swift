@@ -1,7 +1,7 @@
 //
 //  FlowScript
 //
-//  Copyright 2021 Zed Labs Pty Ltd
+//  Copyright 2022 Outblock Pty Ltd
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -59,6 +59,24 @@ public extension Flow {
             fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
 //            self.fields = try container.decodeIfPresent(Flow.Argument.self, forKey: Flow.ScriptResponse.CodingKeys.fields)
         }
+    }
+}
+
+extension Flow.ScriptResponse: FlowCodable {
+    
+    func decode() -> Any? {
+        return fields?.decode()
+    }
+    
+    public func decode<T: Decodable>(_ decodable: T.Type) throws -> T? {
+        return try fields?.decode(decodable)
+    }
+    
+    public func decode<T: Decodable>() throws -> T {
+        guard let result: T = try? fields?.decode() else {
+            throw Flow.FError.decodeFailure
+        }
+        return result
     }
 }
 

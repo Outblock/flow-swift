@@ -1,7 +1,7 @@
 //
 //  FlowCollection
 //
-//  Copyright 2021 Zed Labs Pty Ltd
+//  Copyright 2022 Outblock Pty Ltd
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.

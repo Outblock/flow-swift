@@ -1,7 +1,7 @@
 //
 //  FlowArgument
 //
-//  Copyright 2021 Zed Labs Pty Ltd
+//  Copyright 2022 Outblock Pty Ltd
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -60,6 +60,22 @@ public extension Flow {
         public init(value: Flow.Cadence.FValue) {
             type = value.type
             self.value = value
+        }
+        
+        public init?(jsonData: Data) {
+            do {
+                let result = try JSONDecoder().decode(Flow.Argument.self, from: jsonData)
+                self.init(type: result.type, value: result.value)
+            } catch {
+                return nil
+            }
+        }
+        
+        public init?(jsonString: String) {
+            guard let jsonData = jsonString.data(using: .utf8) else {
+                return nil
+            }
+            self.init(jsonData: jsonData)
         }
 
         /// Decode argument from json string

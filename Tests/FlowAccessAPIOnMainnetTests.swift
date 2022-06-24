@@ -1,7 +1,7 @@
 //
 //  FlowAccessAPIOnMainnetTests
 //
-//  Copyright 2021 Zed Labs Pty Ltd
+//  Copyright 2022 Outblock Pty Ltd
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -112,7 +112,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
             var y: Int
         }
         
-        guard let result = try? snapshot.fields?.decode([SomeStruct].self) else {
+        guard let result: [SomeStruct] = try? snapshot.decode() else {
             XCTFail();
             return
         }
