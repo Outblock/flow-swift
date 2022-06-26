@@ -16,7 +16,7 @@
     <a title="  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html"> 0.2.0 Docs</a> (53% documented)</p>
+        <p><a href="index.html"> 0.2.1 Docs</a> (54% documented)</p>
         <p class="header-right"><a href="https://github.com/outblock/flow-swift"><img src="img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="search.json">
@@ -251,11 +251,11 @@
 
 <div align="center">
   <a href="">
-    <img src="./Resources/logo.svg" alt="Logo" width="600" height="auto">
+    <img src="https://raw.githubusercontent.com/Outblock/flow-swift/main/Resources/logo.svg" alt="Logo" width="600" height="auto">
   </a>
   <p align="center"> <br />
-    <a href="https://github.com/zed-io/flow-swift"><strong>View on GitHub »</strong></a> <br /><br />
-    <a href="https://zed-io.github.io/flow-swift">SDK Specifications</a> ·
+    <a href="https://github.com/Outblock/flow-swift"><strong>View on GitHub »</strong></a> <br /><br />
+    <a href="https://Outblock.github.io/flow-swift">SDK Specifications</a> ·
     <a href="">Contribute</a> ·
     <a href="">Report a Bug</a>
   </p>
@@ -312,14 +312,7 @@ For example, if you want to use testnet, you can config the chainID like this:</
 <h4 id='examples' class='heading'>Examples</h4>
 
 <p>This example depicts ways to get the latest block as well as any other block by height or ID:</p>
-<pre class="highlight swift"><code><span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getLatestBlock</span><span class="p">(</span><span class="nv">sealed</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">block</span><span class="p">):</span>
-        <span class="c1">// Handle Success Result</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
-        <span class="c1">// Handle Error</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getLatestBlock</span><span class="p">(</span><span class="nv">sealed</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
 </code></pre>
 <h3 id='get-account' class='heading'>Get Account</h3>
 
@@ -339,14 +332,9 @@ For example, if you want to use testnet, you can config the chainID like this:</
 
 <p>Example depicts ways to get an account at the latest block and at a specific block height:</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">address</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">)</span>
-<span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getAccountAtLatestBlock</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">account</span><span class="p">):</span>
-        <span class="c1">// Handle Success Result</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
-        <span class="c1">// Handle Error</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+
+<span class="c1">// Handle Success Result</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getAccountAtLatestBlock</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">)</span>
 </code></pre>
 <h3 id='get-transactions' class='heading'>Get Transactions</h3>
 
@@ -398,14 +386,7 @@ For example, if you want to use testnet, you can config the chainID like this:</
 </tr>
 </tbody></table>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ID</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">)</span>
-<span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getTransactionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">tx</span><span class="p">):</span>
-        <span class="c1">// Handle Success Result</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
-        <span class="c1">// Handle Error</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getTransactionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span>
 </code></pre>
 <h3 id='get-events' class='heading'>Get Events</h3>
 
@@ -424,14 +405,7 @@ core events, and you should read more about them in <a href="https://docs.onflow
 <p>Example depicts ways to get events within block range or by block IDs:</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">eventName</span> <span class="o">=</span> <span class="s">"A.{contract address}.{contract name}.{event name}"</span>
 <span class="k">let</span> <span class="nv">blockIds</span><span class="p">:</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt">ID</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">),</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x2"</span><span class="p">)</span> <span class="p">]</span>
-<span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getEventsForHeightRange</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="n">eventName</span><span class="p">,</span> <span class="nv">range</span><span class="p">:</span> <span class="mi">10</span><span class="o">...</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
-        <span class="c1">// Handle Success Result</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
-        <span class="c1">// Handle Error</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getEventsForHeightRange</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="n">eventName</span><span class="p">,</span> <span class="nv">range</span><span class="p">:</span> <span class="mi">10</span><span class="o">...</span><span class="mi">20</span><span class="p">)</span>
 </code></pre>
 <h3 id='get-collections' class='heading'>Get Collections</h3>
 
@@ -442,14 +416,7 @@ Collections are used to improve consensus throughput by increasing the number of
 
 <p>Example retrieving a collection:</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ID</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="s">"0x1"</span><span class="p">)</span>
-<span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getCollectionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
-        <span class="c1">// Handle Success Result</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
-        <span class="c1">// Handle Error</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">getCollectionById</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="n">id</span><span class="p">)</span>
 </code></pre>
 <h3 id='execute-scripts' class='heading'>Execute Scripts</h3>
 
@@ -485,14 +452,14 @@ pub fun main(name: String): User {
     )
 }
 </code></pre>
-<pre class="highlight swift"><code><span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">executeScriptAtLatestBlock</span><span class="p">(</span><span class="nv">script</span><span class="p">:</span> <span class="n">script</span><span class="p">,</span> <span class="nv">arguments</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="o">.</span><span class="nf">string</span><span class="p">(</span><span class="s">"test"</span><span class="p">))])</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
-        <span class="c1">// Handle Success Result</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
-        <span class="c1">// Handle Error</span>
-    <span class="p">}</span>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">User</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">balance</span><span class="p">:</span> <span class="kt">Double</span>
+    <span class="k">let</span> <span class="nv">address</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
 <span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">accessAPI</span><span class="o">.</span><span class="nf">executeScriptAtLatestBlock</span><span class="p">(</span><span class="nv">script</span><span class="p">:</span> <span class="n">script</span><span class="p">,</span> <span class="nv">arguments</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="o">.</span><span class="nf">string</span><span class="p">(</span><span class="s">"test"</span><span class="p">))])</span>
+<span class="k">let</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">User</span> <span class="o">=</span> <span class="k">try</span> <span class="n">result</span><span class="o">.</span><span class="nf">decode</span><span class="p">()</span>
 </code></pre>
 <h2 id='mutate-flow-network' class='heading'>Mutate Flow Network</h2>
 
@@ -622,7 +589,7 @@ Before trying the examples below, we recommend that you read through the <a href
 <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">FlowSigner</span> <span class="p">{</span>
     <span class="k">var</span> <span class="nv">address</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
     <span class="k">var</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
-    <span class="kd">func</span> <span class="nf">signature</span><span class="p">(</span><span class="nv">signableData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span>
+    <span class="kd">func</span> <span class="nf">signature</span><span class="p">(</span><span class="nv">signableData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span>
 <span class="p">}</span>
 </code></pre>
 
@@ -651,7 +618,7 @@ Before trying the examples below, we recommend that you read through the <a href
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">address</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x1"</span><span class="p">)</span>
 <span class="k">let</span> <span class="nv">signers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">)]</span>
 <span class="k">do</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
         <span class="n">cadence</span> <span class="p">{</span>
             <span class="s">"""
             transaction { 
@@ -668,7 +635,7 @@ Before trying the examples below, we recommend that you read through the <a href
             <span class="n">address</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
     <span class="c1">// Handle Error</span>
 <span class="p">}</span>
@@ -702,7 +669,7 @@ Before trying the examples below, we recommend that you read through the <a href
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">address</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x1"</span><span class="p">)</span>
 <span class="k">let</span> <span class="nv">signers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span> <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">2</span><span class="p">)]</span>
 <span class="k">do</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
         <span class="n">cadence</span> <span class="p">{</span>
             <span class="s">"""
             transaction { 
@@ -719,7 +686,7 @@ Before trying the examples below, we recommend that you read through the <a href
             <span class="n">address</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
     <span class="c1">// Handle Error</span>
 <span class="p">}</span>
@@ -759,7 +726,7 @@ Before trying the examples below, we recommend that you read through the <a href
 <span class="k">let</span> <span class="nv">addressB</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x2"</span><span class="p">)</span>
 <span class="k">let</span> <span class="nv">signers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span> <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressB</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">3</span><span class="p">)]</span>
 <span class="k">do</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
         <span class="n">cadence</span> <span class="p">{</span>
             <span class="s">"""
             transaction { 
@@ -776,7 +743,7 @@ Before trying the examples below, we recommend that you read through the <a href
             <span class="n">addressA</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
     <span class="c1">// Handle Error</span>
 <span class="p">}</span>
@@ -817,7 +784,7 @@ Before trying the examples below, we recommend that you read through the <a href
 <span class="k">let</span> <span class="nv">addressB</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">Address</span><span class="p">(</span><span class="s">"0x2"</span><span class="p">)</span>
 <span class="k">let</span> <span class="nv">signers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressA</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span> <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressB</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">3</span><span class="p">)]</span>
 <span class="k">do</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
         <span class="n">cadence</span> <span class="p">{</span>
             <span class="s">"""
             transaction {
@@ -837,7 +804,7 @@ Before trying the examples below, we recommend that you read through the <a href
             <span class="p">[</span><span class="n">addressA</span><span class="p">,</span> <span class="n">addressB</span><span class="p">]</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
     <span class="c1">// Handle Error</span>
 <span class="p">}</span>
@@ -891,7 +858,7 @@ Before trying the examples below, we recommend that you read through the <a href
                 <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressB</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">3</span><span class="p">),</span>
                 <span class="kt">YourSigner</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">addressB</span><span class="p">,</span> <span class="nv">keyIndex</span><span class="p">:</span> <span class="mi">4</span><span class="p">)]</span>
 <span class="k">do</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
+    <span class="k">var</span> <span class="nv">unsignedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="n">buildTransaction</span><span class="p">{</span>
         <span class="n">cadence</span> <span class="p">{</span>
             <span class="s">"""
             transaction {
@@ -915,7 +882,7 @@ Before trying the examples below, we recommend that you read through the <a href
             <span class="n">addressB</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">signedTx</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">unsignedTx</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
     <span class="c1">// Handle Error</span>
 <span class="p">}</span>
@@ -923,14 +890,7 @@ Before trying the examples below, we recommend that you read through the <a href
 <h3 id='send-transactions' class='heading'>Send Transactions</h3>
 
 <p>After a transaction has been <a href="#build-transactions">built</a> and <a href="#sign-transactions">signed</a>, it can be sent to the Flow blockchain where it will be executed. If sending was successful you can then <a href="#get-transactions">retrieve the transaction result</a>.</p>
-<pre class="highlight swift"><code><span class="n">flow</span><span class="o">.</span><span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">signedTrnaction</span><span class="p">:</span> <span class="n">signedTx</span><span class="p">)</span><span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">account</span><span class="p">):</span>
-        <span class="c1">// Handle Success Result</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
-        <span class="c1">// Handle Error</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">signedTrnaction</span><span class="p">:</span> <span class="n">signedTx</span><span class="p">)</span>
 </code></pre>
 <h3 id='create-accounts' class='heading'>Create Accounts</h3>
 
@@ -962,29 +922,21 @@ Before trying the examples below, we recommend that you read through the <a href
                                  <span class="nv">hashAlgo</span><span class="p">:</span> <span class="o">.</span><span class="kt">SHA2_256</span><span class="p">,</span>
                                  <span class="nv">weight</span><span class="p">:</span> <span class="mi">1000</span><span class="p">)</span>
 
-<span class="n">flow</span><span class="o">.</span><span class="nf">createAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">publicKeys</span><span class="p">:</span> <span class="p">[</span><span class="n">accountKey</span><span class="p">],</span> <span class="nv">contracts</span><span class="p">:</span> <span class="p">[</span><span class="nv">scriptName</span><span class="p">:</span> <span class="n">script</span><span class="p">],</span> <span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
-<span class="o">.</span><span class="n">whenComplete</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-    <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">account</span><span class="p">):</span>
-        <span class="c1">// Handle Success Result</span>
-    <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
-        <span class="c1">// Handle Error</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="nf">createAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">publicKeys</span><span class="p">:</span> <span class="p">[</span><span class="n">accountKey</span><span class="p">],</span> <span class="nv">contracts</span><span class="p">:</span> <span class="p">[</span><span class="nv">scriptName</span><span class="p">:</span> <span class="n">script</span><span class="p">],</span> <span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span>
 </code></pre>
 
 <p>After the account creation transaction has been submitted you can retrieve the new account address by <a href="#get-transactions">getting the transaction result</a>. </p>
 
 <p>The new account address will be emitted in a system-level <code>flow.AccountCreated</code> event.</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">txID</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="nf">createAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">publicKeys</span><span class="p">:</span> <span class="p">[</span><span class="n">accountKey</span><span class="p">],</span> <span class="nv">contracts</span><span class="p">:</span> <span class="p">[</span><span class="nv">scriptName</span><span class="p">:</span> <span class="n">script</span><span class="p">],</span> <span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span><span class="o">.</span><span class="nf">wait</span><span class="p">()</span>
-<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try!</span> <span class="n">txID</span><span class="o">.</span><span class="nf">onceSealed</span><span class="p">()</span><span class="o">.</span><span class="nf">wait</span><span class="p">()</span>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">txID</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">flow</span><span class="o">.</span><span class="nf">createAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span> <span class="nv">publicKeys</span><span class="p">:</span> <span class="p">[</span><span class="n">accountKey</span><span class="p">],</span> <span class="nv">contracts</span><span class="p">:</span> <span class="p">[</span><span class="nv">scriptName</span><span class="p">:</span> <span class="n">script</span><span class="p">],</span> <span class="nv">signers</span><span class="p">:</span> <span class="n">signers</span><span class="p">)</span><span class="o">.</span><span class="nf">wait</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="n">wait</span> <span class="n">txID</span><span class="o">.</span><span class="nf">onceSealed</span><span class="p">()</span><span class="o">.</span><span class="nf">wait</span><span class="p">()</span>
 <span class="k">let</span> <span class="nv">event</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">first</span><span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">"flow.AccountCreated"</span> <span class="p">}</span>
 <span class="k">let</span> <span class="nv">field</span> <span class="o">=</span> <span class="n">event</span><span class="p">?</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">fields</span><span class="p">?</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="nf">toEvent</span><span class="p">()?</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">first</span><span class="p">{</span><span class="nv">$0</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">"address"</span><span class="p">}</span>
 <span class="k">let</span> <span class="nv">address</span> <span class="o">=</span> <span class="n">field</span><span class="p">?</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="nf">toAddress</span><span class="p">()?</span><span class="o">.</span><span class="n">hex</span>
 </code></pre>
 <h3 id='generate-keys' class='heading'>Generate Keys</h3>
 
-<p>To generating the key, please check our another SDK - <a href="https://github.com/zed-io/flow-wallet-kit">Flow Wallet Kit</a></p>
+<p>To generating the key, please check our another SDK - <a href="https://github.com/Outblock/flow-wallet-kit">Flow Wallet Kit</a></p>
 
           </section>
         </section>
