@@ -190,7 +190,7 @@ extension Flow.Argument: FlowCodable {
         }
     }
     
-    private func modelToDict(result: Encodable) -> [String: Any]? {
+    private func modelToDict<T: Encodable>(result: T) -> [String: Any]? {
         guard let data = try? JSONEncoder().encode(result),
                 let model = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else {
             return nil
