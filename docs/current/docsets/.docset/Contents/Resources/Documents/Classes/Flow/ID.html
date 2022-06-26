@@ -17,7 +17,7 @@
     <a title="ID Structure Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../../index.html"> 0.1.5 Docs</a> (54% documented)</p>
+        <p><a href="../../index.html"> 0.2.0 Docs</a> (53% documented)</p>
         <p class="header-right"><a href="https://github.com/outblock/flow-swift"><img src="../../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../../search.json">
@@ -49,6 +49,9 @@
                 <a href="../../Classes/Flow/TransactionBuilder.html">– TransactionBuilder</a>
               </li>
               <li class="nav-group-task">
+                <a href="../../Classes/Flow/Argument.html">– Argument</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../../Classes/Flow/FError.html">– FError</a>
               </li>
               <li class="nav-group-task">
@@ -65,9 +68,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../../Classes/Flow/Argument.html">– Argument</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/BlockHeader.html">– BlockHeader</a>
@@ -130,7 +130,7 @@
                 <a href="../../Classes/Flow/Code.html">– Code</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/Flow/AccessAPI.html">– AccessAPI</a>
+                <a href="../../Classes/Flow/Transport.html">– Transport</a>
               </li>
             </ul>
           </li>
@@ -143,6 +143,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Enums/RLP.html">RLP</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -150,6 +158,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/Publisher.html">Publisher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/URLSession.html">URLSession</a>
               </li>
             </ul>
           </li>
@@ -210,9 +224,6 @@
             <a href="../../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../../Protocols/FlowAccessBlockProtocol.html">FlowAccessBlockProtocol</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../../Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a>
               </li>
               <li class="nav-group-task">
@@ -224,21 +235,10 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../../Structs.html">Structures</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../../Structs/RLP.html">RLP</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a href="../../Typealiases.html">Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../../Typealiases.html#/s:4Flow5Bytesa">Bytes</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../../Typealiases.html#/s:4Flow8Callbacka">Callback</a>
               </li>
             </ul>
           </li>
@@ -260,7 +260,7 @@
             <p>The ID in Flow chain, which can represent as transaction id, block id and collection id etc.</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L24-L38">Show on GitHub</a>
+                <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowId.swift#L24-L38">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -290,7 +290,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L27">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowId.swift#L27">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -320,7 +320,67 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L27-L29">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowId.swift#L27-L29">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC2IDV4dataAD10Foundation4DataV_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(data:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC2IDV4dataAD10Foundation4DataV_tcfc">init(data:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowId.swift#L31-L33">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC2IDV5bytesADSays5UInt8VG_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(bytes:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC2IDV5bytesADSays5UInt8VG_tcfc">init(bytes:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">bytes</span><span class="p">:</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowId.swift#L35-L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -349,7 +409,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L46-L49">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowId.swift#L46-L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -378,7 +438,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L51-L55">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowId.swift#L51-L55">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -407,188 +467,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L59">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:4FlowAAC2IDV13onceFinalized7NIOCore15EventLoopFutureCyAB17TransactionResultVGyF"></a>
-                    <a name="//apple_ref/swift/Method/onceFinalized()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC2IDV13onceFinalized7NIOCore15EventLoopFutureCyAB17TransactionResultVGyF">onceFinalized()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get notified when transaction&rsquo;s status change to <code>.finalized</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">onceFinalized</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/TransactionResult.html">TransactionResult</a></span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A future that will receive the <code><a href="../../Classes/Flow/TransactionResult.html">Flow.TransactionResult</a></code> value.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L65-L67">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:4FlowAAC2IDV12onceExecuted7NIOCore15EventLoopFutureCyAB17TransactionResultVGyF"></a>
-                    <a name="//apple_ref/swift/Method/onceExecuted()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC2IDV12onceExecuted7NIOCore15EventLoopFutureCyAB17TransactionResultVGyF">onceExecuted()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get notified when transaction&rsquo;s status change to <code>.executed</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">onceExecuted</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/TransactionResult.html">TransactionResult</a></span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A future that will receive the <code><a href="../../Classes/Flow/TransactionResult.html">Flow.TransactionResult</a></code> value.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L71-L73">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:4FlowAAC2IDV10onceSealed7NIOCore15EventLoopFutureCyAB17TransactionResultVGyF"></a>
-                    <a name="//apple_ref/swift/Method/onceSealed()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC2IDV10onceSealed7NIOCore15EventLoopFutureCyAB17TransactionResultVGyF">onceSealed()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get notified when transaction&rsquo;s status change to <code>.sealed</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">onceSealed</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/TransactionResult.html">TransactionResult</a></span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A future that will receive the <code><a href="../../Classes/Flow/TransactionResult.html">Flow.TransactionResult</a></code> value.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L77-L79">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:4FlowAAC2IDV4once6status5delay7timeout7NIOCore15EventLoopFutureCyAB17TransactionResultVGAB0K0V6StatusO_8Dispatch0N12TimeIntervalOSdtF"></a>
-                    <a name="//apple_ref/swift/Method/once(status:delay:timeout:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC2IDV4once6status5delay7timeout7NIOCore15EventLoopFutureCyAB17TransactionResultVGAB0K0V6StatusO_8Dispatch0N12TimeIntervalOSdtF">once(status:<wbr>delay:<wbr>timeout:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get notified when transaction&rsquo;s status changed.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">once</span><span class="p">(</span><span class="nv">status</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/Transaction.html">Transaction</a></span><span class="o">.</span><span class="kt">Status</span><span class="p">,</span>
-          <span class="nv">delay</span><span class="p">:</span> <span class="kt">DispatchTimeInterval</span> <span class="o">=</span> <span class="o">.</span><span class="nf">milliseconds</span><span class="p">(</span><span class="mi">2000</span><span class="p">),</span>
-          <span class="nv">timeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mi">60</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/TransactionResult.html">TransactionResult</a></span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>status</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The status you want to monitor.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>delay</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Interval between two queries. Default is 2000 milliseconds.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>timeout</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Timeout for this request. Default is 60 seconds.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A future that will receive the <code><a href="../../Classes/Flow/TransactionResult.html">Flow.TransactionResult</a></code> value.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L87-L125">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowId.swift#L59">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -598,8 +477,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-02-15)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-06-26)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>

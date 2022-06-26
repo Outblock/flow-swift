@@ -16,7 +16,7 @@
     <a title="  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html"> 0.1.5 Docs</a> (54% documented)</p>
+        <p><a href="index.html"> 0.2.0 Docs</a> (53% documented)</p>
         <p class="header-right"><a href="https://github.com/outblock/flow-swift"><img src="img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="search.json">
@@ -48,6 +48,9 @@
                 <a href="Classes/Flow/TransactionBuilder.html">– TransactionBuilder</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/Flow/Argument.html">– Argument</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/Flow/FError.html">– FError</a>
               </li>
               <li class="nav-group-task">
@@ -64,9 +67,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Classes/Flow/Argument.html">– Argument</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/Flow/BlockHeader.html">– BlockHeader</a>
@@ -129,7 +129,7 @@
                 <a href="Classes/Flow/Code.html">– Code</a>
               </li>
               <li class="nav-group-task">
-                <a href="Classes/Flow/AccessAPI.html">– AccessAPI</a>
+                <a href="Classes/Flow/Transport.html">– Transport</a>
               </li>
             </ul>
           </li>
@@ -142,6 +142,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/RLP.html">RLP</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -149,6 +157,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Publisher.html">Publisher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/URLSession.html">URLSession</a>
               </li>
             </ul>
           </li>
@@ -209,9 +223,6 @@
             <a href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Protocols/FlowAccessBlockProtocol.html">FlowAccessBlockProtocol</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a>
               </li>
               <li class="nav-group-task">
@@ -223,21 +234,10 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="Structs.html">Structures</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="Structs/RLP.html">RLP</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a href="Typealiases.html">Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Typealiases.html#/s:4Flow5Bytesa">Bytes</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Typealiases.html#/s:4Flow8Callbacka">Callback</a>
               </li>
             </ul>
           </li>
@@ -274,7 +274,7 @@ SDKs are open source, and you can use them according to the licence.</p>
 <h3 id='installing' class='heading'>Installing</h3>
 
 <p>This is a Swift Package, and can be installed via Xcode with the URL of this repository:</p>
-<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Flow"</span><span class="p">,</span> <span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/outblock/flow-swift.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"0.1.3-beta"</span><span class="p">)</span>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Flow"</span><span class="p">,</span> <span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/outblock/flow-swift.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"0.2.0"</span><span class="p">)</span>
 </code></pre>
 <h2 id='config' class='heading'>Config</h2>
 
@@ -989,8 +989,8 @@ Before trying the examples below, we recommend that you read through the <a href
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-02-15)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-06-26)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>

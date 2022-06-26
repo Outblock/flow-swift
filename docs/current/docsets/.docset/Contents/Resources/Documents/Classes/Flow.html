@@ -17,7 +17,7 @@
     <a title="Flow Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> 0.1.5 Docs</a> (54% documented)</p>
+        <p><a href="../index.html"> 0.2.0 Docs</a> (53% documented)</p>
         <p class="header-right"><a href="https://github.com/outblock/flow-swift"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -49,6 +49,9 @@
                 <a href="../Classes/Flow/TransactionBuilder.html">– TransactionBuilder</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/Flow/Argument.html">– Argument</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/Flow/FError.html">– FError</a>
               </li>
               <li class="nav-group-task">
@@ -65,9 +68,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/Flow/Argument.html">– Argument</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Flow/BlockHeader.html">– BlockHeader</a>
@@ -130,7 +130,7 @@
                 <a href="../Classes/Flow/Code.html">– Code</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/Flow/AccessAPI.html">– AccessAPI</a>
+                <a href="../Classes/Flow/Transport.html">– Transport</a>
               </li>
             </ul>
           </li>
@@ -143,6 +143,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/RLP.html">RLP</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -150,6 +158,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Publisher.html">Publisher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/URLSession.html">URLSession</a>
               </li>
             </ul>
           </li>
@@ -210,9 +224,6 @@
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Protocols/FlowAccessBlockProtocol.html">FlowAccessBlockProtocol</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a>
               </li>
               <li class="nav-group-task">
@@ -224,21 +235,10 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../Structs.html">Structures</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs/RLP.html">RLP</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a href="../Typealiases.html">Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:4Flow5Bytesa">Bytes</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Typealiases.html#/s:4Flow8Callbacka">Callback</a>
               </li>
             </ul>
           </li>
@@ -260,7 +260,7 @@ Singleton class to make the class more accessible in global scope
 Please use <code><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></code> to access to its singleton entity.</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Flow.swift#L27-L89">Show on GitHub</a>
+                <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Flow.swift#L27-L89">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -291,7 +291,7 @@ Please use <code><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Flow.swift#L29">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Flow.swift#L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -322,7 +322,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Flow.swift#L36">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Flow.swift#L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -330,9 +330,9 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC9accessAPIAB06AccessC0Cvp"></a>
+                    <a name="/s:4FlowAAC9accessAPIAA0A14AccessProtocol_pvp"></a>
                     <a name="//apple_ref/swift/Property/accessAPI" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC9accessAPIAB06AccessC0Cvp">accessAPI</a>
+                    <a class="token" href="#/s:4FlowAAC9accessAPIAA0A14AccessProtocol_pvp">accessAPI</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -347,12 +347,12 @@ The default value is <code>.mainnet</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">accessAPI</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/AccessAPI.html">AccessAPI</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">accessAPI</span><span class="p">:</span> <span class="kt"><a href="../Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Flow.swift#L39">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Flow.swift#L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -424,7 +424,7 @@ The default value is <code>.mainnet</code>.</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Flow.swift#L64-L67">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Flow.swift#L64-L67">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -432,9 +432,9 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC15createAccessAPI7chainIDAB0cD0CAB05ChainF0O_tF"></a>
+                    <a name="/s:4FlowAAC15createAccessAPI7chainIDAA0aC8Protocol_pAB05ChainF0O_tF"></a>
                     <a name="//apple_ref/swift/Method/createAccessAPI(chainID:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC15createAccessAPI7chainIDAB0cD0CAB05ChainF0O_tF">createAccessAPI(chainID:<wbr>)</a>
+                    <a class="token" href="#/s:4FlowAAC15createAccessAPI7chainIDAA0aC8Protocol_pAB05ChainF0O_tF">createAccessAPI(chainID:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -459,7 +459,7 @@ The default value is <code>.mainnet</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createAccessAPI</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Flow/AccessAPI.html">AccessAPI</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createAccessAPI</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a></span></code></pre>
 
                         </div>
                       </div>
@@ -484,10 +484,10 @@ The default value is <code>.mainnet</code>.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>An <code><a href="../Classes/Flow/AccessAPI.html">AccessAPI</a></code> client</p>
+                        <p>An <code>AccessAPI</code> client</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Flow.swift#L86-L88">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Flow.swift#L86-L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -518,7 +518,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Build/TransactionBuild.swift#L163-L185">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Build/TransactionBuild.swift#L163-L185">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -550,7 +550,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Build/TransactionBuild.swift#L189-L199">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Build/TransactionBuild.swift#L189-L199">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -558,10 +558,13 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC21asyncBuildTransaction7chainID7builder7NIOCore15EventLoopFutureCyAB0D0VGAB05ChainF0O_SayAB0dC0OGyXEtKF"></a>
-                    <a name="//apple_ref/swift/Method/asyncBuildTransaction(chainID:builder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC21asyncBuildTransaction7chainID7builder7NIOCore15EventLoopFutureCyAB0D0VGAB05ChainF0O_SayAB0dC0OGyXEtKF">asyncBuildTransaction(chainID:<wbr>builder:<wbr>)</a>
+                    <a name="/s:4FlowAAC16buildTransaction7chainID7builderAB0C0VAB05ChainE0O_SayAB0C5BuildOGyXEtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/buildTransaction(chainID:builder:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC16buildTransaction7chainID7builderAB0C0VAB05ChainE0O_SayAB0C5BuildOGyXEtYaKF">buildTransaction(chainID:<wbr>builder:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -575,8 +578,8 @@ The default value is <code>.mainnet</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">asyncBuildTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span>
-                           <span class="kd">@Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></span> <span class="nv">builder</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">buildTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span>
+                      <span class="kd">@Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></span> <span class="nv">builder</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span></code></pre>
 
                         </div>
                       </div>
@@ -616,7 +619,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>The type of <code>EventLoopFuture&lt;Flow.Transaction&gt;</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Build/TransactionBuild.swift#L208-L297">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Build/TransactionBuild.swift#L208-L278">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -624,76 +627,13 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC16buildTransaction7chainID7builderAB0C0VAB05ChainE0O_SayAB0C5BuildOGyXEtKF"></a>
-                    <a name="//apple_ref/swift/Method/buildTransaction(chainID:builder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC16buildTransaction7chainID7builderAB0C0VAB05ChainE0O_SayAB0C5BuildOGyXEtKF">buildTransaction(chainID:<wbr>builder:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Build flow transaction using <code><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></code></p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">buildTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span>
-                      <span class="kd">@Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></span> <span class="nv">builder</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>chainID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The chain id for the transaction, the default value is <code>flow.chainID</code></p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>builder</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The list of <code><a href="../Classes/Flow/TransactionBuild.html">Flow.TransactionBuild</a></code></p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>The type of <code><a href="../Classes/Flow/Transaction.html">Flow.Transaction</a></code></p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Build/TransactionBuild.swift#L304-L308">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:4FlowAAC15sendTransaction7chainID06signedC07NIOCore15EventLoopFutureCyAB0E0VGAB05ChainE0O_AB0C0VtKF"></a>
+                    <a name="/s:4FlowAAC15sendTransaction7chainID06signedC0AB0E0VAB05ChainE0O_AB0C0VtYaKF"></a>
                     <a name="//apple_ref/swift/Method/sendTransaction(chainID:signedTransaction:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC15sendTransaction7chainID06signedC07NIOCore15EventLoopFutureCyAB0E0VGAB05ChainE0O_AB0C0VtKF">sendTransaction(chainID:<wbr>signedTransaction:<wbr>)</a>
+                    <a class="token" href="#/s:4FlowAAC15sendTransaction7chainID06signedC0AB0E0VAB05ChainE0O_AB0C0VtYaKF">sendTransaction(chainID:<wbr>signedTransaction:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -707,7 +647,7 @@ The default value is <code>.mainnet</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span> <span class="nv">signedTransaction</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span> <span class="nv">signedTransaction</span><span class="p">:</span> <span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span></code></pre>
 
                         </div>
                       </div>
@@ -747,7 +687,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>A future value of transaction id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Build/TransactionBuild.swift#L315-L318">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Build/TransactionBuild.swift#L285-L288">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -755,77 +695,13 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC23sendTransactionWithWait7chainID7signers7builderAB0G0VAB05ChainG0O_SayAA0A6Signer_pGSayAB0C5BuildOGyXEtKF"></a>
-                    <a name="//apple_ref/swift/Method/sendTransactionWithWait(chainID:signers:builder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC23sendTransactionWithWait7chainID7signers7builderAB0G0VAB05ChainG0O_SayAA0A6Signer_pGSayAB0C5BuildOGyXEtKF">sendTransactionWithWait(chainID:<wbr>signers:<wbr>builder:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Send signed Transaction to the network in sync way</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendTransactionWithWait</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span>
-                             <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">],</span>
-                             <span class="kd">@Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></span> <span class="nv">builder</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>chainID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The chain id for the transaction, the default value is <code>flow.chainID</code></p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>signedTransaction</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The signed Flow transaction</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>The transaction id</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Build/TransactionBuild.swift#L325-L332">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:4FlowAAC15sendTransaction7chainID7signers7builder7NIOCore15EventLoopFutureCyAB0E0VGAB05ChainE0O_SayAA0A6Signer_pGSayAB0C5BuildOGyXEtKF"></a>
+                    <a name="/s:4FlowAAC15sendTransaction7chainID7signers7builderAB0E0VAB05ChainE0O_SayAA0A6Signer_pGSayAB0C5BuildOGyXEtYaKF"></a>
                     <a name="//apple_ref/swift/Method/sendTransaction(chainID:signers:builder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC15sendTransaction7chainID7signers7builder7NIOCore15EventLoopFutureCyAB0E0VGAB05ChainE0O_SayAA0A6Signer_pGSayAB0C5BuildOGyXEtKF">sendTransaction(chainID:<wbr>signers:<wbr>builder:<wbr>)</a>
+                    <a class="token" href="#/s:4FlowAAC15sendTransaction7chainID7signers7builderAB0E0VAB05ChainE0O_SayAA0A6Signer_pGSayAB0C5BuildOGyXEtYaKF">sendTransaction(chainID:<wbr>signers:<wbr>builder:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -841,7 +717,7 @@ The default value is <code>.mainnet</code>.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span>
                      <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">],</span>
-                     <span class="kd">@Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></span> <span class="nv">builder</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
+                     <span class="kd">@Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></span> <span class="nv">builder</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span></code></pre>
 
                         </div>
                       </div>
@@ -893,7 +769,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>The transaction id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Build/TransactionBuild.swift#L340-L349">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Build/TransactionBuild.swift#L296-L305">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -901,98 +777,13 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC15sendTransaction7chainID7signers7builder10completionyAB05ChainE0O_SayAA0A6Signer_pGSayAB0C5BuildOGyXEys6ResultOyAB0E0Vs5Error_pGctKF"></a>
-                    <a name="//apple_ref/swift/Method/sendTransaction(chainID:signers:builder:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC15sendTransaction7chainID7signers7builder10completionyAB05ChainE0O_SayAA0A6Signer_pGSayAB0C5BuildOGyXEys6ResultOyAB0E0Vs5Error_pGctKF">sendTransaction(chainID:<wbr>signers:<wbr>builder:<wbr>completion:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Build, sign and send transaction to the network with block</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendTransaction</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ChainID.html">ChainID</a></span> <span class="o">=</span> <span class="n"><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></span><span class="o">.</span><span class="n"><a href="../Classes/Flow.html#/s:4FlowAAC7chainIDAB05ChainC0Ovp">chainID</a></span><span class="p">,</span>
-                     <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">],</span>
-                     <span class="kd">@Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuilder.html">TransactionBuilder</a></span> <span class="nv">builder</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionBuild.html">TransactionBuild</a></span><span class="p">],</span>
-                     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">throws</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>chainID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The chain id for the transaction, the default value is <code>flow.chainID</code></p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>signers</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A list of <code><a href="../Protocols/FlowSigner.html">FlowSigner</a></code>, which will sign the transaction</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>builder</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The list of <code><a href="../Classes/Flow/TransactionBuild.html">Flow.TransactionBuild</a></code></p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The block to handle the response</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Build/TransactionBuild.swift#L357-L368">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:4FlowAAC15addKeyToAccount7address07accountC07signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_AB0eC0VSayAA0A6Signer_pGtKF"></a>
+                    <a name="/s:4FlowAAC15addKeyToAccount7address07accountC07signersAB2IDVAB7AddressV_AB0eC0VSayAA0A6Signer_pGtYaKF"></a>
                     <a name="//apple_ref/swift/Method/addKeyToAccount(address:accountKey:signers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC15addKeyToAccount7address07accountC07signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_AB0eC0VSayAA0A6Signer_pGtKF">addKeyToAccount(address:<wbr>accountKey:<wbr>signers:<wbr>)</a>
+                    <a class="token" href="#/s:4FlowAAC15addKeyToAccount7address07accountC07signersAB2IDVAB7AddressV_AB0eC0VSayAA0A6Signer_pGtYaKF">addKeyToAccount(address:<wbr>accountKey:<wbr>signers:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1006,7 +797,7 @@ The default value is <code>.mainnet</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addKeyToAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Address.html">Address</a></span><span class="p">,</span> <span class="nv">accountKey</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/AccountKey.html">AccountKey</a></span><span class="p">,</span> <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addKeyToAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Address.html">Address</a></span><span class="p">,</span> <span class="nv">accountKey</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/AccountKey.html">AccountKey</a></span><span class="p">,</span> <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1058,7 +849,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Cadence/CommonCadence.swift#L144-L165">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Cadence/CommonCadence.swift#L160-L180">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1066,10 +857,13 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC20addContractToAccount7address12contractName4code7signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_S2SSayAA0A6Signer_pGtKF"></a>
+                    <a name="/s:4FlowAAC20addContractToAccount7address12contractName4code7signersAB2IDVAB7AddressV_S2SSayAA0A6Signer_pGtYaKF"></a>
                     <a name="//apple_ref/swift/Method/addContractToAccount(address:contractName:code:signers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC20addContractToAccount7address12contractName4code7signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_S2SSayAA0A6Signer_pGtKF">addContractToAccount(address:<wbr>contractName:<wbr>code:<wbr>signers:<wbr>)</a>
+                    <a class="token" href="#/s:4FlowAAC20addContractToAccount7address12contractName4code7signersAB2IDVAB7AddressV_S2SSayAA0A6Signer_pGtYaKF">addContractToAccount(address:<wbr>contractName:<wbr>code:<wbr>signers:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1086,7 +880,7 @@ The default value is <code>.mainnet</code>.</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addContractToAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Address.html">Address</a></span><span class="p">,</span>
                           <span class="nv">contractName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                           <span class="nv">code</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                          <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
+                          <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1150,7 +944,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Cadence/CommonCadence.swift#L174-L194">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Cadence/CommonCadence.swift#L189-L209">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1158,10 +952,13 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC13createAccount7address10publicKeys9contracts7signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_SayAB0C3KeyVGSDyS2SGSayAA0A6Signer_pGtKF"></a>
-                    <a name="//apple_ref/swift/Method/createAccount(address:publicKeys:contracts:signers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC13createAccount7address10publicKeys9contracts7signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_SayAB0C3KeyVGSDyS2SGSayAA0A6Signer_pGtKF">createAccount(address:<wbr>publicKeys:<wbr>contracts:<wbr>signers:<wbr>)</a>
+                    <a name="/s:4FlowAAC13createAccount7address10accountKey9contracts7signersAB2IDVAB7AddressV_AB0cF0VSDyS2SGSayAA0A6Signer_pGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/createAccount(address:accountKey:contracts:signers:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC13createAccount7address10accountKey9contracts7signersAB2IDVAB7AddressV_AB0cF0VSDyS2SGSayAA0A6Signer_pGtYaKF">createAccount(address:<wbr>accountKey:<wbr>contracts:<wbr>signers:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1176,9 +973,9 @@ The default value is <code>.mainnet</code>.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Address.html">Address</a></span><span class="p">,</span>
-                   <span class="nv">publicKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/AccountKey.html">AccountKey</a></span><span class="p">],</span>
+                   <span class="nv">accountKey</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/AccountKey.html">AccountKey</a></span><span class="p">,</span>
                    <span class="nv">contracts</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[:],</span>
-                   <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
+                   <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1242,7 +1039,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Cadence/CommonCadence.swift#L203-L229">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Cadence/CommonCadence.swift#L218-L248">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1250,10 +1047,13 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC23removeAccountKeyByIndex7address03keyF07signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_SiSayAA0A6Signer_pGtKF"></a>
+                    <a name="/s:4FlowAAC23removeAccountKeyByIndex7address03keyF07signersAB2IDVAB7AddressV_SiSayAA0A6Signer_pGtYaKF"></a>
                     <a name="//apple_ref/swift/Method/removeAccountKeyByIndex(address:keyIndex:signers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC23removeAccountKeyByIndex7address03keyF07signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_SiSayAA0A6Signer_pGtKF">removeAccountKeyByIndex(address:<wbr>keyIndex:<wbr>signers:<wbr>)</a>
+                    <a class="token" href="#/s:4FlowAAC23removeAccountKeyByIndex7address03keyF07signersAB2IDVAB7AddressV_SiSayAA0A6Signer_pGtYaKF">removeAccountKeyByIndex(address:<wbr>keyIndex:<wbr>signers:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1269,7 +1069,7 @@ The default value is <code>.mainnet</code>.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">removeAccountKeyByIndex</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Address.html">Address</a></span><span class="p">,</span>
                              <span class="nv">keyIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
-                             <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
+                             <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1333,7 +1133,7 @@ The default value is <code>.mainnet</code>.</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Cadence/CommonCadence.swift#L238-L256">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Cadence/CommonCadence.swift#L257-L275">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1341,10 +1141,13 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC25removeContractFromAccount7address12contractName7signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_SSSayAA0A6Signer_pGtKF"></a>
+                    <a name="/s:4FlowAAC25removeContractFromAccount7address12contractName7signersAB2IDVAB7AddressV_SSSayAA0A6Signer_pGtYaKF"></a>
                     <a name="//apple_ref/swift/Method/removeContractFromAccount(address:contractName:signers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC25removeContractFromAccount7address12contractName7signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_SSSayAA0A6Signer_pGtKF">removeContractFromAccount(address:<wbr>contractName:<wbr>signers:<wbr>)</a>
+                    <a class="token" href="#/s:4FlowAAC25removeContractFromAccount7address12contractName7signersAB2IDVAB7AddressV_SSSayAA0A6Signer_pGtYaKF">removeContractFromAccount(address:<wbr>contractName:<wbr>signers:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1360,12 +1163,12 @@ The default value is <code>.mainnet</code>.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">removeContractFromAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Address.html">Address</a></span><span class="p">,</span>
                                <span class="nv">contractName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                               <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
+                               <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Cadence/CommonCadence.swift#L258-L276">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Cadence/CommonCadence.swift#L277-L295">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1373,10 +1176,13 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC23updateContractOfAccount7address12contractName6script7signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_S2SSayAA0A6Signer_pGtKF"></a>
+                    <a name="/s:4FlowAAC23updateContractOfAccount7address12contractName6script7signersAB2IDVAB7AddressV_S2SSayAA0A6Signer_pGtYaKF"></a>
                     <a name="//apple_ref/swift/Method/updateContractOfAccount(address:contractName:script:signers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC23updateContractOfAccount7address12contractName6script7signers7NIOCore15EventLoopFutureCyAB2IDVGAB7AddressV_S2SSayAA0A6Signer_pGtKF">updateContractOfAccount(address:<wbr>contractName:<wbr>script:<wbr>signers:<wbr>)</a>
+                    <a class="token" href="#/s:4FlowAAC23updateContractOfAccount7address12contractName6script7signersAB2IDVAB7AddressV_S2SSayAA0A6Signer_pGtYaKF">updateContractOfAccount(address:<wbr>contractName:<wbr>script:<wbr>signers:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -1393,12 +1199,12 @@ The default value is <code>.mainnet</code>.</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">updateContractOfAccount</span><span class="p">(</span><span class="nv">address</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Address.html">Address</a></span><span class="p">,</span>
                              <span class="nv">contractName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                              <span class="nv">script</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                             <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span><span class="o">&gt;</span></code></pre>
+                             <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ID.html">ID</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Cadence/CommonCadence.swift#L278-L297">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Cadence/CommonCadence.swift#L297-L316">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1406,9 +1212,9 @@ The default value is <code>.mainnet</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC19verifyUserSignature7message10signatures7NIOCore15EventLoopFutureCyAB14ScriptResponseVGSS_SayAB011TransactionD0VGtKF"></a>
-                    <a name="//apple_ref/swift/Method/verifyUserSignature(message:signatures:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC19verifyUserSignature7message10signatures7NIOCore15EventLoopFutureCyAB14ScriptResponseVGSS_SayAB011TransactionD0VGtKF">verifyUserSignature(message:<wbr>signatures:<wbr>)</a>
+                    <a name="/s:4FlowAAC8ArgumentV"></a>
+                    <a name="//apple_ref/swift/Struct/Argument" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC8ArgumentV">Argument</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1416,20 +1222,20 @@ The default value is <code>.mainnet</code>.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The argument for Cadence code for encoding and decoding</p>
 
+                        <a href="../Classes/Flow/Argument.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">verifyUserSignature</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                         <span class="nv">signatures</span><span class="p">:</span> <span class="p">[</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/TransactionSignature.html">TransactionSignature</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">EventLoopFuture</span><span class="o">&lt;</span><span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/ScriptResponse.html">ScriptResponse</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Argument</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Cadence/CommonCadence.swift#L299-L342">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowArgument.swift#L24-L263">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1461,7 +1267,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Error/FlowError.swift#L23-L38">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Error/FlowError.swift#L23-L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1487,12 +1293,12 @@ The default value is <code>.mainnet</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Account</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Account</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowAccount.swift#L24-L43">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowAccount.swift#L24-L59">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1518,12 +1324,12 @@ The default value is <code>.mainnet</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">AccountKey</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">AccountKey</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowAccount.swift#L46-L100">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowAccount.swift#L62-L130">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1557,7 +1363,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowAddress.swift#L24-L38">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowAddress.swift#L24-L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1588,7 +1394,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowAlgorithm.swift#L22-L89">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowAlgorithm.swift#L22-L89">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1619,38 +1425,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowAlgorithm.swift#L92-L181">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:4FlowAAC8ArgumentV"></a>
-                    <a name="//apple_ref/swift/Struct/Argument" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC8ArgumentV">Argument</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The argument for Cadence code for encoding and decoding</p>
-
-                        <a href="../Classes/Flow/Argument.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Argument</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowArgument.swift#L24-L247">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowAlgorithm.swift#L92-L181">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1676,12 +1451,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">BlockHeader</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">BlockHeader</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L23-L44">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L23-L55">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1707,12 +1482,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">BlockSeal</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">BlockSeal</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L47-L59">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L58-L83">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1738,12 +1513,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Block</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Block</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L62-L93">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L86-L124">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1774,7 +1549,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowCadence.swift#L23">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowCadence.swift#L23">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1800,12 +1575,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">ChainID</span> <span class="p">:</span> <span class="kt">CaseIterable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">ChainID</span> <span class="p">:</span> <span class="kt">CaseIterable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowChainId.swift#L23-L103">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowChainId.swift#L23-L124">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1831,12 +1606,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Collection</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Collection</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowCollection.swift#L23-L31">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowCollection.swift#L23-L31">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1861,12 +1636,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CollectionGuarantee</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CollectionGuarantee</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowCollection.swift#L34-L42">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowCollection.swift#L34-L54">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1897,7 +1672,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowDomainTag.swift#L23-L62">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowDomainTag.swift#L23-L62">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1922,12 +1697,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Event</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Event</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowEvent.swift#L23-L69">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowEvent.swift#L23-L99">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1953,13 +1728,13 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Snapshot</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Snapshot</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Codable</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt"><a href="../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt">Snapshot</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowEvent.swift#L71-L73">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowEvent.swift#L101-L107">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1992,7 +1767,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowId.swift#L24-L38">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowId.swift#L24-L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2025,7 +1800,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowScript.swift#L23-L41">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowScript.swift#L23-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2051,13 +1826,13 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">ScriptResponse</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">ScriptResponse</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Codable</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt"><a href="../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt">ScriptResponse</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowScript.swift#L44-L54">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowScript.swift#L44-L62">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2083,13 +1858,13 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Signature</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Signature</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Codable</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt"><a href="../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt">Signature</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowSignature.swift#L23-L33">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowSignature.swift#L23-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2121,7 +1896,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowTransaction.swift#L24-L217">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowTransaction.swift#L24-L212">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2129,10 +1904,13 @@ At the most time, it represents account address</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC15signTransaction08unsignedC07signersAB0C0VAG_SayAA0A6Signer_pGtKF"></a>
+                    <a name="/s:4FlowAAC15signTransaction08unsignedC07signersAB0C0VAG_SayAA0A6Signer_pGtYaKF"></a>
                     <a name="//apple_ref/swift/Method/signTransaction(unsignedTransaction:signers:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC15signTransaction08unsignedC07signersAB0C0VAG_SayAA0A6Signer_pGtKF">signTransaction(unsignedTransaction:<wbr>signers:<wbr>)</a>
+                    <a class="token" href="#/s:4FlowAAC15signTransaction08unsignedC07signersAB0C0VAG_SayAA0A6Signer_pGtYaKF">signTransaction(unsignedTransaction:<wbr>signers:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -2146,7 +1924,7 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">signTransaction</span><span class="p">(</span><span class="nv">unsignedTransaction</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span><span class="p">,</span> <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">signTransaction</span><span class="p">(</span><span class="nv">unsignedTransaction</span><span class="p">:</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span><span class="p">,</span> <span class="nv">signers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/FlowSigner.html">FlowSigner</a></span><span class="p">])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt"><a href="../Classes/Flow/Transaction.html">Transaction</a></span></code></pre>
 
                         </div>
                       </div>
@@ -2186,7 +1964,7 @@ At the most time, it represents account address</p>
                         <p>The signed transaction</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowTransaction+Signer.swift#L27-L30">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowTransaction+Signer.swift#L27-L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2212,12 +1990,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">TransactionResult</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">TransactionResult</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowTransaction.swift#L292-L318">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowTransaction.swift#L314-L356">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2249,7 +2027,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowTransaction.swift#L321-L351">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowTransaction.swift#L359-L381">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2281,7 +2059,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowTransaction.swift#L353-L412">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowTransaction.swift#L383-L427">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2307,12 +2085,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">PublicKey</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">PublicKey</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/Signer.swift#L22-L36">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/Signer.swift#L22-L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2338,12 +2116,12 @@ At the most time, it represents account address</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Code</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Code</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowEntity.html">FlowEntity</a></span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Codable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/Signer.swift#L38-L40">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/Signer.swift#L44-L56">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2351,9 +2129,9 @@ At the most time, it represents account address</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC9AccessAPIC"></a>
-                    <a name="//apple_ref/swift/Class/AccessAPI" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC9AccessAPIC">AccessAPI</a>
+                    <a name="/s:4FlowAAC9TransportO"></a>
+                    <a name="//apple_ref/swift/Enum/Transport" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC9TransportO">Transport</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2361,22 +2139,20 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The network client for access API
-More detail can be found here: <a href="https://docs.onflow.org/access-api">https://docs.onflow.org/access-api</a></p>
+                        <p>Undocumented</p>
 
-                        <a href="../Classes/Flow/AccessAPI.html" class="slightly-smaller">See more</a>
+                        <a href="../Classes/Flow/Transport.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">AccessAPI</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a></span></code></pre>
-<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt"><a href="../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt">AccessAPI</span><span class="p">:</span> <span class="kt"><a href="../Protocols/FlowAccessBlockProtocol.html">FlowAccessBlockProtocol</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">Transport</span> <span class="p">:</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Network/FlowAccessAPI.swift#L26-L500">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Network/FlowTransport.swift#L21-L64">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2386,8 +2162,8 @@ More detail can be found here: <a href="https://docs.onflow.org/access-api">http
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-02-15)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-06-26)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -17,7 +17,7 @@
     <a title="Block Structure Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../../index.html"> 0.1.5 Docs</a> (54% documented)</p>
+        <p><a href="../../index.html"> 0.2.0 Docs</a> (53% documented)</p>
         <p class="header-right"><a href="https://github.com/outblock/flow-swift"><img src="../../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../../search.json">
@@ -49,6 +49,9 @@
                 <a href="../../Classes/Flow/TransactionBuilder.html">– TransactionBuilder</a>
               </li>
               <li class="nav-group-task">
+                <a href="../../Classes/Flow/Argument.html">– Argument</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../../Classes/Flow/FError.html">– FError</a>
               </li>
               <li class="nav-group-task">
@@ -65,9 +68,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../../Classes/Flow/Argument.html">– Argument</a>
               </li>
               <li class="nav-group-task">
                 <a href="../../Classes/Flow/BlockHeader.html">– BlockHeader</a>
@@ -130,7 +130,7 @@
                 <a href="../../Classes/Flow/Code.html">– Code</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Classes/Flow/AccessAPI.html">– AccessAPI</a>
+                <a href="../../Classes/Flow/Transport.html">– Transport</a>
               </li>
             </ul>
           </li>
@@ -143,6 +143,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Enums/RLP.html">RLP</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -150,6 +158,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/Publisher.html">Publisher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Extensions/URLSession.html">URLSession</a>
               </li>
             </ul>
           </li>
@@ -210,9 +224,6 @@
             <a href="../../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../../Protocols/FlowAccessBlockProtocol.html">FlowAccessBlockProtocol</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../../Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a>
               </li>
               <li class="nav-group-task">
@@ -224,21 +235,10 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../../Structs.html">Structures</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../../Structs/RLP.html">RLP</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
             <a href="../../Typealiases.html">Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../../Typealiases.html#/s:4Flow5Bytesa">Bytes</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../../Typealiases.html#/s:4Flow8Callbacka">Callback</a>
               </li>
             </ul>
           </li>
@@ -251,14 +251,14 @@
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Block</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Block</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                 </div>
               </div>
             <p>The data structure for the block in Flow blockchain</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L62-L93">Show on GitHub</a>
+                <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L86-L124">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -289,7 +289,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L64">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -319,7 +319,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L67">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -349,7 +349,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L70">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L94">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -379,7 +379,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L73">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L97">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -409,7 +409,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L76">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -439,7 +439,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L79">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L103">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -447,9 +447,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC5BlockV10signaturesSayAB9SignatureVGvp"></a>
+                    <a name="/s:4FlowAAC5BlockV10signaturesSayAB9SignatureVGSgvp"></a>
                     <a name="//apple_ref/swift/Property/signatures" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC5BlockV10signaturesSayAB9SignatureVGvp">signatures</a>
+                    <a class="token" href="#/s:4FlowAAC5BlockV10signaturesSayAB9SignatureVGSgvp">signatures</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -464,12 +464,48 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">signatures</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow/Signature.html">Signature</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">signatures</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow/Signature.html">Signature</a></span><span class="p">]?</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.1.5/Sources/Flow/Models/FlowBlock.swift#L82">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L106">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4FlowAAC5BlockV2id8parentId6height9timestamp20collectionGuarantees10blockSeals10signaturesAdB2IDV_AMs6UInt64V10Foundation4DateVSayAB19CollectionGuaranteeVGSayAB0B4SealVGSayAB9SignatureVGtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(id:parentId:height:timestamp:collectionGuarantees:blockSeals:signatures:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4FlowAAC5BlockV2id8parentId6height9timestamp20collectionGuarantees10blockSeals10signaturesAdB2IDV_AMs6UInt64V10Foundation4DateVSayAB19CollectionGuaranteeVGSayAB0B4SealVGSayAB9SignatureVGtcfc">init(id:<wbr>parentId:<wbr>height:<wbr>timestamp:<wbr>collectionGuarantees:<wbr>blockSeals:<wbr>signatures:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ID.html">ID</a></span><span class="p">,</span>
+            <span class="nv">parentId</span><span class="p">:</span> <span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/ID.html">ID</a></span><span class="p">,</span>
+            <span class="nv">height</span><span class="p">:</span> <span class="kt">UInt64</span><span class="p">,</span>
+            <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span>
+            <span class="nv">collectionGuarantees</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/CollectionGuarantee.html">CollectionGuarantee</a></span><span class="p">],</span>
+            <span class="nv">blockSeals</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/BlockSeal.html">BlockSeal</a></span><span class="p">],</span>
+            <span class="nv">signatures</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/Flow.html">Flow</a></span><span class="o">.</span><span class="kt"><a href="../../Classes/Flow/Signature.html">Signature</a></span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.2.0/Sources/Flow/Models/FlowBlock.swift#L108-L123">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -479,8 +515,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-02-15)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-06-26)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>
