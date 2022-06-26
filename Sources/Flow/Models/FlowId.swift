@@ -59,73 +59,57 @@ extension Flow.ID: CustomStringConvertible {
     public var description: String { data.hexValue }
 }
 
-// public extension Flow.ID {
-//    /// Get notified when transaction's status change to `.finalized`.
-//    /// - returns: A future that will receive the `Flow.TransactionResult` value.
-//    func onceFinalized() -> EventLoopFuture<Flow.TransactionResult> {
-//        return once(status: .finalized)
-//    }
-//
-//    /// Get notified when transaction's status change to `.executed`.
-//    /// - returns: A future that will receive the `Flow.TransactionResult` value.
-//    func onceExecuted() -> EventLoopFuture<Flow.TransactionResult> {
-//        return once(status: .executed)
-//    }
-//
-//    /// Get notified when transaction's status change to `.sealed`.
-//    /// - returns: A future that will receive the `Flow.TransactionResult` value.
-//    func onceSealed() -> EventLoopFuture<Flow.TransactionResult> {
-//        return once(status: .sealed)
-//    }
-//
-//    /// Get notified when transaction's status changed.
-//    /// - parameters:
-//    ///     - status: The status you want to monitor.
-//    ///     - delay: Interval between two queries. Default is 2000 milliseconds.
-//    ///     - timeout: Timeout for this request. Default is 60 seconds.
-//    /// - returns: A future that will receive the `Flow.TransactionResult` value.
-//    func once(status: Flow.Transaction.Status,
-//              delay: DispatchTimeInterval = .milliseconds(2000),
-//              timeout: TimeInterval = 60) -> Future<Flow.TransactionResult, Error>
-//    {
-//        return Future { promise in
-//
-//
-//
-//        }
-//        let accessAPI = flow.accessAPI
-//        let promise = accessAPI.clientChannel.eventLoop.makePromise(of: Flow.TransactionResult.self)
-//        let timeoutDate = Date(timeIntervalSinceNow: timeout)
-//
-//        func makeResultCall() {
-//            let now = Date()
-//            if now > timeoutDate {
-//                // timeout
-//                promise.fail(Flow.FError.timeout)
-//                return
-//            }
-//
-//            let call = accessAPI.getTransactionResultById(id: self)
-//            call.whenSuccess { result in
-//                if result.status >= status {
-//                    // finished
-//                    promise.succeed(result)
-//                    return
-//                }
-//
-//                // continue loop
-//                DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
-//                    makeResultCall()
-//                }
-//            }
-//
-//            call.whenFailure { error in
-//                // error
-//                promise.fail(error)
-//            }
-//        }
-//
-//        makeResultCall()
-//        return promise.futureResult
-//    }
-// }
+ public extension Flow.ID {
+    /// Get notified when transaction's status change to `.finalized`.
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
+    func onceFinalized() async throws -> Flow.TransactionResult {
+        return try await once(status: .finalized)
+    }
+
+    /// Get notified when transaction's status change to `.executed`.
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
+    func onceExecuted() async throws -> Flow.TransactionResult {
+        return try await once(status: .executed)
+    }
+
+    /// Get notified when transaction's status change to `.sealed`.
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
+    func onceSealed() async throws -> Flow.TransactionResult {
+        return try await once(status: .sealed)
+    }
+
+    /// Get notified when transaction's status changed.
+    /// - parameters:
+    ///     - status: The status you want to monitor.
+    ///     - delay: Interval between two queries. Default is 2000 milliseconds.
+    ///     - timeout: Timeout for this request. Default is 60 seconds.
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
+    func once(status: Flow.Transaction.Status,
+              delayInNanoSec: UInt64 = 2_000_000_000,
+              timeout: TimeInterval = 60) async throws -> Flow.TransactionResult
+    {
+        let accessAPI = flow.accessAPI
+        let timeoutDate = Date(timeIntervalSinceNow: timeout)
+
+        @Sendable
+        func makeResultCall() async throws -> Flow.TransactionResult {
+            let now = Date()
+            if now > timeoutDate {
+                // timeout
+                throw Flow.FError.timeout
+            }
+
+            let result = try await accessAPI.getTransactionResultById(id: self)
+            if result.status >= status {
+                // finished
+                return result
+            }
+
+            // continue loop
+            try await _Concurrency.Task.sleep(nanoseconds: delayInNanoSec)
+            return try await makeResultCall()
+        }
+
+        return try await makeResultCall()
+    }
+ }

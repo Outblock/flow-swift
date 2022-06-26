@@ -4,8 +4,8 @@
     <img src="./Resources/logo.svg" alt="Logo" width="600" height="auto">
   </a>
   <p align="center"> <br />
-    <a href="https://github.com/zed-io/flow-swift"><strong>View on GitHub »</strong></a> <br /><br />
-    <a href="https://zed-io.github.io/flow-swift">SDK Specifications</a> ·
+    <a href="https://github.com/Outblock/flow-swift"><strong>View on GitHub »</strong></a> <br /><br />
+    <a href="https://Outblock.github.io/flow-swift">SDK Specifications</a> ·
     <a href="">Contribute</a> ·
     <a href="">Report a Bug</a>
   </p>
@@ -70,14 +70,7 @@ Query the network for block by id, height or get the latest block.
 
 This example depicts ways to get the latest block as well as any other block by height or ID:
 ```swift
-flow.accessAPI.getLatestBlock(sealed: true).whenComplete { result in
-    switch result {
-    case let .success(block):
-        // Handle Success Result
-    case let .failure(error):
-        // Handle Error
-    }
-}
+let result = try await flow.accessAPI.getLatestBlock(sealed: true)
 ```
 
 ### Get Account
@@ -97,14 +90,9 @@ Example depicts ways to get an account at the latest block and at a specific blo
 
 ```swift
 let address = Flow.Address(hex: "0x1")
-flow.accessAPI.getAccountAtLatestBlock(address: address).whenComplete { result in
-    switch result {
-    case let .success(account):
-        // Handle Success Result
-    case let .failure(error):
-        // Handle Error
-    }
-}
+
+// Handle Success Result
+let result = try await flow.accessAPI.getAccountAtLatestBlock(address: address)
 ```
 
 ### Get Transactions
@@ -130,14 +118,7 @@ Retrieve transactions from the network by providing a transaction ID. After a tr
 
 ```swift
 let id = Flow.ID(hex: "0x1")
-flow.accessAPI.getTransactionById(id: id).whenComplete { result in
-    switch result {
-    case let .success(tx):
-        // Handle Success Result
-    case let .failure(error):
-        // Handle Error
-    }
-}
+let result = try await flow.accessAPI.getTransactionById(id: id)
 ```
 
 
@@ -160,14 +141,7 @@ Example depicts ways to get events within block range or by block IDs:
 ```swift
 let eventName = "A.{contract address}.{contract name}.{event name}"
 let blockIds: [Flow.ID] = [.init(hex: "0x1"), .init(hex: "0x2") ]
-flow.accessAPI.getEventsForHeightRange(type: eventName, range: 10...20).whenComplete { result in
-    switch result {
-    case let .success(response):
-        // Handle Success Result
-    case let .failure(error):
-        // Handle Error
-    }
-}
+let result = try await flow.accessAPI.getEventsForHeightRange(type: eventName, range: 10...20)
 ```
 
 
@@ -180,14 +154,7 @@ Collections are used to improve consensus throughput by increasing the number of
 Example retrieving a collection:
 ```swift
 let id = Flow.ID(hex: "0x1")
-flow.accessAPI.getCollectionById(id: id).whenComplete { result in
-    switch result {
-    case let .success(response):
-        // Handle Success Result
-    case let .failure(error):
-        // Handle Error
-    }
-}
+let result = try await flow.accessAPI.getCollectionById(id: id)
 ```
 
 ### Execute Scripts
@@ -225,14 +192,14 @@ pub fun main(name: String): User {
 }
 ```
 ```swift
-flow.accessAPI.executeScriptAtLatestBlock(script: script, arguments: [.init(value: .string("test"))]).whenComplete { result in
-    switch result {
-    case let .success(response):
-        // Handle Success Result
-    case let .failure(error):
-        // Handle Error
-    }
+struct User: Codable {
+    let balance: Double
+    let address: String
+    let name: String
 }
+
+let result = try await flow.accessAPI.executeScriptAtLatestBlock(script: script, arguments: [.init(value: .string("test"))])
+let model: User = try result.decode()
 ```
 
 ## Mutate Flow Network
@@ -362,7 +329,7 @@ To sign the transaction, you need create a list signer which confirm **FlowSigne
 public protocol FlowSigner {
     var address: Flow.Address { get set }
     var keyIndex: Int { get set }
-    func signature(signableData: Data) throws -> Data
+    func signature(signableData: Data) async throws -> Data
 }
 ```
 
@@ -382,7 +349,7 @@ Flow supports great flexibility when it comes to transaction signing, we can def
 let address = Flow.Address("0x1")
 let signers = [YourSigner(address: address, keyIndex: 1)]
 do {
-    var unsignedTx = try flow.buildTransaction{
+    var unsignedTx = try await flow.buildTransaction{
         cadence {
             """
             transaction { 
@@ -399,7 +366,7 @@ do {
             address
         }
     }
-    let signedTx = try unsignedTx.sign(signers: signers)
+    let signedTx = try await unsignedTx.sign(signers: signers)
 } catch {
     // Handle Error
 }
@@ -420,7 +387,7 @@ do {
 let address = Flow.Address("0x1")
 let signers = [YourSigner(address: address, keyIndex: 1), YourSigner(address: address, keyIndex: 2)]
 do {
-    var unsignedTx = try flow.buildTransaction{
+    var unsignedTx = try await flow.buildTransaction{
         cadence {
             """
             transaction { 
@@ -437,7 +404,7 @@ do {
             address
         }
     }
-    let signedTx = try unsignedTx.sign(signers: signers)
+    let signedTx = try await unsignedTx.sign(signers: signers)
 } catch {
     // Handle Error
 }
@@ -461,7 +428,7 @@ let addressA = Flow.Address("0x1")
 let addressB = Flow.Address("0x2")
 let signers = [YourSigner(address: addressA, keyIndex: 1), YourSigner(address: addressB, keyIndex: 3)]
 do {
-    var unsignedTx = try flow.buildTransaction{
+    var unsignedTx = try await flow.buildTransaction{
         cadence {
             """
             transaction { 
@@ -478,7 +445,7 @@ do {
             addressA
         }
     }
-    let signedTx = try unsignedTx.sign(signers: signers)
+    let signedTx = try await unsignedTx.sign(signers: signers)
 } catch {
     // Handle Error
 }
@@ -503,7 +470,7 @@ let addressA = Flow.Address("0x1")
 let addressB = Flow.Address("0x2")
 let signers = [YourSigner(address: addressA, keyIndex: 1), YourSigner(address: addressB, keyIndex: 3)]
 do {
-    var unsignedTx = try flow.buildTransaction{
+    var unsignedTx = try await flow.buildTransaction{
         cadence {
             """
             transaction {
@@ -523,7 +490,7 @@ do {
             [addressA, addressB]
         }
     }
-    let signedTx = try unsignedTx.sign(signers: signers)
+    let signedTx = try await unsignedTx.sign(signers: signers)
 } catch {
     // Handle Error
 }
@@ -553,7 +520,7 @@ let signers = [YourSigner(address: addressA, keyIndex: 1),
                 YourSigner(address: addressB, keyIndex: 3),
                 YourSigner(address: addressB, keyIndex: 4)]
 do {
-    var unsignedTx = try flow.buildTransaction{
+    var unsignedTx = try await flow.buildTransaction{
         cadence {
             """
             transaction {
@@ -577,7 +544,7 @@ do {
             addressB
         }
     }
-    let signedTx = try unsignedTx.sign(signers: signers)
+    let signedTx = try await unsignedTx.sign(signers: signers)
 } catch {
     // Handle Error
 }
@@ -589,14 +556,7 @@ do {
 After a transaction has been [built](#build-transactions) and [signed](#sign-transactions), it can be sent to the Flow blockchain where it will be executed. If sending was successful you can then [retrieve the transaction result](#get-transactions).
 
 ```swift
-flow.sendTransaction(signedTrnaction: signedTx).whenComplete { result in
-    switch result {
-    case let .success(account):
-        // Handle Success Result
-    case let .failure(error):
-        // Handle Error
-    }
-}
+let result = try await flow.sendTransaction(signedTrnaction: signedTx)
 ```
 
 
@@ -629,23 +589,15 @@ let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: "0x1"),
                                  hashAlgo: .SHA2_256,
                                  weight: 1000)
 
-flow.createAccount(address: address, publicKeys: [accountKey], contracts: [scriptName: script], signers: signers)
-.whenComplete { result in
-    switch result {
-    case let .success(account):
-        // Handle Success Result
-    case let .failure(error):
-        // Handle Error
-    }
-}
+let result = try await flow.createAccount(address: address, publicKeys: [accountKey], contracts: [scriptName: script], signers: signers)
 ```
 
 After the account creation transaction has been submitted you can retrieve the new account address by [getting the transaction result](#get-transactions). 
 
 The new account address will be emitted in a system-level `flow.AccountCreated` event.
 ```swift
-let txID = flow.createAccount(address: address, publicKeys: [accountKey], contracts: [scriptName: script], signers: signers).wait()
-let result = try! txID.onceSealed().wait()
+let txID = try await flow.createAccount(address: address, publicKeys: [accountKey], contracts: [scriptName: script], signers: signers).wait()
+let result = try wait txID.onceSealed().wait()
 let event = result.events.first{ $0.type == "flow.AccountCreated" }
 let field = event?.payload.fields?.value.toEvent()?.fields.first{$0.name == "address"}
 let address = field?.value.value.toAddress()?.hex
@@ -653,4 +605,4 @@ let address = field?.value.value.toAddress()?.hex
 
 ### Generate Keys
 
-To generating the key, please check our another SDK - [Flow Wallet Kit](https://github.com/zed-io/flow-wallet-kit)
+To generating the key, please check our another SDK - [Flow Wallet Kit](https://github.com/Outblock/flow-wallet-kit)

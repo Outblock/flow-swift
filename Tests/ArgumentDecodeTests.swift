@@ -295,8 +295,8 @@ final class ArgumentDecodeTests: XCTestCase {
         }
         """
         let argument = Flow.Argument(jsonString: jsonString)!
-        let result: Flow.Address = try argument.decode()
-        XCTAssertEqual(result, Flow.Address(hex: "0x4eb165aa383fd6f9"))
+        let result: String = try argument.decode()
+        XCTAssertEqual(result, "0x4eb165aa383fd6f9")
     }
 
     func testCharacterType() throws {

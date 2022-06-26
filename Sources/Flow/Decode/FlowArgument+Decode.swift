@@ -61,7 +61,7 @@ extension Flow.Argument: FlowCodable {
         case .int:
             return value.toInt()
         case .address:
-            return value.toAddress()?.hex
+            return value.toAddress()?.hex.addHexPrefix()
         case .struct:
             guard let event = value.toStruct() else {
                 return nil

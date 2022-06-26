@@ -126,6 +126,48 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertEqual(firstStruct.fields.last!.name, "y")
         XCTAssertEqual(result.first?.y, 2)
     }
+    
+    func testExecuteScriptAtLastestBlock2() async throws {
+        let script = Flow.Script(text: """
+            pub struct User {
+                pub var balance: UFix64
+                pub var address: Address
+                pub var name: String
+
+                init(name: String, address: Address, balance: UFix64) {
+                    self.name = name
+                    self.address = address
+                    self.balance = balance
+                }
+            }
+
+            pub fun main(name: String): User {
+                return User(
+                    name: name,
+                    address: 0x1,
+                    balance: 10.0
+                )
+            }
+            """
+        )
+
+        struct User: Codable {
+            let balance: Double
+            let address: String
+            let name: String
+        }
+
+        let snapshot = try await flowAPI.executeScriptAtLatestBlock(script: script, arguments: [.string("Hello")])
+        XCTAssertNotNil(snapshot)
+        
+        
+        let result: User = try snapshot.decode()
+        print(result)
+
+        XCTAssertEqual(result.name, "Hello")
+        XCTAssertEqual(result.balance, 10.0)
+        XCTAssertEqual(result.address, "0x0000000000000001")
+    }
 
     func testVerifySignature() async throws {
         let script = Flow.Script(text: """

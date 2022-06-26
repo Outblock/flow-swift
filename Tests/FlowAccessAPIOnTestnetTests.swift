@@ -186,7 +186,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         }
 
         print("tx id -> \(txID.hex)")
-//        let result = try! await txID.onceSealed()
-//        XCTAssertEqual(result.status, .sealed)
+        let result = try await txID.onceSealed()
+        XCTAssertEqual(result.status, .sealed)
     }
 }
