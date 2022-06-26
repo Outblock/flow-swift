@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="">
-    <img src="./Resources/logo.svg" alt="Logo" width="600" height="auto">
+    <img src="https://raw.githubusercontent.com/Outblock/flow-swift/main/Resources/logo.svg" alt="Logo" width="600" height="auto">
   </a>
   <p align="center"> <br />
     <a href="https://github.com/Outblock/flow-swift"><strong>View on GitHub »</strong></a> <br /><br />
