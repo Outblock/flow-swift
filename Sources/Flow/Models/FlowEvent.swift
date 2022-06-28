@@ -112,7 +112,7 @@ extension Flow.Snapshot: CustomStringConvertible {
 }
 
 extension Flow.Event.Payload: FlowCodable {
-    func decode() -> Any? {
+    public func decode() -> Any? {
         return fields?.decode()
     }
 

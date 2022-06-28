@@ -57,7 +57,7 @@ extension Flow.Argument: FlowCodable {
         }
     }
 
-    func decode() -> Any? {
+    public func decode() -> Any? {
         switch type {
         case .int:
             return value.toInt()
