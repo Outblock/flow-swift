@@ -61,16 +61,17 @@ public extension Flow {
             type = value.type
             self.value = value
         }
-        
+
         public init?(jsonData: Data) {
             do {
                 let result = try JSONDecoder().decode(Flow.Argument.self, from: jsonData)
                 self.init(type: result.type, value: result.value)
             } catch {
+                print(error)
                 return nil
             }
         }
-        
+
         public init?(jsonString: String) {
             guard let jsonData = jsonString.data(using: .utf8) else {
                 return nil

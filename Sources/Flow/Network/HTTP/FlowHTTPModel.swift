@@ -20,6 +20,11 @@ import BigInt
 import Foundation
 
 extension Flow {
+    struct ErrorResponse: Codable {
+        let code: Int
+        let message: String
+    }
+
     struct BlockHeaderResponse: Codable {
         let header: Flow.BlockHeader
     }

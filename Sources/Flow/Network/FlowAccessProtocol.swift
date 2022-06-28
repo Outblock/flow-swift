@@ -46,15 +46,15 @@ public protocol FlowAccessProtocol {
     func getAccountByBlockHeight(address: Flow.Address, height: UInt64) async throws -> Flow.Account
 
     func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse
-    
+
     func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Cadence.FValue]) async throws -> Flow.ScriptResponse
 
     func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse
-    
+
     func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Cadence.FValue]) async throws -> Flow.ScriptResponse
 
     func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse
-    
+
     func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Cadence.FValue]) async throws -> Flow.ScriptResponse
 
     func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) async throws -> [Flow.Event.Result]
@@ -70,24 +70,24 @@ extension FlowAccessProtocol {
     func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument] = []) async throws -> Flow.ScriptResponse {
         return try await executeScriptAtLatestBlock(script: script, arguments: arguments)
     }
-    
+
     func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Cadence.FValue]) async throws -> Flow.ScriptResponse {
-        return try await executeScriptAtLatestBlock(script: script, arguments: arguments.map{ $0.toArgument() })
+        return try await executeScriptAtLatestBlock(script: script, arguments: arguments.map { $0.toArgument() })
     }
 
     func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Argument] = []) async throws -> Flow.ScriptResponse {
         return try await executeScriptAtBlockId(script: script, blockId: blockId, arguments: arguments)
     }
-    
+
     func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Cadence.FValue]) async throws -> Flow.ScriptResponse {
-        return try await executeScriptAtBlockId(script: script, blockId: blockId, arguments: arguments.map{ $0.toArgument() })
+        return try await executeScriptAtBlockId(script: script, blockId: blockId, arguments: arguments.map { $0.toArgument() })
     }
 
     func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument] = []) async throws -> Flow.ScriptResponse {
         return try await executeScriptAtBlockHeight(script: script, height: height, arguments: arguments)
     }
-    
+
     func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Cadence.FValue]) async throws -> Flow.ScriptResponse {
-        return try await executeScriptAtBlockHeight(script: script, height: height, arguments: arguments.map{ $0.toArgument() })
+        return try await executeScriptAtBlockHeight(script: script, height: height, arguments: arguments.map { $0.toArgument() })
     }
 }

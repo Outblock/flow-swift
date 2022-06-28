@@ -106,18 +106,18 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         let snapshot = try await flowAPI.executeScriptAtLatestBlock(script: script)
         XCTAssertNotNil(snapshot)
         XCTAssertEqual(Flow.Cadence.FType.array, snapshot.fields?.type)
-        
+
         struct SomeStruct: Codable {
             var x: Int
             var y: Int
         }
-        
+
         guard let result: [SomeStruct] = try? snapshot.decode() else {
-            XCTFail();
+            XCTFail()
             return
         }
         print(result)
-        
+
         guard case let .array(value: value) = snapshot.fields!.value else { XCTFail(); return }
         guard case let .struct(value: firstStruct) = value.first!.value else { XCTFail(); return }
 
@@ -126,7 +126,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertEqual(firstStruct.fields.last!.name, "y")
         XCTAssertEqual(result.first?.y, 2)
     }
-    
+
     func testExecuteScriptAtLastestBlock2() async throws {
         let script = Flow.Script(text: """
             pub struct User {
@@ -159,8 +159,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
 
         let snapshot = try await flowAPI.executeScriptAtLatestBlock(script: script, arguments: [.string("Hello")])
         XCTAssertNotNil(snapshot)
-        
-        
+
         let result: User = try snapshot.decode()
         print(result)
 
@@ -217,17 +216,17 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
     func testTransactionResultById() async throws {
         let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
         let result = try await flowAPI.getTransactionResultById(id: id)
-        
+
         XCTAssertEqual(result.events.count, 3)
         XCTAssertEqual(result.events.first?.type, "A.c38aea683c0c4d38.Eternal.Withdraw")
-        
+
         struct TestType: Codable {
             let id: UInt64
             let from: String
         }
-        
+
         let test: TestType = try result.events.first!.payload.decode()
-        
+
         XCTAssertEqual(result.events.first?.payload.fields?.type, .event)
         XCTAssertEqual(test.id, 11800)
         XCTAssertEqual(test.from.addHexPrefix(), "0x873becfb539f038d")

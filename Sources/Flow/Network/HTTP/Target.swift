@@ -17,7 +17,6 @@
 //
 import Foundation
 
-
 internal enum Method: String {
     case GET
     case POST

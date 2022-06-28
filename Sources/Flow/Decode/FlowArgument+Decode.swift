@@ -19,43 +19,44 @@ import Foundation
 
 protocol FlowCodable {
     func decode() -> Any?
-    
+
     func decode<T: Decodable>(_ decodable: T.Type) throws -> T?
-    
+
     func decode<T: Decodable>() throws -> T
 }
 
 extension Flow.Argument: FlowCodable {
-    
     public func decode<T: Decodable>() throws -> T {
         guard let value = decode() else {
             throw Flow.FError.decodeFailure
         }
-        
+
         if let some = value as? T {
             return some
         }
-        
+
         guard JSONSerialization.isValidJSONObject(value) else {
             throw Flow.FError.decodeFailure
         }
-        
+
         do {
             let data = try JSONSerialization.data(withJSONObject: value, options: [.fragmentsAllowed, .sortedKeys])
             let model = try JSONDecoder().decode(T.self, from: data)
             return model
         } catch {
-            throw Flow.FError.decodeFailure
+            throw error
         }
     }
-    
-    public func decode<T: Decodable>(_ decodable: T.Type) throws -> T? {
-        guard let result: T = try? decode() else {
-            throw Flow.FError.decodeFailure
+
+    public func decode<T: Decodable>(_: T.Type) throws -> T? {
+        do {
+            let result: T = try decode()
+            return result
+        } catch {
+            throw error
         }
-        return result
     }
-    
+
     func decode() -> Any? {
         switch type {
         case .int:
@@ -78,8 +79,8 @@ extension Flow.Argument: FlowCodable {
             return value.toInt128()
         case .array:
             let args = value.toArray()?.map { arg in
-               arg.decode()
-           }
+                arg.decode()
+            }
             return args
         case .bool:
             return value.toBool()
@@ -127,7 +128,7 @@ extension Flow.Argument: FlowCodable {
             guard let result = value.toDictionary() else {
                 return nil
             }
-            
+
             // TODO: Improve this
             if result.first?.key.type == .int {
                 return result.reduce(into: [Int: Any?]()) {
@@ -136,7 +137,7 @@ extension Flow.Argument: FlowCodable {
                     }
                 }
             }
-            
+
             return result.reduce(into: [String: Any?]()) {
                 if let key = $1.key.decode() as? String {
                     $0[key] = $1.value.decode()
@@ -183,19 +184,19 @@ extension Flow.Argument: FlowCodable {
             return nil
         }
     }
-    
+
     private func eventToDict(result: Event) -> [String: Any?] {
         return result.fields.reduce(into: [String: Any?]()) {
             $0[$1.name] = $1.value.decode()
         }
     }
-    
+
     private func modelToDict<T: Encodable>(result: T) -> [String: Any]? {
         guard let data = try? JSONEncoder().encode(result),
-                let model = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else {
+              let model = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
+        else {
             return nil
         }
         return model
     }
-    
 }

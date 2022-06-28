@@ -63,7 +63,8 @@ extension Flow {
                 }
             }
 
-            let (data, _) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await URLSession.shared.data(for: request)
+
             let dateFormatter = DateFormatter()
             // 2022-06-22T15:32:09.08595992Z
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSS'Z'"
@@ -71,6 +72,13 @@ extension Flow {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .formatted(dateFormatter)
             decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+            if let httpResponse = response as? HTTPURLResponse,
+               httpResponse.statusCode == 400
+            {
+                let errorModel = try decoder.decode(ErrorResponse.self, from: data)
+                throw FError.customError(msg: errorModel.message)
+            }
 
             return try decoder.decode(T.self, from: data)
         }

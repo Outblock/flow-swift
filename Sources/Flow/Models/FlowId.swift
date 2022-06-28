@@ -59,7 +59,7 @@ extension Flow.ID: CustomStringConvertible {
     public var description: String { data.hexValue }
 }
 
- public extension Flow.ID {
+public extension Flow.ID {
     /// Get notified when transaction's status change to `.finalized`.
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
     func onceFinalized() async throws -> Flow.TransactionResult {
@@ -112,4 +112,4 @@ extension Flow.ID: CustomStringConvertible {
 
         return try await makeResultCall()
     }
- }
+}

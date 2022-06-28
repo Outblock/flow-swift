@@ -20,39 +20,37 @@
 @testable import Flow
 import XCTest
 
-
 struct TestEventType: Codable {
     let wasTheCodeClean: String
-    
+
     enum CodingKeys: String, CodingKey {
         case wasTheCodeClean = "wasTheCodeClean?"
     }
 }
 
 final class ArgumentDecodeTests: XCTestCase {
-    
     private func executeOnChain<T: Decodable>(script: String) async throws -> T {
         let script = Flow.Script(text: script)
         let snapshot = try await flow.accessAPI.executeScriptAtLatestBlock(script: script)
         XCTAssertNotNil(snapshot)
-        
+
         guard let result: T = try? snapshot.decode() as? T else {
             throw Flow.FError.decodeFailure
         }
         return result
     }
-    
+
     private func executeOnChain<T: Decodable>(script: String, model: T.Type) async throws -> T? {
         let script = Flow.Script(text: script)
         let snapshot = try await flow.accessAPI.executeScriptAtLatestBlock(script: script)
         XCTAssertNotNil(snapshot)
-        
+
         guard let result = try? snapshot.decode(model.self) else {
             throw Flow.FError.decodeFailure
         }
         return result
     }
-    
+
     func testIntType() async throws {
         let cadence = """
             pub fun main(): [Int] {
@@ -186,7 +184,7 @@ final class ArgumentDecodeTests: XCTestCase {
         XCTAssertEqual(result, 256)
     }
 
-    func testUInt256Type() async  throws {
+    func testUInt256Type() async throws {
         let cadence = """
             pub fun main(): UInt256 {
                 return 256
@@ -418,11 +416,11 @@ final class ArgumentDecodeTests: XCTestCase {
            }
         }
         """
-        
+
         struct TestType: Codable {
             let Jeffysaur_Name: String
         }
-        
+
         let argument = Flow.Argument(jsonString: jsonString)!
         let result: TestType = try argument.decode()
         XCTAssertEqual(result.Jeffysaur_Name, "Mr Jeff The Dinosaur")
@@ -446,7 +444,7 @@ final class ArgumentDecodeTests: XCTestCase {
            }
         }
         """
-        
+
         let argument = Flow.Argument(jsonString: jsonString)!
         let result: TestEventType = try argument.decode()
         XCTAssertEqual(result.wasTheCodeClean, "absolutely")
@@ -470,7 +468,7 @@ final class ArgumentDecodeTests: XCTestCase {
            }
         }
         """
-        
+
         let argument = Flow.Argument(jsonString: jsonString)!
         let result: TestEventType = try argument.decode()
         XCTAssertEqual(result.wasTheCodeClean, "absolutely")
@@ -509,13 +507,13 @@ final class ArgumentDecodeTests: XCTestCase {
           }
         }
         """
-        
+
         struct TestType: Codable {
             let staticType: String
         }
-        
+
         let argument = Flow.Argument(jsonString: jsonString)!
-        let result: TestType  = try argument.decode()
+        let result: TestType = try argument.decode()
         XCTAssertEqual(result.staticType, "Int")
     }
 
@@ -530,9 +528,9 @@ final class ArgumentDecodeTests: XCTestCase {
           }
         }
         """
-        
+
         let argument = Flow.Argument(jsonString: jsonString)!
-        let result: Flow.Argument.Capability  = try argument.decode()
+        let result: Flow.Argument.Capability = try argument.decode()
         XCTAssertEqual(result.path, "/public/someInteger")
         XCTAssertEqual(result.address, "0x1")
         XCTAssertEqual(result.borrowType, "Int")
@@ -556,7 +554,7 @@ final class ArgumentDecodeTests: XCTestCase {
            }
         }
         """
-        
+
         struct TestType: Codable {
             let Jeffysaur_Name: String
         }
@@ -575,11 +573,25 @@ final class ArgumentDecodeTests: XCTestCase {
            }
         }
         """
-        
+
         let argument = Flow.Argument(jsonString: jsonString)!
         let value: Flow.Argument.Path = try argument.decode()
         XCTAssertEqual(value.domain, "public")
         XCTAssertEqual(value.identifier, "zelosAccountingTokenReceiver")
+    }
+
+    func testComplicateType() throws {
+        let jsonString = """
+                {"type":"Array","value":[{"type":"Optional","value":{"type":"Struct","value":{"id":"s.092333c89dc53817e8aa4b1b7fc1b12cd234736b00f589aa80037d3e493724f8.NFTData","fields":[{"name":"contract","value":{"type":"Struct","value":{"id":"s.092333c89dc53817e8aa4b1b7fc1b12cd234736b00f589aa80037d3e493724f8.NFTContractData","fields":[{"name":"name","value":{"type":"String","value":"CNN_NFT"}},{"name":"address","value":{"type":"Address","value":"0x329feb3ab062d289"}},{"name":"storage_path","value":{"type":"String","value":"CNN_NFT.CollectionStoragePath"}},{"name":"public_path","value":{"type":"String","value":"CNN_NFT.CollectionPublicPath"}},{"name":"public_collection_name","value":{"type":"String","value":"CNN_NFT.CNN_NFTCollectionPublic"}},{"name":"external_domain","value":{"type":"String","value":"https://vault.cnn.com/"}}]}}},{"name":"id","value":{"type":"UInt64","value":"2278"}},{"name":"uuid","value":{"type":"Optional","value":{"type":"UInt64","value":"49236818"}}},{"name":"title","value":{"type":"Optional","value":{"type":"String","value":"CNN Projects Trump will Win"}}},{"name":"description","value":{"type":"Optional","value":{"type":"String","value":"November"}}},{"name":"external_domain_view_url","value":{"type":"Optional","value":{"type":"String","value":"https://vault.cnn.com/tokens/2278"}}},{"name":"token_uri","value":{"type":"Optional","value":null}},{"name":"media","value":{"type":"Array","value":[{"type":"Optional","value":{"type":"Struct","value":{"id":"s.092333c89dc53817e8aa4b1b7fc1b12cd234736b00f589aa80037d3e493724f8.NFTMedia","fields":[{"name":"uri","value":{"type":"Optional","value":{"type":"String","value":"https://giglabs.mypinata.cloud/ipfs/Qmcx2NZyMrQK2a2iVzFBSNZn9X1pAkrbwP4B6Dtg3TAnFK"}}},{"name":"mimetype","value":{"type":"Optional","value":{"type":"String","value":"video/mp4"}}}]}}},{"type":"Optional","value":{"type":"Struct","value":{"id":"s.092333c89dc53817e8aa4b1b7fc1b12cd234736b00f589aa80037d3e493724f8.NFTMedia","fields":[{"name":"uri","value":{"type":"Optional","value":{"type":"String","value":"https://giglabs.mypinata.cloud/ipfs/QmQTXyTiYcMaaWwb67hcPUV75onpguwSoDir5axfgexeyn"}}},{"name":"mimetype","value":{"type":"Optional","value":{"type":"String","value":"image"}}}]}}}]}},{"name":"metadata","value":{"type":"Dictionary","value":[{"key":{"type":"String","value":"editionNumber"},"value":{"type":"Optional","value":{"type":"String","value":"272"}}},{"key":{"type":"String","value":"set_id"},"value":{"type":"Optional","value":{"type":"String","value":"4"}}},{"key":{"type":"String","value":"editionCount"},"value":{"type":"Optional","value":{"type":"String","value":"1000"}}},{"key":{"type":"String","value":"series_id"},"value":{"type":"Optional","value":{"type":"String","value":"2"}}}]}}]}}}]}
+        """
+
+        let argument = Flow.Argument(jsonString: jsonString)!
+        let value: Welcome = try argument.decode()
+
+        XCTAssertEqual(value.first!.id, 2278)
+        XCTAssertEqual(value.first!.media.first!.mimetype, "video/mp4")
+        XCTAssertEqual(value.first!.title, "CNN Projects Trump will Win")
+        XCTAssertNotNil(value)
     }
 
     // MARK: - Util Method
@@ -596,5 +608,93 @@ final class ArgumentDecodeTests: XCTestCase {
         let jsonData = jsonString.data(using: .utf8)!
         let object = try! JSONSerialization.jsonObject(with: jsonData)
         return try! JSONSerialization.data(withJSONObject: object, options: [])
+    }
+}
+
+// MARK: - WelcomeElement
+
+struct WelcomeElement: Codable {
+    let contract: Contract
+    let id, uuid: UInt64
+    let title, welcomeDescription: String
+    let externalDomainViewURL: String
+    let tokenURI: JSONNull?
+    let media: [Media]
+    let metadata: Metadata
+
+    enum CodingKeys: String, CodingKey {
+        case contract, id, uuid, title
+        case welcomeDescription = "description"
+        case externalDomainViewURL = "external_domain_view_url"
+        case tokenURI = "token_uri"
+        case media, metadata
+    }
+}
+
+// MARK: - Contract
+
+struct Contract: Codable {
+    let name, address, storagePath, publicPath: String
+    let publicCollectionName: String
+    let externalDomain: String
+
+    enum CodingKeys: String, CodingKey {
+        case name, address
+        case storagePath = "storage_path"
+        case publicPath = "public_path"
+        case publicCollectionName = "public_collection_name"
+        case externalDomain = "external_domain"
+    }
+}
+
+// MARK: - Media
+
+struct Media: Codable {
+    let uri: String
+    let mimetype: String
+}
+
+// MARK: - Metadata
+
+struct Metadata: Codable {
+    let editionNumber, setID, editionCount, seriesID: String
+
+    enum CodingKeys: String, CodingKey {
+        case editionNumber
+        case setID = "set_id"
+        case editionCount
+        case seriesID = "series_id"
+    }
+}
+
+typealias Welcome = [WelcomeElement]
+
+// MARK: - Encode/decode helpers
+
+class JSONNull: Codable, Hashable {
+    public static func == (_: JSONNull, _: JSONNull) -> Bool {
+        return true
+    }
+
+    public var hashValue: Int {
+        return 0
+    }
+
+    public func hash(into _: inout Hasher) {
+        // No-op
+    }
+
+    public init() {}
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if !container.decodeNil() {
+            throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encodeNil()
     }
 }
