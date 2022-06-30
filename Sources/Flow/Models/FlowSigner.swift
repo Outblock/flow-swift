@@ -21,16 +21,16 @@ import Foundation
 /// A protocol for signer to use private key to sign the data
 public protocol FlowSigner {
     /// Address in the flow blockchain
-    var address: Flow.Address { get set }
+    var address: Flow.Address { get }
 
     /// The index of the public key
-    var hashAlgo: Flow.HashAlgorithm { get set }
+    var hashAlgo: Flow.HashAlgorithm { get }
 
     /// The index of the public key
-    var signatureAlgo: Flow.SignatureAlgorithm { get set }
+    var signatureAlgo: Flow.SignatureAlgorithm { get }
 
     // The index of the public key
-    var keyIndex: Int { get set }
+    var keyIndex: Int { get }
 
     /// Sign the data with account private key
     /// - parameters:
