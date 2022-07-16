@@ -262,8 +262,7 @@ public extension Flow {
             return proposalKey
         }
 
-        let api = Flow.shared.createAccessAPI(chainID: chainID)
-
+        let api = flow.accessAPI
         let id = try await resolveBlockId(api: api, refBlock: refBlock)
         let key = try await resolveProposalKey(api: api, proposalKey: proposalKey)
         proposalKey = key
@@ -283,7 +282,7 @@ public extension Flow {
     ///     - signedTransaction: The signed Flow transaction
     /// - returns: A future value of transaction id
     func sendTransaction(chainID: ChainID = flow.chainID, signedTransaction: Transaction) async throws -> Flow.ID {
-        let api = flow.createAccessAPI(chainID: chainID)
+        let api = flow.accessAPI
         return try await api.sendTransaction(transaction: signedTransaction)
     }
 
@@ -297,7 +296,7 @@ public extension Flow {
                          signers: [FlowSigner],
                          @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) async throws -> Flow.ID
     {
-        let api = flow.createAccessAPI(chainID: chainID)
+        let api = flow.accessAPI
         let unsignedTx = try await buildTransaction(chainID: chainID, builder: builder)
         let signedTx = try await flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
 

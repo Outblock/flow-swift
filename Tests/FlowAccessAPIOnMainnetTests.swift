@@ -28,7 +28,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
     override func setUp() {
         super.setUp()
         flow.configure(chainID: .mainnet)
-        flowAPI = flow.createAccessAPI(chainID: .mainnet)
+        flowAPI = flow.createHTTPAccessAPI(chainID: .mainnet)
     }
 
     func testFlowPing() async throws {

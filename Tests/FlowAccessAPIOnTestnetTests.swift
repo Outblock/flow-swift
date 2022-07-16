@@ -39,7 +39,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        flowAPI = flow.createAccessAPI(chainID: .testnet)
+        flowAPI = flow.createHTTPAccessAPI(chainID: .testnet)
         flow.configure(chainID: .testnet)
     }
 

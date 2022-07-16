@@ -183,13 +183,5 @@ extension Flow {
         func getEventsForBlockIds(type: String, ids: Set<Flow.ID>) async throws -> [Flow.Event.Result] {
             return try await request(Flow.AccessEndpoint.getEventsForBlockIds(type: type, ids: ids))
         }
-
-//        func getNetworkParameters() async throws -> Flow.ChainID {
-//            return try await request(Flow.AccessEndpoint.getNetworkParameters)
-//        }
-//
-//        func getLatestProtocolStateSnapshot() async throws -> Flow.Snapshot {
-//            return try await request(Flow.AccessEndpoint.getLatestProtocolStateSnapshot)
-//        }
     }
 }

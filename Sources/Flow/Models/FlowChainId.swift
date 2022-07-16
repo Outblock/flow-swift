@@ -50,13 +50,13 @@ public extension Flow {
         public var name: String {
             switch self {
             case .mainnet:
-                return "flow-mainnet"
+                return "mainnet"
             case .testnet:
-                return "flow-testnet"
+                return "testnet"
             case .canarynet:
-                return "flow-canarynet"
+                return "canarynet"
             case .emulator:
-                return "flow-emulator"
+                return "emulator"
             case .unknown:
                 return "unknown"
             case let .custom(name, _):
@@ -71,14 +71,6 @@ public extension Flow {
         public static func == (lhs: Flow.ChainID, rhs: Flow.ChainID) -> Bool {
             return lhs.name == rhs.name && lhs.defaultNode == rhs.defaultNode
         }
-
-//        func transport() -> Flow.Transport {
-//
-//        }
-
-//        public func hash(into hasher: inout Hasher) {
-//            hasher.combine()
-//        }
 
         public var defaultHTTPNode: Flow.Transport {
             switch self {

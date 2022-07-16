@@ -38,6 +38,7 @@ public final class Flow {
     /// The access API client
     public private(set) var accessAPI: FlowAccessProtocol
 
+    /// Default access client will be HTTP Client
     init() {
         accessAPI = FlowHTTPAPI(chainID: chainID)
     }
@@ -45,6 +46,7 @@ public final class Flow {
     // MARK: - AccessAPI
 
     /// Config the chainID for Flow Swift SDK
+    /// Default access client will be HTTP Client
     /// - parameters:
     ///     - chainID: The chain id to be configured.
     ///
@@ -63,7 +65,29 @@ public final class Flow {
     ///
     public func configure(chainID: ChainID) {
         self.chainID = chainID
-        accessAPI = createAccessAPI(chainID: chainID)
+        accessAPI = createHTTPAccessAPI(chainID: chainID)
+    }
+    
+    /// Config the chainID and accessNode for Flow Swift SDK
+    /// - parameters:
+    ///     - chainID: The chain id to be configured.
+    ///
+    ///
+    /// For using default node:
+    /// ```
+    ///     flow.configure(chainID: .testnet)
+    /// ```
+    ///
+    /// For custom node:
+    /// ```
+    ///     let accessAPI = Flow.GRPCAccessAPI(chainID: .mainnet)!
+    ///     let chainID = Flow.ChainID.mainnet
+    ///     flow.configure(chainID: chainID, accessAPI: accessAPI)
+    /// ```
+    ///
+    public func configure(chainID: ChainID, accessAPI: FlowAccessProtocol) {
+        self.chainID = chainID
+        self.accessAPI = accessAPI
     }
 
     /// Create an access API client of `Access` by chainID
@@ -83,7 +107,7 @@ public final class Flow {
     ///     let client = flow.createAccessAPI(chainID: chainID)
     /// ```
     ///
-    public func createAccessAPI(chainID: ChainID) -> FlowAccessProtocol {
+    public func createHTTPAccessAPI(chainID: ChainID) -> FlowAccessProtocol {
         return FlowHTTPAPI(chainID: chainID)
     }
 }
