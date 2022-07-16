@@ -29,7 +29,7 @@ https://outblock.github.io/flow-swift/
 This is a Swift Package, and can be installed via Xcode with the URL of this repository:
 
 ```swift
-.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.2.0")
+.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.2.2")
 ```
 
 ## Config
@@ -54,6 +54,18 @@ let endpoint = Flow.ChainID.Endpoint(node: "flow-testnet.g.alchemy.com", port: 4
 let chainID = Flow.ChainID.custom(name: "Alchemy-Testnet", endpoint:endpoint)
 flow.configure(chainID: chainID)
 ```
+
+### (Optional) GRPC Acces Node
+
+If you want to use g-RPC access client better than HTTP client, please import this repo instead:
+[flow-swift-gRPC](https://github.com/Outblock/flow-swift-gRPC)
+
+Here is the example how you initialize it:
+```swift
+let accessAPI = Flow.GRPCAccessAPI(chainID: .mainnet)!
+let chainID = Flow.ChainID.mainnet
+flow.configure(chainID: chainID, accessAPI: accessAPI)
+``` 
 
 
 ## Querying the Flow Network
