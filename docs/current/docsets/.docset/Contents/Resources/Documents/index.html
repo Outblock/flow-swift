@@ -16,7 +16,7 @@
     <a title="  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html"> 0.2.1 Docs</a> (54% documented)</p>
+        <p><a href="index.html"> 0.2.2 Docs</a> (53% documented)</p>
         <p class="header-right"><a href="https://github.com/outblock/flow-swift"><img src="img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="search.json">
@@ -274,7 +274,7 @@ SDKs are open source, and you can use them according to the licence.</p>
 <h3 id='installing' class='heading'>Installing</h3>
 
 <p>This is a Swift Package, and can be installed via Xcode with the URL of this repository:</p>
-<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Flow"</span><span class="p">,</span> <span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/outblock/flow-swift.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"0.2.0"</span><span class="p">)</span>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Flow"</span><span class="p">,</span> <span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/outblock/flow-swift.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"0.2.2"</span><span class="p">)</span>
 </code></pre>
 <h2 id='config' class='heading'>Config</h2>
 
@@ -298,6 +298,16 @@ For example, if you want to use testnet, you can config the chainID like this:</
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">endpoint</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="kt">Endpoint</span><span class="p">(</span><span class="nv">node</span><span class="p">:</span> <span class="s">"flow-testnet.g.alchemy.com"</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="mi">443</span><span class="p">)</span>
 <span class="k">let</span> <span class="nv">chainID</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="nf">custom</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Alchemy-Testnet"</span><span class="p">,</span> <span class="nv">endpoint</span><span class="p">:</span><span class="n">endpoint</span><span class="p">)</span>
 <span class="n">flow</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="n">chainID</span><span class="p">)</span>
+</code></pre>
+<h3 id='optional-grpc-acces-node' class='heading'>(Optional) GRPC Acces Node</h3>
+
+<p>If you want to use g-RPC access client better than HTTP client, please import this repo instead:
+<a href="https://github.com/Outblock/flow-swift-gRPC">flow-swift-gRPC</a></p>
+
+<p>Here is the example how you initialize it:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">accessAPI</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">GRPCAccessAPI</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="o">.</span><span class="n">mainnet</span><span class="p">)</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">chainID</span> <span class="o">=</span> <span class="kt">Flow</span><span class="o">.</span><span class="kt">ChainID</span><span class="o">.</span><span class="n">mainnet</span>
+<span class="n">flow</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">chainID</span><span class="p">:</span> <span class="n">chainID</span><span class="p">,</span> <span class="nv">accessAPI</span><span class="p">:</span> <span class="n">accessAPI</span><span class="p">)</span>
 </code></pre>
 <h2 id='querying-the-flow-network' class='heading'>Querying the Flow Network</h2>
 
@@ -941,7 +951,7 @@ Before trying the examples below, we recommend that you read through the <a href
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-06-26)</p>
+          <p>&copy; 2022 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2022-07-16)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
