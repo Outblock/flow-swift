@@ -75,7 +75,7 @@ public extension Flow.Cadence {
         }
     }
 
-    enum FValue: Encodable, Equatable {
+    enum FValue: Codable, Equatable {
         case void
         indirect case optional(value: Flow.Argument)
         case bool(Bool)
