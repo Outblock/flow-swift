@@ -71,11 +71,8 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
     func testCanCreateAccount() async throws {
         // Example in Testnet
 
-        flow.configure(chainID: .mainnet)
-        // Admin key
-        let address = Flow.Address(hex: "0x33f75ff0b830dcec")
-        let privateKey = try! P256.Signing.PrivateKey(rawRepresentation: "1c81765fccd9a3b9ed4d1c50c4fb139da499231246e7758d1ee7cb63e1d7713f".hexValue)
-        let signer = [ECDSA_P256_Signer(address: address, keyIndex: 26, privateKey: privateKey)]
+        flow.configure(chainID: .testnet)
+        let signer = [ECDSA_P256_Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA)]
 
         // User publick key
         let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: "74c4e3ec6803c7b7f399a27e457b4060ae0b3b2fd4cf1933ddaa7891fdc74e2b2c4a6ba2db1a447b7e086c0e42df15c4b47ffd607b74dd990525d2e7f94368cf"),
@@ -105,11 +102,11 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
             }
 
             proposer {
-                Flow.TransactionProposalKey(address: address, keyIndex: 26)
+                Flow.TransactionProposalKey(address: addressA, keyIndex: 0)
             }
 
             authorizers {
-                address
+                self.addressA
             }
 
             arguments {
