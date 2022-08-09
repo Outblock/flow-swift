@@ -29,7 +29,7 @@ https://outblock.github.io/flow-swift/
 This is a Swift Package, and can be installed via Xcode with the URL of this repository:
 
 ```swift
-.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.2.2")
+.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.2.3")
 ```
 
 ## Config
@@ -618,3 +618,7 @@ let address = field?.value.value.toAddress()?.hex
 ### Generate Keys
 
 To generating the key, please check our another SDK - [Flow Wallet Kit](https://github.com/Outblock/flow-wallet-kit)
+
+## Reference
+
+Inspired by [flow-jvm](https://github.com/the-nft-company/flow-jvm-sdk)
