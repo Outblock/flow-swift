@@ -537,12 +537,14 @@ final class CadenceTypeTests: XCTestCase {
         {
           "type": "Type",
           "value": {
-            "staticType": "Int"
+            "staticType": {
+                "kind": "Int"
+            }
           }
         }
         """
 
-        let value: Flow.Argument.StaticType = .init(staticType: "Int")
+        let value: Flow.Argument.StaticType = .init(staticType: .init(kind: .int, typeID: nil, fields: nil))
         let argument = Flow.Argument(value: .type(value))
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toType(), value)

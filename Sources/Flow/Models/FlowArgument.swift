@@ -353,9 +353,9 @@ public extension Flow.Argument {
     /// The data structure for `.type` argument type
     /// More detail can be found here: https://docs.onflow.org/cadence/json-cadence-spec/#type
     struct StaticType: Codable, Equatable {
-        public let staticType: String
-
-        public init(staticType: String) {
+        let staticType: Flow.Cadence.Kind
+        
+        public init(staticType: Flow.Cadence.Kind) {
             self.staticType = staticType
         }
     }
