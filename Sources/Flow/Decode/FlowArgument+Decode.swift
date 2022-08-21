@@ -130,17 +130,24 @@ extension Flow.Argument: FlowCodable {
             }
 
             // TODO: Improve this
-            if result.first?.key.type == .int {
+            switch result.first?.key.type {
+            case .int:
                 return result.reduce(into: [Int: Any?]()) {
                     if let key = $1.key.decode() as? Int {
                         $0[key] = $1.value.decode()
                     }
                 }
-            }
-
-            return result.reduce(into: [String: Any?]()) {
-                if let key = $1.key.decode() as? String {
-                    $0[key] = $1.value.decode()
+            case .ufix64:
+                return result.reduce(into: [Double: Any?]()) {
+                    if let key = $1.key.decode() as? Double {
+                        $0[key] = $1.value.decode()
+                    }
+                }
+            default:
+                return result.reduce(into: [String: Any?]()) {
+                    if let key = $1.key.decode() as? String {
+                        $0[key] = $1.value.decode()
+                    }
                 }
             }
         case .path:
