@@ -137,12 +137,12 @@ extension Flow.Argument: FlowCodable {
                         $0[key] = $1.value.decode()
                     }
                 }
-                
+
                 var stringDict = [String: Any?]()
                 for (key, value) in reducedResult {
                     stringDict[String(key)] = value
                 }
-                
+
                 return stringDict
             case .uint64:
                 let reducedResult = result.reduce(into: [UInt64: Any?]()) {
@@ -150,12 +150,12 @@ extension Flow.Argument: FlowCodable {
                         $0[key] = $1.value.decode()
                     }
                 }
-                
+
                 var stringDict = [String: Any?]()
                 for (key, value) in reducedResult {
                     stringDict[String(key)] = value
                 }
-                
+
                 return stringDict
             case .ufix64:
                 let reducedResult = result.reduce(into: [Double: Any?]()) {
@@ -163,12 +163,12 @@ extension Flow.Argument: FlowCodable {
                         $0[key] = $1.value.decode()
                     }
                 }
-                
+
                 var stringDict = [String: Any?]()
                 for (key, value) in reducedResult {
                     stringDict[String(key)] = value
                 }
-                
+
                 return stringDict
             default:
                 return result.reduce(into: [String: Any?]()) {
