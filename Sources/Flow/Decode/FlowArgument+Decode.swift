@@ -132,17 +132,44 @@ extension Flow.Argument: FlowCodable {
             // TODO: Improve this
             switch result.first?.key.type {
             case .int:
-                return result.reduce(into: [Int: Any?]()) {
+                let reducedResult = result.reduce(into: [Int: Any?]()) {
                     if let key = $1.key.decode() as? Int {
                         $0[key] = $1.value.decode()
                     }
                 }
+
+                var stringDict = [String: Any?]()
+                for (key, value) in reducedResult {
+                    stringDict[String(key)] = value
+                }
+
+                return stringDict
+            case .uint64:
+                let reducedResult = result.reduce(into: [UInt64: Any?]()) {
+                    if let key = $1.key.decode() as? UInt64 {
+                        $0[key] = $1.value.decode()
+                    }
+                }
+
+                var stringDict = [String: Any?]()
+                for (key, value) in reducedResult {
+                    stringDict[String(key)] = value
+                }
+
+                return stringDict
             case .ufix64:
-                return result.reduce(into: [Double: Any?]()) {
+                let reducedResult = result.reduce(into: [Double: Any?]()) {
                     if let key = $1.key.decode() as? Double {
                         $0[key] = $1.value.decode()
                     }
                 }
+
+                var stringDict = [String: Any?]()
+                for (key, value) in reducedResult {
+                    stringDict[String(key)] = value
+                }
+
+                return stringDict
             default:
                 return result.reduce(into: [String: Any?]()) {
                     if let key = $1.key.decode() as? String {
