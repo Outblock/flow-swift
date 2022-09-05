@@ -52,7 +52,7 @@ public extension Flow.Transaction {
                 throw Flow.FError.missingSigner
             }
             for signer in signers {
-                let signature = try await signer.sign(signableData: signablePlayload)
+                let signature = try await signer.sign(transaction: self, signableData: signablePlayload)
                 addPayloadSignature(address: signer.address,
                                     keyIndex: signer.keyIndex,
                                     signature: signature)
@@ -74,7 +74,7 @@ public extension Flow.Transaction {
             }
 
             for signer in signers {
-                let signature = try await signer.sign(signableData: signablePlayload)
+                let signature = try await signer.sign(transaction: self, signableData: signablePlayload)
                 addPayloadSignature(address: authorizer,
                                     keyIndex: signer.keyIndex,
                                     signature: signature)
@@ -106,15 +106,13 @@ public extension Flow.Transaction {
 
         // Sign the transaction with payer
         for signer in signers {
-            let signature = try await signer.sign(signableData: signableEnvelope)
+            let signature = try await signer.sign(transaction: self, signableData: signableEnvelope)
             addEnvelopeSignature(address: payer,
                                  keyIndex: signer.keyIndex,
                                  signature: signature)
         }
         return self
     }
-
-    // TODO: Replace it with the combination of `signPayload` and `signEnvelope`
 
     /// Sign (Mutate) unsigned Flow Transaction with a list of `FlowSigner`
     /// - parameters:

@@ -23,12 +23,6 @@ public protocol FlowSigner {
     /// Address in the flow blockchain
     var address: Flow.Address { get }
 
-    /// The index of the public key
-    var hashAlgo: Flow.HashAlgorithm { get }
-
-    /// The index of the public key
-    var signatureAlgo: Flow.SignatureAlgorithm { get }
-
     // The index of the public key
     var keyIndex: Int { get }
 
@@ -36,14 +30,5 @@ public protocol FlowSigner {
     /// - parameters:
     ///     - signableData: The data to be signed
     /// - returns: The signed data
-    func sign(signableData: Data) async throws -> Data
-
-    // TODO: - Add async sign method
-    //    func signAsync(signableData: Data) -> Future<Data, Error>
+    func sign(transaction: Flow.Transaction, signableData: Data) async throws -> Data
 }
-
-// extension FlowSigner {
-//    func signAsync(signableData: Data) -> Future<Data, Error> {
-//        return Future { $0(.failure(Flow.FError.generic)) }
-//    }
-// }
