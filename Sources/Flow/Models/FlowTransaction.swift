@@ -185,8 +185,8 @@ public extension Flow {
             authorizers.forEach { addSigner(address: $0) }
             return signer
         }
-        
-        public mutating func addPayloadSignature(_ signature :TransactionSignature) {
+
+        public mutating func addPayloadSignature(_ signature: TransactionSignature) {
             payloadSignatures.append(signature)
             payloadSignatures = payloadSignatures.sorted(by: <)
         }
@@ -210,7 +210,7 @@ public extension Flow {
             )
             envelopeSignatures = envelopeSignatures.sorted(by: <)
         }
-        
+
         public mutating func addEnvelopeSignature(_ signature: TransactionSignature) {
             envelopeSignatures.append(signature)
             envelopeSignatures = envelopeSignatures.sorted(by: <)

@@ -67,7 +67,7 @@ public final class Flow {
         self.chainID = chainID
         accessAPI = createHTTPAccessAPI(chainID: chainID)
     }
-    
+
     /// Config the chainID and accessNode for Flow Swift SDK
     /// - parameters:
     ///     - chainID: The chain id to be configured.

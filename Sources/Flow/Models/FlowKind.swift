@@ -18,15 +18,14 @@
 
 import Foundation
 
-extension Flow.Cadence {
-    
-    public struct Kind: Codable, Equatable {
+public extension Flow.Cadence {
+    struct Kind: Codable, Equatable {
         let kind: Flow.Cadence.FType
         let typeID: String?
         let fields: [Field]?
     }
 
-    public struct Field: Codable, Equatable {
+    struct Field: Codable, Equatable {
         let id: String
         let type: Kind
     }
