@@ -62,8 +62,8 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
     }
 
     func testGetBlockHeaderByHeight() async throws {
-        let blockHeader = try await flowAPI.getBlockHeaderByHeight(height: 32_002_158)
-        XCTAssertEqual("a2a06ff324325d118c52a3a23d7c31288192ae8ab78255a2c3cd35fbbf09c6ec", blockHeader.id.hex)
+        let blockHeader = try await flowAPI.getBlockHeaderByHeight(height: 36_604_611)
+        XCTAssertEqual("a4836e4c9d1e3f366e4421b7ca64c1e80e7c8477141953e9206697f1de914f77", blockHeader.id.hex)
         XCTAssertNotNil(blockHeader)
     }
 
@@ -250,14 +250,14 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
     }
 
     func testGetEventByRange() async throws {
-        let result = try await flowAPI.getEventsForHeightRange(type: "A.2d4c3caffbeab845.FLOAT.FLOATTransferred", range: 32_002_158 ... 32_002_160)
-        XCTAssertEqual(result.first!.events.first!.transactionIndex, 3)
+        let result = try await flowAPI.getEventsForHeightRange(type: "A.2d4c3caffbeab845.FLOAT.FLOATTransferred", range: 36_604_211 ... 36_604_411)
+        XCTAssertEqual(result.first!.events.first!.transactionIndex, 5)
         XCTAssertNotNil(result)
     }
 
     func testGetEventByIds() async throws {
-        let result = try await flowAPI.getEventsForBlockIds(type: "A.2d4c3caffbeab845.FLOAT.FLOATTransferred", ids: Set(arrayLiteral: .init(hex: "a2a06ff324325d118c52a3a23d7c31288192ae8ab78255a2c3cd35fbbf09c6ec")))
-        XCTAssertEqual(result.first!.events.first!.transactionIndex, 3)
+        let result = try await flowAPI.getEventsForBlockIds(type: "A.2d4c3caffbeab845.FLOAT.FLOATTransferred", ids: Set(arrayLiteral: .init(hex: "4722fcaa0c7939453b4886a7cccb364977372b5b6c103ea4264e75dafbf10ffa")))
+        XCTAssertEqual(result.first!.events.first!.transactionIndex, 5)
         XCTAssertNotNil(result)
     }
 }
