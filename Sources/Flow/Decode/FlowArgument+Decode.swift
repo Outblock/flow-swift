@@ -15,6 +15,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
+
 import Foundation
 import BigInt
 
@@ -238,7 +239,7 @@ extension Flow.Argument: FlowCodable {
 
 extension Array where Element == Flow.Argument.Dictionary {
     func decode<T: Hashable>(_: T.Type) -> [T: Any?] {
-        let reducedResult = self.reduce(into: [T: Any?]()) {
+        let reducedResult = reduce(into: [T: Any?]()) {
             if let key = $1.key.decode() as? T {
                 $0[key] = $1.value.decode()
             }

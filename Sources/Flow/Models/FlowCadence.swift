@@ -379,7 +379,6 @@ public extension Flow.Cadence {
     }
 }
 
-
 extension Decimal {
     var flowNumber: String? {
         let formatter = NumberFormatter()

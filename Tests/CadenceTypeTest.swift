@@ -260,7 +260,7 @@ final class CadenceTypeTests: XCTestCase {
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toUFix64(), 0.64)
     }
-    
+
     func testUFix64Type2() throws {
         let jsonString = """
         {
@@ -644,7 +644,6 @@ final class CadenceTypeTests: XCTestCase {
     func formatJsonString(jsonString: String) -> Data? {
         let jsonData = jsonString.data(using: .utf8)!
         let object = try! JSONSerialization.jsonObject(with: jsonData)
-        print(object)
         return try! JSONSerialization.data(withJSONObject: object, options: [])
     }
 }
