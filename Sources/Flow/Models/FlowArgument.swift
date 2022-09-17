@@ -178,12 +178,12 @@ public extension Flow {
             case .fix64:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                guard let realValue = Double(unwarpRawValue) else { value = .error; return }
+                guard let realValue = Decimal(string: unwarpRawValue) else { value = .error; return }
                 value = .fix64(realValue)
             case .ufix64:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                guard let realValue = Double(unwarpRawValue) else { value = .error; return }
+                guard let realValue = Decimal(string: unwarpRawValue) else { value = .error; return }
                 value = .ufix64(realValue)
             case .string:
                 let rawValue = try? container.decode(String.self, forKey: .value)

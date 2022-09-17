@@ -241,7 +241,7 @@ final class CadenceTypeTests: XCTestCase {
         let jsonString = """
         {
            "type": "Fix64",
-           "value": "-0.64"
+           "value": "-0.64000000"
         }
         """
         let argument = Flow.Argument(value: .fix64(-0.64))
@@ -253,12 +253,24 @@ final class CadenceTypeTests: XCTestCase {
         let jsonString = """
         {
            "type": "UFix64",
-           "value": "0.64"
+           "value": "0.64000000"
         }
         """
         let argument = Flow.Argument(value: .ufix64(0.64))
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toUFix64(), 0.64)
+    }
+    
+    func testUFix64Type2() throws {
+        let jsonString = """
+        {
+           "type": "UFix64",
+           "value": "1.00000000"
+        }
+        """
+        let argument = Flow.Argument(value: .ufix64(1.0))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toUFix64(), 1.0)
     }
 
     func testUndfinedType() throws {
@@ -632,6 +644,7 @@ final class CadenceTypeTests: XCTestCase {
     func formatJsonString(jsonString: String) -> Data? {
         let jsonData = jsonString.data(using: .utf8)!
         let object = try! JSONSerialization.jsonObject(with: jsonData)
+        print(object)
         return try! JSONSerialization.data(withJSONObject: object, options: [])
     }
 }

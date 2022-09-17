@@ -16,6 +16,7 @@
 //  limitations under the License.
 //
 import Foundation
+import BigInt
 
 protocol FlowCodable {
     func decode() -> Any?
@@ -128,55 +129,55 @@ extension Flow.Argument: FlowCodable {
             guard let result = value.toDictionary() else {
                 return nil
             }
-
-            // TODO: Improve this
             switch result.first?.key.type {
             case .int:
-                let reducedResult = result.reduce(into: [Int: Any?]()) {
-                    if let key = $1.key.decode() as? Int {
-                        $0[key] = $1.value.decode()
-                    }
-                }
-
-                var stringDict = [String: Any?]()
-                for (key, value) in reducedResult {
-                    stringDict[String(key)] = value
-                }
-
-                return stringDict
-            case .uint64:
-                let reducedResult = result.reduce(into: [UInt64: Any?]()) {
-                    if let key = $1.key.decode() as? UInt64 {
-                        $0[key] = $1.value.decode()
-                    }
-                }
-
-                var stringDict = [String: Any?]()
-                for (key, value) in reducedResult {
-                    stringDict[String(key)] = value
-                }
-
-                return stringDict
+                return result.decode(Int.self)
+            case .uint:
+                return result.decode(UInt.self)
             case .ufix64:
-                let reducedResult = result.reduce(into: [Double: Any?]()) {
-                    if let key = $1.key.decode() as? Double {
-                        $0[key] = $1.value.decode()
-                    }
-                }
-
-                var stringDict = [String: Any?]()
-                for (key, value) in reducedResult {
-                    stringDict[String(key)] = value
-                }
-
-                return stringDict
+                return result.decode(Decimal.self)
+            case .int128:
+                return result.decode(BigInt.self)
+            case .bool:
+                return result.decode(Bool.self)
+            case .string:
+                return result.decode(String.self)
+            case .int8:
+                return result.decode(Int8.self)
+            case .uint8:
+                return result.decode(UInt8.self)
+            case .int16:
+                return result.decode(Int16.self)
+            case .uint16:
+                return result.decode(UInt16.self)
+            case .int32:
+                return result.decode(Int16.self)
+            case .uint32:
+                return result.decode(UInt32.self)
+            case .int64:
+                return result.decode(Int64.self)
+            case .uint64:
+                return result.decode(UInt64.self)
+            case .uint128:
+                return result.decode(BigUInt.self)
+            case .int256:
+                return result.decode(BigInt.self)
+            case .uint256:
+                return result.decode(BigUInt.self)
+            case .word8:
+                return result.decode(UInt8.self)
+            case .word16:
+                return result.decode(UInt16.self)
+            case .word32:
+                return result.decode(UInt32.self)
+            case .word64:
+                return result.decode(UInt64.self)
+            case .fix64:
+                return result.decode(Decimal.self)
             default:
-                return result.reduce(into: [String: Any?]()) {
-                    if let key = $1.key.decode() as? String {
-                        $0[key] = $1.value.decode()
-                    }
-                }
+                return nil
             }
+
         case .path:
             guard let result = value.toPath() else {
                 return nil
@@ -232,5 +233,16 @@ extension Flow.Argument: FlowCodable {
             return nil
         }
         return model
+    }
+}
+
+extension Array where Element == Flow.Argument.Dictionary {
+    func decode<T: Hashable>(_: T.Type) -> [T: Any?] {
+        let reducedResult = self.reduce(into: [T: Any?]()) {
+            if let key = $1.key.decode() as? T {
+                $0[key] = $1.value.decode()
+            }
+        }
+        return reducedResult
     }
 }

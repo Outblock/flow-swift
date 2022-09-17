@@ -20,6 +20,7 @@ import BigInt
 import Foundation
 
 public extension Flow {
+    static let decimal = 8
     class Cadence {}
 }
 
@@ -103,8 +104,8 @@ public extension Flow.Cadence {
         case word32(UInt32)
         case word64(UInt64)
 
-        case fix64(Double)
-        case ufix64(Double) // Need to check
+        case fix64(Decimal)
+        case ufix64(Decimal) // Need to check
 
         case address(Flow.Address)
         case path(Flow.Argument.Path)
@@ -262,9 +263,9 @@ public extension Flow.Cadence {
             case let .bool(value):
                 try container.encode(value)
             case let .fix64(value):
-                try container.encode(String(value))
+                try container.encode(value.flowNumber ?? value.description)
             case let .ufix64(value):
-                try container.encode(String(value))
+                try container.encode(value.flowNumber ?? value.description)
             case let .address(value):
                 try container.encode(value)
             case let .path(value):
@@ -375,6 +376,16 @@ public extension Flow.Cadence {
         func toArgument() -> Flow.Argument {
             return .init(value: self)
         }
+    }
+}
+
+
+extension Decimal {
+    var flowNumber: String? {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = Flow.decimal
+        formatter.maximumFractionDigits = Flow.decimal
+        return formatter.string(from: NSDecimalNumber(decimal: self))
     }
 }
 
@@ -562,7 +573,7 @@ public extension Flow.Cadence.FValue {
     /// Convert to `Double` type, if it's `.fix64` type
     /// Otherwise return nil
     /// - returns: The type of `Double?` value.
-    func toFix64() -> Double? {
+    func toFix64() -> Decimal? {
         if case let .fix64(value) = self {
             return value
         }
@@ -572,7 +583,7 @@ public extension Flow.Cadence.FValue {
     /// Convert to `Double` type, if it's `.ufix64` type
     /// Otherwise return nil
     /// - returns: The type of `Double?` value.
-    func toUFix64() -> Double? {
+    func toUFix64() -> Decimal? {
         if case let .ufix64(value) = self {
             return value
         }

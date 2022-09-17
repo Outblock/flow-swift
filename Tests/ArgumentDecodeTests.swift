@@ -240,7 +240,7 @@ final class ArgumentDecodeTests: XCTestCase {
                 return -0.64
             }
         """
-        let result: Double = try await executeOnChain(script: cadence)
+        let result: Decimal = try await executeOnChain(script: cadence)
         XCTAssertEqual(result, -0.64)
     }
 
@@ -250,7 +250,7 @@ final class ArgumentDecodeTests: XCTestCase {
                 return 0.64
             }
         """
-        let result: Double = try await executeOnChain(script: cadence)
+        let result: Decimal = try await executeOnChain(script: cadence)
         XCTAssertEqual(result, 0.64)
     }
 
@@ -503,18 +503,16 @@ final class ArgumentDecodeTests: XCTestCase {
         {
           "type": "Type",
           "value": {
-            "staticType": "Int"
+            "staticType": {
+                "kind": "Int"
+            }
           }
         }
         """
 
-        struct TestType: Codable {
-            let staticType: String
-        }
-
         let argument = Flow.Argument(jsonString: jsonString)!
-        let result: TestType = try argument.decode()
-        XCTAssertEqual(result.staticType, "Int")
+        let result: Flow.Argument.StaticType = try argument.decode()
+        XCTAssertEqual(result.staticType.kind, .int)
     }
 
     func testCapabilityType() throws {
