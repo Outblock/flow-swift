@@ -1,0 +1,1965 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Build/TransactionBuild.swift",
+      "line": 186,
+      "symbol": "Flow.TransactionBuild.error",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Build/TransactionBuild.swift",
+      "line": 192,
+      "symbol": "Flow.TransactionBuilder.buildBlock()",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Build/TransactionBuild.swift",
+      "line": 194,
+      "symbol": "Flow.TransactionBuilder.buildArray(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Build/TransactionBuild.swift",
+      "line": 198,
+      "symbol": "Flow.TransactionBuilder.buildBlock(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Cadence/CommonCadence.swift",
+      "line": 277,
+      "symbol": "Flow.isAddressVaildate(address:network:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Cadence/CommonCadence.swift",
+      "line": 286,
+      "symbol": "Flow.isAddressVaildate(address:network:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Cadence/CommonCadence.swift",
+      "line": 290,
+      "symbol": "Flow.removeContractFromAccount(address:contractName:signers:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Cadence/CommonCadence.swift",
+      "line": 310,
+      "symbol": "Flow.updateContractOfAccount(address:contractName:script:signers:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Decode/FlowArgument+Decode.swift",
+      "line": 31,
+      "symbol": "Flow.Argument.decode()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Decode/FlowArgument+Decode.swift",
+      "line": 53,
+      "symbol": "Flow.Argument.decode(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Decode/FlowArgument+Decode.swift",
+      "line": 62,
+      "symbol": "Flow.Argument.decode()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 24,
+      "symbol": "Flow.FError.generic",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 25,
+      "symbol": "Flow.FError.urlEmpty",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 26,
+      "symbol": "Flow.FError.urlInvaild",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 27,
+      "symbol": "Flow.FError.declined",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 28,
+      "symbol": "Flow.FError.encodeFailure",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 29,
+      "symbol": "Flow.FError.decodeFailure",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 30,
+      "symbol": "Flow.FError.unauthenticated",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 31,
+      "symbol": "Flow.FError.emptyProposer",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 32,
+      "symbol": "Flow.FError.invaildPlayload",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 33,
+      "symbol": "Flow.FError.invaildEnvelope",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 34,
+      "symbol": "Flow.FError.invaildAccountInfo",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 35,
+      "symbol": "Flow.FError.missingSigner",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 36,
+      "symbol": "Flow.FError.preparingTransactionFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 37,
+      "symbol": "Flow.FError.timeout",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 38,
+      "symbol": "Flow.FError.invaildResponse",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Error/FlowError.swift",
+      "line": 39,
+      "symbol": "Flow.FError.customError(msg:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Extension/Array.swift",
+      "line": 30,
+      "symbol": "Array.toArguments()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAccount.swift",
+      "line": 37,
+      "symbol": "Flow.Account.init(address:balance:keys:contracts:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAccount.swift",
+      "line": 44,
+      "symbol": "Flow.Account.init(address:balance:keys:contracts:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAccount.swift",
+      "line": 108,
+      "symbol": "Flow.AccountKey.init(index:publicKey:signAlgo:hashAlgo:weight:sequenceNumber:revoked:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAddress.swift",
+      "line": 29,
+      "symbol": "Flow.Address.init(hex:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAddress.swift",
+      "line": 33,
+      "symbol": "Flow.Address.init(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 23,
+      "symbol": "Flow.SignatureAlgorithm.unknown",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 24,
+      "symbol": "Flow.SignatureAlgorithm.ECDSA_P256",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 25,
+      "symbol": "Flow.SignatureAlgorithm.ECDSA_SECP256k1",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 27,
+      "symbol": "Flow.SignatureAlgorithm.algorithm",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 38,
+      "symbol": "Flow.SignatureAlgorithm.id",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 49,
+      "symbol": "Flow.SignatureAlgorithm.code",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 60,
+      "symbol": "Flow.SignatureAlgorithm.index",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 71,
+      "symbol": "Flow.SignatureAlgorithm.curve",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 82,
+      "symbol": "Flow.SignatureAlgorithm.init(code:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 86,
+      "symbol": "Flow.SignatureAlgorithm.init(index:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 93,
+      "symbol": "Flow.HashAlgorithm.unknown",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 94,
+      "symbol": "Flow.HashAlgorithm.SHA2_256",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 95,
+      "symbol": "Flow.HashAlgorithm.SHA2_384",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 96,
+      "symbol": "Flow.HashAlgorithm.SHA3_256",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 97,
+      "symbol": "Flow.HashAlgorithm.SHA3_384",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 99,
+      "symbol": "Flow.HashAlgorithm.algorithm",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 114,
+      "symbol": "Flow.HashAlgorithm.outputSize",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 129,
+      "symbol": "Flow.HashAlgorithm.id",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 144,
+      "symbol": "Flow.HashAlgorithm.code",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 159,
+      "symbol": "Flow.HashAlgorithm.index",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 174,
+      "symbol": "Flow.HashAlgorithm.init(code:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowAlgorithm.swift",
+      "line": 178,
+      "symbol": "Flow.HashAlgorithm.init(cadence:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 65,
+      "symbol": "Flow.Argument.init(jsonData:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 75,
+      "symbol": "Flow.Argument.init(jsonString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 271,
+      "symbol": "Flow.Argument.Path.domain",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 272,
+      "symbol": "Flow.Argument.Path.identifier",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 274,
+      "symbol": "Flow.Argument.Path.init(domain:identifier:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 289,
+      "symbol": "Flow.Argument.Event.init(id:fields:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 296,
+      "symbol": "Flow.Argument.Event.Name.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 297,
+      "symbol": "Flow.Argument.Event.Name.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 299,
+      "symbol": "Flow.Argument.Event.Name.init(name:value:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 304,
+      "symbol": "Flow.Argument.Event.Name.init(name:value:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 313,
+      "symbol": "Flow.Argument.Reference.address",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 314,
+      "symbol": "Flow.Argument.Reference.type",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 316,
+      "symbol": "Flow.Argument.Reference.init(address:type:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 325,
+      "symbol": "Flow.Argument.Dictionary.key",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 326,
+      "symbol": "Flow.Argument.Dictionary.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 328,
+      "symbol": "Flow.Argument.Dictionary.init(key:value:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 333,
+      "symbol": "Flow.Argument.Dictionary.init(key:value:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 342,
+      "symbol": "Flow.Argument.Capability.path",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 343,
+      "symbol": "Flow.Argument.Capability.address",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 344,
+      "symbol": "Flow.Argument.Capability.borrowType",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 346,
+      "symbol": "Flow.Argument.Capability.init(path:address:borrowType:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowArgument.swift",
+      "line": 358,
+      "symbol": "Flow.Argument.StaticType.init(staticType:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowBlock.swift",
+      "line": 36,
+      "symbol": "Flow.BlockHeader.init(id:parentId:height:timestamp:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowBlock.swift",
+      "line": 59,
+      "symbol": "Flow.BlockSeal.blockId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowBlock.swift",
+      "line": 60,
+      "symbol": "Flow.BlockSeal.executionReceiptId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowBlock.swift",
+      "line": 61,
+      "symbol": "Flow.BlockSeal.executionReceiptSignatures",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowBlock.swift",
+      "line": 62,
+      "symbol": "Flow.BlockSeal.resultApprovalSignatures",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowBlock.swift",
+      "line": 77,
+      "symbol": "Flow.BlockSeal.init(id:executionReceiptId:executionReceiptSignatures:resultApprovalSignatures:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowBlock.swift",
+      "line": 100,
+      "symbol": "Flow.Block.collectionGuarantees",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowBlock.swift",
+      "line": 103,
+      "symbol": "Flow.Block.blockSeals",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowBlock.swift",
+      "line": 108,
+      "symbol": "Flow.Block.init(id:parentId:height:timestamp:collectionGuarantees:blockSeals:signatures:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 21,
+      "symbol": "Flow.Cadence",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 23,
+      "symbol": "Flow.decimal",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 24,
+      "symbol": "Flow.Cadence",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 27,
+      "symbol": "Flow.Cadence",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 31,
+      "symbol": "Flow.Cadence.FType.void",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 32,
+      "symbol": "Flow.Cadence.FType.optional",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 33,
+      "symbol": "Flow.Cadence.FType.bool",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 34,
+      "symbol": "Flow.Cadence.FType.string",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 35,
+      "symbol": "Flow.Cadence.FType.int",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 36,
+      "symbol": "Flow.Cadence.FType.uint",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 37,
+      "symbol": "Flow.Cadence.FType.int8",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 38,
+      "symbol": "Flow.Cadence.FType.uint8",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 39,
+      "symbol": "Flow.Cadence.FType.int16",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 40,
+      "symbol": "Flow.Cadence.FType.uint16",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 41,
+      "symbol": "Flow.Cadence.FType.int32",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 42,
+      "symbol": "Flow.Cadence.FType.uint32",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 43,
+      "symbol": "Flow.Cadence.FType.int64",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 44,
+      "symbol": "Flow.Cadence.FType.uint64",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 45,
+      "symbol": "Flow.Cadence.FType.int128",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 46,
+      "symbol": "Flow.Cadence.FType.uint128",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 47,
+      "symbol": "Flow.Cadence.FType.int256",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 48,
+      "symbol": "Flow.Cadence.FType.uint256",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 49,
+      "symbol": "Flow.Cadence.FType.word8",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 50,
+      "symbol": "Flow.Cadence.FType.word16",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 51,
+      "symbol": "Flow.Cadence.FType.word32",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 52,
+      "symbol": "Flow.Cadence.FType.word64",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 53,
+      "symbol": "Flow.Cadence.FType.fix64",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 54,
+      "symbol": "Flow.Cadence.FType.ufix64",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 55,
+      "symbol": "Flow.Cadence.FType.array",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 56,
+      "symbol": "Flow.Cadence.FType.dictionary",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 57,
+      "symbol": "Flow.Cadence.FType.address",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 58,
+      "symbol": "Flow.Cadence.FType.path",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 59,
+      "symbol": "Flow.Cadence.FType.struct",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 60,
+      "symbol": "Flow.Cadence.FType.resource",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 61,
+      "symbol": "Flow.Cadence.FType.event",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 62,
+      "symbol": "Flow.Cadence.FType.character",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 63,
+      "symbol": "Flow.Cadence.FType.reference",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 64,
+      "symbol": "Flow.Cadence.FType.capability",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 65,
+      "symbol": "Flow.Cadence.FType.type",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 66,
+      "symbol": "Flow.Cadence.FType.contract",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 67,
+      "symbol": "Flow.Cadence.FType.enum",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 68,
+      "symbol": "Flow.Cadence.FType.undefined",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 79,
+      "symbol": "Flow.Cadence.FValue",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 80,
+      "symbol": "Flow.Cadence.FValue.void",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 81,
+      "symbol": "Flow.Cadence.FValue.optional(value:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 82,
+      "symbol": "Flow.Cadence.FValue.bool(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 83,
+      "symbol": "Flow.Cadence.FValue.string(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 84,
+      "symbol": "Flow.Cadence.FValue.character(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 86,
+      "symbol": "Flow.Cadence.FValue.int(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 87,
+      "symbol": "Flow.Cadence.FValue.uint(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 88,
+      "symbol": "Flow.Cadence.FValue.int8(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 89,
+      "symbol": "Flow.Cadence.FValue.uint8(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 90,
+      "symbol": "Flow.Cadence.FValue.int16(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 91,
+      "symbol": "Flow.Cadence.FValue.uint16(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 92,
+      "symbol": "Flow.Cadence.FValue.int32(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 93,
+      "symbol": "Flow.Cadence.FValue.uint32(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 94,
+      "symbol": "Flow.Cadence.FValue.int64(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 95,
+      "symbol": "Flow.Cadence.FValue.uint64(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 96,
+      "symbol": "Flow.Cadence.FValue.int128(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 97,
+      "symbol": "Flow.Cadence.FValue.uint128(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 98,
+      "symbol": "Flow.Cadence.FValue.int256(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 99,
+      "symbol": "Flow.Cadence.FValue.uint256(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 102,
+      "symbol": "Flow.Cadence.FValue.word8(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 103,
+      "symbol": "Flow.Cadence.FValue.word16(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 104,
+      "symbol": "Flow.Cadence.FValue.word32(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 105,
+      "symbol": "Flow.Cadence.FValue.word64(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 107,
+      "symbol": "Flow.Cadence.FValue.fix64(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 108,
+      "symbol": "Flow.Cadence.FValue.ufix64(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 110,
+      "symbol": "Flow.Cadence.FValue.address(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 111,
+      "symbol": "Flow.Cadence.FValue.path(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 112,
+      "symbol": "Flow.Cadence.FValue.reference(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 113,
+      "symbol": "Flow.Cadence.FValue.capability(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 114,
+      "symbol": "Flow.Cadence.FValue.type(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 116,
+      "symbol": "Flow.Cadence.FValue.array(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 117,
+      "symbol": "Flow.Cadence.FValue.dictionary(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 118,
+      "symbol": "Flow.Cadence.FValue.struct(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 119,
+      "symbol": "Flow.Cadence.FValue.resource(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 120,
+      "symbol": "Flow.Cadence.FValue.event(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 121,
+      "symbol": "Flow.Cadence.FValue.contract(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 122,
+      "symbol": "Flow.Cadence.FValue.enum(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 124,
+      "symbol": "Flow.Cadence.FValue.unsupported",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 125,
+      "symbol": "Flow.Cadence.FValue.error",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCadence.swift",
+      "line": 391,
+      "symbol": "Flow.Cadence.FValue",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowChainId.swift",
+      "line": 67,
+      "symbol": "Flow.ChainID.init(name:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowChainId.swift",
+      "line": 75,
+      "symbol": "Flow.ChainID.defaultHTTPNode",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCollection.swift",
+      "line": 24,
+      "symbol": "Flow.Collection.id",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCollection.swift",
+      "line": 25,
+      "symbol": "Flow.Collection.transactionIds",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCollection.swift",
+      "line": 27,
+      "symbol": "Flow.Collection.init(id:transactionIds:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCollection.swift",
+      "line": 35,
+      "symbol": "Flow.CollectionGuarantee.collectionId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCollection.swift",
+      "line": 36,
+      "symbol": "Flow.CollectionGuarantee.signatures",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowCollection.swift",
+      "line": 50,
+      "symbol": "Flow.CollectionGuarantee.init(id:signatures:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowDomainTag.swift",
+      "line": 24,
+      "symbol": "Flow.DomainTag.RawValue",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 29,
+      "symbol": "Flow.Event.transactionIndex",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 30,
+      "symbol": "Flow.Event.eventIndex",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 31,
+      "symbol": "Flow.Event.payload",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 33,
+      "symbol": "Flow.Event.init(type:transactionId:transactionIndex:eventIndex:payload:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 54,
+      "symbol": "Flow.Event.Result.blockId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 55,
+      "symbol": "Flow.Event.Result.blockHeight",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 56,
+      "symbol": "Flow.Event.Result.blockTimestamp",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 57,
+      "symbol": "Flow.Event.Result.events",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 59,
+      "symbol": "Flow.Event.Result.init(blockId:blockHeight:blockTimestamp:events:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 76,
+      "symbol": "Flow.Event.Payload",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 78,
+      "symbol": "Flow.Event.Payload.fields",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 80,
+      "symbol": "Flow.Event.Payload.init(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 85,
+      "symbol": "Flow.Event.Payload.init(bytes:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 101,
+      "symbol": "Flow.Snapshot",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 104,
+      "symbol": "Flow.Snapshot.init(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 110,
+      "symbol": "Flow.Snapshot",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 114,
+      "symbol": "Flow.Event.Payload",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 115,
+      "symbol": "Flow.Event.Payload.decode()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 119,
+      "symbol": "Flow.Event.Payload.decode(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowEvent.swift",
+      "line": 123,
+      "symbol": "Flow.Event.Payload.decode()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowId.swift",
+      "line": 27,
+      "symbol": "Flow.ID.init(hex:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowId.swift",
+      "line": 31,
+      "symbol": "Flow.ID.init(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowId.swift",
+      "line": 35,
+      "symbol": "Flow.ID.init(bytes:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowKind.swift",
+      "line": 22,
+      "symbol": "Flow.Cadence.Kind",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowKind.swift",
+      "line": 28,
+      "symbol": "Flow.Cadence.Field",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowScript.swift",
+      "line": 26,
+      "symbol": "Flow.Script.text",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowScript.swift",
+      "line": 30,
+      "symbol": "Flow.Script.init(text:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowScript.swift",
+      "line": 34,
+      "symbol": "Flow.Script.init(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowScript.swift",
+      "line": 50,
+      "symbol": "Flow.ScriptResponse.init(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowScript.swift",
+      "line": 66,
+      "symbol": "Flow.ScriptResponse.decode()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowScript.swift",
+      "line": 70,
+      "symbol": "Flow.ScriptResponse.decode(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowScript.swift",
+      "line": 74,
+      "symbol": "Flow.ScriptResponse.decode()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowSignature.swift",
+      "line": 26,
+      "symbol": "Flow.Signature.init(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowSignature.swift",
+      "line": 30,
+      "symbol": "Flow.Signature.init(hex:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowSigner.swift",
+      "line": 27,
+      "symbol": "FlowSigner.keyIndex",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 53,
+      "symbol": "Flow.Transaction.init(script:arguments:referenceBlockId:gasLimit:proposalKey:payer:authorizers:payloadSignatures:envelopeSignatures:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 74,
+      "symbol": "Flow.Transaction.init(script:arguments:referenceBlockId:gasLimit:proposalKey:payer:authorizers:payloadSignatures:envelopeSignatures:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 95,
+      "symbol": "Flow.Transaction.buildUpOn(script:arguments:referenceBlockId:gasLimit:proposalKey:payer:authorizers:payloadSignatures:envelopeSignatures:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 189,
+      "symbol": "Flow.Transaction.addPayloadSignature(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 194,
+      "symbol": "Flow.Transaction.addPayloadSignature(address:keyIndex:signature:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 204,
+      "symbol": "Flow.Transaction.addEnvelopeSignature(address:keyIndex:signature:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 214,
+      "symbol": "Flow.Transaction.addEnvelopeSignature(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 232,
+      "symbol": "Flow.Transaction.Status.unknown",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 233,
+      "symbol": "Flow.Transaction.Status.pending",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 234,
+      "symbol": "Flow.Transaction.Status.finalized",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 235,
+      "symbol": "Flow.Transaction.Status.executed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 236,
+      "symbol": "Flow.Transaction.Status.sealed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 237,
+      "symbol": "Flow.Transaction.Status.expired",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 266,
+      "symbol": "Flow.Transaction.Status.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 337,
+      "symbol": "Flow.TransactionResult.blockId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 339,
+      "symbol": "Flow.TransactionResult.computationUsed",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 348,
+      "symbol": "Flow.TransactionResult.init(status:errorMessage:events:statusCode:blockId:computationUsed:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 381,
+      "symbol": "Flow.TransactionProposalKey.init(address:keyIndex:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 387,
+      "symbol": "Flow.TransactionProposalKey.init(address:keyIndex:sequenceNumber:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 394,
+      "symbol": "Flow.TransactionSignature",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 407,
+      "symbol": "Flow.TransactionSignature.init(address:keyIndex:signature:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/FlowTransaction.swift",
+      "line": 465,
+      "symbol": "Flow.TransactionSignature",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/Signer.swift",
+      "line": 22,
+      "symbol": "Flow.PublicKey",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/Signer.swift",
+      "line": 25,
+      "symbol": "Flow.PublicKey.init(hex:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/Signer.swift",
+      "line": 29,
+      "symbol": "Flow.PublicKey.init(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/Signer.swift",
+      "line": 33,
+      "symbol": "Flow.PublicKey.init(bytes:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/Signer.swift",
+      "line": 44,
+      "symbol": "Flow.Code",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Models/Signer.swift",
+      "line": 47,
+      "symbol": "Flow.Code.init(data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 21,
+      "symbol": "FlowAccessProtocol",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 22,
+      "symbol": "FlowAccessProtocol.ping()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 24,
+      "symbol": "FlowAccessProtocol.getLatestBlockHeader()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 26,
+      "symbol": "FlowAccessProtocol.getBlockHeaderById(id:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 28,
+      "symbol": "FlowAccessProtocol.getBlockHeaderByHeight(height:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 30,
+      "symbol": "FlowAccessProtocol.getLatestBlock(sealed:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 32,
+      "symbol": "FlowAccessProtocol.getBlockById(id:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 34,
+      "symbol": "FlowAccessProtocol.getBlockByHeight(height:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 36,
+      "symbol": "FlowAccessProtocol.getCollectionById(id:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 38,
+      "symbol": "FlowAccessProtocol.sendTransaction(transaction:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 40,
+      "symbol": "FlowAccessProtocol.getTransactionById(id:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 42,
+      "symbol": "FlowAccessProtocol.getTransactionResultById(id:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 44,
+      "symbol": "FlowAccessProtocol.getAccountAtLatestBlock(address:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 46,
+      "symbol": "FlowAccessProtocol.getAccountByBlockHeight(address:height:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 48,
+      "symbol": "FlowAccessProtocol.executeScriptAtLatestBlock(script:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 50,
+      "symbol": "FlowAccessProtocol.executeScriptAtLatestBlock(script:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 52,
+      "symbol": "FlowAccessProtocol.executeScriptAtBlockId(script:blockId:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 54,
+      "symbol": "FlowAccessProtocol.executeScriptAtBlockId(script:blockId:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 56,
+      "symbol": "FlowAccessProtocol.executeScriptAtBlockHeight(script:height:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 58,
+      "symbol": "FlowAccessProtocol.executeScriptAtBlockHeight(script:height:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 60,
+      "symbol": "FlowAccessProtocol.getEventsForHeightRange(type:range:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 62,
+      "symbol": "FlowAccessProtocol.getEventsForBlockIds(type:ids:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 69,
+      "symbol": "FlowAccessProtocol",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 70,
+      "symbol": "FlowAccessProtocol.executeScriptAtLatestBlock(script:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 74,
+      "symbol": "FlowAccessProtocol.executeScriptAtLatestBlock(script:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 78,
+      "symbol": "FlowAccessProtocol.executeScriptAtBlockId(script:blockId:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 82,
+      "symbol": "FlowAccessProtocol.executeScriptAtBlockId(script:blockId:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 86,
+      "symbol": "FlowAccessProtocol.executeScriptAtBlockHeight(script:height:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowAccessProtocol.swift",
+      "line": 90,
+      "symbol": "FlowAccessProtocol.executeScriptAtBlockHeight(script:height:arguments:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowTransport.swift",
+      "line": 21,
+      "symbol": "Flow.Transport",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowTransport.swift",
+      "line": 22,
+      "symbol": "Flow.Transport.HTTP(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowTransport.swift",
+      "line": 23,
+      "symbol": "Flow.Transport.gRPC(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowTransport.swift",
+      "line": 25,
+      "symbol": "Flow.Transport.url",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowTransport.swift",
+      "line": 34,
+      "symbol": "Flow.Transport.gRPCEndpoint",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowTransport.swift",
+      "line": 56,
+      "symbol": "Flow.Transport.Endpoint.node",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowTransport.swift",
+      "line": 57,
+      "symbol": "Flow.Transport.Endpoint.port",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/Network/FlowTransport.swift",
+      "line": 59,
+      "symbol": "Flow.Transport.Endpoint.init(node:port:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/RLP/RLP.swift",
+      "line": 12,
+      "symbol": "RLP",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/flow-swift/flow-swift/master/Sources/Flow/RLP/RLP.swift",
+      "line": 13,
+      "symbol": "RLP.encode(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/runner/work/flow-swift/flow-swift/master"
+}
