@@ -118,42 +118,42 @@ final class NFTCatalogTests: XCTestCase {
         print(result)
     }
 
-    func testNFTCatalog2() async throws {
-        flow.configure(chainID: .mainnet)
-        let cadence = """
-        import MetadataViews from 0x1d7e57aa55817448
-        import NFTCatalog from 0x49a7cda3a1eecc29
-        import NFTRetrieval from 0x49a7cda3a1eecc29
-
-        pub fun main(ownerAddress: Address) : [MetadataViews.NFTView] {
-            let catalog = NFTCatalog.getCatalog()
-            let account = getAuthAccount(ownerAddress)
-            let data : {String : [MetadataViews.NFTView] } = {}
-
-            for key in catalog.keys {
-                let value = catalog[key]!
-                let tempPathStr = "catalog".concat(key)
-                let tempPublicPath = PublicPath(identifier: tempPathStr)!
-                account.link<&{MetadataViews.ResolverCollection}>(
-                    tempPublicPath,
-                    target: value.collectionData.storagePath
-                )
-                let collectionCap = account.getCapability<&AnyResource{MetadataViews.ResolverCollection}>(tempPublicPath)
-                if !collectionCap.check() {
-                    continue
-                }
-                let views = NFTRetrieval.getNFTViewsFromCap(collectionIdentifier : key, collectionCap : collectionCap)
-
-                return views
-            }
-        }
-        """
-        let script = Flow.Script(text: cadence)
-        let result = try await flow.accessAPI.executeScriptAtLatestBlock(script: script, arguments: [.address(.init(hex: "0x01d63aa89238a559"))]).decode()
-//        XCTAssertEqual(result?.count, 3)
-//        XCTAssertEqual(result?.first, 1)
-        print(result)
-    }
+//    func testNFTCatalog2() async throws {
+//        flow.configure(chainID: .mainnet)
+//        let cadence = """
+//        import MetadataViews from 0x1d7e57aa55817448
+//        import NFTCatalog from 0x49a7cda3a1eecc29
+//        import NFTRetrieval from 0x49a7cda3a1eecc29
+//
+//        pub fun main(ownerAddress: Address) : [MetadataViews.NFTView] {
+//            let catalog = NFTCatalog.getCatalog()
+//            let account = getAuthAccount(ownerAddress)
+//            let data : {String : [MetadataViews.NFTView] } = {}
+//
+//            for key in catalog.keys {
+//                let value = catalog[key]!
+//                let tempPathStr = "catalog".concat(key)
+//                let tempPublicPath = PublicPath(identifier: tempPathStr)!
+//                account.link<&{MetadataViews.ResolverCollection}>(
+//                    tempPublicPath,
+//                    target: value.collectionData.storagePath
+//                )
+//                let collectionCap = account.getCapability<&AnyResource{MetadataViews.ResolverCollection}>(tempPublicPath)
+//                if !collectionCap.check() {
+//                    continue
+//                }
+//                let views = NFTRetrieval.getNFTViewsFromCap(collectionIdentifier : key, collectionCap : collectionCap)
+//
+//                return views
+//            }
+//        }
+//        """
+//        let script = Flow.Script(text: cadence)
+//        let result = try await flow.accessAPI.executeScriptAtLatestBlock(script: script, arguments: [.address(.init(hex: "0x01d63aa89238a559"))]).decode()
+    ////        XCTAssertEqual(result?.count, 3)
+    ////        XCTAssertEqual(result?.first, 1)
+//        print(result)
+//    }
 
     func testNFTCatalogIDs() async throws {
         flow.configure(chainID: .mainnet)

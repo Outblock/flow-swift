@@ -276,7 +276,7 @@ public extension Flow {
 
     func isAddressVaildate(address: Flow.Address, network _: Flow.ChainID = .mainnet) async -> Bool {
         do {
-            let response = try await flow.accessAPI.getAccountAtLatestBlock(address: address)
+            _ = try await flow.accessAPI.getAccountAtLatestBlock(address: address)
             return true
         } catch {
             return false

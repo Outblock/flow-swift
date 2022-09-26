@@ -40,6 +40,10 @@ public extension Flow {
         internal init(bytes: [UInt8]) {
             self.init(data: bytes.data)
         }
+
+        public var hex: String {
+            bytes.hexValue.addHexPrefix()
+        }
     }
 }
 
@@ -61,5 +65,5 @@ extension Flow.Address: Codable {
 }
 
 extension Flow.Address: CustomStringConvertible {
-    public var description: String { hex }
+    public var description: String { hex.addHexPrefix() }
 }

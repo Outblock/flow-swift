@@ -107,9 +107,9 @@ extension Flow.AccessEndpoint: TargetType {
         case let .getBlockById(id):
             return "/v1/blocks/\(id.hex)"
         case let .getAccountAtLatestBlock(address):
-            return "/v1/accounts/\(address.hex)"
+            return "/v1/accounts/\(address.hex.stripHexPrefix())"
         case let .getAccountByBlockHeight(address, _):
-            return "/v1/accounts/\(address.hex)"
+            return "/v1/accounts/\(address.hex.stripHexPrefix())"
         case let .getTransactionResultById(id):
             return "/v1/transaction_results/\(id.hex)"
         case let .getTransactionById(id):

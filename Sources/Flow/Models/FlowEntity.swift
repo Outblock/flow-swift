@@ -39,6 +39,6 @@ public extension FlowEntity {
     }
 
     var hex: String {
-        bytes.hexValue.addHexPrefix()
+        bytes.hexValue
     }
 }
