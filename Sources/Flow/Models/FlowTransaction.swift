@@ -381,9 +381,9 @@ public extension Flow {
         public init(address: Flow.Address, keyIndex: Int = 0) {
             self.address = address
             self.keyIndex = keyIndex
-            self.sequenceNumber = -1
+            sequenceNumber = -1
         }
-        
+
         public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: Int64 = -1) {
             self.address = address
             self.keyIndex = keyIndex

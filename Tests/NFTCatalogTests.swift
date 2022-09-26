@@ -154,7 +154,7 @@ final class NFTCatalogTests: XCTestCase {
 //        XCTAssertEqual(result?.first, 1)
         print(result)
     }
-    
+
     func testNFTCatalogIDs() async throws {
         flow.configure(chainID: .mainnet)
         let cadence = """

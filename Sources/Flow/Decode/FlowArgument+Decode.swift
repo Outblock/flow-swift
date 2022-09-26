@@ -16,8 +16,8 @@
 //  limitations under the License.
 //
 
-import Foundation
 import BigInt
+import Foundation
 
 protocol FlowCodable {
     func decode() -> Any?

@@ -22,9 +22,8 @@ public extension Flow {
     /// The data structure of address in Flow blockchain
     /// At the most time, it represents account address
     struct Address: FlowEntity, Equatable, Hashable {
-        
         static let byteLength = 8
-        
+
         public var data: Data
 
         public init(hex: String) {

@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Hao Fu on 27/9/2022.
 //
@@ -13,40 +13,39 @@ import CryptoKit
 import XCTest
 
 final class FlowAddressTest: XCTestCase {
-    
     func testAddressHexType() async throws {
         let hex = "0xc7efa8c33fceee03"
         let address = Flow.Address(hex: hex)
         XCTAssertEqual(address.hex, hex)
         XCTAssertEqual(address.bytes.count, 8)
         XCTAssertEqual(address.description, hex)
-        
+
         let isVaild = await flow.isAddressVaildate(address: address)
         XCTAssertEqual(true, isVaild)
     }
-    
+
     func testAddressType() async throws {
         let hex = "c7efa8c33fceee03"
         let address = Flow.Address(hex: hex)
         XCTAssertEqual(address.hex, hex.addHexPrefix())
         XCTAssertEqual(address.bytes.count, 8)
         XCTAssertEqual(address.description, hex.addHexPrefix())
-        
+
         let isVaild = await flow.isAddressVaildate(address: address)
         XCTAssertEqual(true, isVaild)
     }
-    
+
     func testInvaildAddressType() async throws {
         let hex = "0x03"
         let address = Flow.Address(hex: hex)
         XCTAssertNotEqual(address.hex, hex)
         XCTAssertEqual(address.bytes.count, 8)
         XCTAssertNotEqual(address.description, hex)
-        
+
         let isVaild = await flow.isAddressVaildate(address: address)
         XCTAssertEqual(false, isVaild)
     }
-    
+
     func testInvaildLongAddressType() async throws {
         let hex = "0x56519083C3cfeAE833B93a93c843C993bE1D74EA"
         let address = Flow.Address(hex: hex)
@@ -54,9 +53,8 @@ final class FlowAddressTest: XCTestCase {
         XCTAssertNotEqual(address.hex, hex)
         XCTAssertEqual(address.bytes.count, 8)
         XCTAssertNotEqual(address.description, hex)
-        
+
         let isVaild = await flow.isAddressVaildate(address: address)
         XCTAssertEqual(false, isVaild)
     }
-    
 }
