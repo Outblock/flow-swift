@@ -29,7 +29,7 @@ https://outblock.github.io/flow-swift/
 This is a Swift Package, and can be installed via Xcode with the URL of this repository:
 
 ```swift
-.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.2.5")
+.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.2.6")
 ```
 
 ## Config
@@ -310,7 +310,7 @@ var unsignedTx = try! flow.buildTransaction{
     }
 
     arguments {
-        .init(value: .string("Hello Flow!"))
+        [.string("Hello Flow!")]
     }
     
     // If payer is the same as proposer, you can ignore this field
@@ -341,7 +341,7 @@ To sign the transaction, you need create a list signer which confirm **FlowSigne
 public protocol FlowSigner {
     var address: Flow.Address { get set }
     var keyIndex: Int { get set }
-    func signature(signableData: Data) async throws -> Data
+    func signature(transaction: Flow.Transaction, signableData: Data) async throws -> Data
 }
 ```
 
