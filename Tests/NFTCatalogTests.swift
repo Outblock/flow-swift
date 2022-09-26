@@ -46,7 +46,7 @@ final class NFTCatalogTests: XCTestCase {
         }
     }
 
-    func testNFTCatalogAA() async throws {
+    func NFTCatalogAA() async throws {
         flow.configure(chainID: .testnet)
         let response = try await flow.accessAPI.executeScriptAtLatestBlock(
             script: .init(text: """
@@ -62,7 +62,7 @@ final class NFTCatalogTests: XCTestCase {
         print(dict)
     }
 
-    func testIn2tType() async throws {
+    func In2tType() async throws {
         flow.configure(chainID: .mainnet)
         let cadence = """
         import NFTCatalog from 0x49a7cda3a1eecc29
@@ -78,7 +78,7 @@ final class NFTCatalogTests: XCTestCase {
         print(result)
     }
 
-    func testNFTCatalog() async throws {
+    func NFTCatalog() async throws {
         flow.configure(chainID: .mainnet)
         let cadence = """
         import MetadataViews from 0x1d7e57aa55817448
@@ -155,7 +155,7 @@ final class NFTCatalogTests: XCTestCase {
 //        print(result)
 //    }
 
-    func testNFTCatalogIDs() async throws {
+    func NFTCatalogIDs() async throws {
         flow.configure(chainID: .mainnet)
         let cadence = """
         import MetadataViews from 0x1d7e57aa55817448
@@ -196,6 +196,6 @@ final class NFTCatalogTests: XCTestCase {
         let result: [String: [Int]] = try await flow.accessAPI.executeScriptAtLatestBlock(script: script, arguments: [.address(.init(hex: "0x01d63aa89238a559"))]).decode()
 //        XCTAssertEqual(result?.count, 3)
 //        XCTAssertEqual(result?.first, 1)
-        print(result)
+//        print(result)
     }
 }
