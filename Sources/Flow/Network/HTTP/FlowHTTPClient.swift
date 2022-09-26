@@ -36,7 +36,7 @@ extension Flow {
             }
             urlComponents.path = target.path
 
-            if let parametersList = parameters, parametersList.keys.count > 0 {
+            if let parametersList = parameters, !parametersList.isEmpty {
                 urlComponents.queryItems = parametersList.compactMap { (key: String, value: String) in
                     URLQueryItem(name: key, value: value)
                 }

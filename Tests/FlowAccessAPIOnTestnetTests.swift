@@ -68,68 +68,68 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
 //        print(pk.publicKey.rawRepresentation.hexValue)
 //    }
 
-    func testCanCreateAccount() async throws {
-        // Example in Testnet
-
-        flow.configure(chainID: .testnet)
-        let signer = [ECDSA_P256_Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA)]
-
-        // User publick key
-        let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: "74c4e3ec6803c7b7f399a27e457b4060ae0b3b2fd4cf1933ddaa7891fdc74e2b2c4a6ba2db1a447b7e086c0e42df15c4b47ffd607b74dd990525d2e7f94368cf"),
-                                         signAlgo: .ECDSA_P256,
-                                         hashAlgo: .SHA2_256,
-                                         weight: 1000)
-
-        var unsignedTx = try! await flow.buildTransaction {
-            cadence {
-                """
-                import Crypto
-                transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64) {
-                    prepare(signer: AuthAccount) {
-                        let key = PublicKey(
-                            publicKey: publicKey.decodeHex(),
-                            signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
-                        )
-                        let account = AuthAccount(payer: signer)
-                        account.keys.add(
-                            publicKey: key,
-                            hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
-                            weight: weight
-                        )
-                    }
-                }
-                """
-            }
-
-            proposer {
-                Flow.TransactionProposalKey(address: addressA, keyIndex: 0)
-            }
-
-            authorizers {
-                self.addressA
-            }
-
-            arguments {
-                [
-                    .string(accountKey.publicKey.hex),
-                    .uint8(UInt8(accountKey.signAlgo.index)),
-                    .uint8(UInt8(accountKey.hashAlgo.code)),
-                    .ufix64(1000),
-                ]
-            }
-
-            // optional
-            gasLimit {
-                1000
-            }
-        }
-
-        let signedTx = try! await unsignedTx.sign(signers: signer)
-
-        let txId = try! await flow.sendTransaction(signedTransaction: signedTx)
-        XCTAssertNotNil(txId)
-        print("txid --> \(txId.hex)")
-    }
+//    func testCanCreateAccount() async throws {
+//        // Example in Testnet
+//
+//        flow.configure(chainID: .testnet)
+//        let signer = [ECDSA_P256_Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA)]
+//
+//        // User publick key
+//        let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: "74c4e3ec6803c7b7f399a27e457b4060ae0b3b2fd4cf1933ddaa7891fdc74e2b2c4a6ba2db1a447b7e086c0e42df15c4b47ffd607b74dd990525d2e7f94368cf"),
+//                                         signAlgo: .ECDSA_P256,
+//                                         hashAlgo: .SHA2_256,
+//                                         weight: 1000)
+//
+//        var unsignedTx = try! await flow.buildTransaction {
+//            cadence {
+//                """
+//                import Crypto
+//                transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64) {
+//                    prepare(signer: AuthAccount) {
+//                        let key = PublicKey(
+//                            publicKey: publicKey.decodeHex(),
+//                            signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
+//                        )
+//                        let account = AuthAccount(payer: signer)
+//                        account.keys.add(
+//                            publicKey: key,
+//                            hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
+//                            weight: weight
+//                        )
+//                    }
+//                }
+//                """
+//            }
+//
+//            proposer {
+//                Flow.TransactionProposalKey(address: addressA, keyIndex: 0)
+//            }
+//
+//            authorizers {
+//                self.addressA
+//            }
+//
+//            arguments {
+//                [
+//                    .string(accountKey.publicKey.hex),
+//                    .uint8(UInt8(accountKey.signAlgo.index)),
+//                    .uint8(UInt8(accountKey.hashAlgo.code)),
+//                    .ufix64(1000),
+//                ]
+//            }
+//
+//            // optional
+//            gasLimit {
+//                1000
+//            }
+//        }
+//
+//        let signedTx = try! await unsignedTx.sign(signers: signer)
+//
+//        let txId = try! await flow.sendTransaction(signedTransaction: signedTx)
+//        XCTAssertNotNil(txId)
+//        print("txid --> \(txId.hex)")
+//    }
 
     func testMultipleSigner() async throws {
         // Example in Testnet
