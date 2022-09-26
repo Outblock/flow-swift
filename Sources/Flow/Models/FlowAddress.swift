@@ -22,18 +22,24 @@ public extension Flow {
     /// The data structure of address in Flow blockchain
     /// At the most time, it represents account address
     struct Address: FlowEntity, Equatable, Hashable {
+        
+        static let byteLength = 8
+        
         public var data: Data
 
         public init(hex: String) {
-            data = hex.hexValue.data
+            self.init(data: hex.hexValue.data)
         }
 
         public init(data: Data) {
-            self.data = data
+            if data.bytes.count == 8 {
+                self.data = data
+            }
+            self.data = data.paddingZeroLeft(blockSize: Flow.Address.byteLength).prefix(Flow.Address.byteLength)
         }
 
         internal init(bytes: [UInt8]) {
-            data = bytes.data
+            self.init(data: bytes.data)
         }
     }
 }
@@ -56,5 +62,5 @@ extension Flow.Address: Codable {
 }
 
 extension Flow.Address: CustomStringConvertible {
-    public var description: String { data.hexValue }
+    public var description: String { hex }
 }

@@ -375,14 +375,15 @@ public extension Flow {
 
         /// The sequence numbers to ensure that each transaction runs at most once
         /// Similarly to transaction nonces in Ethereum
+        /// If sequenceNumber is -1, fetch the lastest onchain
         public var sequenceNumber: BigInt
 
-//        public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: BigInt = -1) {
-//            self.address = address
-//            self.keyIndex = keyIndex
-//            self.sequenceNumber = sequenceNumber
-//        }
-
+        public init(address: Flow.Address, keyIndex: Int = 0) {
+            self.address = address
+            self.keyIndex = keyIndex
+            self.sequenceNumber = -1
+        }
+        
         public init(address: Flow.Address, keyIndex: Int = 0, sequenceNumber: Int64 = -1) {
             self.address = address
             self.keyIndex = keyIndex

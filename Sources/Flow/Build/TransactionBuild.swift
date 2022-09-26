@@ -182,6 +182,8 @@ public extension Flow {
 
         /// Reference block id (Optional)
         case refBlock(Flow.ID?)
+        
+        case error
     }
 
     /// Use domain-specific language (DSL) to construct `Flow.Transaction`
@@ -213,7 +215,7 @@ public extension Flow {
         var authorizers: [Flow.Address] = []
         var payer: Flow.Address?
         var proposer: Flow.TransactionProposalKey?
-        var gasLimit = BigUInt(100)
+        var gasLimit = BigUInt(9999)
         var refBlock: Flow.ID?
 
         builder().forEach { txValue in
@@ -232,6 +234,8 @@ public extension Flow {
                 gasLimit = value
             case let .refBlock(value):
                 refBlock = value
+            case .error:
+                break;
             }
         }
 
@@ -275,7 +279,52 @@ public extension Flow {
                                 payer: payer ?? proposalKey.address,
                                 authorizers: authorizers)
     }
-
+    
+    /// Build flow transaction using standard `Flow.Transaction` with async way
+    /// - parameters:
+    ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
+    /// - returns: The type of `EventLoopFuture<Flow.Transaction>`
+    func buildTransaction(chainID: Flow.ChainID = flow.chainID,
+                         script: String,
+                         agrument: [Flow.Argument] = [],
+                         authorizer: [Flow.Address] = [],
+                         payerAddress: Flow.Address,
+                         proposerKey: Flow.TransactionProposalKey,
+                         limit:BigUInt = BigUInt(9999),
+                         blockID: Flow.ID?
+                         ) async throws -> Flow.Transaction {
+        
+        return try await buildTransaction(chainID: chainID) {
+            cadence {
+                script
+            }
+            
+            arguments {
+                agrument
+            }
+            
+            proposer {
+                proposerKey
+            }
+            
+            gasLimit {
+                limit
+            }
+            
+            authorizers {
+                authorizer
+            }
+            
+            payer {
+                payerAddress
+            }
+            
+            refBlock {
+                blockID?.hex
+            }
+        }
+    }
+    
     /// Send signed Transaction to the network
     /// - parameters:
     ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
@@ -301,5 +350,52 @@ public extension Flow {
         let signedTx = try await flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
 
         return try await api.sendTransaction(transaction: signedTx)
+    }
+    
+    /// Build, sign and send transaction to the network
+    /// - parameters:
+    ///     - chainID: The chain id for the transaction, the default value is `flow.chainID`
+    ///     - signers: A list of `FlowSigner`, which will sign the transaction
+    /// - returns: The transaction id
+    func sendTransaction(chainID: Flow.ChainID = flow.chainID,
+                         signers: [FlowSigner],
+                         script: String,
+                         agrument: [Flow.Argument] = [],
+                         authorizer: [Flow.Address] = [],
+                         payerAddress: Flow.Address,
+                         proposerKey: Flow.TransactionProposalKey,
+                         limit:BigUInt = BigUInt(9999),
+                         blockID: Flow.ID?
+    ) async throws -> Flow.ID {
+        
+        return try await sendTransaction(chainID: chainID, signers: signers) {
+            cadence {
+                script
+            }
+            
+            arguments {
+                agrument
+            }
+            
+            proposer {
+                proposerKey
+            }
+            
+            gasLimit {
+                limit
+            }
+            
+            authorizers {
+                authorizer
+            }
+            
+            payer {
+                payerAddress
+            }
+            
+            refBlock {
+                blockID?.hex
+            }
+        }
     }
 }

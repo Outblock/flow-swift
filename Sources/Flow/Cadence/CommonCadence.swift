@@ -273,6 +273,19 @@ public extension Flow {
             }
         }
     }
+    
+    func isAddressVaildate(address: Flow.Address, network: Flow.ChainID = .mainnet) async -> Bool {
+        do {
+            let response = try await flow.accessAPI.getAccountAtLatestBlock(address: address)
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    func isAddressVaildate(address: String, network: Flow.ChainID = .mainnet) async -> Bool {
+        return await isAddressVaildate(address: Address(hex: address), network: network)
+    }
 
     func removeContractFromAccount(address: Flow.Address,
                                    contractName: String,
