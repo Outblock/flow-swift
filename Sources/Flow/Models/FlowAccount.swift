@@ -73,7 +73,7 @@ public extension Flow {
         public let hashAlgo: HashAlgorithm
 
         /// The weight for the account key
-        public let weight: Int
+        public let weight: Decimal
 
         /// The sequence number for the key, it must be equal or larger than zero
         public var sequenceNumber: Int64 = -1
@@ -99,7 +99,7 @@ public extension Flow {
             signAlgo = try container.decode(Flow.SignatureAlgorithm.self, forKey: .signAlgo)
             hashAlgo = try container.decode(Flow.HashAlgorithm.self, forKey: .hashAlgo)
             let weightString = try container.decode(String.self, forKey: .weight)
-            weight = Int(weightString) ?? -1
+            weight = Decimal(string: weightString) ?? -1
             let sequenceNumberString = try container.decode(String.self, forKey: .sequenceNumber)
             sequenceNumber = Int64(sequenceNumberString) ?? -1
             revoked = try container.decode(Bool.self, forKey: .revoked)
@@ -109,7 +109,7 @@ public extension Flow {
                     publicKey: Flow.PublicKey,
                     signAlgo: SignatureAlgorithm,
                     hashAlgo: HashAlgorithm,
-                    weight: Int,
+                    weight: Decimal,
                     sequenceNumber: Int64 = -1,
                     revoked: Bool = false)
         {

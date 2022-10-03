@@ -46,10 +46,10 @@ public extension Flow {
             }
         }
 
-        public var code: Int {
+        public var code: UInt8 {
             switch self {
             case .unknown:
-                return -1
+                return 0
             case .ECDSA_P256:
                 return 2
             case .ECDSA_SECP256k1:
@@ -57,7 +57,7 @@ public extension Flow {
             }
         }
 
-        public var index: Int {
+        public var index: UInt8 {
             switch self {
             case .unknown:
                 return 0
@@ -156,7 +156,7 @@ public extension Flow {
             }
         }
 
-        public var index: Int {
+        public var index: UInt8 {
             switch self {
             case .unknown:
                 return 0
@@ -171,11 +171,11 @@ public extension Flow {
             }
         }
 
-        public init(code: Int) {
+        public init(code: UInt8) {
             self = HashAlgorithm.allCases.first { $0.code == code } ?? .unknown
         }
 
-        public init(cadence index: Int) {
+        public init(cadence index: UInt8) {
             self = HashAlgorithm.allCases.first { $0.index == index } ?? .unknown
         }
     }

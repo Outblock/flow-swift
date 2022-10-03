@@ -62,21 +62,21 @@ final class NFTCatalogTests: XCTestCase {
         print(dict)
     }
 
-    func In2tType() async throws {
-        flow.configure(chainID: .mainnet)
-        let cadence = """
-        import NFTCatalog from 0x49a7cda3a1eecc29
-
-        pub fun main(): NFTCatalog.NFTCatalogMetadata? {
-            return NFTCatalog.getCatalog()["Flunks"]
-        }
-        """
-        let script = Flow.Script(text: cadence)
-        let result = try await flow.accessAPI.executeScriptAtLatestBlock(script: script).decode()
-//        XCTAssertEqual(result?.count, 3)
-//        XCTAssertEqual(result?.first, 1)
-        print(result)
-    }
+//    func In2tType() async throws {
+//        flow.configure(chainID: .mainnet)
+//        let cadence = """
+//        import NFTCatalog from 0x49a7cda3a1eecc29
+//
+//        pub fun main(): NFTCatalog.NFTCatalogMetadata? {
+//            return NFTCatalog.getCatalog()["Flunks"]
+//        }
+//        """
+//        let script = Flow.Script(text: cadence)
+//        let result = try await flow.accessAPI.executeScriptAtLatestBlock(script: script).decode()
+////        XCTAssertEqual(result?.count, 3)
+////        XCTAssertEqual(result?.first, 1)
+//        print(result)
+//    }
 
     func NFTCatalog() async throws {
         flow.configure(chainID: .mainnet)
