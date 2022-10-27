@@ -61,14 +61,27 @@ public protocol FlowAccessProtocol {
 
     func getEventsForBlockIds(type: String, ids: Set<Flow.ID>) async throws -> [Flow.Event.Result]
 
-//    func getNetworkParameters() async throws -> Flow.ChainID
+    func getNetworkParameters() async throws -> Flow.ChainID
 
 //    func getLatestProtocolStateSnapshot() async throws -> Flow.Snapshot
 }
 
 public extension FlowAccessProtocol {
-    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument] = []) async throws -> Flow.ScriptResponse {
-        return try await executeScriptAtLatestBlock(script: script, arguments: arguments)
+    func getLatestBlock(sealed: Bool = true) async throws -> Flow.Block {
+        return try await getLatestBlock(sealed: sealed)
+    }
+
+    func executeScriptAtLatestBlock(cadence: String, arguments: [Flow.Argument] = []) async throws -> Flow.ScriptResponse {
+        return try await executeScriptAtLatestBlock(script: .init(text: cadence), arguments: arguments)
+    }
+
+    func executeScriptAtLatestBlock(cadence: String, arguments: [Flow.Cadence.FValue] = []) async throws -> Flow.ScriptResponse {
+        return try await executeScriptAtLatestBlock(script: .init(text: cadence), arguments: arguments.map { $0.toArgument() })
+    }
+
+    func executeScriptAtLatestBlock(script: Flow.Script) async throws -> Flow.ScriptResponse {
+        let list: [Flow.Argument] = []
+        return try await executeScriptAtLatestBlock(script: script, arguments: list)
     }
 
     func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Cadence.FValue]) async throws -> Flow.ScriptResponse {

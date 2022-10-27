@@ -29,6 +29,9 @@ public extension Flow {
         /// The tag for user
         case user
 
+        /// The tag for account proof
+        case accountProof
+
         /// Custom domain tag
         case custom(String)
 
@@ -39,6 +42,8 @@ public extension Flow {
                 return "FLOW-V0.0-transaction"
             case .user:
                 return "FLOW-V0.0-user"
+            case .accountProof:
+                return "FCL-ACCOUNT-PROOF-V0.0"
             case let .custom(tag):
                 return tag
             }

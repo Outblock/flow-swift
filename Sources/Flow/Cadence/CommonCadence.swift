@@ -99,6 +99,27 @@ extension Flow {
             }
         """
 
+        static let accountStorage = """
+        pub struct StorageInfo {
+            pub let capacity: UInt64
+            pub let used: UInt64
+            pub let available: UInt64
+
+            init(capacity: UInt64, used: UInt64, available: UInt64) {
+                self.capacity = capacity
+                self.used = used
+                self.available = available
+            }
+        }
+
+        pub fun main(addr: Address): StorageInfo {
+          let acct = getAccount(addr)
+          return StorageInfo(capacity: acct.storageCapacity,
+                            used: acct.storageUsed,
+                            available: acct.storageCapacity - acct.storageUsed)
+        }
+        """
+
         /// The cadence code to verify user signature
         static let verifyUserSignature = """
         import Crypto
@@ -107,7 +128,8 @@ extension Flow {
           message: String,
           rawPublicKeys: [String],
           weights: [UFix64],
-          signAlgos: [UInt],
+          signAlgos: [UInt8],
+          hashAlgos: [UInt8],
           signatures: [String],
         ): Bool {
 
@@ -118,9 +140,9 @@ extension Flow {
             keyList.add(
               PublicKey(
                 publicKey: rawPublicKey.decodeHex(),
-                signatureAlgorithm: signAlgos[i] == 2 ? SignatureAlgorithm.ECDSA_P256 : SignatureAlgorithm.ECDSA_secp256k1
+                signatureAlgorithm: SignatureAlgorithm(rawValue: signAlgos[i])!
               ),
-              hashAlgorithm: HashAlgorithm.SHA3_256,
+              hashAlgorithm: HashAlgorithm(rawValue: hashAlgos[i])!,
               weight: weights[i],
             )
             i = i + 1
@@ -328,48 +350,48 @@ public extension Flow {
         }
     }
 
-//    func verifyUserSignature(message: String,
-//                             signatures: [Flow.TransactionSignature]) throws -> Future<Flow.ScriptResponse, Error>
-//    {
-//        let futures: [EventLoopFuture<Flow.Account>] = signatures.compactMap { signature in
-//            flow.accessAPI.getAccountAtLatestBlock(address: signature.address).unwrap(orError: FError.invaildAccountInfo)
-//        }
-//
-//        return EventLoopFuture.whenAllComplete(futures, on: flow.accessAPI.clientChannel.eventLoop).map { results in
-//            results.compactMap { result -> Flow.Account? in
-//                switch result {
-//                case let .success(account):
-//                    return account
-//                case .failure:
-//                    // TODO: Handle error here
-//                    return nil
-//                }
-//            }
-//        }.flatMap { accounts -> EventLoopFuture<Flow.ScriptResponse> in
-//
-//            var weights: [Flow.Cadence.FValue] = []
-//            var signAlgos: [Flow.Cadence.FValue] = []
-//            var sigs: [Flow.Cadence.FValue] = []
-//            var publicKeys: [Flow.Cadence.FValue] = []
-//            signatures.forEach { sig in
-//                if let account = accounts.first(where: { $0.address == sig.address }),
-//                   let key = account.keys[safe: sig.keyIndex]
-//                {
-//                    weights.append(.ufix64(Double(key.weight)))
-//                    signAlgos.append(.uint(UInt(key.signAlgo.code)))
-//                    sigs.append(.string(sig.signature.hexValue))
-//                    publicKeys.append(.string(key.publicKey.hex))
-//                }
-//            }
-//
-//            let arguments: [Flow.Argument] = [.string(message),
-//                                              .array(publicKeys.toArguments()),
-//                                              .array(weights.toArguments()),
-//                                              .array(signAlgos.toArguments()),
-//                                              .array(sigs.toArguments())].toArguments()
-//            return flow.accessAPI.executeScriptAtLatestBlock(script:
-//                Flow.Script(text: CommonCadence.verifyUserSignature),
-//                arguments: arguments)
-//        }
-//    }
+    struct StorageInfo: Codable {
+        let capacity: UInt64
+        let used: UInt64
+        let available: UInt64
+    }
+
+    func checkStorageInfo(address: Flow.Address) async throws -> StorageInfo {
+        return try await flow.executeScriptAtLatestBlock(cadence: CommonCadence.accountStorage, arguments: [.address(address)]).decode()
+    }
+
+    func verifyUserSignature(message: String,
+                             signatures: [Flow.TransactionSignature]) async throws -> Bool
+    {
+        let addresses = Set(signatures.compactMap { $0.address })
+        let accounts = try await addresses.map(flow.getAccountAtLatestBlock)
+
+        var weights: [Flow.Cadence.FValue] = []
+        var signAlgos: [Flow.Cadence.FValue] = []
+        var hashAlgos: [Flow.Cadence.FValue] = []
+        var sigs: [Flow.Cadence.FValue] = []
+        var publicKeys: [Flow.Cadence.FValue] = []
+        signatures.forEach { sig in
+            if let account = accounts.first(where: { $0.address == sig.address }),
+               let key = account.keys[safe: sig.keyIndex]
+            {
+                weights.append(.ufix64(Decimal(key.weight)))
+                signAlgos.append(.uint8(UInt8(key.signAlgo.index)))
+                hashAlgos.append(.uint8(UInt8(key.hashAlgo.code)))
+                sigs.append(.string(sig.signature.hexValue))
+                publicKeys.append(.string(key.publicKey.hex))
+            }
+        }
+
+        let arguments: [Flow.Argument] = [.string(message),
+                                          .array(publicKeys.toArguments()),
+                                          .array(weights.toArguments()),
+                                          .array(signAlgos.toArguments()),
+                                          .array(hashAlgos.toArguments()),
+                                          .array(sigs.toArguments())].toArguments()
+
+        let result = try await flow.executeScriptAtLatestBlock(cadence: CommonCadence.verifyUserSignature, arguments: arguments)
+        print(result)
+        return try result.decode()
+    }
 }

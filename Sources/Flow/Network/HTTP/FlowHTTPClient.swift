@@ -91,6 +91,11 @@ extension Flow {
             return block.header.height > 0
         }
 
+        func getNetworkParameters() async throws -> Flow.ChainID {
+            let result: Flow.NetworkResponse = try await request(Flow.AccessEndpoint.getNetwork)
+            return result.chainId
+        }
+
         func getLatestBlockHeader() async throws -> Flow.BlockHeader {
             let result: [Flow.BlockHeaderResponse] = try await request(Flow.AccessEndpoint.getLatestBlockHeader)
             guard let block = result.first else {

@@ -198,4 +198,10 @@ final class NFTCatalogTests: XCTestCase {
 //        XCTAssertEqual(result?.first, 1)
 //        print(result)
     }
+
+    func testAccountStorage() async throws {
+        let address = Flow.Address(hex: "0x49a7cda3a1eecc29")
+        let result = try! await flow.checkStorageInfo(address: address)
+        XCTAssertNotNil(result)
+    }
 }

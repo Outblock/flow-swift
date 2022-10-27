@@ -29,6 +29,10 @@ extension Flow {
         let header: Flow.BlockHeader
     }
 
+    struct NetworkResponse: Codable {
+        let chainId: Flow.ChainID
+    }
+
     struct BlockResponse: Codable {
         let header: Flow.BlockHeader
         let payload: BlockPayloadResponse

@@ -86,7 +86,13 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
 //        XCTAssertNotNil(snapshot)
 //    }
 
-    func testExecuteScriptAtLastestBlock() async throws {
+    // Wait for mainnet spork
+//    func testNetworkParameters() async throws {
+//        let chainID = try await flowAPI.getNetworkParameters()
+//        XCTAssertEqual(chainID, Flow.ChainID.mainnet)
+//    }
+
+    func testQueryToken() async throws {
         let script = Flow.Script(text: """
             pub struct SomeStruct {
                   pub var x: Int

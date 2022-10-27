@@ -21,6 +21,7 @@ import Foundation
 extension Flow {
     enum AccessEndpoint {
         case ping
+        case getNetwork
         case getBlockHeaderByHeight(height: UInt64)
         case getBlockHeaderById(id: Flow.ID)
         case getLatestBlockHeader
@@ -79,7 +80,7 @@ extension Flow.AccessEndpoint: TargetType {
 
     var method: Method {
         switch self {
-        case .ping, .getBlockByHeight, .getBlockHeaderById:
+        case .ping, .getBlockByHeight, .getBlockHeaderById, .getNetwork:
             return .GET
         case .sendTransaction,
              .executeScriptAtBlockHeight,
@@ -102,6 +103,8 @@ extension Flow.AccessEndpoint: TargetType {
              .getBlockByHeight,
              .getLatestBlock:
             return "/v1/blocks"
+        case .getNetwork:
+            return "/v1/network/parameters"
         case let .getBlockHeaderById(id):
             return "/v1/blocks/\(id.hex)"
         case let .getBlockById(id):

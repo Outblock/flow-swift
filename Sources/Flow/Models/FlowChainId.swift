@@ -25,11 +25,13 @@ public extension Flow {
         case unknown
 
         /// Mainnet enviroment
-        /// Default node is `access.mainnet.nodes.onflow.org:9000`
+        /// Default gRPC node is `access.mainnet.nodes.onflow.org:9000`
+        /// HTTP node `https://rest-mainnet.onflow.org/`
         case mainnet
 
         /// Testnet enviroment
-        /// Default node is `access.devnet.nodes.onflow.org:9000`
+        /// Default gRPC node is `access.devnet.nodes.onflow.org:9000`
+        /// HTTP node `https://rest-mainnet.onflow.org/`
         case testnet
 
         /// Canarynet enviroment
@@ -64,8 +66,15 @@ public extension Flow {
             }
         }
 
+        /// Value from the access API
+        /// https://rest-mainnet.onflow.org/v1/network/parameters
+        /// https://rest-testnet.onflow.org/v1/network/parameters
+        public var value: String {
+            "flow-\(name)"
+        }
+
         public init(name: String) {
-            self = ChainID.allCases.first { $0.name == name } ?? .unknown
+            self = ChainID.allCases.first { $0.name == name || $0.value == name } ?? .unknown
         }
 
         public static func == (lhs: Flow.ChainID, rhs: Flow.ChainID) -> Bool {
