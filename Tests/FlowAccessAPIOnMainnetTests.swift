@@ -51,6 +51,13 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertNotNil(account.keys.first)
         XCTAssertEqual(address, account.address)
     }
+    
+    func testGetAccount2() async throws {
+        let account = try await flowAPI.getAccountAtLatestBlock(address: address.hex)
+        XCTAssertNotNil(account.keys.first)
+        XCTAssertEqual(address, account.address)
+    }
+
 
     func testGetBlockHeaderByID() async throws {
         let block = try await flowAPI.getLatestBlock(sealed: true)

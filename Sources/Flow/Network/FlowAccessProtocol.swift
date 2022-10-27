@@ -67,6 +67,11 @@ public protocol FlowAccessProtocol {
 }
 
 public extension FlowAccessProtocol {
+    
+    func getAccountAtLatestBlock(address: String) async throws -> Flow.Account {
+        return try await flow.accessAPI.getAccountAtLatestBlock(address: .init(hex: address.addHexPrefix()))
+    }
+    
     func getLatestBlock(sealed: Bool = true) async throws -> Flow.Block {
         return try await getLatestBlock(sealed: sealed)
     }
