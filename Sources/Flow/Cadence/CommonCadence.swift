@@ -351,9 +351,9 @@ public extension Flow {
     }
 
     struct StorageInfo: Codable {
-        let capacity: UInt64
-        let used: UInt64
-        let available: UInt64
+        public let capacity: UInt64
+        public let used: UInt64
+        public let available: UInt64
     }
 
     func checkStorageInfo(address: Flow.Address) async throws -> StorageInfo {
