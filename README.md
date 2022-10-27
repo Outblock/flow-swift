@@ -29,7 +29,7 @@ https://outblock.github.io/flow-swift/
 This is a Swift Package, and can be installed via Xcode with the URL of this repository:
 
 ```swift
-.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.2.7")
+.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.2.8")
 ```
 
 ## Config
@@ -82,7 +82,7 @@ Query the network for block by id, height or get the latest block.
 
 This example depicts ways to get the latest block as well as any other block by height or ID:
 ```swift
-let result = try await flow.accessAPI.getLatestBlock(sealed: true)
+let result = try await flow.getLatestBlock(sealed: true)
 ```
 
 ### Get Account
@@ -104,7 +104,7 @@ Example depicts ways to get an account at the latest block and at a specific blo
 let address = Flow.Address(hex: "0x1")
 
 // Handle Success Result
-let result = try await flow.accessAPI.getAccountAtLatestBlock(address: address)
+let result = try await flow.getAccountAtLatestBlock(address: address)
 ```
 
 ### Get Transactions
@@ -130,7 +130,7 @@ Retrieve transactions from the network by providing a transaction ID. After a tr
 
 ```swift
 let id = Flow.ID(hex: "0x1")
-let result = try await flow.accessAPI.getTransactionById(id: id)
+let result = try await flow.getTransactionById(id: id)
 ```
 
 
@@ -153,7 +153,7 @@ Example depicts ways to get events within block range or by block IDs:
 ```swift
 let eventName = "A.{contract address}.{contract name}.{event name}"
 let blockIds: [Flow.ID] = [.init(hex: "0x1"), .init(hex: "0x2") ]
-let result = try await flow.accessAPI.getEventsForHeightRange(type: eventName, range: 10...20)
+let result = try await flow.getEventsForHeightRange(type: eventName, range: 10...20)
 ```
 
 
@@ -166,7 +166,7 @@ Collections are used to improve consensus throughput by increasing the number of
 Example retrieving a collection:
 ```swift
 let id = Flow.ID(hex: "0x1")
-let result = try await flow.accessAPI.getCollectionById(id: id)
+let result = try await flow.getCollectionById(id: id)
 ```
 
 ### Execute Scripts
@@ -210,7 +210,7 @@ struct User: Codable {
     let name: String
 }
 
-let result = try await flow.accessAPI.executeScriptAtLatestBlock(script: script, arguments: [.init(value: .string("test"))])
+let result = try await flow.executeScriptAtLatestBlock(script: script, arguments: [.init(value: .string("test"))])
 let model: User = try result.decode()
 ```
 
