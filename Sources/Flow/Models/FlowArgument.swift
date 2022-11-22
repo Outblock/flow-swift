@@ -196,7 +196,7 @@ public extension Flow {
             case .optional:
                 let rawValue = try? container.decode(Argument.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }
-                value = .optional(value: unwarpRawValue)
+                value = .optional(value: unwarpRawValue.value)
             case .address:
                 let rawValue = try? container.decode(String.self, forKey: .value)
                 guard let unwarpRawValue = rawValue else { value = .error; return }

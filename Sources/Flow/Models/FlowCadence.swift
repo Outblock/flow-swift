@@ -78,7 +78,7 @@ public extension Flow.Cadence {
 
     enum FValue: Codable, Equatable {
         case void
-        indirect case optional(value: Flow.Argument)
+        indirect case optional(value: FValue)
         case bool(Bool)
         case string(String)
         case character(String)
@@ -594,7 +594,7 @@ public extension Flow.Cadence.FValue {
     /// - returns: The type of `Flow.Argument?` value.
     func toOptional() -> Flow.Argument? {
         if case let .optional(value) = self {
-            return value
+            return value.toArgument()
         }
         return nil
     }

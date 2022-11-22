@@ -23,7 +23,7 @@ public protocol FlowSigner {
     /// Address in the flow blockchain
     var address: Flow.Address { get }
 
-    // The index of the public key
+    /// The index of the public key
     var keyIndex: Int { get }
 
     /// Sign the data with account private key
