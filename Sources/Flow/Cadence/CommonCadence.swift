@@ -384,11 +384,11 @@ public extension Flow {
         }
 
         let arguments: [Flow.Argument] = [.string(message),
-                                          .array(publicKeys.toArguments()),
-                                          .array(weights.toArguments()),
-                                          .array(signAlgos.toArguments()),
-                                          .array(hashAlgos.toArguments()),
-                                          .array(sigs.toArguments())].toArguments()
+                                          .array(publicKeys),
+                                          .array(weights),
+                                          .array(signAlgos),
+                                          .array(hashAlgos),
+                                          .array(sigs)].toArguments()
 
         let result = try await flow.executeScriptAtLatestBlock(cadence: CommonCadence.verifyUserSignature, arguments: arguments)
         print(result)

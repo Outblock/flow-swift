@@ -355,10 +355,9 @@ final class CadenceTypeTests: XCTestCase {
            }
         }
         """
-        let value = Flow.Argument(value: .string("test"))
-        let argument = Flow.Argument(value: .optional(value: .string("test")))
+        let argument = Flow.Argument(value: .optional(.string("test")))
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
-        XCTAssertEqual(result.value.toOptional(), value)
+        XCTAssertEqual(result.value.toArgument(), argument)
     }
 
     func testReferenceType() throws {
@@ -431,10 +430,10 @@ final class CadenceTypeTests: XCTestCase {
         }
         """
 
-        let value: [Flow.Argument] = [.init(value: .string("test1")), .init(value: .string("test2"))]
+        let value: [Flow.Cadence.FValue] = [.string("test1"), .string("test2")]
         let argument = Flow.Argument(value: .array(value))
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
-        XCTAssertEqual(result.value.toArray(), value)
+        XCTAssertEqual(result.value.toArgument(), argument)
     }
 
     func testStructType() throws {

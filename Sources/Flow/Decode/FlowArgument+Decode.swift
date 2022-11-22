@@ -81,7 +81,7 @@ extension Flow.Argument: FlowCodable {
             return value.toInt128()
         case .array:
             let args = value.toArray()?.map { arg in
-                arg.decode()
+                arg.toArgument().decode()
             }
             return args
         case .bool:
@@ -89,7 +89,7 @@ extension Flow.Argument: FlowCodable {
         case .void:
             return nil
         case .optional:
-            return value.toOptional()?.decode()
+            return value.toOptional()?.toArgument().decode()
         case .string:
             return value.toString()
         case .uint:

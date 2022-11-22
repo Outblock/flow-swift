@@ -78,7 +78,7 @@ public extension Flow.Cadence {
 
     enum FValue: Codable, Equatable {
         case void
-        indirect case optional(value: FValue)
+        indirect case optional(FValue)
         case bool(Bool)
         case string(String)
         case character(String)
@@ -113,7 +113,7 @@ public extension Flow.Cadence {
         case capability(Flow.Argument.Capability)
         indirect case type(Flow.Argument.StaticType)
 
-        indirect case array([Flow.Argument])
+        indirect case array([Flow.Cadence.FValue])
         indirect case dictionary([Flow.Argument.Dictionary])
         indirect case `struct`(Flow.Argument.Event)
         indirect case resource(Flow.Argument.Event)
@@ -247,13 +247,13 @@ public extension Flow.Cadence {
             case let .string(value):
                 try container.encode(value)
             case let .array(value):
-                try container.encode(value)
+                try container.encode(value.toArguments())
             case let .dictionary(value):
                 try container.encode(value)
             case let .reference(value):
                 try container.encode(value)
             case let .optional(value):
-                try container.encode(value)
+                try container.encode(value.toArgument())
             case let .character(value):
                 try container.encode(value)
             case let .struct(value),
@@ -592,9 +592,9 @@ public extension Flow.Cadence.FValue {
     /// Convert to `Flow.Argument` type, if it's `.optional` type
     /// Otherwise return nil
     /// - returns: The type of `Flow.Argument?` value.
-    func toOptional() -> Flow.Argument? {
+    func toOptional() -> Flow.Cadence.FValue? {
         if case let .optional(value) = self {
-            return value.toArgument()
+            return value
         }
         return nil
     }
@@ -662,7 +662,7 @@ public extension Flow.Cadence.FValue {
     /// Convert to `[Flow.Argument]` type, if it's `.array` type
     /// Otherwise return nil
     /// - returns: The type of `[Flow.Argument]?` value.
-    func toArray() -> [Flow.Argument]? {
+    func toArray() -> [Flow.Cadence.FValue]? {
         if case let .array(value) = self {
             return value
         }
