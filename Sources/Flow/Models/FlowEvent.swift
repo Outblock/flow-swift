@@ -116,8 +116,11 @@ extension Flow.Event.Payload: FlowCodable {
         return fields?.decode()
     }
 
-    public func decode<T: Decodable>(_ decodable: T.Type) throws -> T? {
-        return try fields?.decode(decodable)
+    public func decode<T: Decodable>(_ decodable: T.Type) throws -> T {
+        guard let result: T = try? fields?.decode() else {
+            throw Flow.FError.decodeFailure
+        }
+        return result
     }
 
     public func decode<T: Decodable>() throws -> T {

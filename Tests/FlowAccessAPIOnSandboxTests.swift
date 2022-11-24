@@ -24,4 +24,9 @@ final class FlowAccessAPIOnSandboxTests: XCTestCase {
         let isConnected = try await flowAPI.ping()
         XCTAssertTrue(isConnected)
     }
+    
+    func testFlowAccount() async throws {
+        let account = try await flow.getAccountAtLatestBlock(address: "0x4e8e130b4fb9aee2")
+        XCTAssertNotNil(account)
+    }
 }

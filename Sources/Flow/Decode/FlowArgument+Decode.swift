@@ -22,7 +22,7 @@ import Foundation
 protocol FlowCodable {
     func decode() -> Any?
 
-    func decode<T: Decodable>(_ decodable: T.Type) throws -> T?
+    func decode<T: Decodable>(_ decodable: T.Type) throws -> T
 
     func decode<T: Decodable>() throws -> T
 }
@@ -50,7 +50,7 @@ extension Flow.Argument: FlowCodable {
         }
     }
 
-    public func decode<T: Decodable>(_: T.Type) throws -> T? {
+    public func decode<T: Decodable>(_: T.Type) throws -> T {
         do {
             let result: T = try decode()
             return result
