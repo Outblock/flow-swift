@@ -19,7 +19,7 @@ let package = Package(
         .target(
             name: "Flow",
             dependencies: ["BigInt"],
-            path: "Sources/Flow"
+            path: "Sources"
         ),
         .testTarget(
             name: "FlowTests",

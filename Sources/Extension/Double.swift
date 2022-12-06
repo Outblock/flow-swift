@@ -24,3 +24,13 @@ extension Double {
         return (self * multiplier).rounded() / multiplier
     }
 }
+
+extension Decimal {
+    func tokenFormat(maximumFractionDigits: Int = 8) -> String {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = maximumFractionDigits
+        formatter.minimumFractionDigits = 0
+        formatter.numberStyle = .decimal
+        return formatter.string(for: self) ?? String(NSDecimalNumber(decimal: self).doubleValue)
+    }
+}
