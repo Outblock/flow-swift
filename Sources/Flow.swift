@@ -111,3 +111,44 @@ public final class Flow {
         return FlowHTTPAPI(chainID: chainID)
     }
 }
+
+extension Flow {
+    
+    /// Get notified when transaction's status changed.
+    /// - parameters:
+    ///     - transactionId: Transaction ID in Flow.ID format
+    ///     - status: The status you want to monitor.
+    ///     - delay: Interval between two queries. Default is 2 seconds.
+    ///     - timeout: Timeout for this request. Default is 60 seconds.
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
+    func once(_ transactionId: Flow.ID,
+              status: Flow.Transaction.Status,
+              delayInNanoSec: UInt64 = 2_000_000_000,
+              timeout: TimeInterval = 60) async throws -> Flow.TransactionResult {
+        return try await transactionId.once(status: status, delayInNanoSec: delayInNanoSec, timeout: timeout)
+    }
+    
+    /// Get notified when transaction's status change to `.finalized`.
+    /// - parameters:
+    ///     - transactionId: Transaction ID in Flow.ID format
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
+    func onceFinalized(_ transactionId: Flow.ID) async throws -> Flow.TransactionResult {
+        return try await once(transactionId, status: .finalized)
+    }
+
+    /// Get notified when transaction's status change to `.executed`.
+    /// - parameters:
+    ///     - transactionId: Transaction ID in Flow.ID format
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
+    func onceExecuted(_ transactionId: Flow.ID) async throws -> Flow.TransactionResult {
+        return try await once(transactionId, status: .executed)
+    }
+
+    /// Get notified when transaction's status change to `.sealed`.
+    /// - parameters:
+    ///     - transactionId: Transaction ID in Flow.ID format
+    /// - returns: A future that will receive the `Flow.TransactionResult` value.
+    func onceSealed(_ transactionId: Flow.ID) async throws -> Flow.TransactionResult {
+        return try await once(transactionId, status: .sealed)
+    }
+}

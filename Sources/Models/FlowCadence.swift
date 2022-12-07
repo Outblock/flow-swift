@@ -385,6 +385,7 @@ extension Decimal {
         formatter.minimumFractionDigits = Flow.decimal
         formatter.maximumFractionDigits = Flow.decimal
         formatter.decimalSeparator = "."
+        formatter.groupingSeparator = ""
         return formatter.string(from: NSDecimalNumber(decimal: self))
     }
 }
