@@ -386,6 +386,8 @@ extension Decimal {
         formatter.maximumFractionDigits = Flow.decimal
         formatter.decimalSeparator = "."
         formatter.groupingSeparator = ""
+        formatter.numberStyle = .decimal
+        formatter.locale = Locale(identifier: "en_US")
         return formatter.string(from: NSDecimalNumber(decimal: self))
     }
 }
