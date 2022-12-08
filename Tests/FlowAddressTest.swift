@@ -20,8 +20,18 @@ final class FlowAddressTest: XCTestCase {
         XCTAssertEqual(address.bytes.count, 8)
         XCTAssertEqual(address.description, hex)
 
-//        let isVaild = await flow.isAddressVaildate(address: address)
-//        XCTAssertEqual(true, isVaild)
+        let isVaild = await flow.isAddressVaildate(address: address, network: .mainnet)
+        XCTAssertEqual(true, isVaild)
+    }
+    
+    func testAddressHexTypeSandboxnet() async throws {
+        let isVaild = await flow.isAddressVaildate(address: "0x4e8e130b4fb9aee2", network: .sandboxnet)
+        XCTAssertEqual(true, isVaild)
+    }
+    
+    func testAddressHexTypeTestnet() async throws {
+        let isVaild = await flow.isAddressVaildate(address: "0xc6de0d94160377cd", network: .testnet)
+        XCTAssertEqual(true, isVaild)
     }
 
     func testAddressType() async throws {
@@ -31,8 +41,8 @@ final class FlowAddressTest: XCTestCase {
         XCTAssertEqual(address.bytes.count, 8)
         XCTAssertEqual(address.description, hex.addHexPrefix())
 
-//        let isVaild = await flow.isAddressVaildate(address: address)
-//        XCTAssertEqual(true, isVaild)
+        let isVaild = await flow.isAddressVaildate(address: address)
+        XCTAssertEqual(true, isVaild)
     }
 
     func testInvaildAddressType() async throws {

@@ -37,7 +37,7 @@ public extension Flow {
         /// Testnet enviroment
         /// Default gRPC node is `access.sandboxnet.nodes.onflow.org:9000`
         /// HTTP node `https://rest-sandboxnet.onflow.org/`
-        case sandbox
+        case sandboxnet
 
         /// Canarynet enviroment
         /// Default node is `access.canary.nodes.onflow.org:9000`
@@ -51,7 +51,7 @@ public extension Flow {
         case custom(name: String, transport: Flow.Transport)
 
         /// List of other type chain id exclude custom type
-        public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .canarynet, .emulator]
+        public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .canarynet, .sandboxnet, .emulator]
 
         /// Name of the chain id
         public var name: String {
@@ -60,7 +60,7 @@ public extension Flow {
                 return "mainnet"
             case .testnet:
                 return "testnet"
-            case .sandbox:
+            case .sandboxnet:
                 return "sandboxnet"
             case .canarynet:
                 return "canarynet"
@@ -96,7 +96,7 @@ public extension Flow {
                 return .HTTP(URL(string: "https://rest-testnet.onflow.org/")!)
             case .emulator:
                 return .HTTP(URL(string: "http://127.0.0.1:8888/")!)
-            case .sandbox:
+            case .sandboxnet:
                 return .HTTP(URL(string: "https://rest-sandboxnet.onflow.org/")!)
             case let .custom(_, transport):
                 return transport
@@ -114,7 +114,7 @@ public extension Flow {
                 return .gRPC(.init(node: "access.devnet.nodes.onflow.org", port: 9000))
             case .canarynet:
                 return .gRPC(.init(node: "access.canary.nodes.onflow.org", port: 9000))
-            case .sandbox:
+            case .sandboxnet:
                 return .gRPC(.init(node: "access.sandboxnet.nodes.onflow.org", port: 9000))
             case .emulator:
                 return .gRPC(.init(node: "127.0.0.1", port: 9000))

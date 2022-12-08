@@ -264,6 +264,12 @@ public extension Flow {
     }
 }
 
+extension Flow.Argument: CustomStringConvertible {
+    public var description: String {
+        return "\n\(type.rawValue): \(value.description)"
+    }
+}
+
 public extension Flow.Argument {
     /// The data structure for `.path` argument type
     /// More detail can be found here: https://docs.onflow.org/cadence/json-cadence-spec/#path

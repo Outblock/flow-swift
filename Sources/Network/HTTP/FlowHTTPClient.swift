@@ -29,7 +29,9 @@ extension Flow {
         }
 
         func request<T: Decodable, U: TargetType>(_ target: U) async throws -> T {
-            guard var urlComponents = URLComponents(string: target.baseURL.absoluteString),
+            
+            guard let url = chainID.defaultHTTPNode.url,
+                  var urlComponents = URLComponents(string: url.absoluteString),
                   case let .requestParameters(parameters, body: body) = target.task
             else {
                 throw FError.urlInvaild

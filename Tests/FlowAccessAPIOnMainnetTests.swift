@@ -36,10 +36,10 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertTrue(isConnected)
     }
 
-//    func testNetworkParameters() async throws {
-//        let ChainID = try await flowAPI.getNetworkParameters()
-//        XCTAssertEqual(ChainID, Flow.ChainID.mainnet)
-//    }
+    func testNetworkParameters() async throws {
+        let ChainID = try await flowAPI.getNetworkParameters()
+        XCTAssertEqual(ChainID, Flow.ChainID.mainnet)
+    }
 
     func testBlockHeader() async throws {
         let blockHeader = try await flowAPI.getLatestBlockHeader()
@@ -90,12 +90,6 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
 //    func testGetLatestProtocolStateSnapshot() async throws {
 //        let snapshot = try await flowAPI.getLatestProtocolStateSnapshot()
 //        XCTAssertNotNil(snapshot)
-//    }
-
-    // Wait for mainnet spork
-//    func testNetworkParameters() async throws {
-//        let chainID = try await flowAPI.getNetworkParameters()
-//        XCTAssertEqual(chainID, Flow.ChainID.mainnet)
 //    }
 
     func testQueryToken() async throws {

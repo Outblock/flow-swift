@@ -16,8 +16,8 @@ final class FlowAccessAPIOnSandboxTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        flowAPI = flow.createHTTPAccessAPI(chainID: .sandbox)
-        flow.configure(chainID: .sandbox)
+        flowAPI = flow.createHTTPAccessAPI(chainID: .sandboxnet)
+        flow.configure(chainID: .sandboxnet)
     }
     
     func testFlowPing() async throws {
@@ -25,8 +25,24 @@ final class FlowAccessAPIOnSandboxTests: XCTestCase {
         XCTAssertTrue(isConnected)
     }
     
+    func testNetworkParameters() async throws {
+        let chainID = try await flowAPI.getNetworkParameters()
+        XCTAssertEqual(chainID, Flow.ChainID.sandboxnet)
+    }
+    
     func testFlowAccount() async throws {
         let account = try await flow.getAccountAtLatestBlock(address: "0x4e8e130b4fb9aee2")
+        print(account)
         XCTAssertNotNil(account)
+    }
+    
+    func testTransactionResult() async throws {
+        let result = try await flow.getTransactionById(id: .init(hex: "db6c446d2e4caa4389aa5253b2d576efbfcbd32a56948f9daf5b40da30e17d0c"))
+        XCTAssertNotNil(result)
+    }
+    
+    func testTransaction() async throws {
+        let result = try await flow.getTransactionResultById(id: "db6c446d2e4caa4389aa5253b2d576efbfcbd32a56948f9daf5b40da30e17d0c")
+        XCTAssertNotNil(result)
     }
 }

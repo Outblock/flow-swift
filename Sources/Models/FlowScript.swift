@@ -55,9 +55,8 @@ public extension Flow {
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let string = try container.decode(String.self)
-            data = Data(base64Encoded: string) ?? Data()
+            data = Data(base64Encoded: string) ?? string.data(using: .utf8) ?? Data()
             fields = try? JSONDecoder().decode(Flow.Argument.self, from: data)
-//            self.fields = try container.decodeIfPresent(Flow.Argument.self, forKey: Flow.ScriptResponse.CodingKeys.fields)
         }
     }
 }
@@ -99,7 +98,7 @@ extension Flow.Script: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let scriptString = try container.decode(String.self)
-        data = scriptString.data(using: .utf8) ?? Data()
+        data = Data(base64Encoded: scriptString) ?? scriptString.data(using: .utf8) ?? Data()
     }
 }
 

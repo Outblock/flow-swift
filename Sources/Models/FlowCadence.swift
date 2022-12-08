@@ -392,6 +392,13 @@ extension Decimal {
     }
 }
 
+extension Flow.Cadence.FValue: CustomStringConvertible {
+    public var description: String {
+        let mirror = Mirror(reflecting: self)
+        return mirror.children.map{ "\($0.value)" }.joined()
+    }
+}
+
 public extension Flow.Cadence.FValue {
     /// Convert to `Int` type, if it's `.int` type
     /// Otherwise return nil

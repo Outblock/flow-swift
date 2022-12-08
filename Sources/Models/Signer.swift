@@ -43,6 +43,10 @@ public extension Flow {
 
     struct Code: FlowEntity, Equatable, Codable {
         public var data: Data
+        
+        var text: String {
+            String(data: data, encoding: .utf8) ?? ""
+        }
 
         public init(data: Data) {
             self.data = data
@@ -51,7 +55,15 @@ public extension Flow {
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let uftString = try container.decode(String.self)
-            data = uftString.data(using: .utf8) ?? Data()
+            data = Data(base64Encoded: uftString) ?? uftString.data(using: .utf8) ?? Data()
         }
     }
+}
+
+extension Flow.PublicKey: CustomStringConvertible {
+    public var description: String { hex }
+}
+
+extension Flow.Code: CustomStringConvertible {
+    public var description: String { text }
 }
