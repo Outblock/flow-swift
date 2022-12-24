@@ -78,7 +78,7 @@ public extension Flow.Cadence {
 
     enum FValue: Codable, Equatable {
         case void
-        indirect case optional(FValue)
+        indirect case optional(FValue?)
         case bool(Bool)
         case string(String)
         case character(String)
@@ -253,7 +253,7 @@ public extension Flow.Cadence {
             case let .reference(value):
                 try container.encode(value)
             case let .optional(value):
-                try container.encode(value.toArgument())
+                try container.encode(value?.toArgument())
             case let .character(value):
                 try container.encode(value)
             case let .struct(value),

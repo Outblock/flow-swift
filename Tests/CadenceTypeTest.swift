@@ -359,6 +359,18 @@ final class CadenceTypeTests: XCTestCase {
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toArgument(), argument)
     }
+    
+    func testOptionalType2() throws {
+        let jsonString = """
+        {
+           "type":"Optional",
+           "value": null
+        }
+        """
+        let argument = Flow.Argument(value: .optional(nil))
+        let result = try! verifyJson(jsonString: jsonString, argument: argument)
+        XCTAssertEqual(result.value.toArgument(), argument)
+    }
 
     func testReferenceType() throws {
         let jsonString = """
