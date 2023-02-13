@@ -57,8 +57,9 @@ extension Flow {
                 let data = try encoder.encode(AnyEncodable(bodyObject))
                 request.httpBody = data
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.setValue(Flow.shared.defaultUserAgent, forHTTPHeaderField: "User-Agent")
             }
-
+            
             if let headers = target.headers {
                 headers.forEach {
                     request.setValue($1, forHTTPHeaderField: $0)

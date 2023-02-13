@@ -29,7 +29,7 @@ public final class Flow {
     public static let shared = Flow()
 
     /// The user agent for the SDK client, used in access API header
-    internal let defaultUserAgent = "Flow SWIFT SDK"
+    internal let defaultUserAgent = userAgent
 
     /// The chainID for the SDK environment, it be be changed by config func.
     /// The default value is `.mainnet`.
