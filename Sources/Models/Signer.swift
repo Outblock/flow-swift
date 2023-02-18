@@ -43,7 +43,7 @@ public extension Flow {
 
     struct Code: FlowEntity, Equatable, Codable {
         public var data: Data
-        
+
         var text: String {
             String(data: data, encoding: .utf8) ?? ""
         }

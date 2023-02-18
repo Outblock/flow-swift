@@ -359,7 +359,7 @@ final class CadenceTypeTests: XCTestCase {
         let result = try! verifyJson(jsonString: jsonString, argument: argument)
         XCTAssertEqual(result.value.toArgument(), argument)
     }
-    
+
     func testOptionalType2() throws {
         let jsonString = """
         {

@@ -113,7 +113,6 @@ public final class Flow {
 }
 
 extension Flow {
-    
     /// Get notified when transaction's status changed.
     /// - parameters:
     ///     - transactionId: Transaction ID in Flow.ID format
@@ -124,10 +123,11 @@ extension Flow {
     func once(_ transactionId: Flow.ID,
               status: Flow.Transaction.Status,
               delayInNanoSec: UInt64 = 2_000_000_000,
-              timeout: TimeInterval = 60) async throws -> Flow.TransactionResult {
+              timeout: TimeInterval = 60) async throws -> Flow.TransactionResult
+    {
         return try await transactionId.once(status: status, delayInNanoSec: delayInNanoSec, timeout: timeout)
     }
-    
+
     /// Get notified when transaction's status change to `.finalized`.
     /// - parameters:
     ///     - transactionId: Transaction ID in Flow.ID format

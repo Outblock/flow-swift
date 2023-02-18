@@ -33,7 +33,7 @@ public extension Flow {
         /// Default gRPC node is `access.devnet.nodes.onflow.org:9000`
         /// HTTP node `https://rest-mainnet.onflow.org/`
         case testnet
-        
+
         /// Testnet enviroment
         /// Default gRPC node is `access.sandboxnet.nodes.onflow.org:9000`
         /// HTTP node `https://rest-sandboxnet.onflow.org/`

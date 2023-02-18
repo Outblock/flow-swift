@@ -70,11 +70,11 @@ public extension FlowAccessProtocol {
     func getAccountAtLatestBlock(address: String) async throws -> Flow.Account {
         return try await getAccountAtLatestBlock(address: .init(hex: address.addHexPrefix()))
     }
-    
+
     func getTransactionById(id: String) async throws -> Flow.Transaction {
         return try await getTransactionById(id: .init(hex: id))
     }
-    
+
     func getTransactionResultById(id: String) async throws -> Flow.TransactionResult {
         return try await getTransactionResultById(id: .init(hex: id))
     }

@@ -34,7 +34,7 @@ public extension Array where Element == Flow.Cadence.FValue {
 
 public extension Array where Element == Flow.Argument {
     func toValue() -> [Flow.Cadence.FValue] {
-        return compactMap{ $0.value }
+        return compactMap { $0.value }
     }
 }
 

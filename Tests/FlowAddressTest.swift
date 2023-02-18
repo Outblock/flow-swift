@@ -23,12 +23,12 @@ final class FlowAddressTest: XCTestCase {
         let isVaild = await flow.isAddressVaildate(address: address, network: .mainnet)
         XCTAssertEqual(true, isVaild)
     }
-    
+
     func testAddressHexTypeSandboxnet() async throws {
         let isVaild = await flow.isAddressVaildate(address: "0x4e8e130b4fb9aee2", network: .sandboxnet)
         XCTAssertEqual(true, isVaild)
     }
-    
+
     func testAddressHexTypeTestnet() async throws {
         let isVaild = await flow.isAddressVaildate(address: "0xc6de0d94160377cd", network: .testnet)
         XCTAssertEqual(true, isVaild)

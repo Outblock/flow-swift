@@ -29,7 +29,6 @@ extension Flow {
         }
 
         func request<T: Decodable, U: TargetType>(_ target: U) async throws -> T {
-            
             guard let url = chainID.defaultHTTPNode.url,
                   var urlComponents = URLComponents(string: url.absoluteString),
                   case let .requestParameters(parameters, body: body) = target.task
@@ -59,7 +58,7 @@ extension Flow {
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.setValue(Flow.shared.defaultUserAgent, forHTTPHeaderField: "User-Agent")
             }
-            
+
             if let headers = target.headers {
                 headers.forEach {
                     request.setValue($1, forHTTPHeaderField: $0)
