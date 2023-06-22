@@ -143,6 +143,8 @@ extension Flow.Argument: FlowCodable {
                 return result.decode(Bool.self)
             case .string:
                 return result.decode(String.self)
+            case .address:
+                return result.decode(String.self)
             case .int8:
                 return result.decode(Int8.self)
             case .uint8:

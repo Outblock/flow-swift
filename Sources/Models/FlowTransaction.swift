@@ -482,7 +482,7 @@ extension Flow.TransactionSignature: Codable {
         let keyIndex = try container.decode(String.self, forKey: .keyIndex)
         self.keyIndex = Int(keyIndex) ?? -1
         let signatureString = try container.decode(String.self, forKey: .signature)
-        signature = signatureString.hexValue.data
+        signature = Data(base64Encoded: signatureString) ?? signatureString.hexValue.data
         signerIndex = -1
     }
 }
