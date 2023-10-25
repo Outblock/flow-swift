@@ -38,6 +38,17 @@ public final class Flow {
     /// The access API client
     public private(set) var accessAPI: FlowAccessProtocol
 
+    internal var encoder: JSONEncoder {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return encoder
+    }
+    
+    internal var decoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        return decoder
+    }
+    
     /// Default access client will be HTTP Client
     init() {
         accessAPI = FlowHTTPAPI(chainID: chainID)

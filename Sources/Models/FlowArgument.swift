@@ -35,8 +35,7 @@ public extension Flow {
 
         /// Encode argument into json data.
         public var jsonData: Data? {
-            let encoder = JSONEncoder()
-            guard let jsonData = try? encoder.encode(self) else {
+            guard let jsonData = try? flow.encoder.encode(self) else {
                 return nil
             }
             return jsonData
