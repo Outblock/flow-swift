@@ -34,14 +34,14 @@ public extension Flow {
         /// HTTP node `https://rest-mainnet.onflow.org/`
         case testnet
 
-        /// Testnet enviroment
-        /// Default gRPC node is `access.sandboxnet.nodes.onflow.org:9000`
-        /// HTTP node `https://rest-sandboxnet.onflow.org/`
-        case sandboxnet
-
         /// Canarynet enviroment
         /// Default node is `access.canary.nodes.onflow.org:9000`
         case canarynet
+        
+        /// Canarynet enviroment
+        /// Default node is `access.crescendo.nodes.onflow.org:9000`
+        /// HTTP node `https://rest-crescendo.onflow.org/`
+        case crescendo
 
         /// Emulator enviroment
         /// Default node is `127.0.0.1:9000`
@@ -51,7 +51,7 @@ public extension Flow {
         case custom(name: String, transport: Flow.Transport)
 
         /// List of other type chain id exclude custom type
-        public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .canarynet, .sandboxnet, .emulator]
+        public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .canarynet, .crescendo, .emulator]
 
         /// Name of the chain id
         public var name: String {
@@ -60,8 +60,8 @@ public extension Flow {
                 return "mainnet"
             case .testnet:
                 return "testnet"
-            case .sandboxnet:
-                return "sandboxnet"
+            case .crescendo:
+                return "crescendo"
             case .canarynet:
                 return "canarynet"
             case .emulator:
@@ -96,8 +96,8 @@ public extension Flow {
                 return .HTTP(URL(string: "https://rest-testnet.onflow.org/")!)
             case .emulator:
                 return .HTTP(URL(string: "http://127.0.0.1:8888/")!)
-            case .sandboxnet:
-                return .HTTP(URL(string: "https://rest-sandboxnet.onflow.org/")!)
+            case .crescendo:
+                return .HTTP(URL(string: "https://rest-crescendo.onflow.org/")!)
             case let .custom(_, transport):
                 return transport
             default:
@@ -114,8 +114,8 @@ public extension Flow {
                 return .gRPC(.init(node: "access.devnet.nodes.onflow.org", port: 9000))
             case .canarynet:
                 return .gRPC(.init(node: "access.canary.nodes.onflow.org", port: 9000))
-            case .sandboxnet:
-                return .gRPC(.init(node: "access.sandboxnet.nodes.onflow.org", port: 9000))
+            case .crescendo:
+                return .gRPC(.init(node: "access.crescendo.nodes.onflow.org", port: 9000))
             case .emulator:
                 return .gRPC(.init(node: "127.0.0.1", port: 9000))
             case let .custom(_, endpoint):
