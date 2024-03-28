@@ -6,10 +6,13 @@
 //
 
 import Foundation
+#if os(iOS)
 import UIKit
-
+#elseif os(macOS)
+import AppKit
+#endif
 // eg. Darwin/16.3.0
-var DarwinVersion: String {
+var darwinVersion: String {
     var sysinfo = utsname()
     uname(&sysinfo)
     let dv = String(bytes: Data(bytes: &sysinfo.release, count: Int(_SYS_NAMELEN)), encoding: .ascii)!.trimmingCharacters(in: .controlCharacters)
@@ -25,8 +28,14 @@ var CFNetworkVersion: String {
 
 // eg. iOS/10_1
 var deviceVersion: String {
+#if os(iOS)
     let currentDevice = UIDevice.current
     return "\(currentDevice.systemName)/\(currentDevice.systemVersion)"
+#elseif os(macOS)
+    let info = ProcessInfo.processInfo
+    return "macOS/\(info.operatingSystemVersion.majorVersion).\(info.operatingSystemVersion.minorVersion).\(info.operatingSystemVersion.patchVersion)"
+#endif
+    
 }
 
 // eg. iPhone5,2
@@ -46,4 +55,4 @@ var appNameAndVersion: String {
     return "\(name)/\(version)"
 }
 
-let userAgent = "\(appNameAndVersion) \(deviceName) \(deviceVersion) \(CFNetworkVersion) \(DarwinVersion)"
+let userAgent = "\(appNameAndVersion) \(deviceName) \(deviceVersion) \(CFNetworkVersion) \(darwinVersion)"
