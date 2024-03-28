@@ -11,13 +11,13 @@ import CryptoKit
 import Foundation
 import XCTest
 
-final class FlowAccessAPIOnSandboxTests: XCTestCase {
+final class FlowAccessAPIOnPreviewnetTests: XCTestCase {
     var flowAPI: FlowAccessProtocol!
 
     override func setUp() {
         super.setUp()
-        flowAPI = flow.createHTTPAccessAPI(chainID: .sandboxnet)
-        flow.configure(chainID: .sandboxnet)
+        flowAPI = flow.createHTTPAccessAPI(chainID: .previewnet)
+        flow.configure(chainID: .previewnet)
     }
 
     func testFlowPing() async throws {
@@ -27,7 +27,7 @@ final class FlowAccessAPIOnSandboxTests: XCTestCase {
 
     func testNetworkParameters() async throws {
         let chainID = try await flowAPI.getNetworkParameters()
-        XCTAssertEqual(chainID, Flow.ChainID.sandboxnet)
+        XCTAssertEqual(chainID, Flow.ChainID.previewnet)
     }
 
     func testFlowAccount() async throws {
