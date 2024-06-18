@@ -33,7 +33,8 @@ public extension Flow {
         /// Default gRPC node is `access.devnet.nodes.onflow.org:9000`
         /// HTTP node `https://rest-mainnet.onflow.org/`
         case testnet
-
+        
+        case testnetMigration
         /// Canarynet enviroment
         /// Default node is `access.canary.nodes.onflow.org:9000`
         case canarynet
@@ -55,7 +56,7 @@ public extension Flow {
         case custom(name: String, transport: Flow.Transport)
 
         /// List of other type chain id exclude custom type
-        public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .canarynet, .crescendo,.previewnet, .emulator]
+        public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .testnetMigration, .canarynet, .crescendo,.previewnet, .emulator]
 
         /// Name of the chain id
         public var name: String {
@@ -64,6 +65,8 @@ public extension Flow {
                 return "mainnet"
             case .testnet:
                 return "testnet"
+            case .testnetMigration:
+                return "testnet-migration"
             case .crescendo:
                 return "crescendo"
             case .previewnet:
@@ -100,6 +103,8 @@ public extension Flow {
                 return .HTTP(URL(string: "https://rest-mainnet.onflow.org/")!)
             case .testnet:
                 return .HTTP(URL(string: "https://rest-testnet.onflow.org/")!)
+            case .testnetMigration:
+                return .HTTP(URL(string: "https://rest-migrationtestnet.onflow.org/v1/")!)
             case .emulator:
                 return .HTTP(URL(string: "http://127.0.0.1:8888/")!)
             case .crescendo:
@@ -119,6 +124,8 @@ public extension Flow {
             case .mainnet:
                 return .gRPC(.init(node: "access.mainnet.nodes.onflow.org", port: 9000))
             case .testnet:
+                return .gRPC(.init(node: "access.devnet.nodes.onflow.org", port: 9000))
+            case .testnetMigration:
                 return .gRPC(.init(node: "access.devnet.nodes.onflow.org", port: 9000))
             case .canarynet:
                 return .gRPC(.init(node: "access.canary.nodes.onflow.org", port: 9000))
