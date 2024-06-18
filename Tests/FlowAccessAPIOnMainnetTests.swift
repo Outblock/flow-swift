@@ -231,8 +231,11 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
             let id: UInt64
             let from: String
         }
-
-        let test: TestType = try result.events.first!.payload.decode()
+        guard let event = result.events.first else {
+            
+            return
+        }
+        let test: TestType = try event.payload.decode()
 
         XCTAssertEqual(result.events.first?.payload.fields?.type, .event)
         XCTAssertEqual(test.id, 11800)
