@@ -192,6 +192,14 @@ public extension Flow {
         }
 
         public mutating func addPayloadSignature(address: Address, keyIndex: Int, signature: Data) {
+
+            // Avoid same signer with multiple signatures
+            for sig in payloadSignatures {
+                if sig.keyIndex == keyIndex && sig.address == address {
+                    return
+                }
+            }
+            
             payloadSignatures.append(
                 TransactionSignature(address: address,
                                      signerIndex: signers[address] ?? -1,
@@ -202,6 +210,14 @@ public extension Flow {
         }
 
         public mutating func addEnvelopeSignature(address: Address, keyIndex: Int, signature: Data) {
+            
+            // Avoid same signer with multiple signatures
+            for sig in envelopeSignatures {
+                if sig.keyIndex == keyIndex && sig.address == address {
+                    return
+                }
+            }
+            
             envelopeSignatures.append(
                 TransactionSignature(address: address,
                                      signerIndex: signers[address] ?? -1,
