@@ -26,7 +26,7 @@ public extension Flow {
         public let address: Address
 
         /// The balance of account in `BigInt` type
-        public let balance: BigInt
+        public let balance: BigInt?
 
         /// The list of public key in `Flow.AccountKey` type
         public var keys: [AccountKey]
@@ -34,18 +34,22 @@ public extension Flow {
         /// The dictionary of all cadence contracts
         public var contracts: [String: Code]?
 
-        public init(address: Flow.Address, balance: BigInt, keys: [Flow.AccountKey], contracts: [String: Flow.Code]) {
+        public init(address: Flow.Address, balance: BigInt? = nil, keys: [Flow.AccountKey], contracts: [String: Flow.Code]? = nil) {
             self.address = address
             self.balance = balance
             self.keys = keys
             self.contracts = contracts
         }
 
-        public init(address: Flow.Address, balance: UInt64, keys: [Flow.AccountKey], contracts: [String: Flow.Code]) {
+        public init(address: Flow.Address, balance: UInt64? = nil, keys: [Flow.AccountKey], contracts: [String: Flow.Code]? = nil) {
             self.address = address
-            self.balance = BigInt(balance)
             self.keys = keys
             self.contracts = contracts
+            if let balance {
+                self.balance = BigInt(balance)
+            } else {
+                self.balance = nil
+            }
         }
 
         public init(from decoder: Decoder) throws {
