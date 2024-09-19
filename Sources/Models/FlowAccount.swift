@@ -41,17 +41,6 @@ public extension Flow {
             self.contracts = contracts
         }
 
-        public init(address: Flow.Address, balance: UInt64? = nil, keys: [Flow.AccountKey], contracts: [String: Flow.Code]? = nil) {
-            self.address = address
-            self.keys = keys
-            self.contracts = contracts
-            if let balance {
-                self.balance = BigInt(balance)
-            } else {
-                self.balance = nil
-            }
-        }
-
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             address = try container.decode(Flow.Address.self, forKey: .address)
