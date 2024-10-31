@@ -379,6 +379,11 @@ public extension Flow {
             blockId = try container.decode(Flow.ID.self, forKey: .blockId)
             computationUsed = try container.decode(String.self, forKey: .computationUsed)
         }
+        
+        var errorCode: FvmErrorCode? {
+            guard !errorMessage.isEmpty else { return nil }
+            return FvmErrorCode.allCases.first(where: { errorMessage.contains($0.errorTag) })
+        }
     }
 
     /// The class to represent the proposer key information in the transaction
