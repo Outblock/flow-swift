@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FvmErrorCode: Int, CaseIterable {
+public enum FvmErrorCode: Int, CaseIterable {
     // We use -1 for unknown error in FCL because FVM defines error codes as uint16
     // This means we have no risk of collision with FVM error codes
     case unknownError = -1

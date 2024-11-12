@@ -380,7 +380,7 @@ public extension Flow {
             computationUsed = try container.decode(String.self, forKey: .computationUsed)
         }
         
-        var errorCode: FvmErrorCode? {
+        public var errorCode: FvmErrorCode? {
             guard !errorMessage.isEmpty else { return nil }
             return FvmErrorCode.allCases.first(where: { errorMessage.contains($0.errorTag) })
         }
