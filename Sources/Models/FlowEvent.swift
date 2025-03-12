@@ -111,7 +111,7 @@ extension Flow.Snapshot: CustomStringConvertible {
     public var description: String { data.hexValue }
 }
 
-extension Flow.Event.Payload: FlowCodable {
+extension Flow.Event.Payload: FlowDecodable {
     public func decode() -> Any? {
         return fields?.decode()
     }

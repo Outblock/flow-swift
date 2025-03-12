@@ -19,7 +19,7 @@
 import BigInt
 import Foundation
 
-protocol FlowCodable {
+protocol FlowDecodable {
     func decode() -> Any?
 
     func decode<T: Decodable>(_ decodable: T.Type) throws -> T
@@ -27,7 +27,7 @@ protocol FlowCodable {
     func decode<T: Decodable>() throws -> T
 }
 
-extension Flow.Argument: FlowCodable {
+extension Flow.Argument: FlowDecodable {
     public func decode<T: Decodable>() throws -> T {
         guard let value = decode() else {
             throw Flow.FError.decodeFailure

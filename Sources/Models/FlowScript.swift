@@ -61,7 +61,7 @@ public extension Flow {
     }
 }
 
-extension Flow.ScriptResponse: FlowCodable {
+extension Flow.ScriptResponse: FlowDecodable {
     public func decode() -> Any? {
         return fields?.decode()
     }

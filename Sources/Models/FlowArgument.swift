@@ -61,6 +61,14 @@ public extension Flow {
             self.value = value
         }
 
+        public init?(_ value: FlowEncodable) {
+            guard let flowArgument = value.toFlowArgument() else {
+                return nil
+            }
+            self.type = flowArgument.type
+            self.value = flowArgument.value
+        }
+
         public init?(jsonData: Data) {
             do {
                 let result = try JSONDecoder().decode(Flow.Argument.self, from: jsonData)
