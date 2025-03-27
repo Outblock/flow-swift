@@ -25,13 +25,16 @@ extension Flow {
         /// The cadence code for adding key to account
         static let addKeyToAccount = """
             import Crypto
+
             transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64) {
-                prepare(signer: AuthAccount) {
+                prepare(signer: auth(BorrowValue | Storage) &Account) {
                     let key = PublicKey(
                         publicKey: publicKey.decodeHex(),
                         signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
                     )
-                    signer.keys.add(
+
+                    let account = Account(payer: signer)
+                    account.keys.add(
                         publicKey: key,
                         hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
                         weight: weight
@@ -43,8 +46,8 @@ extension Flow {
         /// The cadence code for adding contract to account
         static let addContractToAccount = """
             transaction(name: String, code: String) {
-                prepare(signer: AuthAccount) {
-                    signer.contracts.add(name: name, code: code.decodeHex())
+                prepare(signer: auth(Contracts, AddContract) &Account) {
+                    signer.contracts.add(name: name, code: code.utf8)
                 }
             }
         """
@@ -52,13 +55,16 @@ extension Flow {
         /// The cadence code for creating account
         static let createAccount = """
             import Crypto
+
             transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64, contracts: {String: String}) {
-                prepare(signer: AuthAccount) {
+                prepare(signer: auth(BorrowValue | Storage) &Account) {
+                    let account = Account(payer: signer)
+
                     let key = PublicKey(
                         publicKey: publicKey.decodeHex(),
                         signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
                     )
-                    let account = AuthAccount(payer: signer)
+
                     account.keys.add(
                         publicKey: key,
                         hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
@@ -66,7 +72,7 @@ extension Flow {
                     )
 
                     for contract in contracts.keys {
-                        acct.contracts.add(name: contract, code: contracts[contract]!.decodeHex())
+                        account.contracts.add(name: contract, code: contracts[contract]!.decodeHex())
                     }
                 }
             }
@@ -75,16 +81,16 @@ extension Flow {
         /// The cadence code for removing account key by index
         static let removeAccountKeyByIndex = """
             transaction(keyIndex: Int) {
-                prepare(signer: AuthAccount) {
-                    signer.removePublicKey(keyIndex)
+                prepare(signer: auth(Keys) &Account) {
+                    signer.keys.revoke(keyIndex: keyIndex)
                 }
             }
         """
 
         /// The cadence code for removing contract from account
         static let removeContractFromAccount = """
-            transaction(name: String) {
-                prepare(signer: AuthAccount) {
+           transaction(name: String) {
+                prepare(signer: auth(RemoveContract) &Account) {
                     signer.contracts.remove(name: name)
                 }
             }
@@ -93,17 +99,17 @@ extension Flow {
         /// The cadence code for updating contract from account
         static let updateContractOfAccount = """
             transaction(name: String, code: String) {
-                prepare(signer: AuthAccount) {
-                    signer.contracts.update__experimental(name: name, code: code.decodeHex())
+                prepare(signer: auth(UpdateContract) &Account) {
+                    signer.contracts.update(name: name, code: code.utf8)
                 }
             }
         """
 
         static let accountStorage = """
-        pub struct StorageInfo {
-            pub let capacity: UInt64
-            pub let used: UInt64
-            pub let available: UInt64
+         access(all) struct StorageInfo {
+            access(all)  let capacity: UInt64
+            access(all)  let used: UInt64
+            access(all)  let available: UInt64
 
             init(capacity: UInt64, used: UInt64, available: UInt64) {
                 self.capacity = capacity
@@ -112,11 +118,11 @@ extension Flow {
             }
         }
 
-        pub fun main(addr: Address): StorageInfo {
-          let acct = getAccount(addr)
-          return StorageInfo(capacity: acct.storageCapacity,
-                            used: acct.storageUsed,
-                            available: acct.storageCapacity - acct.storageUsed)
+        access(all) fun main(addr: Address): StorageInfo {
+            let acct = getAccount(addr)
+            return StorageInfo(capacity: acct.storage.capacity,
+                    used: acct.storage.used,
+                    available: acct.storage.capacity - acct.storage.used)
         }
         """
 
@@ -124,49 +130,50 @@ extension Flow {
         static let verifyUserSignature = """
         import Crypto
 
-        pub fun main(
-          message: String,
-          rawPublicKeys: [String],
-          weights: [UFix64],
-          signAlgos: [UInt8],
-          hashAlgos: [UInt8],
-          signatures: [String],
+        access(all) fun main(
+            message: String,
+            rawPublicKeys: [String],
+            weights: [UFix64],
+            signAlgos: [UInt8],
+            hashAlgos: [UInt8],
+            signatures: [String],
         ): Bool {
 
-          let keyList = Crypto.KeyList()
+            let keyList = Crypto.KeyList()
 
-          var i = 0
-          for rawPublicKey in rawPublicKeys {
+            var i = 0
+            for rawPublicKey in rawPublicKeys {
             keyList.add(
-              PublicKey(
+                PublicKey(
                 publicKey: rawPublicKey.decodeHex(),
                 signatureAlgorithm: SignatureAlgorithm(rawValue: signAlgos[i])!
-              ),
-              hashAlgorithm: HashAlgorithm(rawValue: hashAlgos[i])!,
-              weight: weights[i],
+                ),
+                hashAlgorithm: HashAlgorithm(rawValue: hashAlgos[i])!,
+                weight: weights[i],
             )
             i = i + 1
-          }
+            }
 
-          let signatureSet: [Crypto.KeyListSignature] = []
+            let signatureSet: [Crypto.KeyListSignature] = []
 
-          var j = 0
-          for signature in signatures {
+            var j = 0
+            for signature in signatures {
             signatureSet.append(
-              Crypto.KeyListSignature(
-                keyIndex: j,
-                signature: signature.decodeHex()
-              )
+                Crypto.KeyListSignature(
+                    keyIndex: j,
+                    signature: signature.decodeHex()
+                )
             )
-            j = j + 1
-          }
+                j = j + 1
+            }
 
-          let signedData = message.decodeHex()
+            let signedData = message.decodeHex()
 
-          return keyList.verify(
-            signatureSet: signatureSet,
-            signedData: signedData
-          )
+            return keyList.verify(
+                signatureSet: signatureSet,
+                signedData: signedData,
+                domainSeparationTag: "FLOW-V0.0-user"
+            )
         }
         """
     }
