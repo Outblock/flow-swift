@@ -278,9 +278,9 @@ public extension Flow {
         proposalKey = key
 
         // Validate script
-        guard validateScript(script) else {
+        guard !script.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             FlowLogger.shared.log(.error, message: "Transaction build failed: Invalid script format")
-            throw Flow.FError.invalidScript("Script data is not properly formatted")
+            throw Flow.FError.invalidScript
         }
 
         // Create transaction
@@ -450,7 +450,7 @@ private func resolveProposalKey(api: FlowAccessProtocol = flow.accessAPI, propos
             throw Flow.FError.preparingTransactionFailed
         }
         
-        let newKey = TransactionProposalKey(
+        let newKey = Flow.TransactionProposalKey(
             address: account.address,
             keyIndex: proposalKey.keyIndex,
             sequenceNumber: Int64(accountKey.sequenceNumber)

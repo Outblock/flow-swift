@@ -36,42 +36,15 @@ public extension Flow {
         case preparingTransactionFailed
         case timeout
         case invaildResponse
+        case invalidScript
         case customError(msg: String)
-
+        
         var rawValue: String {
             switch self {
-            case .generic:
-                return "generic"
-            case .urlEmpty:
-                return "urlEmpty"
-            case .urlInvaild:
-                return "urlInvaild"
-            case .declined:
-                return "declined"
-            case .encodeFailure:
-                return "encodeFailure"
-            case .decodeFailure:
-                return "decodeFailure"
-            case .unauthenticated:
-                return "unauthenticated"
-            case .emptyProposer:
-                return "emptyProposer"
-            case .invaildPlayload:
-                return "invaildPlayload"
-            case .invaildEnvelope:
-                return "invaildEnvelope"
-            case .invaildAccountInfo:
-                return "invaildAccountInfo"
-            case .missingSigner:
-                return "missingSigner"
-            case .preparingTransactionFailed:
-                return "preparingTransactionFailed"
-            case .timeout:
-                return "timeout"
-            case .invaildResponse:
-                return "invaildResponse"
-            case let .customError(msg):
+            case .customError(let msg):
                 return msg
+            default:
+                return String(describing: self)
             }
         }
     }
