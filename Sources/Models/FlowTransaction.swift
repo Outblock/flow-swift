@@ -354,13 +354,6 @@ public extension Flow {
 
         public let computationUsed: String
 
-//        init(value: Flow_Execution_GetTransactionResultResponse) {
-//            status = Transaction.Status(Int(value.statusCode))
-//            statusCode = Int(value.statusCode)
-//            errorMessage = value.errorMessage
-//            events = value.events.compactMap { Event(value: $0) }
-//        }
-
         public init(status: Transaction.Status, errorMessage: String, events: [Event], statusCode: Int, blockId: ID, computationUsed: String) {
             self.status = status
             self.errorMessage = errorMessage

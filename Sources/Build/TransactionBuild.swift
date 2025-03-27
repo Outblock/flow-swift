@@ -210,6 +210,8 @@ public extension Flow {
     func buildTransaction(chainID: Flow.ChainID = flow.chainID,
                           @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) async throws -> Flow.Transaction
     {
+        FlowLogger.shared.log(.debug, message: "Starting transaction build for chain: \(chainID)")
+        
         var script: Flow.Script = .init(data: Data())
         var agrument: [Flow.Argument] = []
         var authorizers: [Flow.Address] = []
@@ -218,66 +220,93 @@ public extension Flow {
         var gasLimit = BigUInt(9999)
         var refBlock: Flow.ID?
 
+        // Log initial transaction components
         builder().forEach { txValue in
             switch txValue {
             case let .script(value):
                 script = value
+                if let scriptString = String(data: value.data, encoding: .utf8) {
+                    FlowLogger.shared.log(.debug, message: "Adding script: \(scriptString)")
+                }
+                
             case let .argument(value):
                 agrument = value
+                FlowLogger.shared.log(.debug, message: "Adding arguments: \(value.map { $0.jsonString ?? "invalid" })")
+                
             case let .authorizers(value):
                 authorizers = value
+                FlowLogger.shared.log(.debug, message: "Adding authorizers: \(value.map { $0.hex })")
+                
             case let .payer(value):
                 payer = value
+                FlowLogger.shared.log(.debug, message: "Setting payer: \(value.hex)")
+                
             case let .proposer(value):
                 proposer = value
+                FlowLogger.shared.log(.debug, message: "Setting proposer: address=\(value.address.hex), keyIndex=\(value.keyIndex)")
+                
             case let .gasLimit(value):
                 gasLimit = value
+                FlowLogger.shared.log(.debug, message: "Setting gas limit: \(value)")
+                
             case let .refBlock(value):
                 refBlock = value
+                FlowLogger.shared.log(.debug, message: "Setting reference block: \(value?.hex ?? "latest")")
+                
             case .error:
+                FlowLogger.shared.log(.warning, message: "Encountered error case in transaction build")
                 break
             }
         }
 
         guard var proposalKey = proposer else {
+            FlowLogger.shared.log(.error, message: "Transaction build failed: Empty proposer")
             throw Flow.FError.emptyProposer
         }
 
-        func resolveBlockId(api: FlowAccessProtocol = flow.accessAPI, refBlock: Flow.ID?) async throws -> Flow.ID {
-            if let blockID = refBlock {
-                return blockID
-            } else {
-                let block = try await api.getLatestBlock(sealed: true)
-                return block.id
-            }
-        }
-
-        func resolveProposalKey(api: FlowAccessProtocol = flow.accessAPI, proposalKey: Flow.TransactionProposalKey) async throws -> Flow.TransactionProposalKey {
-            if proposalKey.sequenceNumber == -1 {
-                let account = try await api.getAccountAtLatestBlock(address: proposalKey.address)
-                guard let accountKey = account.keys[safe: proposalKey.keyIndex] else {
-                    throw Flow.FError.preparingTransactionFailed
-                }
-                return TransactionProposalKey(address: account.address,
-                                              keyIndex: proposalKey.keyIndex,
-                                              sequenceNumber: Int64(accountKey.sequenceNumber))
-            }
-
-            return proposalKey
-        }
-
         let api = flow.accessAPI
+        
+        // Log block resolution
+        FlowLogger.shared.log(.debug, message: "Resolving reference block ID")
         let id = try await resolveBlockId(api: api, refBlock: refBlock)
+        FlowLogger.shared.log(.debug, message: "Resolved block ID: \(id.hex)")
+        
+        // Log proposal key resolution
+        FlowLogger.shared.log(.debug, message: "Resolving proposal key: address=\(proposalKey.address.hex), keyIndex=\(proposalKey.keyIndex)")
         let key = try await resolveProposalKey(api: api, proposalKey: proposalKey)
+        FlowLogger.shared.log(.debug, message: "Resolved proposal key with sequence number: \(key.sequenceNumber)")
         proposalKey = key
-        return Flow.Transaction(script: script,
-                                arguments: agrument,
-                                referenceBlockId: id,
-                                gasLimit: gasLimit,
-                                proposalKey: proposalKey,
-                                // If payer is empty, then use propser as payer
-                                payer: payer ?? proposalKey.address,
-                                authorizers: authorizers)
+
+        // Validate script
+        guard validateScript(script) else {
+            FlowLogger.shared.log(.error, message: "Transaction build failed: Invalid script format")
+            throw Flow.FError.invalidScript("Script data is not properly formatted")
+        }
+
+        // Create transaction
+        let transaction = Flow.Transaction(
+            script: script,
+            arguments: agrument,
+            referenceBlockId: id,
+            gasLimit: gasLimit,
+            proposalKey: proposalKey,
+            payer: payer ?? proposalKey.address,
+            authorizers: authorizers
+        )
+        
+        // Log final transaction details
+        FlowLogger.shared.log(.info, message: """
+            Transaction built successfully:
+            - Script size: \(script.data.count) bytes
+            - Arguments count: \(agrument.count)
+            - Reference block: \(id.hex)
+            - Gas limit: \(gasLimit)
+            - Proposer: \(proposalKey.address.hex)
+            - Payer: \((payer ?? proposalKey.address).hex)
+            - Authorizers count: \(authorizers.count)
+            """)
+        
+        return transaction
     }
 
     /// Build flow transaction using standard `Flow.Transaction` with async way
@@ -396,4 +425,40 @@ public extension Flow {
             }
         }
     }
+}
+
+// Add logging to helper functions
+private func resolveBlockId(api: FlowAccessProtocol = flow.accessAPI, refBlock: Flow.ID?) async throws -> Flow.ID {
+    if let blockID = refBlock {
+        FlowLogger.shared.log(.debug, message: "Using provided block ID: \(blockID.hex)")
+        return blockID
+    } else {
+        FlowLogger.shared.log(.debug, message: "Fetching latest sealed block")
+        let block = try await api.getLatestBlock(sealed: true)
+        FlowLogger.shared.log(.debug, message: "Using latest block ID: \(block.id.hex)")
+        return block.id
+    }
+}
+
+private func resolveProposalKey(api: FlowAccessProtocol = flow.accessAPI, proposalKey: Flow.TransactionProposalKey) async throws -> Flow.TransactionProposalKey {
+    if proposalKey.sequenceNumber == -1 {
+        FlowLogger.shared.log(.debug, message: "Fetching sequence number for account: \(proposalKey.address.hex)")
+        let account = try await api.getAccountAtLatestBlock(address: proposalKey.address)
+        
+        guard let accountKey = account.keys[safe: proposalKey.keyIndex] else {
+            FlowLogger.shared.log(.error, message: "Failed to get account key at index: \(proposalKey.keyIndex)")
+            throw Flow.FError.preparingTransactionFailed
+        }
+        
+        let newKey = TransactionProposalKey(
+            address: account.address,
+            keyIndex: proposalKey.keyIndex,
+            sequenceNumber: Int64(accountKey.sequenceNumber)
+        )
+        
+        FlowLogger.shared.log(.debug, message: "Resolved sequence number: \(accountKey.sequenceNumber)")
+        return newKey
+    }
+    
+    return proposalKey
 }
