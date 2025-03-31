@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>FvmErrorCode Enumeration Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Enum/FvmErrorCode" class="dashAnchor"></a>
+    <a title="FvmErrorCode Enumeration Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> 0.4.1 Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/outblock/flow-swift"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Index</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        <a href="../Enums.html">Enumerations</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        Flow.FvmErrorCode Enumeration Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/ConsoleLogger.html">ConsoleLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html">Flow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TransactionBuild.html">– TransactionBuild</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TransactionBuilder.html">– TransactionBuilder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/StorageInfo.html">– StorageInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Argument.html">– Argument</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/FError.html">– FError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Account.html">– Account</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/AccountKey.html">– AccountKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Address.html">– Address</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/SignatureAlgorithm.html">– SignatureAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/BlockHeader.html">– BlockHeader</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/BlockSeal.html">– BlockSeal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Block.html">– Block</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Cadence.html">– Cadence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/ChainID.html">– ChainID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Collection.html">– Collection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/CollectionGuarantee.html">– CollectionGuarantee</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/DomainTag.html">– DomainTag</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Event.html">– Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Snapshot.html">– Snapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/ID.html">– ID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Script.html">– Script</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/ScriptResponse.html">– ScriptResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Signature.html">– Signature</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Transaction.html">– Transaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TransactionResult.html">– TransactionResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TransactionProposalKey.html">– TransactionProposalKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TransactionSignature.html">– TransactionSignature</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/PublicKey.html">– PublicKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Code.html">– Code</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Transport.html">– Transport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FlowLogger.html">FlowLogger</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Global%20Variables.html">Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/FlowLogLevel.html">FlowLogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FvmErrorCode.html">FvmErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/RLP.html">RLP</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/BigInt.html">BigInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/BigUInt.html">BigUInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Bool.html">Bool</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Decimal.html">Decimal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Double.html">Double</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int.html">Int</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int16.html">Int16</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int32.html">Int32</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int64.html">Int64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int8.html">Int8</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Optional.html">Optional</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Publisher.html">Publisher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UInt16.html">UInt16</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UInt32.html">UInt32</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UInt64.html">UInt64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UInt8.html">UInt8</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/URLSession.html">URLSession</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow9arguments4textA2AC16TransactionBuildOAD8ArgumentVycd_tF">arguments(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow9arguments4textA2AC16TransactionBuildOSayAD7CadenceC6FValueOGyXE_tF">arguments(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow9arguments4textA2AC16TransactionBuildOSayAD8ArgumentVGyXE_tF">arguments(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow11authorizers4textA2AC16TransactionBuildOAD7AddressVycd_tF">authorizers(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow11authorizers4textA2AC16TransactionBuildOSayAD7AddressVGyXE_tF">authorizers(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow7cadence4textA2AC16TransactionBuildOAD6ScriptVyXE_tF">cadence(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow7cadence4textA2AC16TransactionBuildOSSyXE_tF">cadence(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8gasLimit4textA2AC16TransactionBuildO6BigInt0G4UIntVyXE_tF">gasLimit(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8gasLimit4textA2AC16TransactionBuildOSiyXE_tF">gasLimit(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow5payer4textA2AC16TransactionBuildOAD7AddressVyXE_tF">payer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow5payer4textA2AC16TransactionBuildOSSyXE_tF">payer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8proposer4textA2AC16TransactionBuildOAD0D11ProposalKeyVyXE_tF">proposer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8proposer4textA2AC16TransactionBuildOAD7AddressVyXE_tF">proposer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8proposer4textA2AC16TransactionBuildOSSyXE_tF">proposer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8refBlock4textA2AC16TransactionBuildOAD2IDVyXE_tF">refBlock(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8refBlock4textA2AC16TransactionBuildOSSSgyXE_tF">refBlock(text:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowEncodable.html">FlowEncodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowEntity.html">FlowEntity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowLoggerProtocol.html">FlowLoggerProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowSigner.html">FlowSigner</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Flow5Bytesa">Bytes</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>FvmErrorCode</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">FvmErrorCode</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CaseIterable</span></code></pre>
+
+                </div>
+              </div>
+            
+              <div class="slightly-smaller">
+                <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L10-L94">Show on GitHub</a>
+              </div>
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO07unknownC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/unknownError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO07unknownC0yA2CmF">unknownError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">unknownError</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L13">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO012txValidationC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/txValidationError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO012txValidationC0yA2CmF">txValidationError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">txValidationError</span> <span class="o">=</span> <span class="mi">1000</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L17">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO017invalidTxByteSizeC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidTxByteSizeError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO017invalidTxByteSizeC0yA2CmF">invalidTxByteSizeError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidTxByteSizeError</span> <span class="o">=</span> <span class="mi">1001</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L19">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO021invalidReferenceBlockC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidReferenceBlockError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO021invalidReferenceBlockC0yA2CmF">invalidReferenceBlockError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidReferenceBlockError</span> <span class="o">=</span> <span class="mi">1002</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L21">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO018expiredTransactionC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/expiredTransactionError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO018expiredTransactionC0yA2CmF">expiredTransactionError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">expiredTransactionError</span> <span class="o">=</span> <span class="mi">1003</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L23">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO013invalidScriptC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidScriptError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO013invalidScriptC0yA2CmF">invalidScriptError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidScriptError</span> <span class="o">=</span> <span class="mi">1004</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L25">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO015invalidGasLimitC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidGasLimitError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO015invalidGasLimitC0yA2CmF">invalidGasLimitError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidGasLimitError</span> <span class="o">=</span> <span class="mi">1005</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L27">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO024invalidProposalSignatureC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidProposalSignatureError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO024invalidProposalSignatureC0yA2CmF">invalidProposalSignatureError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidProposalSignatureError</span> <span class="o">=</span> <span class="mi">1006</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L28">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO024invalidProposalSeqNumberC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidProposalSeqNumberError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO024invalidProposalSeqNumberC0yA2CmF">invalidProposalSeqNumberError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidProposalSeqNumberError</span> <span class="o">=</span> <span class="mi">1007</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L29">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO023invalidPayloadSignatureC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidPayloadSignatureError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO023invalidPayloadSignatureC0yA2CmF">invalidPayloadSignatureError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidPayloadSignatureError</span> <span class="o">=</span> <span class="mi">1008</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L30">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO024invalidEnvelopeSignatureC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidEnvelopeSignatureError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO024invalidEnvelopeSignatureC0yA2CmF">invalidEnvelopeSignatureError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidEnvelopeSignatureError</span> <span class="o">=</span> <span class="mi">1009</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L31">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO011fvmInternalC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/fvmInternalError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO011fvmInternalC0yA2CmF">fvmInternalError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">fvmInternalError</span> <span class="o">=</span> <span class="mi">1050</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L35">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO05valueC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/valueError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO05valueC0yA2CmF">valueError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">valueError</span> <span class="o">=</span> <span class="mi">1051</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L36">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO015invalidArgumentC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidArgumentError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO015invalidArgumentC0yA2CmF">invalidArgumentError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidArgumentError</span> <span class="o">=</span> <span class="mi">1052</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L37">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO014invalidAddressC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidAddressError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO014invalidAddressC0yA2CmF">invalidAddressError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidAddressError</span> <span class="o">=</span> <span class="mi">1053</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L38">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO015invalidLocationC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidLocationError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO015invalidLocationC0yA2CmF">invalidLocationError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidLocationError</span> <span class="o">=</span> <span class="mi">1054</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L39">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO020accountAuthorizationC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/accountAuthorizationError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO020accountAuthorizationC0yA2CmF">accountAuthorizationError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">accountAuthorizationError</span> <span class="o">=</span> <span class="mi">1055</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L40">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO022operationAuthorizationC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/operationAuthorizationError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO022operationAuthorizationC0yA2CmF">operationAuthorizationError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">operationAuthorizationError</span> <span class="o">=</span> <span class="mi">1056</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L41">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO021operationNotSupportedC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/operationNotSupportedError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO021operationNotSupportedC0yA2CmF">operationNotSupportedError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">operationNotSupportedError</span> <span class="o">=</span> <span class="mi">1057</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L42">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO021blockHeightOutOfRangeC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/blockHeightOutOfRangeError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO021blockHeightOutOfRangeC0yA2CmF">blockHeightOutOfRangeError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">blockHeightOutOfRangeError</span> <span class="o">=</span> <span class="mi">1058</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L43">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO09executionC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/executionError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO09executionC0yA2CmF">executionError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">executionError</span> <span class="o">=</span> <span class="mi">1100</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L47">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO014cadenceRuntimeC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/cadenceRuntimeError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO014cadenceRuntimeC0yA2CmF">cadenceRuntimeError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">cadenceRuntimeError</span> <span class="o">=</span> <span class="mi">1101</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L48">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO24encodingUnsupportedValueyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/encodingUnsupportedValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO24encodingUnsupportedValueyA2CmF">encodingUnsupportedValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">encodingUnsupportedValue</span> <span class="o">=</span> <span class="mi">1102</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L50">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO23storageCapacityExceededyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/storageCapacityExceeded" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO23storageCapacityExceededyA2CmF">storageCapacityExceeded</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">storageCapacityExceeded</span> <span class="o">=</span> <span class="mi">1103</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L51">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO016gasLimitExceededC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/gasLimitExceededError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO016gasLimitExceededC0yA2CmF">gasLimitExceededError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">gasLimitExceededError</span> <span class="o">=</span> <span class="mi">1104</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L53">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO018eventLimitExceededC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/eventLimitExceededError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO018eventLimitExceededC0yA2CmF">eventLimitExceededError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">eventLimitExceededError</span> <span class="o">=</span> <span class="mi">1105</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L54">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO030ledgerInteractionLimitExceededC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/ledgerInteractionLimitExceededError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO030ledgerInteractionLimitExceededC0yA2CmF">ledgerInteractionLimitExceededError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">ledgerInteractionLimitExceededError</span> <span class="o">=</span> <span class="mi">1106</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L55">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO017stateKeySizeLimitC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/stateKeySizeLimitError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO017stateKeySizeLimitC0yA2CmF">stateKeySizeLimitError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">stateKeySizeLimitError</span> <span class="o">=</span> <span class="mi">1107</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L56">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO019stateValueSizeLimitC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/stateValueSizeLimitError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO019stateValueSizeLimitC0yA2CmF">stateValueSizeLimitError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">stateValueSizeLimitError</span> <span class="o">=</span> <span class="mi">1108</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L57">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO029transactionFeeDeductionFailedC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/transactionFeeDeductionFailedError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO029transactionFeeDeductionFailedC0yA2CmF">transactionFeeDeductionFailedError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">transactionFeeDeductionFailedError</span> <span class="o">=</span> <span class="mi">1109</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L58">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO024computationLimitExceededC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/computationLimitExceededError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO024computationLimitExceededC0yA2CmF">computationLimitExceededError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">computationLimitExceededError</span> <span class="o">=</span> <span class="mi">1110</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L59">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO019memoryLimitExceededC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/memoryLimitExceededError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO019memoryLimitExceededC0yA2CmF">memoryLimitExceededError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">memoryLimitExceededError</span> <span class="o">=</span> <span class="mi">1111</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L60">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO41couldNotDecodeExecutionParameterFromStateyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/couldNotDecodeExecutionParameterFromState" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO41couldNotDecodeExecutionParameterFromStateyA2CmF">couldNotDecodeExecutionParameterFromState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">couldNotDecodeExecutionParameterFromState</span> <span class="o">=</span> <span class="mi">1112</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO023scriptExecutionTimedOutC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/scriptExecutionTimedOutError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO023scriptExecutionTimedOutC0yA2CmF">scriptExecutionTimedOutError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">scriptExecutionTimedOutError</span> <span class="o">=</span> <span class="mi">1113</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L62">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO024scriptExecutionCancelledC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/scriptExecutionCancelledError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO024scriptExecutionCancelledC0yA2CmF">scriptExecutionCancelledError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">scriptExecutionCancelledError</span> <span class="o">=</span> <span class="mi">1114</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L63">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO013eventEncodingC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/eventEncodingError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO013eventEncodingC0yA2CmF">eventEncodingError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">eventEncodingError</span> <span class="o">=</span> <span class="mi">1115</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L64">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO026invalidInternalStateAccessC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/invalidInternalStateAccessError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO026invalidInternalStateAccessC0yA2CmF">invalidInternalStateAccessError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidInternalStateAccessError</span> <span class="o">=</span> <span class="mi">1116</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L65">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO24insufficientPayerBalanceyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/insufficientPayerBalance" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO24insufficientPayerBalanceyA2CmF">insufficientPayerBalance</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">insufficientPayerBalance</span> <span class="o">=</span> <span class="mi">1118</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L67">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO07accountC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/accountError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO07accountC0yA2CmF">accountError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">accountError</span> <span class="o">=</span> <span class="mi">1200</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L71">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO015accountNotFoundC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/accountNotFoundError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO015accountNotFoundC0yA2CmF">accountNotFoundError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">accountNotFoundError</span> <span class="o">=</span> <span class="mi">1201</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L72">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO024accountPublicKeyNotFoundC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/accountPublicKeyNotFoundError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO024accountPublicKeyNotFoundC0yA2CmF">accountPublicKeyNotFoundError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">accountPublicKeyNotFoundError</span> <span class="o">=</span> <span class="mi">1202</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L73">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO020accountAlreadyExistsC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/accountAlreadyExistsError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO020accountAlreadyExistsC0yA2CmF">accountAlreadyExistsError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">accountAlreadyExistsError</span> <span class="o">=</span> <span class="mi">1203</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L74">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO013frozenAccountC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/frozenAccountError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO013frozenAccountC0yA2CmF">frozenAccountError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">frozenAccountError</span> <span class="o">=</span> <span class="mi">1204</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L76">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO028accountStorageNotInitializedC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/accountStorageNotInitializedError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO028accountStorageNotInitializedC0yA2CmF">accountStorageNotInitializedError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">accountStorageNotInitializedError</span> <span class="o">=</span> <span class="mi">1205</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L78">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO021accountPublicKeyLimitC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/accountPublicKeyLimitError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO021accountPublicKeyLimitC0yA2CmF">accountPublicKeyLimitError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">accountPublicKeyLimitError</span> <span class="o">=</span> <span class="mi">1206</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L79">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO08contractC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/contractError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO08contractC0yA2CmF">contractError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contractError</span> <span class="o">=</span> <span class="mi">1250</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L83">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO016contractNotFoundC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/contractNotFoundError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO016contractNotFoundC0yA2CmF">contractNotFoundError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contractNotFoundError</span> <span class="o">=</span> <span class="mi">1251</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L84">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO021contractNamesNotFoundC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/contractNamesNotFoundError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO021contractNamesNotFoundC0yA2CmF">contractNamesNotFoundError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contractNamesNotFoundError</span> <span class="o">=</span> <span class="mi">1252</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L86">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow12FvmErrorCodeO012evmExecutionC0yA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/evmExecutionError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow12FvmErrorCodeO012evmExecutionC0yA2CmF">evmExecutionError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">evmExecutionError</span> <span class="o">=</span> <span class="mi">1300</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FVMError.swift#L89">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2025 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2025-03-31)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>

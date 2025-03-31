@@ -17,7 +17,7 @@
     <a title="Flow Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> 0.3.6 Docs</a> (50% documented)</p>
+        <p><a href="../index.html"> 0.4.1 Docs</a> (100% documented)</p>
         <p class="header-right"><a href="https://github.com/outblock/flow-swift"><img src="../img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="../search.json">
@@ -28,9 +28,11 @@
     </header>
     <div class="content-wrapper">
       <p id="breadcrumbs">
-        <a href="../index.html"> Reference</a>
+        <a href="../index.html">Index</a>
         <img id="carat" src="../img/carat.png" alt=""/>
-        Flow Class Reference
+        <a href="../Classes.html">Classes</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        Flow.Flow Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -39,6 +41,9 @@
           <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/ConsoleLogger.html">ConsoleLogger</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Classes/Flow.html">Flow</a>
               </li>
@@ -135,6 +140,9 @@
               <li class="nav-group-task">
                 <a href="../Classes/Flow/Transport.html">– Transport</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FlowLogger.html">FlowLogger</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -149,6 +157,12 @@
             <a href="../Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Enums/FlowLogLevel.html">FlowLogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FvmErrorCode.html">FvmErrorCode</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/RLP.html">RLP</a>
               </li>
             </ul>
@@ -160,10 +174,61 @@
                 <a href="../Extensions/Array.html">Array</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/BigInt.html">BigInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/BigUInt.html">BigUInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Bool.html">Bool</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/Data.html">Data</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Extensions/Decimal.html">Decimal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Double.html">Double</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int.html">Int</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int16.html">Int16</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int32.html">Int32</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int64.html">Int64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int8.html">Int8</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Optional.html">Optional</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Extensions/Publisher.html">Publisher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UInt16.html">UInt16</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UInt32.html">UInt32</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UInt64.html">UInt64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UInt8.html">UInt8</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/URLSession.html">URLSession</a>
@@ -230,7 +295,13 @@
                 <a href="../Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/FlowEncodable.html">FlowEncodable</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/FlowEntity.html">FlowEntity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowLoggerProtocol.html">FlowLoggerProtocol</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/FlowSigner.html">FlowSigner</a>
@@ -264,7 +335,7 @@ Singleton class to make the class more accessible in global scope
 Please use <code><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</a></code> to access to its singleton entity.</p>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Flow.swift#L27-L124">Show on GitHub</a>
+                <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Flow.swift#L27-L124">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -295,7 +366,7 @@ Please use <code><a href="../Global%20Variables.html#/s:4Flow4flowA2ACvp">flow</
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Flow.swift#L29">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Flow.swift#L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -326,7 +397,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Flow.swift#L36">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Flow.swift#L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -356,7 +427,7 @@ The default value is <code>.mainnet</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Flow.swift#L39">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Flow.swift#L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -429,7 +500,7 @@ Default access client will be HTTP Client</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Flow.swift#L77-L80">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Flow.swift#L77-L80">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -488,7 +559,7 @@ Default access client will be HTTP Client</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Flow.swift#L99-L102">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Flow.swift#L99-L102">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -551,7 +622,7 @@ Default access client will be HTTP Client</p>
                         <p>An <code>AccessAPI</code> client</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Flow.swift#L121-L123">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Flow.swift#L121-L123">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -569,7 +640,7 @@ Default access client will be HTTP Client</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The list of all the acceptable property</p>
+                        <p>Components that can be used to build a Flow transaction</p>
 
                         <a href="../Classes/Flow/TransactionBuild.html" class="slightly-smaller">See more</a>
                       </div>
@@ -582,7 +653,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L163-L187">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L187-L211">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -614,7 +685,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L191-L201">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L215-L225">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -683,7 +754,7 @@ Default access client will be HTTP Client</p>
                         <p>The type of <code>EventLoopFuture&lt;Flow.Transaction&gt;</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L210-L281">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L234-L334">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -746,7 +817,7 @@ Default access client will be HTTP Client</p>
                         <p>The type of <code>EventLoopFuture&lt;Flow.Transaction&gt;</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L287-L325">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L340-L378">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -814,7 +885,7 @@ Default access client will be HTTP Client</p>
                         <p>A future value of transaction id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L332-L335">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L385-L388">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -896,7 +967,7 @@ Default access client will be HTTP Client</p>
                         <p>The transaction id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L343-L352">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L396-L405">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -972,7 +1043,7 @@ Default access client will be HTTP Client</p>
                         <p>The transaction id</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L359-L398">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L412-L451">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1052,7 +1123,7 @@ Default access client will be HTTP Client</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L182-L202">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L182-L202">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1147,7 +1218,7 @@ Default access client will be HTTP Client</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L211-L231">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L211-L231">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1242,7 +1313,7 @@ Default access client will be HTTP Client</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L240-L270">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L240-L270">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1336,7 +1407,7 @@ Default access client will be HTTP Client</p>
                         <p>A future value will receive transaction id  in <code><a href="../Classes/Flow/ID.html">Flow.ID</a></code> value.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L279-L297">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L279-L297">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1357,8 +1428,7 @@ Default access client will be HTTP Client</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1369,7 +1439,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L299-L307">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L299-L307">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1390,8 +1460,7 @@ Default access client will be HTTP Client</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1402,7 +1471,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L309-L311">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L309-L311">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1423,8 +1492,7 @@ Default access client will be HTTP Client</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1437,7 +1505,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L313-L331">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L313-L331">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1458,8 +1526,7 @@ Default access client will be HTTP Client</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1473,7 +1540,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L333-L352">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L333-L352">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1491,8 +1558,7 @@ Default access client will be HTTP Client</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                         <a href="../Classes/Flow/StorageInfo.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -1504,7 +1570,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L354-L358">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L354-L358">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1525,8 +1591,7 @@ Default access client will be HTTP Client</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1537,7 +1602,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L360-L362">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L360-L362">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1558,8 +1623,7 @@ Default access client will be HTTP Client</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1571,7 +1635,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Cadence/CommonCadence.swift#L364-L397">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Cadence/CommonCadence.swift#L364-L397">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1603,7 +1667,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowArgument.swift#L24-L263">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowArgument.swift#L44-L291">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1635,7 +1699,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Error/FlowError.swift#L23-L77">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Error/FlowError.swift#L23-L50">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1666,7 +1730,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowAccount.swift#L24-L59">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowAccount.swift#L24-L52">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1697,7 +1761,7 @@ Default access client will be HTTP Client</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowAccount.swift#L62-L130">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowAccount.swift#L55-L123">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1731,7 +1795,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowAddress.swift#L24-L47">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowAddress.swift#L41-L66">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1762,7 +1826,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowAlgorithm.swift#L22-L89">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowAlgorithm.swift#L22-L89">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1793,7 +1857,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowAlgorithm.swift#L92-L181">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowAlgorithm.swift#L92-L181">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1824,7 +1888,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowBlock.swift#L23-L55">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowBlock.swift#L41-L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1855,7 +1919,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowBlock.swift#L58-L83">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowBlock.swift#L76-L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1886,7 +1950,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowBlock.swift#L86-L124">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowBlock.swift#L104-L142">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1904,8 +1968,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1916,7 +1979,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowCadence.swift#L23">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowCadence.swift#L23">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1934,8 +1997,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                         <a href="../Classes/Flow/Cadence.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -1947,7 +2009,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowCadence.swift#L24">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowCadence.swift#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1978,7 +2040,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowChainId.swift#L23-L148">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowChainId.swift#L23-L148">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2009,7 +2071,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowCollection.swift#L23-L31">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowCollection.swift#L23-L31">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2039,7 +2101,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowCollection.swift#L34-L54">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowCollection.swift#L34-L54">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2070,7 +2132,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowDomainTag.swift#L23-L67">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowDomainTag.swift#L23-L67">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2088,7 +2150,8 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Flow blockchain event</p>
+
                         <a href="../Classes/Flow/Event.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -2100,7 +2163,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowEvent.swift#L23-L99">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowEvent.swift#L42-L120">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2118,8 +2181,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                         <a href="../Classes/Flow/Snapshot.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -2132,7 +2194,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowEvent.swift#L101-L107">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowEvent.swift#L122-L128">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2165,7 +2227,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowId.swift#L24-L38">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowId.swift#L24-L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2183,7 +2245,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The model to handle <code><a href="../Classes/Flow/Cadence.html">Cadence</a></code> code</p>
+                        <p>Represents a Cadence script</p>
 
                         <a href="../Classes/Flow/Script.html" class="slightly-smaller">See more</a>
                       </div>
@@ -2198,7 +2260,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowScript.swift#L23-L41">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowScript.swift#L43-L63">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2230,7 +2292,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowScript.swift#L44-L61">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowScript.swift#L66-L83">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2262,7 +2324,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowSignature.swift#L23-L33">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowSignature.swift#L23-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2294,7 +2356,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowTransaction.swift#L24-L222">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowTransaction.swift#L24-L238">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2362,7 +2424,7 @@ At the most time, it represents account address</p>
                         <p>The signed transaction</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowTransaction+Signer.swift#L27-L30">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowTransaction+Signer.swift#L43-L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2393,7 +2455,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowTransaction.swift#L324-L366">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowTransaction.swift#L340-L380">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2425,7 +2487,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowTransaction.swift#L369-L392">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowTransaction.swift#L383-L406">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2443,8 +2505,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                         <a href="../Classes/Flow/TransactionSignature.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -2457,7 +2518,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/FlowTransaction.swift#L394-L438">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/FlowTransaction.swift#L408-L452">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2475,8 +2536,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                         <a href="../Classes/Flow/PublicKey.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -2489,7 +2549,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/Signer.swift#L22-L42">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/Signer.swift#L22-L42">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2507,8 +2567,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                         <a href="../Classes/Flow/Code.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -2521,7 +2580,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Models/Signer.swift#L44-L60">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Models/Signer.swift#L44-L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2529,9 +2588,9 @@ At the most time, it represents account address</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC4pingSbyYaKF"></a>
+                    <a name="/s:4Flow0A14AccessProtocolP4pingSbyYaKF"></a>
                     <a name="//apple_ref/swift/Method/ping()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC4pingSbyYaKF">ping()</a>
+                    <a class="token" href="#/s:4Flow0A14AccessProtocolP4pingSbyYaKF">ping()</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2542,8 +2601,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2554,7 +2612,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L11-L13">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L11-L13">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2562,9 +2620,9 @@ At the most time, it represents account address</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC20getLatestBlockHeaderAB0dE0VyYaKF"></a>
+                    <a name="/s:4Flow0A14AccessProtocolP20getLatestBlockHeaderA2AC0fG0VyYaKF"></a>
                     <a name="//apple_ref/swift/Method/getLatestBlockHeader()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC20getLatestBlockHeaderAB0dE0VyYaKF">getLatestBlockHeader()</a>
+                    <a class="token" href="#/s:4Flow0A14AccessProtocolP20getLatestBlockHeaderA2AC0fG0VyYaKF">getLatestBlockHeader()</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2575,8 +2633,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2587,7 +2644,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L15-L17">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L15-L17">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2595,9 +2652,9 @@ At the most time, it represents account address</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:4FlowAAC18getBlockHeaderById2idAB0cD0VAB2IDV_tYaKF"></a>
+                    <a name="/s:4Flow0A14AccessProtocolP18getBlockHeaderById2idA2AC0eF0VAF2IDV_tYaKF"></a>
                     <a name="//apple_ref/swift/Method/getBlockHeaderById(id:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:4FlowAAC18getBlockHeaderById2idAB0cD0VAB2IDV_tYaKF">getBlockHeaderById(id:<wbr>)</a>
+                    <a class="token" href="#/s:4Flow0A14AccessProtocolP18getBlockHeaderById2idA2AC0eF0VAF2IDV_tYaKF">getBlockHeaderById(id:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2608,8 +2665,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2620,7 +2676,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L19-L21">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L19-L21">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2641,8 +2697,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2653,7 +2708,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L23-L25">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L23-L25">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2674,8 +2729,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2686,7 +2740,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L27-L29">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L27-L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2707,8 +2761,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2719,7 +2772,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L31-L33">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L31-L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2740,8 +2793,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2752,7 +2804,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L35-L37">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L35-L37">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2773,8 +2825,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2785,7 +2836,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L39-L41">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L39-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2806,8 +2857,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2818,7 +2868,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L43-L45">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L43-L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2839,8 +2889,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2851,7 +2900,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L47-L49">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L47-L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2872,8 +2921,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2884,7 +2932,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L51-L53">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L51-L53">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2905,8 +2953,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2917,7 +2964,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L55-L57">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L55-L57">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2938,8 +2985,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2950,7 +2996,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L59-L61">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L59-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2971,8 +3017,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2983,7 +3028,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L63-L65">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L63-L65">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3004,8 +3049,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -3016,7 +3060,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L67-L69">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L67-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3037,8 +3081,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -3049,7 +3092,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L71-L73">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L71-L73">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3070,8 +3113,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -3082,7 +3124,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowAccess.swift#L75-L77">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowAccess.swift#L75-L77">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3100,8 +3142,7 @@ At the most time, it represents account address</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
-
+                        
                         <a href="../Classes/Flow/Transport.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -3113,7 +3154,7 @@ At the most time, it represents account address</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Network/FlowTransport.swift#L21-L64">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Network/FlowTransport.swift#L21-L64">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3123,8 +3164,8 @@ At the most time, it represents account address</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2024 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2024-03-28)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2025 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2025-03-31)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>

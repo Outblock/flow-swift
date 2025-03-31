@@ -17,7 +17,7 @@
     <a title="Functions  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html"> 0.3.6 Docs</a> (50% documented)</p>
+        <p><a href="index.html"> 0.4.1 Docs</a> (100% documented)</p>
         <p class="header-right"><a href="https://github.com/outblock/flow-swift"><img src="img/gh.png" alt="GitHub"/>View on GitHub</a></p>
         <div class="header-right">
           <form role="search" action="search.json">
@@ -28,7 +28,7 @@
     </header>
     <div class="content-wrapper">
       <p id="breadcrumbs">
-        <a href="index.html"> Reference</a>
+        <a href="index.html">Index</a>
         <img id="carat" src="img/carat.png" alt=""/>
         Functions  Reference
       </p>
@@ -39,6 +39,9 @@
           <li class="nav-group-name">
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/ConsoleLogger.html">ConsoleLogger</a>
+              </li>
               <li class="nav-group-task">
                 <a href="Classes/Flow.html">Flow</a>
               </li>
@@ -135,6 +138,9 @@
               <li class="nav-group-task">
                 <a href="Classes/Flow/Transport.html">– Transport</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Classes/FlowLogger.html">FlowLogger</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -149,6 +155,12 @@
             <a href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Enums/FlowLogLevel.html">FlowLogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/FvmErrorCode.html">FvmErrorCode</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/RLP.html">RLP</a>
               </li>
             </ul>
@@ -160,10 +172,61 @@
                 <a href="Extensions/Array.html">Array</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/BigInt.html">BigInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/BigUInt.html">BigUInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Bool.html">Bool</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/Data.html">Data</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/Decimal.html">Decimal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Double.html">Double</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Int.html">Int</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Int16.html">Int16</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Int32.html">Int32</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Int64.html">Int64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Int8.html">Int8</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Optional.html">Optional</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/Publisher.html">Publisher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/String.html">String</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/UInt16.html">UInt16</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/UInt32.html">UInt32</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/UInt64.html">UInt64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/UInt8.html">UInt8</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/URLSession.html">URLSession</a>
@@ -230,7 +293,13 @@
                 <a href="Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/FlowEncodable.html">FlowEncodable</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/FlowEntity.html">FlowEntity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/FlowLoggerProtocol.html">FlowLoggerProtocol</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/FlowSigner.html">FlowSigner</a>
@@ -270,7 +339,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Build flow transaction with cadence code with <code>String</code> input.</p>
+                        <p>Build a transaction with Cadence code</p>
 
                       </div>
                       <div class="declaration">
@@ -293,7 +362,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>Cadence code in <code>String</code> type.</p>
+                                  <p>Closure returning the Cadence script</p>
                                 </div>
                               </td>
                             </tr>
@@ -302,10 +371,10 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The type of <code>Flow.TransactionBuild.script</code></p>
+                        <p>Transaction build component with the script</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L27-L29">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L51-L53">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -358,7 +427,7 @@
                         <p>The type of <code>Flow.TransactionBuild.script</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L35-L37">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L59-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -411,7 +480,7 @@
                         <p>The type of <code>Flow.TransactionBuild.argument</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L43-L45">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L67-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -464,7 +533,7 @@
                         <p>The type of <code>Flow.TransactionBuild.argument</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L51-L53">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L75-L77">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -517,7 +586,7 @@
                         <p>The type of <code>Flow.TransactionBuild.argument</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L59-L61">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L83-L85">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -570,7 +639,7 @@
                         <p>The type of <code>Flow.TransactionBuild.payer</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L67-L69">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L91-L93">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -623,7 +692,7 @@
                         <p>The type of <code>Flow.TransactionBuild.payer</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L75-L77">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L99-L101">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -676,7 +745,7 @@
                         <p>The type of <code>Flow.TransactionBuild.authorizers</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L83-L85">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L107-L109">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -729,7 +798,7 @@
                         <p>The type of <code>Flow.TransactionBuild.authorizers</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L91-L93">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L115-L117">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -782,7 +851,7 @@ and the sequence number will fetch from network</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L102-L105">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L126-L129">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -835,7 +904,7 @@ and the sequence number will fetch from network</p>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L114-L116">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L138-L140">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -888,7 +957,7 @@ and the sequence number will fetch from network</p>
                         <p>The type of <code>Flow.TransactionBuild.proposer</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L122-L124">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L146-L148">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -941,7 +1010,7 @@ and the sequence number will fetch from network</p>
                         <p>The type of <code>Flow.TransactionBuild.gasLimit</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L130-L132">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L154-L156">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -994,7 +1063,7 @@ and the sequence number will fetch from network</p>
                         <p>The type of <code>Flow.TransactionBuild.gasLimit</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L138-L140">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L162-L164">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1047,7 +1116,7 @@ and the sequence number will fetch from network</p>
                         <p>The type of <code>Flow.TransactionBuild.refBlock</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L146-L151">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L170-L175">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1100,7 +1169,7 @@ and the sequence number will fetch from network</p>
                         <p>The type of <code>Flow.TransactionBuild.refBlock</code></p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/outblock/flow-swift/tree/0.3.6/Sources/Build/TransactionBuild.swift#L157-L159">Show on GitHub</a>
+                        <a href="https://github.com/outblock/flow-swift/tree/0.4.1/Sources/Build/TransactionBuild.swift#L181-L183">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1110,8 +1179,8 @@ and the sequence number will fetch from network</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2024 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2024-03-28)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2025 <a class="link" href="https://github.com/outblock/flow-swift" target="_blank" rel="external noopener">Outblock Team</a>. All rights reserved. (Last updated: 2025-03-31)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>
