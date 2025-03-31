@@ -6,7 +6,7 @@ on:
 
 jobs:
   generate-doc:
-    runs-on: macos-11
+    runs-on: macos-latest
 
     steps:
       - name: Checkout code
