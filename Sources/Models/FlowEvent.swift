@@ -16,12 +16,31 @@
 //  limitations under the License.
 //
 
+/// Flow Event Model
+///
+/// Represents blockchain events emitted during transaction execution.
+/// Provides structure for event data and result handling.
+///
+/// Features:
+/// - Event type identification
+/// - Payload parsing
+/// - Block information
+/// - Transaction context
+///
+/// Example usage:
+/// ```swift
+/// let events = try await flow.getEventsForHeightRange(
+///     type: "A.1234.ContractName.EventName",
+///     range: 1000...2000
+/// )
+/// ```
+
 import Foundation
 
 public extension Flow {
-    ///
+    /// Flow blockchain event
     struct Event: Codable {
-        ///
+        /// Event type identifier
         public let type: String
 
         /// The id for the transaction, `Flow.ID`
@@ -49,17 +68,20 @@ public extension Flow {
             payload = try container.decode(Flow.Event.Payload.self, forKey: .payload)
         }
 
-        /// The event result
+        /// Event result including block context
         public struct Result: Codable {
-            public let blockId: ID
+            /// Block ID where event occurred
+            public let blockId: Flow.ID
+            
+            /// Block height
             public let blockHeight: UInt64
-            public let blockTimestamp: Date
-            public var events: [Event]
-
-            public init(blockId: Flow.ID, blockHeight: UInt64, blockTimestamp: Date, events: [Flow.Event]) {
+            
+            /// Events in this result
+            public let events: [Flow.Event]
+            
+            public init(blockId: Flow.ID, blockHeight: UInt64, events: [Flow.Event]) {
                 self.blockId = blockId
                 self.blockHeight = blockHeight
-                self.blockTimestamp = blockTimestamp
                 self.events = events
             }
 
@@ -68,7 +90,6 @@ public extension Flow {
                 blockId = try container.decode(Flow.ID.self, forKey: .blockId)
                 let blockHeight = try container.decode(String.self, forKey: .blockHeight)
                 self.blockHeight = UInt64(blockHeight) ?? 0
-                blockTimestamp = try container.decode(Date.self, forKey: .blockTimestamp)
                 events = try container.decode([Flow.Event].self, forKey: .events)
             }
         }

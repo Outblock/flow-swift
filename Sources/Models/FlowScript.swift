@@ -16,13 +16,35 @@
 //  limitations under the License.
 //
 
+/// Flow Script Model
+///
+/// Represents a Cadence script that can be executed on the Flow blockchain.
+/// Handles script text and binary data conversion for network transmission.
+///
+/// Features:
+/// - Text to binary conversion
+/// - Script validation
+/// - Argument handling
+///
+/// Example usage:
+/// ```swift
+/// let script = Flow.Script(text: """
+///     pub fun main(): Int {
+///         return 42
+///     }
+/// """)
+/// let result = try await flow.executeScriptAtLatestBlock(script: script)
+/// ```
+
 import Foundation
 
 public extension Flow {
-    /// The model to handle `Cadence` code
+    /// Represents a Cadence script
     struct Script: FlowEntity, Equatable {
+        /// Raw script data
         public var data: Data
-
+        
+        /// Script text in UTF-8 encoding
         public var text: String {
             String(data: data, encoding: .utf8) ?? ""
         }

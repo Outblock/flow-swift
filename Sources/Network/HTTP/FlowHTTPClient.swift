@@ -16,18 +16,35 @@
 //  limitations under the License.
 //
 
+/// Flow HTTP Client Implementation
+///
+/// This file provides HTTP client functionality for interacting with the Flow blockchain API.
+/// It handles request encoding, response decoding, and error handling for all Flow API endpoints.
+
 import Foundation
 
 extension Flow {
+    /// HTTP client implementation for Flow Access API
+    /// Handles all network communication with Flow nodes
     class FlowHTTPAPI: FlowAccessProtocol {
+        /// Shared instance of the HTTP client
         static let client = FlowHTTPAPI()
-
+        
+        /// Current chain ID for the client
         var chainID: ChainID
-
+        
+        /// Initialize HTTP client with specific chain ID
+        /// - Parameter chainID: Target chain identifier (default: .mainnet)
         init(chainID: ChainID = .mainnet) {
             self.chainID = chainID
         }
         
+        /// Decode response data into specified type
+        /// - Parameters:
+        ///   - data: Response data to decode
+        ///   - response: Optional URLResponse for status code checking
+        /// - Returns: Decoded object of type T
+        /// - Throws: Decoding errors or API errors
         static func decode<T: Decodable>(data: Data, response: URLResponse? = nil) throws -> T {
             let dateFormatter = DateFormatter()
             // 2022-06-22T15:32:09.08595992Z
@@ -48,7 +65,12 @@ extension Flow {
 
             return try decoder.decode(T.self, from: data)
         }
-
+        
+        /// Make HTTP request to Flow API
+        /// - Parameters:
+        ///   - target: API endpoint target
+        /// - Returns: Decoded response of type T
+        /// - Throws: Network or decoding errors
         func request<T: Decodable, U: TargetType>(_ target: U) async throws -> T {
             FlowLogger.shared.log(.debug, message: "Starting request to: \(target.path)")
             

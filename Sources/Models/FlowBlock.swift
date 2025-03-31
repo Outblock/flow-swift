@@ -18,6 +18,24 @@
 
 import Foundation
 
+/// Flow Block Model
+///
+/// Represents a block in the Flow blockchain.
+/// Contains block header, payload, and execution results.
+///
+/// Features:
+/// - Block identification
+/// - Transaction inclusion
+/// - Seal verification
+/// - State updates
+///
+/// Example usage:
+/// ```swift
+/// let block = try await flow.getBlockByHeight(height: 12345)
+/// print("Block ID: \(block.id)")
+/// print("Transactions: \(block.transactionIds)")
+/// ```
+
 public extension Flow {
     /// Brief information of `Flow.Block`
     struct BlockHeader: Codable {

@@ -19,6 +19,26 @@
 import BigInt
 import Foundation
 
+/// Flow Argument Model
+///
+/// Represents arguments passed to Cadence scripts and transactions.
+/// Handles type conversion and encoding for network transmission.
+///
+/// Features:
+/// - Type safety
+/// - JSON encoding/decoding
+/// - Cadence value conversion
+/// - Argument validation
+///
+/// Example usage:
+/// ```swift
+/// let arg = Flow.Argument(value: .string("Hello"))
+/// let script = try await flow.executeScriptAtLatestBlock(
+///     script: myScript,
+///     arguments: [arg]
+/// )
+/// ```
+
 public extension Flow {
     /// The argument for Cadence code for encoding and decoding
     struct Argument: Codable, Equatable {

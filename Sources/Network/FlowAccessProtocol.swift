@@ -18,11 +18,35 @@
 
 import Foundation
 
+/// Flow Access API Protocol
+///
+/// Defines the interface for interacting with Flow blockchain nodes.
+/// Provides methods for querying blockchain state and submitting transactions.
+///
+/// This protocol supports:
+/// - Block queries
+/// - Account information
+/// - Transaction submission
+/// - Script execution
+/// - Event querying
+///
+/// Implementation examples:
+/// - HTTP API client
+/// - gRPC client
+/// - Mock client for testing
+
 public protocol FlowAccessProtocol {
+    /// Check node connectivity
+    /// - Returns: True if node is accessible
     func ping() async throws -> Bool
 
+    /// Get latest block header
+    /// - Returns: Most recent block header
     func getLatestBlockHeader() async throws -> Flow.BlockHeader
 
+    /// Get block header by ID
+    /// - Parameter id: Block identifier
+    /// - Returns: Block header for specified ID
     func getBlockHeaderById(id: Flow.ID) async throws -> Flow.BlockHeader
 
     func getBlockHeaderByHeight(height: UInt64) async throws -> Flow.BlockHeader

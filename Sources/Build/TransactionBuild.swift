@@ -16,14 +16,38 @@
 //  limitations under the License.
 //
 
+/// Flow Transaction Builder
+///
+/// Provides a declarative syntax for building Flow blockchain transactions.
+/// This module handles all aspects of transaction construction including:
+/// - Script compilation
+/// - Argument handling
+/// - Authorization setup
+/// - Gas limit configuration
+/// - Reference block resolution
+///
+/// Example usage:
+/// ```swift
+/// let transaction = try await buildTransaction {
+///     cadence {
+///         "transaction { prepare(signer: AuthAccount) { log(\"Hello World\") } }"
+///     }
+///     proposer {
+///         myAddress
+///     }
+///     gasLimit {
+///         1000
+///     }
+/// }
+/// ```
+
 import BigInt
 import Combine
 import Foundation
 
-/// Build flow transaction with cadence code with `String` input.
-/// - parameters:
-///     - text: Cadence code in `String` type.
-/// - returns: The type of `Flow.TransactionBuild.script`
+/// Build a transaction with Cadence code
+/// - Parameter text: Closure returning the Cadence script
+/// - Returns: Transaction build component with the script
 public func cadence(text: () -> String) -> Flow.TransactionBuild {
     return Flow.TransactionBuild.script(Flow.Script(text: text()))
 }
@@ -159,30 +183,30 @@ public func refBlock(text: () -> Flow.ID) -> Flow.TransactionBuild {
 }
 
 public extension Flow {
-    /// The list of all the acceptable property
+    /// Components that can be used to build a Flow transaction
     enum TransactionBuild {
-        /// Cadence script
+        /// The Cadence script to be executed
         case script(Flow.Script)
-
-        /// Arguments for cadence script
+        
+        /// Arguments passed to the Cadence script
         case argument([Flow.Argument])
-
-        /// Payer address.
-        /// If payer is same as proposer, then payer input is optional.
+        
+        /// Account that will pay for transaction fees
         case payer(Flow.Address)
-
-        /// A list of address for authorizers
+        
+        /// Accounts authorizing the transaction
         case authorizers([Flow.Address])
-
-        /// Proposer address
+        
+        /// Account proposing the transaction
         case proposer(Flow.TransactionProposalKey)
-
-        /// Gas limit (Optional)
+        
+        /// Maximum computation limit
         case gasLimit(BigUInt)
-
-        /// Reference block id (Optional)
+        
+        /// Reference block for transaction expiry
         case refBlock(Flow.ID?)
-
+        
+        /// Error state
         case error
     }
 

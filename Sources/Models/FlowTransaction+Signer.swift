@@ -16,6 +16,22 @@
 //  limitations under the License.
 //
 
+/// Flow Transaction Signing
+///
+/// Handles the multi-signature process for Flow transactions.
+/// Supports both payload and envelope signing with multiple signers.
+///
+/// The signing process involves:
+/// 1. Payload signing by proposer and authorizers
+/// 2. Envelope signing by the payer
+/// 3. Signature aggregation and validation
+///
+/// Example:
+/// ```swift
+/// var transaction = unsignedTransaction
+/// try await transaction.sign(signers: [proposer, authorizer, payer])
+/// ```
+
 import Foundation
 
 public extension Flow {
@@ -31,10 +47,10 @@ public extension Flow {
 }
 
 public extension Flow.Transaction {
-    /// Sign (Mutate) the payload of Flow Transaction with a list of `FlowSigner`
-    /// - parameters:
-    ///     - signers: A list of `FlowSigner` to sign the transaction
-    /// - returns: The `Flow.Transaction` itself.
+    /// Sign transaction payload with provided signers
+    /// - Parameter signers: List of accounts that will sign
+    /// - Returns: Transaction with payload signatures
+    /// - Throws: Signing errors if validation fails
     @discardableResult
     mutating func signPayload(signers: [FlowSigner]) async throws -> Flow.Transaction {
         guard let signablePlayload = signablePlayload else {
@@ -84,10 +100,10 @@ public extension Flow.Transaction {
         return self
     }
 
-    /// Sign (Mutate) the envelope of Flow Transaction with a list of `FlowSigner`
-    /// - parameters:
-    ///     - signers: A list of `FlowSigner` to sign the transaction
-    /// - returns: The `Flow.Transaction` itself.
+    /// Sign transaction envelope with payer
+    /// - Parameter signers: List of accounts that will sign
+    /// - Returns: Transaction with envelope signatures
+    /// - Throws: Signing errors if validation fails
     @discardableResult
     mutating func signEnvelope(signers: [FlowSigner]) async throws -> Flow.Transaction {
         guard let signableEnvelope = signableEnvelope else {

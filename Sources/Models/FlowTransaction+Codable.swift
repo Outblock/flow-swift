@@ -16,19 +16,41 @@
 //  limitations under the License.
 //
 
+/// Flow Transaction Encoding/Decoding
+///
+/// Provides Codable conformance for Flow transactions, enabling JSON serialization
+/// and deserialization for network transmission.
+///
+/// The encoding process handles:
+/// - Script data encoding
+/// - Argument serialization
+/// - Signature formatting
+/// - Block reference encoding
+/// - Gas limit conversion
+
 import BigInt
 import Foundation
 
 extension Flow.Transaction: Codable {
+    /// Keys used for encoding/decoding transaction properties
     enum CodingKeys: String, CodingKey {
+        /// Script content
         case script
+        /// Transaction arguments
         case arguments
+        /// Reference block identifier
         case referenceBlockId
+        /// Computation limit
         case gasLimit
+        /// Transaction proposer details
         case proposalKey
+        /// Fee payer account
         case payer
+        /// Authorizing accounts
         case authorizers
+        /// Payload signatures
         case payloadSignatures
+        /// Envelope signatures
         case envelopeSignatures
     }
 

@@ -18,13 +18,36 @@
 
 import Foundation
 
+/// Flow Address Model
+///
+/// Represents account addresses on the Flow blockchain.
+/// Handles address formatting, validation, and conversion.
+///
+/// Features:
+/// - Hex string parsing
+/// - Address validation
+/// - String representation
+/// - Equatable comparison
+///
+/// Example usage:
+/// ```swift
+/// let address = Flow.Address(hex: "0x1234")
+/// let account = try await flow.getAccountAtLatestBlock(address: address)
+/// ```
+
 public extension Flow {
     /// The data structure of address in Flow blockchain
     /// At the most time, it represents account address
     struct Address: FlowEntity, Equatable, Hashable {
         static let byteLength = 8
 
+        /// Raw address bytes
         public var data: Data
+
+        /// Hexadecimal string representation
+        public var hex: String {
+            data.hexValue.addHexPrefix()
+        }
 
         public init(hex: String) {
             self.init(data: hex.hexValue.data)
@@ -39,10 +62,6 @@ public extension Flow {
 
         internal init(bytes: [UInt8]) {
             self.init(data: bytes.data)
-        }
-
-        public var hex: String {
-            bytes.hexValue.addHexPrefix()
         }
     }
 }
