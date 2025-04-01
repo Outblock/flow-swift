@@ -248,7 +248,8 @@ public extension Flow {
         builder().forEach { txValue in
             switch txValue {
             case let .script(value):
-                script = value
+                let updated = flow.addressRegister.resolveImports(in: value.text, for: chainID)
+                script = Flow.Script(text: updated)
                 if let scriptString = String(data: value.data, encoding: .utf8) {
                     FlowLogger.shared.log(.debug, message: "Adding script: \(scriptString)")
                 }
@@ -346,10 +347,10 @@ public extension Flow {
                           limit: BigUInt = BigUInt(9999),
                           blockID: Flow.ID?) async throws -> Flow.Transaction
     {
-        
+        let updatedScript = flow.addressRegister.resolveImports(in: script, for: chainID)
         return try await buildTransaction(chainID: chainID) {
             cadence {
-                script
+                updatedScript
             }
 
             arguments {
@@ -420,9 +421,10 @@ public extension Flow {
                          limit: BigUInt = BigUInt(9999),
                          blockID: Flow.ID?) async throws -> Flow.ID
     {
+        let updatedScript = flow.addressRegister.resolveImports(in: script, for: chainID)
         return try await sendTransaction(chainID: chainID, signers: signers) {
             cadence {
-                script
+                updatedScript
             }
 
             arguments {
