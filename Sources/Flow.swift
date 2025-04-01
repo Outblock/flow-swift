@@ -37,6 +37,8 @@ public final class Flow {
 
     /// The access API client
     public private(set) var accessAPI: FlowAccessProtocol
+    
+    public var addressRegister: ContractAddressRegister = .init()
 
     internal var encoder: JSONEncoder {
         let encoder = JSONEncoder()
@@ -161,5 +163,15 @@ extension Flow {
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
     func onceSealed(_ transactionId: Flow.ID) async throws -> Flow.TransactionResult {
         return try await once(transactionId, status: .sealed)
+    }
+    
+    func isAddressVaildate(address: Flow.Address, network: Flow.ChainID = .mainnet) async -> Bool {
+        do {
+            let accessAPI = flow.createHTTPAccessAPI(chainID: network)
+            _ = try await accessAPI.getAccountAtLatestBlock(address: address)
+            return true
+        } catch {
+            return false
+        }
     }
 }

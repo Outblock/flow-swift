@@ -19,12 +19,18 @@ let package = Package(
         .target(
             name: "Flow",
             dependencies: ["BigInt"],
-            path: "Sources"
+            path: "Sources",
+            resources: [
+                .copy("Cadence/CommonCadence"),
+            ]
         ),
         .testTarget(
             name: "FlowTests",
             dependencies: ["Flow"],
-            path: "Tests"
+            path: "Tests",
+            resources: [
+                .copy("Cadence/CommonCadence"),
+            ]
         ),
     ]
 )

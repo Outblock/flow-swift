@@ -50,7 +50,11 @@ public extension Flow {
         }
 
         public init(hex: String) {
-            self.init(data: hex.hexValue.data)
+            self.init(data: hex.stripHexPrefix().hexValue.data)
+        }
+        
+        public init(_ hex: String) {
+            self.init(data: hex.stripHexPrefix().hexValue.data)
         }
 
         public init(data: Data) {

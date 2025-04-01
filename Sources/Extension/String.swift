@@ -18,7 +18,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
     /// Convert hex string to bytes
     var hexValue: [UInt8] {
         var startIndex = self.startIndex
@@ -53,5 +53,30 @@ extension String {
             return "0x" + self
         }
         return self
+    }
+}
+
+public extension String {
+    func replace(by dict: [String: String]) -> String {
+        var string = self
+        for (key, value) in dict {
+            string = string.replaceExactMatch(target: key, replacement: value)
+        }
+        return string
+    }
+
+    func replace(from dict: [String: String]) -> String {
+        var string = self
+        for (key, value) in dict {
+            string = string.replacingOccurrences(of: key, with: value)
+        }
+        return string
+    }
+
+    func replaceExactMatch(target: String, replacement: String) -> String {
+        let pattern = "\\b\(NSRegularExpression.escapedPattern(for: target))\\b"
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return self }
+        let range = NSRange(startIndex ..< endIndex, in: self)
+        return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replacement)
     }
 }

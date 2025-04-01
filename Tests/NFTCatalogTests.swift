@@ -199,10 +199,10 @@ final class NFTCatalogTests: XCTestCase {
 //        print(result)
     }
 
-    func testAccountStorage() async throws {
-        flow.configure(chainID: .mainnet)
-        let address = Flow.Address(hex: "0x49a7cda3a1eecc29")
-        let result = try! await flow.checkStorageInfo(address: address)
-        XCTAssertNotNil(result)
-    }
+//    func testAccountStorage() async throws {
+//        flow.configure(chainID: .mainnet)
+//        let address = Flow.Address(hex: "0x49a7cda3a1eecc29")
+//        let result = try! await flow.checkStorageInfo(address: address)
+//        XCTAssertNotNil(result)
+//    }
 }

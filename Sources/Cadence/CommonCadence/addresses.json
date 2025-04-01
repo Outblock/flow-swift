@@ -1,0 +1,38 @@
+{
+  "testnet": {
+    "0xNonFungibleToken": "0x631e88ae7f1d7c20",
+    "0xFungibleToken": "0x9a0766d93b6608b7",
+    "0xMetadataViews": "0x631e88ae7f1d7c20",
+    "0xNFTCatalog": "0x324c34e1c517e4db",
+    "0xNFTRetrieval": "0x324c34e1c517e4db",
+    "0xFind": "0xa16ab1d0abde3625",
+    "0xFlowns": "0xb05b2abb42335e88",
+    "0xDomains": "0xb05b2abb42335e88",
+    "0xFlowToken": "0x7e60df042a9c0868",
+    "0xTransactionGeneration": "0x830c495357676f8b",
+    "0xFlowFees": "0x912d5440f7e3769e",
+    "0xStringUtils": "0x31ad40c07a2a9788",
+    "0xHybridCustody": "0x294e44e1ec6993c6",
+    "0xViewResolver": "0x631e88ae7f1d7c20",
+    "0xEVM": "0x8c5303eaa26202d6",
+    "0xFlowEVMBridge": "0xdfc20aee650fcbdf"
+  },
+  "mainnet": {
+    "0xNonFungibleToken": "0x1d7e57aa55817448",
+    "0xFungibleToken": "0xf233dcee88fe0abe",
+    "0xMetadataViews": "0x1d7e57aa55817448",
+    "0xNFTCatalog": "0x49a7cda3a1eecc29",
+    "0xNFTRetrieval": "0x49a7cda3a1eecc29",
+    "0xFind": "0x097bafa4e0b48eef",
+    "0xFlowns": "0x233eb012d34b0070",
+    "0xDomains": "0x233eb012d34b0070",
+    "0xFlowFees": "0xf919ee77447b7497",
+    "0xFlowToken": "0x1654653399040a61",
+    "0xTransactionGeneration": "0xe52522745adf5c34",
+    "0xStringUtils": "0xa340dc0a4ec828ab",
+    "0xHybridCustody": "0xd8a7e05a7ac670c0",
+    "0xViewResolver": "0x1d7e57aa55817448",
+    "0xEVM": "0xe467b9dd11fa00df",
+    "0xFlowEVMBridge": "0x1e4aa0b87d10b141"
+  }
+}

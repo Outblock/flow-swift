@@ -226,15 +226,18 @@ extension Flow {
         }
 
         func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse {
-            return try await request(Flow.AccessEndpoint.executeScriptAtLatestBlock(script: script, arguments: arguments))
+            let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: flow.chainID)
+            return try await request(Flow.AccessEndpoint.executeScriptAtLatestBlock(script: .init(text: resolvedScript), arguments: arguments))
         }
 
         func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse {
-            return try await request(Flow.AccessEndpoint.executeScriptAtBlockId(script: script, blockId: blockId, arguments: arguments))
+            let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: flow.chainID)
+            return try await request(Flow.AccessEndpoint.executeScriptAtBlockId(script: .init(text: resolvedScript), blockId: blockId, arguments: arguments))
         }
 
         func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse {
-            return try await request(Flow.AccessEndpoint.executeScriptAtBlockHeight(script: script, height: height, arguments: arguments))
+            let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: flow.chainID)
+            return try await request(Flow.AccessEndpoint.executeScriptAtBlockHeight(script: .init(text: resolvedScript), height: height, arguments: arguments))
         }
 
         func getEventsForHeightRange(type: String, range: ClosedRange<UInt64>) async throws -> [Flow.Event.Result] {

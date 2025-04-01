@@ -37,12 +37,15 @@ public extension Flow {
         case timeout
         case invaildResponse
         case invalidScript
+        case scriptNotFound(name: String, directory: String)
         case customError(msg: String)
         
         var rawValue: String {
             switch self {
             case .customError(let msg):
                 return msg
+            case let .scriptNotFound(name, directory):
+                return "Script not found: \(name) in \(directory)"
             default:
                 return String(describing: self)
             }

@@ -186,6 +186,10 @@ public extension Flow {
             return signer
         }
 
+        public mutating func updateScript(script: Flow.Script) {
+            self.script = script
+        }
+
         public mutating func addPayloadSignature(_ signature: TransactionSignature) {
             payloadSignatures.append(signature)
             payloadSignatures = payloadSignatures.sorted(by: <)
