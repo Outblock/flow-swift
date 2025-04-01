@@ -8,7 +8,7 @@ protocol CadenceLoaderProtocol {
 /// Utility class for loading Cadence scripts from files
 public class CadenceLoader {
     
-    enum Category {}
+    public enum Category {}
     
     static let subdirectory = "CommonCadence"
     
@@ -46,8 +46,9 @@ extension CadenceLoader.Category {
         }
     }
     
-    enum Child: String, CaseIterable, CadenceLoaderProtocol {
+    public enum Child: String, CaseIterable, CadenceLoaderProtocol {
         case getChildAddress = "get_child_addresses"
+        case getChildAccountMeta = "get_child_account_meta"
         
         var directory: String {
             "Child"

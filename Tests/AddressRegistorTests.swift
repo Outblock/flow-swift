@@ -38,4 +38,9 @@ final class AddressRegistorTests: XCTestCase {
         print(result)
         XCTAssertTrue(result.count > 0)
     }
+    
+    func testChildMetadata() async throws {
+        let result = try await flow.getChildMetadata(address: .init(hex: "0x84221fe0294044d7"))
+        XCTAssertNotNil(result[result.keys.first!]?.name)
+    }
 }
