@@ -7,6 +7,23 @@
 
 import Foundation
 
+extension CadenceLoader.Category {
+    
+    public enum Child: String, CaseIterable, CadenceLoaderProtocol {
+        case getChildAddress = "get_child_addresses"
+        case getChildAccountMeta = "get_child_account_meta"
+        
+        var directory: String {
+            "Child"
+        }
+        
+        var filename: String {
+            rawValue
+        }
+    }
+    
+}
+
 // Extension to Flow for convenience methods
 public extension Flow {
     
@@ -34,12 +51,12 @@ public extension Flow {
 
 extension CadenceLoader.Category.Child {
     public struct Metadata: Codable {
-        public let name: String
-        public let description: String
-        public let thumbnail: Thumbnail
+        public let name: String?
+        public let description: String?
+        public let thumbnail: Thumbnail?
     }
     
     public struct Thumbnail: Codable {
-        public let url: URL
+        public let url: URL?
     }
 }

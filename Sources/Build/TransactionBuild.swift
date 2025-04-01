@@ -345,7 +345,7 @@ public extension Flow {
                           payerAddress: Flow.Address,
                           proposerKey: Flow.TransactionProposalKey,
                           limit: BigUInt = BigUInt(9999),
-                          blockID: Flow.ID?) async throws -> Flow.Transaction
+                          blockID: Flow.ID? = nil) async throws -> Flow.Transaction
     {
         let updatedScript = flow.addressRegister.resolveImports(in: script, for: chainID)
         return try await buildTransaction(chainID: chainID) {
@@ -419,7 +419,7 @@ public extension Flow {
                          payerAddress: Flow.Address,
                          proposerKey: Flow.TransactionProposalKey,
                          limit: BigUInt = BigUInt(9999),
-                         blockID: Flow.ID?) async throws -> Flow.ID
+                         blockID: Flow.ID? = nil) async throws -> Flow.ID
     {
         let updatedScript = flow.addressRegister.resolveImports(in: script, for: chainID)
         return try await sendTransaction(chainID: chainID, signers: signers) {

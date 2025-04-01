@@ -31,31 +31,3 @@ public class CadenceLoader {
         return try load(name: name, directory: directory)
     }
 }
-
-extension CadenceLoader.Category {
-    
-    enum EVM: String, CaseIterable, CadenceLoaderProtocol {
-        case getAddress = "get_addr"
-        
-        var directory: String {
-            "EVM"
-        }
-        
-        var filename: String {
-            rawValue
-        }
-    }
-    
-    public enum Child: String, CaseIterable, CadenceLoaderProtocol {
-        case getChildAddress = "get_child_addresses"
-        case getChildAccountMeta = "get_child_account_meta"
-        
-        var directory: String {
-            "Child"
-        }
-        
-        var filename: String {
-            rawValue
-        }
-    }
-}

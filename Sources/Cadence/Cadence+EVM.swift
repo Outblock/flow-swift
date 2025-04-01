@@ -1,6 +1,24 @@
 import Foundation
 import BigInt
 
+extension CadenceLoader.Category {
+    
+    public enum EVM: String, CaseIterable, CadenceLoaderProtocol {
+        case getAddress = "get_addr"
+        case createCOA = "create_coa"
+        
+        var directory: String {
+            "EVM"
+        }
+        
+        var filename: String {
+            rawValue
+        }
+    }
+
+}
+
+
 // Extension to Flow for convenience methods
 public extension Flow {
     /// Get the EVM address associated with a Flow address
@@ -13,6 +31,20 @@ public extension Flow {
             script: .init(text: script),
             arguments: [.address(address)]
         ).decode()
+    }
+    
+    func createCOA(chainID: ChainID, proposer: Address, payer: Address, amount: Decimal = 0, signers: [FlowSigner]) async throws -> Flow.ID {
+        guard let amountFlow = amount.toFlowArgument() else {
+            throw FError.customError(msg: "Amount convert to flow arg failed")
+        }
+        let script = try CadenceLoader.load(CadenceLoader.Category.EVM.createCOA)
+        let unsignedTx = try await flow.buildTransaction(chainID: chainID,
+                                                         script: script,
+                                                         agrument: [amountFlow],
+                                                         payerAddress: payer,
+                                                         proposerKey: .init(address: proposer))
+        let signedTx = try await flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
+        return try await flow.sendTransaction(chainID: chainID,signedTransaction: signedTx)
     }
     
 } 
