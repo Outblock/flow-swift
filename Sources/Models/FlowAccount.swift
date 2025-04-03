@@ -44,7 +44,7 @@ public extension Flow {
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             address = try container.decode(Flow.Address.self, forKey: .address)
-            balance = try container.decodeFlexible([String.self, BigInt.self], as: BigInt.self, forKey: .balance)
+            balance = try? container.decodeFlexible([String.self, BigInt.self], as: BigInt.self, forKey: .balance)
             keys = try container.decode([Flow.AccountKey].self, forKey: .keys)
             contracts = try? container.decode([String: Flow.Code].self, forKey: .contracts)
         }
