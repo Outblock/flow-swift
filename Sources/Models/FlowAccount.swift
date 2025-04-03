@@ -44,11 +44,7 @@ public extension Flow {
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             address = try container.decode(Flow.Address.self, forKey: .address)
-            if let balanceString = try? container.decode(String.self, forKey: .balance) {
-                balance = BigInt(balanceString)
-            } else {
-                balance = nil
-            }
+            balance = try container.decodeFlexible([String.self, BigInt.self], as: BigInt.self, forKey: .balance)
             keys = try container.decode([Flow.AccountKey].self, forKey: .keys)
             contracts = try? container.decode([String: Flow.Code].self, forKey: .contracts)
         }
@@ -89,15 +85,12 @@ public extension Flow {
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            let indexString = try container.decode(String.self, forKey: .index)
-            index = Int(indexString) ?? -1
+            index = try container.decodeFlexible([String.self, Int.self], as: Int.self, forKey: .index)
             publicKey = try container.decode(Flow.PublicKey.self, forKey: .publicKey)
             signAlgo = try container.decode(Flow.SignatureAlgorithm.self, forKey: .signAlgo)
             hashAlgo = try container.decode(Flow.HashAlgorithm.self, forKey: .hashAlgo)
-            let weightString = try container.decode(String.self, forKey: .weight)
-            weight = Int(weightString) ?? -1
-            let sequenceNumberString = try container.decode(String.self, forKey: .sequenceNumber)
-            sequenceNumber = Int64(sequenceNumberString) ?? -1
+            weight = try container.decodeFlexible([String.self, Int.self], as: Int.self, forKey: .index)
+            sequenceNumber = try container.decodeFlexible([String.self, Int64.self], as: Int64.self, forKey: .index)
             revoked = try container.decode(Bool.self, forKey: .revoked)
         }
 
