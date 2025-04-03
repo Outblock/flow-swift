@@ -33,14 +33,23 @@ public extension Flow {
         public init(bytes: [UInt8]) {
             data = bytes.data
         }
+        
+        enum CodingKeys: CodingKey {
+            case data
+        }
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             if let hexString = try? container.decode(String.self) {
                 data = hexString.hexValue.data
             } else {
-                data = try container.decode(Data.self) 
+                data = try container.decode(Data.self)
             }
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.data)
         }
     }
 
