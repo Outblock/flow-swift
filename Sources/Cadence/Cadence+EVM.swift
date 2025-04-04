@@ -7,10 +7,6 @@ extension CadenceLoader.Category {
         case getAddress = "get_addr"
         case createCOA = "create_coa"
         
-        var directory: String {
-            "EVM"
-        }
-        
         var filename: String {
             rawValue
         }

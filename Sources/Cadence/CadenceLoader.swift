@@ -5,6 +5,12 @@ protocol CadenceLoaderProtocol {
     var filename: String { get }
 }
 
+extension CadenceLoaderProtocol {
+    var directory: String {
+        String(describing: type(of: self))
+    }
+}
+
 /// Utility class for loading Cadence scripts from files
 public class CadenceLoader {
     

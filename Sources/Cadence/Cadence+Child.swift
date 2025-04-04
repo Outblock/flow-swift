@@ -13,10 +13,6 @@ extension CadenceLoader.Category {
         case getChildAddress = "get_child_addresses"
         case getChildAccountMeta = "get_child_account_meta"
         
-        var directory: String {
-            "Child"
-        }
-        
         var filename: String {
             rawValue
         }
