@@ -28,27 +28,21 @@ public extension Flow {
             arguments: [.address(address)]
         ).decode()
     }
-    
 }
 
 extension CadenceLoader.Category.Staking {
-    
     public struct StakingNode: Codable {
-        // MARK: Internal
+        public let id: Int
+        public let nodeID: String
+        public let tokensCommitted: Double
+        public let tokensStaked: Double
+        public let tokensUnstaking: Double
+        public let tokensRewarded: Double
+        public let tokensUnstaked: Double
+        public let tokensRequestedToUnstake: Double
 
-        let id: Int
-        let nodeID: String
-        let tokensCommitted: Double
-        let tokensStaked: Double
-        let tokensUnstaking: Double
-        let tokensRewarded: Double
-        let tokensUnstaked: Double
-        let tokensRequestedToUnstake: Double
-
-        var stakingCount: Double {
+        public var stakingCount: Double {
             tokensCommitted + tokensStaked
         }
     }
-
-    
 }
