@@ -89,8 +89,8 @@ public extension Flow {
             publicKey = try container.decode(Flow.PublicKey.self, forKey: .publicKey)
             signAlgo = try container.decode(Flow.SignatureAlgorithm.self, forKey: .signAlgo)
             hashAlgo = try container.decode(Flow.HashAlgorithm.self, forKey: .hashAlgo)
-            weight = try container.decodeFlexible([String.self, Int.self], as: Int.self, forKey: .index)
-            sequenceNumber = try container.decodeFlexible([String.self, Int64.self], as: Int64.self, forKey: .index)
+            weight = try container.decodeFlexible([String.self, Int.self], as: Int.self, forKey: .weight)
+            sequenceNumber = try container.decodeFlexible([String.self, Int64.self], as: Int64.self, forKey: .sequenceNumber)
             revoked = try container.decode(Bool.self, forKey: .revoked)
         }
 
