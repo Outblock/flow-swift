@@ -29,6 +29,13 @@ public protocol FlowSigner {
     /// Sign the data with account private key
     /// - parameters:
     ///     - signableData: The data to be signed
+    ///     - transaction: The transaction to be signed (Optional)
     /// - returns: The signed data
-    func sign(transaction: Flow.Transaction, signableData: Data) async throws -> Data
+    func sign(signableData: Data, transaction: Flow.Transaction?) async throws -> Data
+}
+
+extension FlowSigner {
+    func sign(signableData: Data) async throws -> Data {
+        return try await sign(signableData: signableData, transaction: nil)
+    }
 }
