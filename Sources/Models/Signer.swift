@@ -49,7 +49,7 @@ public extension Flow {
         
         public func encode(to encoder: Encoder) throws {
             var container = encoder.singleValueContainer()
-            try container.encode(self.data)
+            try container.encode(self.hex)
         }
     }
 
