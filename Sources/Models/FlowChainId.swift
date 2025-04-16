@@ -135,6 +135,7 @@ public extension Flow {
             }
         }
 
+        // TODO: Support Custom Node encode & decode
         public func encode(to encoder: Encoder) throws {
             var container = encoder.singleValueContainer()
             try container.encode(name)
@@ -145,5 +146,15 @@ public extension Flow {
             let string = try container.decode(String.self)
             self.init(name: string)
         }
+    }
+}
+
+extension Flow.ChainID: RawRepresentable {
+    public var rawValue: String {
+        name
+    }
+    
+    public init?(rawValue: String) {
+        self.init(name: rawValue)
     }
 }
