@@ -40,10 +40,11 @@ public extension Flow {
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
-            if let hexString = try? container.decode(String.self) {
-                data = hexString.hexValue.data
+            if let decodeData = try? container.decode(Data.self) {
+                data = decodeData
             } else {
-                data = try container.decode(Data.self)
+                let hexString = try container.decode(String.self)
+                data = hexString.hexValue.data
             }
         }
         

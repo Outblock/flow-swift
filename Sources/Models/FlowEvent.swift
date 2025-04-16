@@ -151,3 +151,15 @@ extension Flow.Event.Payload: FlowDecodable {
         return result
     }
 }
+
+extension Flow.Event {
+    public func getField<T: Decodable>(_ name: String) -> T? {
+        return try? payload.fields?.value.toEvent()?.fields.first{ $0.name == name }?.value.decode(T.self)
+    }
+}
+
+extension Flow.TransactionResult {
+    public func getEvent(_ type: String) -> Flow.Event? {
+        return events.first { $0.type == type }
+    }
+}
