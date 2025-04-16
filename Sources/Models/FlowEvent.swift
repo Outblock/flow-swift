@@ -162,4 +162,8 @@ extension Flow.TransactionResult {
     public func getEvent(_ type: String) -> Flow.Event? {
         return events.first { $0.type == type }
     }
+    
+    public func getCreatedAddress() -> String? {
+        return getEvent(Flow.accountCreationEventType)?.getField(Flow.accountCreationFieldName)
+    }
 }

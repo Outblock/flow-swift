@@ -21,6 +21,8 @@ import Foundation
 
 public extension Flow {
     static let decimal = 8
+    static let accountCreationEventType = "flow.AccountCreated"
+    static let accountCreationFieldName = "address"
     class Cadence {}
 }
 

@@ -612,7 +612,8 @@ let txID = try await flow.createAccount(address: address, publicKeys: [accountKe
 let result = try wait txID.onceSealed().wait()
 let event = result.events.first{ $0.type == "flow.AccountCreated" }
 let field = event?.payload.fields?.value.toEvent()?.fields.first{$0.name == "address"}
-let address = field?.value.value.toAddress()?.hex
+let event = result.getEvent("flow.AccountCreated")
+let address: String? = event?.getField("address") 
 ```
 
 ### Generate Keys
