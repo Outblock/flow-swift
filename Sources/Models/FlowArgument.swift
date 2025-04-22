@@ -82,11 +82,11 @@ public extension Flow {
         }
 
         public init?(_ value: FlowEncodable) {
-            guard let flowArgument = value.toFlowArgument() else {
+            guard let flowArgument = value.toFlowValue() else {
                 return nil
             }
             self.type = flowArgument.type
-            self.value = flowArgument.value
+            self.value = flowArgument
         }
 
         public init?(jsonData: Data) {

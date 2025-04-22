@@ -20,126 +20,132 @@ import BigInt
 import Foundation
 
 public protocol FlowEncodable {
-    func toFlowArgument() -> Flow.Argument?
+    func toFlowValue() -> Flow.Cadence.FValue?
 }
 
 extension Int: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .int, value: .int(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .int(self)
     }
 }
 
 extension String: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .string, value: .string(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .string(self)
     }
 }
 
 extension Bool: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .bool, value: .bool(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .bool(self)
     }
 }
 
 extension Double: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .ufix64, value: .ufix64(Decimal(self)))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .ufix64(Decimal(self))
     }
 }
 
 extension Decimal: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .ufix64, value: .ufix64(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .ufix64(self)
     }
 }
 
 extension Int8: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .int8, value: .int8(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .int8(self)
     }
 }
 
 extension UInt8: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .uint8, value: .uint8(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .uint8(self)
     }
 }
 
 extension Int16: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .int16, value: .int16(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .int16(self)
     }
 }
 
 extension UInt16: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .uint16, value: .uint16(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .uint16(self)
     }
 }
 
 extension Int32: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .int32, value: .int32(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .int32(self)
     }
 }
 
 extension UInt32: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .uint32, value: .uint32(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .uint32(self)
     }
 }
 
 extension Int64: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .int64, value: .int64(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .int64(self)
     }
 }
 
 extension UInt64: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .uint64, value: .uint64(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .uint64(self)
     }
 }
 
 extension BigInt: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .int128, value: .int128(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .int128(self)
     }
 }
 
 extension BigUInt: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        return .init(type: .uint128, value: .uint128(self))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .uint128(self)
     }
 }
 
 extension Array: FlowEncodable where Element: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
-        let arguments = compactMap { $0.toFlowArgument() }
-        return .init(type: .array, value: .array(arguments.toValue()))
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        let arguments = compactMap { $0.toFlowValue() }
+        return .array(arguments)
     }
 }
 
 extension Optional: FlowEncodable where Wrapped: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
+    public func toFlowValue() -> Flow.Cadence.FValue? {
         switch self {
         case .none:
-            return .init(type: .optional, value: .optional(nil))
+            return .optional(nil)
         case .some(let value):
-            return .init(type: .optional, value: .optional(value.toFlowArgument()?.value))
+            return .optional(value.toFlowValue())
         }
     }
 }
 
 extension Dictionary: FlowEncodable where Key: FlowEncodable, Value: FlowEncodable {
-    public func toFlowArgument() -> Flow.Argument? {
+    public func toFlowValue() -> Flow.Cadence.FValue? {
         let entries = compactMap { key, value -> Flow.Argument.Dictionary? in
-            guard let keyArg = key.toFlowArgument(),
-                  let valueArg = value.toFlowArgument() else {
+            guard let keyArg = key.toFlowValue(),
+                  let valueArg = value.toFlowValue() else {
                 return nil
             }
-            return Flow.Argument.Dictionary(key: keyArg.value, value: valueArg.value)
+            return Flow.Argument.Dictionary(key: keyArg, value: valueArg)
         }
-        return .init(type: .dictionary, value: .dictionary(entries))
+        return .dictionary(entries)
+    }
+}
+
+extension Flow.Address: FlowEncodable {
+    public func toFlowValue() -> Flow.Cadence.FValue? {
+        return .address(self)
     }
 }

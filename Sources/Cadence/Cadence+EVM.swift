@@ -2,7 +2,6 @@ import Foundation
 import BigInt
 
 extension CadenceLoader.Category {
-    
     public enum EVM: String, CaseIterable, CadenceLoaderProtocol {
         case getAddress = "get_addr"
         case createCOA = "create_coa"
@@ -11,9 +10,7 @@ extension CadenceLoader.Category {
             rawValue
         }
     }
-
 }
-
 
 // Extension to Flow for convenience methods
 public extension Flow {
@@ -30,7 +27,7 @@ public extension Flow {
     }
     
     func createCOA(chainID: ChainID, proposer: Address, payer: Address, amount: Decimal = 0, signers: [FlowSigner]) async throws -> Flow.ID {
-        guard let amountFlow = amount.toFlowArgument() else {
+        guard let amountFlow = amount.toFlowValue()?.toArgument() else {
             throw FError.customError(msg: "Amount convert to flow arg failed")
         }
         let script = try CadenceLoader.load(CadenceLoader.Category.EVM.createCOA)
