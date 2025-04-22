@@ -232,6 +232,7 @@ public extension Flow {
     ///     - builder: The list of `Flow.TransactionBuild`
     /// - returns: The type of `EventLoopFuture<Flow.Transaction>`
     func buildTransaction(chainID: Flow.ChainID = flow.chainID,
+                          skipEmptyCheck: Bool = false,
                           @Flow.TransactionBuilder builder: () -> [Flow.TransactionBuild]) async throws -> Flow.Transaction
     {
         FlowLogger.shared.log(.debug, message: "Starting transaction build for chain: \(chainID)")
@@ -302,10 +303,12 @@ public extension Flow {
         FlowLogger.shared.log(.debug, message: "Resolved proposal key with sequence number: \(key.sequenceNumber)")
         proposalKey = key
 
-        // Validate script
-        guard !script.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            FlowLogger.shared.log(.error, message: "Transaction build failed: Invalid script format")
-            throw Flow.FError.invalidScript
+        if !skipEmptyCheck {
+            // Validate script
+            guard !script.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                FlowLogger.shared.log(.error, message: "Transaction build failed: Invalid script format")
+                throw Flow.FError.invalidScript
+            }
         }
 
         // Create transaction

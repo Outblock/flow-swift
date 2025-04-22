@@ -226,17 +226,17 @@ extension Flow {
         }
 
         func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse {
-            let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: flow.chainID)
+            let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: chainID)
             return try await request(Flow.AccessEndpoint.executeScriptAtLatestBlock(script: .init(text: resolvedScript), arguments: arguments))
         }
 
         func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse {
-            let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: flow.chainID)
+            let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: chainID)
             return try await request(Flow.AccessEndpoint.executeScriptAtBlockId(script: .init(text: resolvedScript), blockId: blockId, arguments: arguments))
         }
 
         func executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse {
-            let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: flow.chainID)
+            let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: chainID)
             return try await request(Flow.AccessEndpoint.executeScriptAtBlockHeight(script: .init(text: resolvedScript), height: height, arguments: arguments))
         }
 
