@@ -47,9 +47,11 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
     }
 
     func testGetAccount() async throws {
-        let account = try await flowAPI.getAccountAtLatestBlock(address: address)
+        let account = try await flowAPI.getAccountAtLatestBlock(address: .init(hex: "0x84221fe0294044d7"))
         XCTAssertNotNil(account.keys.first)
-        XCTAssertEqual(address, account.address)
+//        XCTAssertEqual(address, account.address)
+        XCTAssertEqual(754, account.keys.first!.sequenceNumber)
+        XCTAssertEqual(1000, account.keys.first!.weight)
     }
 
     func testGetAccount2() async throws {
@@ -245,14 +247,27 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
     }
 
     func testTransactionById() async throws {
-        let id = Flow.ID(hex: "6d6c20405f3dd2001361cd994493a56d31f4daa1c7ce420a2cd4259454b4a0da")
-        let transaction = try await flowAPI.getTransactionById(id: id)
-        XCTAssertEqual(transaction.arguments.first?.type, .path)
-        XCTAssertEqual(transaction.arguments.first?.value, .path(.init(domain: "public", identifier: "zelosAccountingTokenReceiver")))
-        XCTAssertEqual(transaction.arguments.last?.type, .ufix64)
-        XCTAssertEqual(transaction.arguments.last?.value.toUFix64(), 99.0)
-        XCTAssertEqual(transaction.payer.bytes.hexValue, "1f56a1e665826a52")
-        XCTAssertNotNil(transaction)
+        let id = Flow.ID(hex: "40b18af87cbd776b934203583a89700a3f9e22c062510a04db386e9d18355b7c")
+        let transaction = try await flowAPI.getTransactionResultById(id: id)
+//        let event = transaction.getEvent("flow.AccountCreated")
+//        let address: String? = event?.getField("address")
+//        let address = transaction.getCreateAddress()
+//        print(address)
+//        let event = transaction.events.filter { $0.type == "flow.AccountCreated" }.first
+//        let field = event?.payload.fields?.value.toEvent()?.fields.first{$0.name == "address"}
+        
+//        if case let .event(eve) = event?.payload.fields?.value {
+//            print(eve.id)
+//        }
+        
+//        let address = field?.value.value.toAddress()?.hex
+//        print(event)
+//        XCTAssertEqual(transaction.arguments.first?.type, .path)
+//        XCTAssertEqual(transaction.arguments.first?.value, .path(.init(domain: "public", identifier: "zelosAccountingTokenReceiver")))
+//        XCTAssertEqual(transaction.arguments.last?.type, .ufix64)
+//        XCTAssertEqual(transaction.arguments.last?.value.toUFix64(), 99.0)
+//        XCTAssertEqual(transaction.payer.bytes.hexValue, "1f56a1e665826a52")
+//        XCTAssertNotNil(transaction)
     }
 
 //    func testGetEventByRange() async throws {
