@@ -57,17 +57,10 @@ extension Flow.Websocket {
     }
     
     struct TopicResponse<T: Decodable>: Decodable {
-        let id: String
+        let subscriptionId: String
         let topic: Topic
-        let data: T?
+        let payload: T?
         let error: SocketError?
-        
-        enum CodingKeys: String, CodingKey {
-            case id = "subscription_id"
-            case topic
-            case data = "payload"
-            case error
-        }
     }
     
     struct ListSubscriptionsResponse: Decodable {

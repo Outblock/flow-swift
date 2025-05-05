@@ -8,6 +8,7 @@ public extension Flow {
         case accountUpdate(address: Flow.Address)
         case connectionStatus(isConnected: Bool)
         case walletResponse(approved: Bool, data: [String: Any])
+        case block(id: Flow.ID, height: String, timestamp: Date)
         case error(Error)
     }
     
@@ -35,6 +36,17 @@ public extension Flow {
                 .compactMap { event in
                     if case .accountUpdate(let address) = event {
                         return address
+                    }
+                    return nil
+                }
+                .eraseToAnyPublisher()
+        }
+        
+        public var blockPublisher: AnyPublisher<Flow.WSBlockHeader, Never> {
+            eventSubject
+                .compactMap { event in
+                    if case let .block(id, height, timestamp) = event {
+                        return WSBlockHeader(blockId: id, height: height, timestamp: timestamp)
                     }
                     return nil
                 }

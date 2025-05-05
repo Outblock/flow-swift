@@ -40,17 +40,20 @@ public extension Flow {
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
-            if let decodeData = try? container.decode(Data.self) {
+            if let decodeData = try? container.decode(Data.self), decodeData.count == 64 {
                 data = decodeData
             } else {
                 let hexString = try container.decode(String.self)
+                guard hexString.hexValue.count == 64 else {
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Invalid data format for PublicKey"))
+                }
                 data = hexString.hexValue.data
             }
         }
         
         public func encode(to encoder: Encoder) throws {
             var container = encoder.singleValueContainer()
-            try container.encode(self.hex)
+            try container.encode(data)
         }
     }
 

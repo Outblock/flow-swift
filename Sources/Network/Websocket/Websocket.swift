@@ -16,8 +16,26 @@ public extension Flow {
         private var subscriptions: [String: (subject: PassthroughSubject<Any, Error>, type: Any.Type)] = [:]
         private var cancellables = Set<AnyCancellable>()
         
-        private let decoder = JSONDecoder()
-        private let encoder = JSONEncoder()
+        private var timeoutInterval: TimeInterval = 10
+        
+        private var decoder: JSONDecoder {
+            let dateFormatter = DateFormatter()
+            // 2022-06-22T15:32:09.08595992Z
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'"
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return decoder
+        }
+        
+        private var encoder: JSONEncoder {
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            return encoder
+        }
         
         private let url: URL
         
@@ -32,9 +50,10 @@ public extension Flow {
         
         public func connect() {
             var request = URLRequest(url: url)
-            request.timeoutInterval = 5
+            request.timeoutInterval = timeoutInterval
             
-            socket = WebSocket(request: request)
+            let pinner = FoundationSecurity(allowSelfSigned: true) // don't validate SSL certificates
+            socket = WebSocket(request: request, certPinner: pinner)
             socket?.delegate = self
             socket?.connect()
         }
@@ -51,8 +70,17 @@ public extension Flow {
         
         // MARK: - Subscription Methods
         
-        public func subscribeToBlockDigests() -> AnyPublisher<Flow.BlockHeader, Error> {
-            return subscribe(topic: .blockDigests, arguments: EmptyArguments(), type: Flow.BlockHeader.self)
+        public func subscribeToBlockDigests(
+            blockStatus: BlockStatus = .sealed,
+            startBlockHeight: String? = nil,
+            startBlockId: String? = nil
+        ) -> AnyPublisher<Flow.WSBlockHeader, Error> {
+            let arguments = BlockDigestArguments(
+                blockStatus: blockStatus,
+                startBlockHeight: startBlockHeight,
+                startBlockId: startBlockId
+            )
+            return subscribe(topic: .blockDigests, arguments: arguments, type: Flow.WSBlockHeader.self)
         }
         
         public func subscribeToBlockHeaders() -> AnyPublisher<Flow.BlockHeader, Error> {
@@ -109,7 +137,7 @@ public extension Flow {
 //        }
         
         public func listSubscriptions() {
-            let request = SubscribeRequest<EmptyArguments>(id: UUID().uuidString, action: .listSubscriptions, topic: .blocks, arguments: nil)
+            let request = SubscribeRequest<EmptyArguments>(id: generateShortUUID(), action: .listSubscriptions, topic: .blocks, arguments: nil)
             do {
                 let data = try encoder.encode(request)
                 socket?.write(data: data)
@@ -119,7 +147,7 @@ public extension Flow {
         }
         
         private func subscribe<T: Encodable, U: Decodable>(topic: Topic, arguments: T, type: U.Type) -> AnyPublisher<U, Error> {
-            let subscriptionId = UUID().uuidString
+            let subscriptionId = generateShortUUID()
             let request = SubscribeRequest(id: subscriptionId, action: .subscribe, topic: topic, arguments: arguments)
             
             let subject = PassthroughSubject<Any, Error>()
@@ -161,7 +189,7 @@ public extension Flow {
 extension Flow.Websocket: WebSocketDelegate {
     public func didReceive(event: WebSocketEvent, client: any Starscream.WebSocketClient) {
         switch event {
-        case .connected(_):
+        case let .connected(data):
             isConnected = true
             Flow.Publisher.shared.publishConnectionStatus(isConnected: true)
             
@@ -209,9 +237,17 @@ extension Flow.Websocket: WebSocketDelegate {
                 return
             }
             
+            let object = try JSONSerialization.jsonObject(with: data)
+            print(object)
+            
+            if let subscribResponse = try? decoder.decode(SubscribeResponse.self, from: data) {
+//                Flow.Publisher.shared.publish(.)
+                return
+            }
+            
             // Try to decode as a TopicResponse with different types
             let response = try decoder.decode(TopicResponse<AnyDecodable>.self, from: data)
-            guard let subscription = subscriptions[response.id] else { return }
+            guard let subscription = subscriptions[response.subscriptionId] else { return }
             
             if let error = response.error {
                 let wsError = WebSocketError.serverError(error)
@@ -220,7 +256,7 @@ extension Flow.Websocket: WebSocketDelegate {
                 return
             }
             
-            guard let anyData = response.data else { return }
+            guard let anyData = response.payload else { return }
             
             do {
                 let jsonData = try JSONSerialization.data(withJSONObject: anyData.value)
@@ -244,6 +280,13 @@ extension Flow.Websocket: WebSocketDelegate {
 extension Flow.Websocket {
     enum WebSocketError: Error {
         case serverError(SocketError)
+    }
+    
+    // Helper method to generate short UUIDs
+    private func generateShortUUID() -> String {
+        // Generate UUID and take first 20 characters
+        let fullUUID = UUID().uuidString
+        return String(fullUUID.prefix(20))
     }
     
     struct EmptyArguments: Codable {}
