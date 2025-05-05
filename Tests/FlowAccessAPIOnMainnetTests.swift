@@ -87,26 +87,20 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertNotNil(block)
     }
 
-//    func testGetLatestProtocolStateSnapshot() async throws {
-//        let snapshot = try await flowAPI.getLatestProtocolStateSnapshot()
-//        XCTAssertNotNil(snapshot)
-//    }
-
     func testQueryToken() async throws {
         let script = Flow.Script(text: """
-            pub struct SomeStruct {
-                  pub var x: Int
-                  pub var y: Int
+            access(all) struct SomeStruct {
+                access(all) var x: Int
+                access(all) var y: Int
                   init(x: Int, y: Int) {
                     self.x = x
                     self.y = y
                   }
             }
 
-            pub fun main(): [SomeStruct] {
+            access(all) fun main(): [SomeStruct] {
               return [SomeStruct(x: 1, y: 2), SomeStruct(x: 3, y: 4)]
             }
-
             """
         )
 
@@ -136,10 +130,10 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
 
     func testExecuteScriptAtLastestBlock2() async throws {
         let script = Flow.Script(text: """
-            pub struct User {
-                pub var balance: UFix64
-                pub var address: Address
-                pub var name: String
+            access(all) struct User {
+                access(all) var balance: UFix64
+                access(all) var address: Address
+                access(all) var name: String
 
                 init(name: String, address: Address, balance: UFix64) {
                     self.name = name
@@ -148,7 +142,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
                 }
             }
 
-            pub fun main(name: String): User {
+            access(all) fun main(name: String): User {
                 return User(
                     name: name,
                     address: 0x1,
@@ -178,7 +172,7 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
     func testVerifySignature() async throws {
         let script = Flow.Script(text: """
         import Crypto
-        pub fun main(
+        access(all) fun main(
           publicKey: String,
           signature: String,
           message: String
@@ -237,10 +231,6 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertEqual(result.events.first?.payload.fields?.type, .event)
         XCTAssertEqual(test.id, 11800)
         XCTAssertEqual(test.from.addHexPrefix(), "0x873becfb539f038d")
-//        XCTAssertEqual(result.events.first?.payload.fields?.value,
-//                       .event(.init(id: "A.c38aea683c0c4d38.Eternal.Withdraw",
-//                                    fields: [.init(name: "id", value: .init(value: .uint64(11800))),
-//                                             .init(name: "from", value: .init(value: .optional(value: .init(value: .address(.init(hex: "0x873becfb539f038d"))))))])))
         XCTAssertNotNil(result)
     }
 
@@ -254,16 +244,4 @@ final class FlowAccessAPIOnMainnetTests: XCTestCase {
         XCTAssertEqual(transaction.payer.bytes.hexValue, "1f56a1e665826a52")
         XCTAssertNotNil(transaction)
     }
-
-//    func testGetEventByRange() async throws {
-//        let result = try await flowAPI.getEventsForHeightRange(type: "A.2d4c3caffbeab845.FLOAT.FLOATTransferred", range: 36_604_211 ... 36_604_411)
-//        XCTAssertEqual(result.first!.events.first!.transactionIndex, 5)
-//        XCTAssertNotNil(result)
-//    }
-//
-//    func testGetEventByIds() async throws {
-//        let result = try await flowAPI.getEventsForBlockIds(type: "A.2d4c3caffbeab845.FLOAT.FLOATTransferred", ids: Set(arrayLiteral: .init(hex: "4722fcaa0c7939453b4886a7cccb364977372b5b6c103ea4264e75dafbf10ffa")))
-//        XCTAssertEqual(result.first!.events.first!.transactionIndex, 5)
-//        XCTAssertNotNil(result)
-//    }
 }

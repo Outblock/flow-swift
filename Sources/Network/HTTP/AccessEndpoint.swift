@@ -62,7 +62,7 @@ extension Flow.AccessEndpoint: TargetType {
         case .getCollectionById:
             return .requestParameters(["expand": "transactions"])
         case let .executeScriptAtLatestBlock(script, arguments):
-            return .requestParameters(["block_height": "sealed"], body: Flow.ScriptRequest(script: script, arguments: arguments))
+            return .requestParameters(["block_height": "final"], body: Flow.ScriptRequest(script: script, arguments: arguments))
         case let .executeScriptAtBlockHeight(script, height, arguments):
             return .requestParameters(["block_height": String(height)], body: Flow.ScriptRequest(script: script, arguments: arguments))
         case let .executeScriptAtBlockId(script, id, arguments):
