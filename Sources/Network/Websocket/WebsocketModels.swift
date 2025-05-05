@@ -40,15 +40,9 @@ extension Flow.Websocket {
     }
 
     struct SubscribeResponse: Decodable {
-        let id: String
-        let type: Action?
+        let subscriptionId: String
+        let action: Action
         let error: SocketError?
-        
-        enum CodingKeys: String, CodingKey {
-            case id = "subscription_id"
-            case type = "action"
-            case error
-        }
     }
     
     struct SocketError: Codable {

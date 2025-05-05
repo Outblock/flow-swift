@@ -18,4 +18,8 @@ extension Flow {
         /// The time when the block is created
         public let timestamp: Date
     }
+    
+    public struct WSTransactionResponse: Codable {
+        public let transactionResult: Flow.TransactionResult
+    }
 }

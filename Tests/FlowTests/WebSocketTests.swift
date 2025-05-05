@@ -79,22 +79,24 @@ final class WebSocketTests: XCTestCase {
     
     func testBlockDigestSubscription() async throws {
         try await awaitConnection()
-        
-        websocket.subscribeToBlockDigests()
         let blockHeader = try await awaitPublisher(
-            flow.publisher.accountPublisher
+            websocket.subscribeToBlockDigests()
         )
-        
         XCTAssertNotNil(blockHeader)
     }
     
     func testTransactionStatusSubscription() async throws {
         try await awaitConnection()
         
-        let testTxId = "abcdef1234567890"
+        let testTxId = "5ab8b0bec5ee89c63c5c33ddc4144f3772d0eeda0e85e905fc7e41c2d449269f"
         let status = try await awaitPublisher(
             websocket.subscribeToTransactionStatus(txId: .init(hex: testTxId))
+                .dropFirst()
+                .filter({  $0.transactionResult.status > .executed })
+                .eraseToAnyPublisher()
         )
+        
+        print("AAAA => \(status.transactionResult)")
         
         XCTAssertNotNil(status)
     }

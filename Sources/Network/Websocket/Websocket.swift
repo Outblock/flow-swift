@@ -106,15 +106,15 @@ public extension Flow {
             return publisher
         }
         
-        public func subscribeToTransactionStatus(txId: Flow.ID) -> AnyPublisher<Flow.Transaction.Status, Error> {
+        public func subscribeToTransactionStatus(txId: Flow.ID) -> AnyPublisher<Flow.WSTransactionResponse, Error> {
             let arguments = TransactionStatusRequest(txId: txId.hex)
-            let publisher = subscribe(topic: .transactionStatuses, arguments: arguments, type: Flow.Transaction.Status.self)
+            let publisher = subscribe(topic: .transactionStatuses, arguments: arguments, type: Flow.WSTransactionResponse.self)
             
             // Also publish transaction status updates to central publisher
             publisher.sink(
                 receiveCompletion: { _ in },
                 receiveValue: { status in
-                    Flow.Publisher.shared.publishTransactionStatus(id: txId, status: status)
+                    Flow.Publisher.shared.publishTransactionStatus(id: txId, status: status.transactionResult)
                 }
             ).store(in: &cancellables)
             
@@ -225,7 +225,7 @@ extension Flow.Websocket: WebSocketDelegate {
             if let response = try? decoder.decode(SubscribeResponse.self, from: data) {
                 if let error = response.error {
                     let wsError = WebSocketError.serverError(error)
-                    subscriptions[response.id]?.subject.send(completion: .failure(wsError))
+                    subscriptions[response.subscriptionId]?.subject.send(completion: .failure(wsError))
                     Flow.Publisher.shared.publishError(wsError)
                 }
                 return
@@ -240,8 +240,7 @@ extension Flow.Websocket: WebSocketDelegate {
             let object = try JSONSerialization.jsonObject(with: data)
             print(object)
             
-            if let subscribResponse = try? decoder.decode(SubscribeResponse.self, from: data) {
-//                Flow.Publisher.shared.publish(.)
+            if let _ = try? decoder.decode(SubscribeResponse.self, from: data) {
                 return
             }
             

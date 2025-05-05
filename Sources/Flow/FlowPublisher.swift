@@ -4,7 +4,7 @@ import Combine
 public extension Flow {
     /// Represents different types of events that can be published
     enum PublisherEvent {
-        case transactionStatus(id: Flow.ID, status: Flow.Transaction.Status)
+        case transactionStatus(id: Flow.ID, status: Flow.TransactionResult)
         case accountUpdate(address: Flow.Address)
         case connectionStatus(isConnected: Bool)
         case walletResponse(approved: Bool, data: [String: Any])
@@ -20,7 +20,7 @@ public extension Flow {
         private let eventSubject = PassthroughSubject<PublisherEvent, Never>()
         
         // Specific publishers for different event types
-        public var transactionPublisher: AnyPublisher<(Flow.ID, Flow.Transaction.Status), Never> {
+        public var transactionPublisher: AnyPublisher<(Flow.ID, Flow.TransactionResult), Never> {
             eventSubject
                 .compactMap { event in
                     if case .transactionStatus(let id, let status) = event {
@@ -94,7 +94,7 @@ public extension Flow {
         }
         
         // Convenience methods for publishing specific events
-        public func publishTransactionStatus(id: Flow.ID, status: Flow.Transaction.Status) {
+        public func publishTransactionStatus(id: Flow.ID, status: Flow.TransactionResult) {
             publish(.transactionStatus(id: id, status: status))
         }
         
