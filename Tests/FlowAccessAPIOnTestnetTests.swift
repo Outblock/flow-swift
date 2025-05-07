@@ -67,9 +67,9 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         let result = try! await flow.accessAPI.executeScriptAtLatestBlock(script: .init(text: """
         import FlowFees from 0x912d5440f7e3769e
 
-               pub fun main(): FlowFees.FeeParameters {
-                 return FlowFees.getFeeParameters()
-               }
+        access(all) fun main(): FlowFees.FeeParameters {
+             return FlowFees.getFeeParameters()
+        }
         """))
         print(result)
     }
@@ -90,19 +90,19 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: "bfa6d9893d4d9b5e53b0b9d79ac44b4e20f57b6443f02e5f12b366ed4e1fb4e7decca4e58b76308cee1a22a4c0c01f6fce698dc62c80120f65e8cdf57a0ffdff"),
                                          signAlgo: .ECDSA_P256,
                                          hashAlgo: .SHA2_256,
-                                         weight: 1000)
+                                         weight: 1001)
 
         var unsignedTx = try! await flow.buildTransaction {
             cadence {
                 """
                 import Crypto
                 transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64) {
-                    prepare(signer: AuthAccount) {
+                    prepare(signer: auth(BorrowValue | Storage) &Account) {
                         let key = PublicKey(
                             publicKey: publicKey.decodeHex(),
                             signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
                         )
-                        let account = AuthAccount(payer: signer)
+                        let account = Account(payer: signer)
                         account.keys.add(
                             publicKey: key,
                             hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
@@ -137,10 +137,18 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         }
 
         let signedTx = try! await unsignedTx.sign(signers: signer)
-
         let txId = try! await flow.sendTransaction(signedTransaction: signedTx)
-        XCTAssertNotNil(txId)
         print("txid --> \(txId.hex)")
+        XCTAssertNotNil(txId)
+        
+        let result = try await txId.onceExecuted()
+        let address = result.getCreatedAddress()!
+        print("address --> \(address)")
+        XCTAssertNotNil(address)
+        
+        let accountInfo = try await flow.getAccountAtLatestBlock(address: .init(address))
+        print("accountInfo --> \(accountInfo)")
+        XCTAssertNotNil(accountInfo)
     }
 
     func testMultipleSigner() async throws {

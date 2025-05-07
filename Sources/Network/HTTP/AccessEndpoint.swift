@@ -24,17 +24,17 @@ extension Flow {
         case getNetwork
         case getBlockHeaderByHeight(height: UInt64)
         case getBlockHeaderById(id: Flow.ID)
-        case getLatestBlockHeader
-        case getLatestBlock(sealed: Bool)
+        case getLatestBlockHeader(blockStatus: Flow.BlockStatus)
+        case getLatestBlock(blockStatus: Flow.BlockStatus)
         case getBlockById(id: Flow.ID)
         case getBlockByHeight(height: UInt64)
         case getCollectionById(id: Flow.ID)
         case sendTransaction(transaction: Flow.Transaction)
         case getTransactionById(id: Flow.ID)
         case getTransactionResultById(id: Flow.ID)
-        case getAccountAtLatestBlock(address: Flow.Address)
+        case getAccountAtLatestBlock(address: Flow.Address, blockStatus: Flow.BlockStatus)
         case getAccountByBlockHeight(address: Flow.Address, height: UInt64)
-        case executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument])
+        case executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument], blockStatus: Flow.BlockStatus)
         case executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Argument])
         case executeScriptAtBlockHeight(script: Flow.Script, height: UInt64, arguments: [Flow.Argument])
         case getEventsForHeightRange(type: String, range: ClosedRange<UInt64>)
@@ -45,24 +45,26 @@ extension Flow {
 extension Flow.AccessEndpoint: TargetType {
     var task: Task {
         switch self {
-        case .ping, .getLatestBlockHeader:
+        case .ping:
             return .requestParameters(["height": "sealed"])
+        case let .getLatestBlockHeader(blockStatus):
+            return .requestParameters(["height": blockStatus.rawValue])
         case let .getBlockHeaderByHeight(height: height):
             return .requestParameters(["height": String(height)])
         case .getBlockById:
             return .requestParameters(["expand": "payload"])
         case let .getBlockByHeight(height):
             return .requestParameters(["height": String(height), "expand": "payload"])
-        case let .getLatestBlock(sealed: sealed):
-            return .requestParameters(["height": sealed ? "sealed" : "finalized", "expand": "payload"])
-        case .getAccountAtLatestBlock:
-            return .requestParameters(["block_height": "sealed", "expand": "contracts,keys"])
+        case let .getLatestBlock(blockStatus):
+            return .requestParameters(["height": blockStatus.rawValue, "expand": "payload"])
+        case let .getAccountAtLatestBlock(_, blockStatus):
+            return .requestParameters(["block_height": blockStatus.rawValue, "expand": "contracts,keys"])
         case let .getAccountByBlockHeight(_, height):
             return .requestParameters(["block_height": String(height), "expand": "contracts,keys"])
         case .getCollectionById:
             return .requestParameters(["expand": "transactions"])
-        case let .executeScriptAtLatestBlock(script, arguments):
-            return .requestParameters(["block_height": "sealed"], body: Flow.ScriptRequest(script: script, arguments: arguments))
+        case let .executeScriptAtLatestBlock(script, arguments, blockStatus):
+            return .requestParameters(["block_height": blockStatus.rawValue], body: Flow.ScriptRequest(script: script, arguments: arguments))
         case let .executeScriptAtBlockHeight(script, height, arguments):
             return .requestParameters(["block_height": String(height)], body: Flow.ScriptRequest(script: script, arguments: arguments))
         case let .executeScriptAtBlockId(script, id, arguments):
@@ -109,7 +111,7 @@ extension Flow.AccessEndpoint: TargetType {
             return "/v1/blocks/\(id.hex)"
         case let .getBlockById(id):
             return "/v1/blocks/\(id.hex)"
-        case let .getAccountAtLatestBlock(address):
+        case let .getAccountAtLatestBlock(address, _):
             return "/v1/accounts/\(address.hex.stripHexPrefix())"
         case let .getAccountByBlockHeight(address, _):
             return "/v1/accounts/\(address.hex.stripHexPrefix())"

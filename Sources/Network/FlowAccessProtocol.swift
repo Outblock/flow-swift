@@ -42,7 +42,7 @@ public protocol FlowAccessProtocol {
 
     /// Get latest block header
     /// - Returns: Most recent block header
-    func getLatestBlockHeader() async throws -> Flow.BlockHeader
+    func getLatestBlockHeader(blockStatus: Flow.BlockStatus) async throws -> Flow.BlockHeader
 
     /// Get block header by ID
     /// - Parameter id: Block identifier
@@ -51,7 +51,7 @@ public protocol FlowAccessProtocol {
 
     func getBlockHeaderByHeight(height: UInt64) async throws -> Flow.BlockHeader
 
-    func getLatestBlock(sealed: Bool) async throws -> Flow.Block
+    func getLatestBlock(blockStatus: Flow.BlockStatus) async throws -> Flow.Block
 
     func getBlockById(id: Flow.ID) async throws -> Flow.Block
 
@@ -65,13 +65,13 @@ public protocol FlowAccessProtocol {
 
     func getTransactionResultById(id: Flow.ID) async throws -> Flow.TransactionResult
 
-    func getAccountAtLatestBlock(address: Flow.Address) async throws -> Flow.Account
+    func getAccountAtLatestBlock(address: Flow.Address, blockStatus: Flow.BlockStatus) async throws -> Flow.Account
 
     func getAccountByBlockHeight(address: Flow.Address, height: UInt64) async throws -> Flow.Account
 
-    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse
+    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument], blockStatus: Flow.BlockStatus) async throws -> Flow.ScriptResponse
 
-    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Cadence.FValue]) async throws -> Flow.ScriptResponse
+    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Cadence.FValue], blockStatus: Flow.BlockStatus) async throws -> Flow.ScriptResponse
 
     func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse
 
@@ -91,8 +91,17 @@ public protocol FlowAccessProtocol {
 }
 
 public extension FlowAccessProtocol {
-    func getAccountAtLatestBlock(address: String) async throws -> Flow.Account {
-        return try await getAccountAtLatestBlock(address: .init(hex: address.addHexPrefix()))
+    
+    func getLatestBlockHeader(blockStatus: Flow.BlockStatus = .final) async throws -> Flow.BlockHeader {
+        return try await getLatestBlockHeader(blockStatus: blockStatus)
+    }
+    
+    func getAccountAtLatestBlock(address: Flow.Address, blockStatus: Flow.BlockStatus = .final) async throws -> Flow.Account {
+        return try await getAccountAtLatestBlock(address: address, blockStatus: blockStatus)
+    }
+    
+    func getAccountAtLatestBlock(address: String, blockStatus: Flow.BlockStatus = .final) async throws -> Flow.Account {
+        return try await getAccountAtLatestBlock(address: .init(hex: address.addHexPrefix()), blockStatus: blockStatus)
     }
 
     func getTransactionById(id: String) async throws -> Flow.Transaction {
@@ -104,24 +113,28 @@ public extension FlowAccessProtocol {
     }
 
     func getLatestBlock(sealed: Bool = true) async throws -> Flow.Block {
-        return try await getLatestBlock(sealed: sealed)
+        return try await getLatestBlock(blockStatus: .final)
     }
 
-    func executeScriptAtLatestBlock(cadence: String, arguments: [Flow.Argument] = []) async throws -> Flow.ScriptResponse {
-        return try await executeScriptAtLatestBlock(script: .init(text: cadence), arguments: arguments)
+    func executeScriptAtLatestBlock(cadence: String, arguments: [Flow.Argument] = [], blockStatus: Flow.BlockStatus = .final) async throws -> Flow.ScriptResponse {
+        return try await executeScriptAtLatestBlock(script: .init(text: cadence), arguments: arguments, blockStatus: blockStatus)
     }
 
-    func executeScriptAtLatestBlock(cadence: String, arguments: [Flow.Cadence.FValue] = []) async throws -> Flow.ScriptResponse {
-        return try await executeScriptAtLatestBlock(script: .init(text: cadence), arguments: arguments.map { $0.toArgument() })
+    func executeScriptAtLatestBlock(cadence: String, arguments: [Flow.Cadence.FValue] = [], blockStatus: Flow.BlockStatus = .final) async throws -> Flow.ScriptResponse {
+        return try await executeScriptAtLatestBlock(script: .init(text: cadence), arguments: arguments, blockStatus: blockStatus)
     }
 
-    func executeScriptAtLatestBlock(script: Flow.Script) async throws -> Flow.ScriptResponse {
+    func executeScriptAtLatestBlock(script: Flow.Script, blockStatus: Flow.BlockStatus = .final) async throws -> Flow.ScriptResponse {
         let list: [Flow.Argument] = []
-        return try await executeScriptAtLatestBlock(script: script, arguments: list)
+        return try await executeScriptAtLatestBlock(script: script, arguments: list, blockStatus: blockStatus)
+    }
+    
+    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument], blockStatus: Flow.BlockStatus = .final) async throws -> Flow.ScriptResponse {
+        return try await executeScriptAtLatestBlock(script: script, arguments: arguments, blockStatus: blockStatus)
     }
 
-    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Cadence.FValue]) async throws -> Flow.ScriptResponse {
-        return try await executeScriptAtLatestBlock(script: script, arguments: arguments.map { $0.toArgument() })
+    func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Cadence.FValue], blockStatus: Flow.BlockStatus = .final) async throws -> Flow.ScriptResponse {
+        return try await executeScriptAtLatestBlock(script: script, arguments: arguments.map { $0.toArgument() }, blockStatus: blockStatus)
     }
 
     func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Argument] = []) async throws -> Flow.ScriptResponse {
