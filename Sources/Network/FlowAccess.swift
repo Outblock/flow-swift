@@ -12,8 +12,8 @@ extension Flow: FlowAccessProtocol {
         return try await flow.accessAPI.ping()
     }
 
-    public func getLatestBlockHeader() async throws -> BlockHeader {
-        return try await flow.accessAPI.getLatestBlockHeader()
+    public func getLatestBlockHeader(blockStatus: Flow.BlockStatus = .final) async throws -> BlockHeader {
+        return try await flow.accessAPI.getLatestBlockHeader(blockStatus: blockStatus)
     }
 
     public func getBlockHeaderById(id: ID) async throws -> BlockHeader {
@@ -24,8 +24,8 @@ extension Flow: FlowAccessProtocol {
         return try await flow.accessAPI.getBlockHeaderByHeight(height: height)
     }
 
-    public func getLatestBlock(sealed: Bool) async throws -> Block {
-        return try await flow.accessAPI.getLatestBlock(sealed: sealed)
+    public func getLatestBlock(blockStatus: Flow.BlockStatus = .final) async throws -> Block {
+        return try await flow.accessAPI.getLatestBlock(blockStatus: blockStatus)
     }
 
     public func getBlockById(id: ID) async throws -> Block {
@@ -52,8 +52,8 @@ extension Flow: FlowAccessProtocol {
         return try await flow.accessAPI.getTransactionResultById(id: id)
     }
 
-    public func getAccountAtLatestBlock(address: Address) async throws -> Account {
-        return try await flow.accessAPI.getAccountAtLatestBlock(address: address)
+    public func getAccountAtLatestBlock(address: Address, blockStatus: Flow.BlockStatus = .final) async throws -> Account {
+        return try await flow.accessAPI.getAccountAtLatestBlock(address: address, blockStatus: blockStatus)
     }
 
     public func getAccountByBlockHeight(address: Address, height: UInt64) async throws -> Account {
@@ -68,8 +68,8 @@ extension Flow: FlowAccessProtocol {
         return try await flow.accessAPI.getEventsForBlockIds(type: type, ids: ids)
     }
 
-    public func executeScriptAtLatestBlock(script: Script, arguments: [Argument]) async throws -> ScriptResponse {
-        return try await flow.accessAPI.executeScriptAtLatestBlock(script: script, arguments: arguments)
+    public func executeScriptAtLatestBlock(script: Script, arguments: [Argument], blockStatus: Flow.BlockStatus = .final) async throws -> ScriptResponse {
+        return try await flow.accessAPI.executeScriptAtLatestBlock(script: script, arguments: arguments, blockStatus: blockStatus)
     }
 
     public func getNetworkParameters() async throws -> ChainID {
