@@ -27,6 +27,7 @@ extension Flow {
     /// HTTP client implementation for Flow Access API
     /// Handles all network communication with Flow nodes
     class FlowHTTPAPI: FlowAccessProtocol {
+        
         /// Shared instance of the HTTP client
         static let client = FlowHTTPAPI()
         
@@ -152,8 +153,8 @@ extension Flow {
             return result.chainId
         }
 
-        func getLatestBlockHeader() async throws -> Flow.BlockHeader {
-            let result: [Flow.BlockHeaderResponse] = try await request(Flow.AccessEndpoint.getLatestBlockHeader)
+        func getLatestBlockHeader(blockStatus: Flow.BlockStatus) async throws -> Flow.BlockHeader {
+            let result: [Flow.BlockHeaderResponse] = try await request(Flow.AccessEndpoint.getLatestBlockHeader(blockStatus: blockStatus))
             guard let block = result.first else {
                 throw FError.invaildResponse
             }
@@ -176,8 +177,8 @@ extension Flow {
             return block.header
         }
 
-        func getLatestBlock(sealed: Bool) async throws -> Flow.Block {
-            let result: [Flow.BlockResponse] = try await request(Flow.AccessEndpoint.getLatestBlock(sealed: sealed))
+        func getLatestBlock(blockStatus: Flow.BlockStatus) async throws -> Flow.Block {
+            let result: [Flow.BlockResponse] = try await request(Flow.AccessEndpoint.getLatestBlock(blockStatus: blockStatus))
             guard let block = result.first else {
                 throw FError.invaildResponse
             }
@@ -217,17 +218,17 @@ extension Flow {
             return try await request(Flow.AccessEndpoint.getTransactionResultById(id: id))
         }
 
-        func getAccountAtLatestBlock(address: Flow.Address) async throws -> Flow.Account {
-            return try await request(Flow.AccessEndpoint.getAccountAtLatestBlock(address: address))
+        func getAccountAtLatestBlock(address: Flow.Address, blockStatus: Flow.BlockStatus = .final) async throws -> Flow.Account {
+            return try await request(Flow.AccessEndpoint.getAccountAtLatestBlock(address: address, blockStatus: blockStatus))
         }
 
         func getAccountByBlockHeight(address: Flow.Address, height: UInt64) async throws -> Flow.Account {
             return try await request(Flow.AccessEndpoint.getAccountByBlockHeight(address: address, height: height))
         }
 
-        func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse {
+        func executeScriptAtLatestBlock(script: Flow.Script, arguments: [Flow.Argument], blockStatus: Flow.BlockStatus) async throws -> Flow.ScriptResponse {
             let resolvedScript = flow.addressRegister.resolveImports(in: script.text, for: chainID)
-            return try await request(Flow.AccessEndpoint.executeScriptAtLatestBlock(script: .init(text: resolvedScript), arguments: arguments))
+            return try await request(Flow.AccessEndpoint.executeScriptAtLatestBlock(script: .init(text: resolvedScript), arguments: arguments, blockStatus: blockStatus))
         }
 
         func executeScriptAtBlockId(script: Flow.Script, blockId: Flow.ID, arguments: [Flow.Argument]) async throws -> Flow.ScriptResponse {
