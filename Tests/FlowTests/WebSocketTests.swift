@@ -18,37 +18,6 @@ final class WebSocketTests: XCTestCase {
         super.tearDown()
     }
     
-    struct TimeoutError: LocalizedError {
-        var errorDescription: String? {
-            return "Publisher timed out"
-        }
-    }
-    
-    func awaitPublisher<T: Publisher>(_ publisher: T, timeout: TimeInterval = 20) async throws -> T.Output {
-        try await withCheckedThrowingContinuation { continuation in
-            var cancellable: AnyCancellable?
-            let timeoutTask = _Concurrency.Task.detached {
-                try await _Concurrency.Task.sleep(nanoseconds: UInt64(timeout) * 1_000_000_000)
-                cancellable?.cancel()
-                continuation.resume(throwing: TimeoutError())
-            }
-            
-            cancellable = publisher.first()
-                .sink(
-                    receiveCompletion: { completion in
-                        timeoutTask.cancel()
-                        if case .failure(let error) = completion {
-                            continuation.resume(throwing: error)
-                        }
-                    },
-                    receiveValue: { value in
-                        timeoutTask.cancel()
-                        continuation.resume(returning: value)
-                    }
-                )
-        }
-    }
-    
     func awaitConnection() async throws {
         let result = try await awaitPublisher(
             Flow.Publisher.shared.connectionPublisher
