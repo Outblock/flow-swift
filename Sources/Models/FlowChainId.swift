@@ -134,6 +134,17 @@ public extension Flow {
                 return .gRPC(.init(node: "access.mainnet.nodes.onflow.org", port: 9000))
             }
         }
+        
+        public var defaultWebSocketNode: Flow.Transport? {
+            switch self {
+            case .mainnet:
+                return .websocket(URL(string: "wss://rest-mainnet.onflow.org/v1/ws")!)
+            case .testnet:
+                return .websocket(URL(string: "wss://rest-testnet.onflow.org/v1/ws")!)
+            default:
+                return nil
+            }
+        }
 
         // TODO: Support Custom Node encode & decode
         public func encode(to encoder: Encoder) throws {

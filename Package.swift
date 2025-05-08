@@ -14,11 +14,12 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "BigInt", url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
+        .package(name: "Starscream", url: "https://github.com/daltoniam/Starscream", from: "4.0.8")
     ],
     targets: [
         .target(
             name: "Flow",
-            dependencies: ["BigInt"],
+            dependencies: ["BigInt", "Starscream"],
             path: "Sources",
             resources: [
                 .copy("Cadence/CommonCadence"),

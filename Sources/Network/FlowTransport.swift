@@ -21,6 +21,7 @@ public extension Flow {
     enum Transport: Equatable, Hashable {
         case HTTP(_ url: URL)
         case gRPC(_ endpoint: Endpoint)
+        case websocket(_ url: URL)
 
         public var url: URL? {
             switch self {
@@ -28,6 +29,8 @@ public extension Flow {
                 return url
             case .gRPC:
                 return nil
+            case let .websocket(url):
+                return url
             }
         }
 
@@ -37,6 +40,8 @@ public extension Flow {
                 return nil
             case let .gRPC(endpoint):
                 return endpoint
+            case .websocket(_):
+                return nil
             }
         }
 
