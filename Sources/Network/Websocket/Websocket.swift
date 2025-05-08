@@ -15,12 +15,14 @@ public extension Flow {
         private var isConnected = false
         private var subscriptions: [String: (subject: PassthroughSubject<Any, Error>, type: Any.Type)] = [:]
         private var cancellables = Set<AnyCancellable>()
-        
+        private var isDebug: Bool = false
         private var timeoutInterval: TimeInterval = 10
+        private let connectionSubject = PassthroughSubject<Void, Never>()
+        private var isConnecting: Bool = false
         
         private var decoder: JSONDecoder {
             let dateFormatter = DateFormatter()
-            // 2022-06-22T15:32:09.08595992Z
+            // eg. 2022-06-22T15:32:09.08595992Z
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS'Z'"
             dateFormatter.locale = Locale(identifier: "en_US_POSIX")
             dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
@@ -39,21 +41,29 @@ public extension Flow {
         
         private let url: URL
         
-        public init(url: URL, timeoutInterval: TimeInterval = 10) {
+        public init(url: URL, timeoutInterval: TimeInterval = 30, isDebug: Bool = false) {
             self.url = url
+            self.isDebug = isDebug
         }
         
-        convenience init?(chainID: Flow.ChainID, timeoutInterval: TimeInterval = 10) {
+        convenience init?(chainID: Flow.ChainID, timeoutInterval: TimeInterval = 30, isDebug: Bool = false) {
             guard let node = chainID.defaultWebSocketNode, let url = node.url else { return nil }
-            self.init(url: url, timeoutInterval: timeoutInterval)
+            self.init(url: url, timeoutInterval: timeoutInterval, isDebug: isDebug)
         }
         
         public func connect() {
+            guard !isConnected && !isConnecting else { return }
+            isConnecting = true
             var request = URLRequest(url: url)
             request.timeoutInterval = timeoutInterval
             
-            let pinner = FoundationSecurity(allowSelfSigned: true) // do not validate SSL certificates
-            socket = WebSocket(request: request, certPinner: pinner)
+            if isDebug {
+                let pinner = FoundationSecurity(allowSelfSigned: true) // do not validate SSL certificates
+                socket = WebSocket(request: request, certPinner: pinner)
+            } else {
+                socket = WebSocket(request: request)
+            }
+            
             socket?.delegate = self
             socket?.connect()
         }
@@ -108,7 +118,6 @@ public extension Flow {
             let publisher = subscribe(topic: .accountStatuses, arguments: request, type: Flow.Websocket.AccountStatusResponse.self)
             
             // Also publish to central publisher for account updates
-//            Flow.Publisher.shared.publishAccountUpdate(address: Flow.Address(hex: address))
             
             return publisher
         }
@@ -141,19 +150,34 @@ public extension Flow {
             }
         }
         
-        private func subscribe<T: Encodable, U: Decodable>(topic: Topic, arguments: T, type: U.Type) -> AnyPublisher<TopicResponse<U>, Error> {
+        private func subscribe<T: Encodable, U: Decodable>(
+            topic: Topic,
+            arguments: T,
+            type: U.Type
+        ) -> AnyPublisher<TopicResponse<U>, Error> {
             let subscriptionId = generateShortUUID()
             let request = SubscribeRequest(id: subscriptionId, action: .subscribe, topic: topic, arguments: arguments)
             let subject = PassthroughSubject<Any, Error>()
             subscriptions[subscriptionId] = (subject: subject, type: TopicResponse<U>.self)
-            do {
-                let data = try encoder.encode(request)
-                socket?.write(data: data)
-            } catch {
-                subject.send(completion: .failure(error))
-                subscriptions.removeValue(forKey: subscriptionId)
-                Flow.Publisher.shared.publishError(error)
+            // If not connected or connecting, initiate connection
+            if !isConnected && !isConnecting {
+                connect()
             }
+            // Wait for connection, then send the request
+            connectedPublisher
+                .sink { [weak self] in
+                    guard let self = self else { return }
+                    do {
+                        let data = try self.encoder.encode(request)
+                        self.socket?.write(data: data)
+                    } catch {
+                        subject.send(completion: .failure(error))
+                        self.subscriptions.removeValue(forKey: subscriptionId)
+                        Flow.Publisher.shared.publishError(error)
+                    }
+                }
+                .store(in: &cancellables)
+            
             return subject
                 .compactMap { value -> TopicResponse<U>? in
                     return value as? TopicResponse<U>
@@ -180,6 +204,16 @@ public extension Flow {
             let fullUUID = UUID().uuidString
             return String(fullUUID.prefix(20))
         }
+        
+        private var connectedPublisher: AnyPublisher<Void, Never> {
+            if isConnected {
+                // Immediately emit if already connected
+                return Just(()).eraseToAnyPublisher()
+            } else {
+                // Wait for the next connection event
+                return connectionSubject.prefix(1).eraseToAnyPublisher()
+            }
+        }
     }
 }
 
@@ -190,10 +224,13 @@ extension Flow.Websocket: WebSocketDelegate {
         switch event {
         case .connected:
             isConnected = true
+            isConnecting = false
+            connectionSubject.send(())
             Flow.Publisher.shared.publishConnectionStatus(isConnected: true)
             
         case .disconnected(_, _):
             isConnected = false
+            isConnecting = false
             Flow.Publisher.shared.publishConnectionStatus(isConnected: false)
             
         case .text(let string):
@@ -234,8 +271,12 @@ extension Flow.Websocket: WebSocketDelegate {
                 print("Active subscriptions: \(response.subscriptions)")
                 return
             }
-            let object = try JSONSerialization.jsonObject(with: data)
-            print(object)
+            
+            if isDebug {
+                let object = try JSONSerialization.jsonObject(with: data)
+                print(object)
+            }
+            
             if let _ = try? decoder.decode(SubscribeResponse.self, from: data) {
                 return
             }

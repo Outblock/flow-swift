@@ -39,6 +39,7 @@ public extension Flow {
         case invalidScript
         case scriptNotFound(name: String, directory: String)
         case customError(msg: String)
+        case createWebSocketFailed
         
         var rawValue: String {
             switch self {

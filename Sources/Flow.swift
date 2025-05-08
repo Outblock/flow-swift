@@ -135,10 +135,9 @@ extension Flow {
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
     func once(_ transactionId: Flow.ID,
               status: Flow.Transaction.Status,
-              delayInNanoSec: UInt64 = 2_000_000_000,
               timeout: TimeInterval = 60) async throws -> Flow.TransactionResult
     {
-        return try await transactionId.once(status: status, delayInNanoSec: delayInNanoSec, timeout: timeout)
+        return try await transactionId.once(status: status, timeout: timeout)
     }
 
     /// Get notified when transaction's status change to `.finalized`.
