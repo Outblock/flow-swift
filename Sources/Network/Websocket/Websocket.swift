@@ -52,7 +52,7 @@ public extension Flow {
             var request = URLRequest(url: url)
             request.timeoutInterval = timeoutInterval
             
-            let pinner = FoundationSecurity(allowSelfSigned: true) // don't validate SSL certificates
+            let pinner = FoundationSecurity(allowSelfSigned: true) // do not validate SSL certificates
             socket = WebSocket(request: request, certPinner: pinner)
             socket?.delegate = self
             socket?.connect()
@@ -69,72 +69,67 @@ public extension Flow {
         }
         
         // MARK: - Subscription Methods
-        
+        @discardableResult
         public func subscribeToBlockDigests(
             blockStatus: BlockStatus = .sealed,
             startBlockHeight: String? = nil,
             startBlockId: String? = nil
-        ) -> AnyPublisher<Flow.WSBlockHeader, Error> {
+        ) -> AnyPublisher<TopicResponse<Flow.WSBlockHeader>, Error> {
             let arguments = BlockDigestArguments(
                 blockStatus: blockStatus,
                 startBlockHeight: startBlockHeight,
                 startBlockId: startBlockId
             )
             return subscribe(topic: .blockDigests, arguments: arguments, type: Flow.WSBlockHeader.self)
+                .map { payload in
+                    TopicResponse(subscriptionId: payload.subscriptionId, topic: payload.topic, payload: payload.payload, error: payload.error)
+                }
+                .eraseToAnyPublisher()
         }
         
-        public func subscribeToBlockHeaders() -> AnyPublisher<Flow.BlockHeader, Error> {
+        @discardableResult
+        public func subscribeToBlockHeaders() -> AnyPublisher<TopicResponse<Flow.BlockHeader>, Error> {
             return subscribe(topic: .blockHeaders, arguments: EmptyArguments(), type: Flow.BlockHeader.self)
         }
         
-        public func subscribeToBlocks() -> AnyPublisher<Flow.Block, Error> {
+        @discardableResult
+        public func subscribeToBlocks() -> AnyPublisher<TopicResponse<Flow.Block>, Error> {
             return subscribe(topic: .blocks, arguments: EmptyArguments(), type: Flow.Block.self)
         }
         
-        public func subscribeToEvents(type: String? = nil, contractID: String? = nil, address: String? = nil) -> AnyPublisher<Flow.Event, Error> {
+        @discardableResult
+        public func subscribeToEvents(type: String? = nil, contractID: String? = nil, address: String? = nil) -> AnyPublisher<TopicResponse<Flow.Event>, Error> {
             let arguments = EventArguments(type: type, contractID: contractID, address: address)
             return subscribe(topic: .events, arguments: arguments, type: Flow.Event.self)
         }
         
-        public func subscribeToAccountStatuses(address: String) -> AnyPublisher<Flow.Account, Error> {
-            let arguments = AccountArguments(address: address)
-            let publisher = subscribe(topic: .accountStatuses, arguments: arguments, type: Flow.Account.self)
+        @discardableResult
+        public func subscribeToAccountStatuses(request: AccountArguments) -> AnyPublisher<TopicResponse<AccountStatusResponse>, Error> {
+            let publisher = subscribe(topic: .accountStatuses, arguments: request, type: Flow.Websocket.AccountStatusResponse.self)
             
             // Also publish to central publisher for account updates
-            Flow.Publisher.shared.publishAccountUpdate(address: Flow.Address(hex: address))
+//            Flow.Publisher.shared.publishAccountUpdate(address: Flow.Address(hex: address))
             
             return publisher
         }
         
-        public func subscribeToTransactionStatus(txId: Flow.ID) -> AnyPublisher<Flow.WSTransactionResponse, Error> {
+        @discardableResult
+        public func subscribeToTransactionStatus(txId: Flow.ID) -> AnyPublisher<TopicResponse<Flow.WSTransactionResponse>, Error> {
             let arguments = TransactionStatusRequest(txId: txId.hex)
             let publisher = subscribe(topic: .transactionStatuses, arguments: arguments, type: Flow.WSTransactionResponse.self)
             
             // Also publish transaction status updates to central publisher
             publisher.sink(
                 receiveCompletion: { _ in },
-                receiveValue: { status in
-                    Flow.Publisher.shared.publishTransactionStatus(id: txId, status: status.transactionResult)
+                receiveValue: { response in
+                    if let status = response.payload {
+                        Flow.Publisher.shared.publishTransactionStatus(id: txId, status: status.transactionResult)
+                    }
                 }
             ).store(in: &cancellables)
             
             return publisher
         }
-        
-//        public func sendAndSubscribeToTransactionStatus(transaction: Flow.Transaction) -> AnyPublisher<Flow.Transaction.Status, Error> {
-//            let arguments = SendTransactionArguments(transaction: transaction)
-//            let publisher = subscribe(topic: .sendAndGetTransactionStatuses, arguments: arguments, type: Flow.Transaction.Status.self)
-//            
-//            // Also publish transaction status updates to central publisher
-//            publisher.sink(
-//                receiveCompletion: { _ in },
-//                receiveValue: { status in
-//                    Flow.Publisher.shared.publishTransactionStatus(id: transaction., status: status)
-//                }
-//            ).store(in: &cancellables)
-//            
-//            return publisher
-//        }
         
         public func listSubscriptions() {
             let request = SubscribeRequest<EmptyArguments>(id: generateShortUUID(), action: .listSubscriptions, topic: .blocks, arguments: nil)
@@ -146,13 +141,11 @@ public extension Flow {
             }
         }
         
-        private func subscribe<T: Encodable, U: Decodable>(topic: Topic, arguments: T, type: U.Type) -> AnyPublisher<U, Error> {
+        private func subscribe<T: Encodable, U: Decodable>(topic: Topic, arguments: T, type: U.Type) -> AnyPublisher<TopicResponse<U>, Error> {
             let subscriptionId = generateShortUUID()
             let request = SubscribeRequest(id: subscriptionId, action: .subscribe, topic: topic, arguments: arguments)
-            
             let subject = PassthroughSubject<Any, Error>()
-            subscriptions[subscriptionId] = (subject: subject, type: U.self)
-            
+            subscriptions[subscriptionId] = (subject: subject, type: TopicResponse<U>.self)
             do {
                 let data = try encoder.encode(request)
                 socket?.write(data: data)
@@ -161,10 +154,9 @@ public extension Flow {
                 subscriptions.removeValue(forKey: subscriptionId)
                 Flow.Publisher.shared.publishError(error)
             }
-            
             return subject
-                .compactMap { value -> U? in
-                    return value as? U
+                .compactMap { value -> TopicResponse<U>? in
+                    return value as? TopicResponse<U>
                 }
                 .eraseToAnyPublisher()
         }
@@ -181,6 +173,13 @@ public extension Flow {
                 Flow.Publisher.shared.publishError(error)
             }
         }
+        
+        // Helper method to generate short UUIDs
+        private func generateShortUUID() -> String {
+            // Generate UUID and take first 20 characters
+            let fullUUID = UUID().uuidString
+            return String(fullUUID.prefix(20))
+        }
     }
 }
 
@@ -189,7 +188,7 @@ public extension Flow {
 extension Flow.Websocket: WebSocketDelegate {
     public func didReceive(event: WebSocketEvent, client: any Starscream.WebSocketClient) {
         switch event {
-        case let .connected(data):
+        case .connected:
             isConnected = true
             Flow.Publisher.shared.publishConnectionStatus(isConnected: true)
             
@@ -230,77 +229,33 @@ extension Flow.Websocket: WebSocketDelegate {
                 }
                 return
             }
-            
             // Try to decode as a ListSubscriptionsResponse
             if let response = try? decoder.decode(ListSubscriptionsResponse.self, from: data) {
                 print("Active subscriptions: \(response.subscriptions)")
                 return
             }
-            
             let object = try JSONSerialization.jsonObject(with: data)
             print(object)
-            
             if let _ = try? decoder.decode(SubscribeResponse.self, from: data) {
                 return
             }
-            
-            // Try to decode as a TopicResponse with different types
-            let response = try decoder.decode(TopicResponse<AnyDecodable>.self, from: data)
-            guard let subscription = subscriptions[response.subscriptionId] else { return }
-            
-            if let error = response.error {
-                let wsError = WebSocketError.serverError(error)
-                subscription.subject.send(completion: .failure(wsError))
-                Flow.Publisher.shared.publishError(wsError)
-                return
-            }
-            
-            guard let anyData = response.payload else { return }
-            
-            do {
-                let jsonData = try JSONSerialization.data(withJSONObject: anyData.value)
-                if let decodableType = subscription.type as? Decodable.Type {
-                    let decodedData = try decoder.decode(decodableType, from: jsonData)
-                    subscription.subject.send(decodedData)
+            // Directly decode using the TopicResponse<U>.self type stored at subscription time
+            // First use AnyDecodable to get the subscriptionId
+            if let anyResponse = try? decoder.decode(TopicResponse<AnyDecodable>.self, from: data),
+               let subscription = subscriptions[anyResponse.subscriptionId],
+               let decodableType = subscription.type as? Decodable.Type {
+                do {
+                    let decoded = try decoder.decode(decodableType, from: data)
+                    subscription.subject.send(decoded)
+                } catch {
+                    subscription.subject.send(completion: .failure(error))
+                    Flow.Publisher.shared.publishError(error)
                 }
-            } catch {
-                subscription.subject.send(completion: .failure(error))
-                Flow.Publisher.shared.publishError(error)
+                return
             }
         } catch {
             print("Error decoding message: \(error)")
             Flow.Publisher.shared.publishError(error)
         }
-    }
-}
-
-// MARK: - Supporting Types
-
-extension Flow.Websocket {
-    enum WebSocketError: Error {
-        case serverError(SocketError)
-    }
-    
-    // Helper method to generate short UUIDs
-    private func generateShortUUID() -> String {
-        // Generate UUID and take first 20 characters
-        let fullUUID = UUID().uuidString
-        return String(fullUUID.prefix(20))
-    }
-    
-    struct EmptyArguments: Codable {}
-    
-    struct EventArguments: Codable {
-        let type: String?
-        let contractID: String?
-        let address: String?
-    }
-    
-    struct AccountArguments: Codable {
-        let address: String
-    }
-    
-    struct SendTransactionArguments: Codable {
-        let transaction: Flow.Transaction
     }
 }

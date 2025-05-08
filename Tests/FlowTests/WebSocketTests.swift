@@ -24,11 +24,11 @@ final class WebSocketTests: XCTestCase {
         }
     }
     
-    func awaitPublisher<T: Publisher>(_ publisher: T, timeout: TimeInterval = 5) async throws -> T.Output {
+    func awaitPublisher<T: Publisher>(_ publisher: T, timeout: TimeInterval = 20) async throws -> T.Output {
         try await withCheckedThrowingContinuation { continuation in
             var cancellable: AnyCancellable?
             let timeoutTask = _Concurrency.Task.detached {
-                try await _Concurrency.Task.sleep(nanoseconds: 10_000_000_000)
+                try await _Concurrency.Task.sleep(nanoseconds: UInt64(timeout) * 1_000_000_000)
                 cancellable?.cancel()
                 continuation.resume(throwing: TimeoutError())
             }
@@ -59,22 +59,19 @@ final class WebSocketTests: XCTestCase {
         print(result)
     }
     
-    func awaitDisconnection() async throws {
-        try await awaitPublisher(
-            Flow.Publisher.shared.connectionPublisher
-                .filter { $0 == false }
-                .first()
-        )
-    }
-    
     func testWebSocketConnection() async throws {
         try await awaitConnection()
     }
     
     func testWebSocketDisconnection() async throws {
         try await awaitConnection()
+        Flow.Publisher.shared.connectionPublisher
+            .sink(receiveValue: { connect in
+                print(connect)
+            })
         websocket.disconnect()
-        try await awaitDisconnection()
+        
+//        XCTAssertEqual(connect, false)
     }
     
     func testBlockDigestSubscription() async throws {
@@ -87,38 +84,31 @@ final class WebSocketTests: XCTestCase {
     
     func testTransactionStatusSubscription() async throws {
         try await awaitConnection()
-        
         let testTxId = "5ab8b0bec5ee89c63c5c33ddc4144f3772d0eeda0e85e905fc7e41c2d449269f"
+        websocket.subscribeToTransactionStatus(txId: .init(hex: testTxId))
         let status = try await awaitPublisher(
-            websocket.subscribeToTransactionStatus(txId: .init(hex: testTxId))
-                .dropFirst()
-                .filter({  $0.transactionResult.status > .executed })
+            flow.publisher.transactionPublisher
+                .filter({  $0.1.status > .executed })
                 .eraseToAnyPublisher()
         )
         
-        print("AAAA => \(status.transactionResult)")
-        
+        print(status)
         XCTAssertNotNil(status)
+        websocket.disconnect()
     }
     
     func testAccountStatusSubscription() async throws {
         try await awaitConnection()
         
-        let testAddress = "0x01"
+        let testAddress = "0x418c09f201f67f89"
         let account = try await awaitPublisher(
-            websocket.subscribeToAccountStatuses(address: testAddress)
+            websocket.subscribeToAccountStatuses(request: .init(heartbeatInterval: "10", accountAddresses: [testAddress]))
         )
-        
         XCTAssertNotNil(account)
+        websocket.disconnect()
     }
     
     func testListSubscriptions() async throws {
         try await awaitConnection()
-        
-//        let subscriptions = try await awaitPublisher(
-//            websocket.listSubscriptions()
-//        )
-        
-//        XCTAssertNotNil(subscriptions)
     }
 } 

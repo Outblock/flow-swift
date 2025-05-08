@@ -9,13 +9,13 @@ import Foundation
 
 extension Flow.Websocket {
     
-    enum Action: String, Codable {
+    public enum Action: String, Codable {
         case subscribe = "subscribe"
         case unsubscribe = "unsubscribe"
         case listSubscriptions = "list_subscriptions"
     }
     
-    enum Topic: String, Codable {
+    public enum Topic: String, Codable {
         case blockDigests = "block_digests"
         case blockHeaders = "block_headers"
         case blocks = "blocks"
@@ -25,7 +25,7 @@ extension Flow.Websocket {
         case sendAndGetTransactionStatuses = "send_and_get_transaction_statuses"
     }
     
-    struct SubscribeRequest<T: Encodable>: Encodable {
+    public struct SubscribeRequest<T: Encodable>: Encodable {
         let id: String?
         let action: Action
         let topic: Topic?
@@ -39,33 +39,31 @@ extension Flow.Websocket {
         }
     }
 
-    struct SubscribeResponse: Decodable {
+    public struct SubscribeResponse: Decodable {
         let subscriptionId: String
         let action: Action
         let error: SocketError?
     }
     
-    struct SocketError: Codable {
+    public struct SocketError: Codable {
         let code: Int
         let message: String
     }
     
-    struct TopicResponse<T: Decodable>: Decodable {
+    public struct TopicResponse<T: Decodable>: Decodable {
         let subscriptionId: String
         let topic: Topic
         let payload: T?
         let error: SocketError?
     }
     
-    struct ListSubscriptionsResponse: Decodable {
+    public struct ListSubscriptionsResponse: Decodable {
         let subscriptions: [SubscriptionInfo]
     }
     
-    struct SubscriptionInfo: Decodable {
+    public struct SubscriptionInfo: Decodable {
         let id: String
         let topic: Topic
         let arguments: AnyDecodable?
     }
 }
-
-

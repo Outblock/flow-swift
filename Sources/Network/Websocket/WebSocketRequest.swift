@@ -27,4 +27,18 @@ extension Flow.Websocket {
         let startBlockHeight: String?
         let startBlockId: String?
     }
+    
+    public struct AccountStatusResponse: Codable {
+        public let blockId: String
+        public let height: String
+        public let accountEvents: [String: [AccountStatusEvent]]
+    }
+    
+    public struct AccountStatusEvent: Codable {
+        public let type: String
+        public let transactionId: String
+        public let transactionIndex: String
+        public let eventIndex: String
+        public let payload: String
+    }
 }

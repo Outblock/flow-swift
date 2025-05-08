@@ -23,3 +23,43 @@ extension Flow {
         public let transactionResult: Flow.TransactionResult
     }
 }
+
+// MARK: - Supporting Types
+
+extension Flow.Websocket {
+    enum WebSocketError: Error {
+        case serverError(SocketError)
+    }
+    
+    struct EmptyArguments: Codable {}
+    
+    struct EventArguments: Codable {
+        let type: String?
+        let contractID: String?
+        let address: String?
+    }
+    
+    public struct AccountArguments: Codable {
+        var startBlockId: String? = nil
+        var startBlockHeight: String? = nil
+        var heartbeatInterval: String? = nil
+        var eventTypes: [AccountEventType]? = nil
+        var accountAddresses: [String]? = nil
+    }
+    
+    struct SendTransactionArguments: Codable {
+        let transaction: Flow.Transaction
+    }
+}
+
+public enum AccountEventType: String, Codable {
+    case accountCreated = "flow.AccountCreated"
+    case accountKeyAdded = "flow.AccountKeyAdded"
+    case accountKeyRemoved = "flow.AccountKeyRemoved"
+    case accountContractAdded = "flow.AccountContractAdded"
+    case accountContractUpdated = "flow.AccountContractUpdated"
+    case accountContractRemoved = "flow.AccountContractRemoved"
+    case inboxValuePublished = "flow.InboxValuePublished"
+    case inboxValueUnpublished = "flow.InboxValueUnpublished"
+    case inboxValueClaimed = "flow.InboxValueClaimed"
+}
