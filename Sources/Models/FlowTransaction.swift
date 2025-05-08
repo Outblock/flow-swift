@@ -256,7 +256,7 @@ extension Flow.Transaction {
         case sealed = 4
         case expired = 5
 
-        var stringValue: String {
+        public var stringValue: String {
             switch self {
             case .unknown:
                 return "Unknown"
@@ -279,7 +279,7 @@ extension Flow.Transaction {
             self.init(value)
         }
 
-        init(_ rawString: String) {
+        public init(_ rawString: String) {
             self = Status.allCases.first { $0.stringValue == rawString } ?? .unknown
         }
 
