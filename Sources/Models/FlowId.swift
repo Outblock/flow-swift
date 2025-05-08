@@ -81,35 +81,34 @@ public extension Flow.ID {
     /// Get notified when transaction's status changed.
     /// - parameters:
     ///     - status: The status you want to monitor.
-    ///     - delay: Interval between two queries. Default is 2000 milliseconds.
-    ///     - timeout: Timeout for this request. Default is 60 seconds.
+    ///     - timeout: Timeout for this request. Default is 20 seconds.
     /// - returns: A future that will receive the `Flow.TransactionResult` value.
     func once(status: Flow.Transaction.Status,
-              delayInNanoSec: UInt64 = 2_000_000_000,
-              timeout: TimeInterval = 60) async throws -> Flow.TransactionResult
+              timeout: TimeInterval = 20) async throws -> Flow.TransactionResult
     {
-        let accessAPI = flow.accessAPI
-        let timeoutDate = Date(timeIntervalSinceNow: timeout)
-
-        @Sendable
-        func makeResultCall() async throws -> Flow.TransactionResult {
-            let now = Date()
-            if now > timeoutDate {
-                // timeout
-                throw Flow.FError.timeout
-            }
-
-            let result = try await accessAPI.getTransactionResultById(id: self)
-            if result.status >= status {
-                // finished
-                return result
-            }
-
-            // continue loop
-            try await _Concurrency.Task.sleep(nanoseconds: delayInNanoSec)
-            return try await makeResultCall()
+        guard let ws = Flow.Websocket(chainID: flow.chainID, isDebug: true) else {
+            throw Flow.FError.createWebSocketFailed
         }
-
-        return try await makeResultCall()
+        
+        ws.connect()
+        
+        defer {
+            ws.disconnect()
+        }
+        
+        let result = try await awaitPublisher(
+            ws.subscribeToTransactionStatus(txId: self)
+                .filter{ $0.payload?.transactionResult.status ?? .unknown > status }
+                .first()
+                .eraseToAnyPublisher()
+            ,
+            timeout: timeout
+        )
+        
+        guard let txResult = result.payload?.transactionResult else {
+            throw Flow.FError.customError(msg: "Failed to fetch transaction result for - \(self)")
+        }
+        
+        return txResult
     }
 }
