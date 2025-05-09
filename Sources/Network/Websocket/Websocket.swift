@@ -15,10 +15,10 @@ public extension Flow {
         private var isConnected = false
         private var subscriptions: [String: (subject: PassthroughSubject<Any, Error>, type: Any.Type)] = [:]
         private var cancellables = Set<AnyCancellable>()
-        private var isDebug: Bool = false
         private var timeoutInterval: TimeInterval = 10
         private let connectionSubject = PassthroughSubject<Void, Never>()
         private var isConnecting: Bool = false
+        public var isDebug: Bool = false
         
         private var decoder: JSONDecoder {
             let dateFormatter = DateFormatter()
