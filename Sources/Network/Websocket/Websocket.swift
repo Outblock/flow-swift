@@ -258,7 +258,9 @@ extension Flow.Websocket: WebSocketDelegate {
             
             if isDebug {
                 let object = try JSONSerialization.jsonObject(with: data)
+                print("========= [FLOW] Received at \(Date()) ========")
                 print(object)
+                print("==================== END ======================")
             }
             
             if let _ = try? decoder.decode(SubscribeResponse.self, from: data) {
