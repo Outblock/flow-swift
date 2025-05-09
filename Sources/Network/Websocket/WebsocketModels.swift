@@ -26,10 +26,10 @@ extension Flow.Websocket {
     }
     
     public struct SubscribeRequest<T: Encodable>: Encodable {
-        let id: String?
-        let action: Action
-        let topic: Topic?
-        let arguments: T?
+        public let id: String?
+        public let action: Action
+        public let topic: Topic?
+        public let arguments: T?
         
         enum CodingKeys: String, CodingKey {
             case id = "subscription_id"
@@ -40,30 +40,30 @@ extension Flow.Websocket {
     }
 
     public struct SubscribeResponse: Decodable {
-        let subscriptionId: String
-        let action: Action
-        let error: SocketError?
+        public let subscriptionId: String
+        public let action: Action
+        public let error: SocketError?
     }
     
     public struct SocketError: Codable {
-        let code: Int
-        let message: String
+        public let code: Int
+        public let message: String
     }
     
     public struct TopicResponse<T: Decodable>: Decodable {
-        let subscriptionId: String
-        let topic: Topic
-        let payload: T?
-        let error: SocketError?
+        public let subscriptionId: String
+        public let topic: Topic
+        public let payload: T?
+        public let error: SocketError?
     }
     
     public struct ListSubscriptionsResponse: Decodable {
-        let subscriptions: [SubscriptionInfo]
+        public let subscriptions: [SubscriptionInfo]
     }
     
     public struct SubscriptionInfo: Decodable {
-        let id: String
-        let topic: Topic
-        let arguments: AnyDecodable?
+        public let id: String
+        public let topic: Topic
+        public let arguments: AnyDecodable?
     }
 }

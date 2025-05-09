@@ -34,21 +34,21 @@ extension Flow.Websocket {
     struct EmptyArguments: Codable {}
     
     struct EventArguments: Codable {
-        let type: String?
-        let contractID: String?
-        let address: String?
+        public let type: String?
+        public let contractID: String?
+        public let address: String?
     }
     
     public struct AccountArguments: Codable {
-        var startBlockId: String? = nil
-        var startBlockHeight: String? = nil
-        var heartbeatInterval: String? = nil
-        var eventTypes: [AccountEventType]? = nil
-        var accountAddresses: [String]? = nil
+        public var startBlockId: String? = nil
+        public var startBlockHeight: String? = nil
+        public var heartbeatInterval: String? = nil
+        public var eventTypes: [AccountEventType]? = nil
+        public var accountAddresses: [String]? = nil
     }
     
     struct SendTransactionArguments: Codable {
-        let transaction: Flow.Transaction
+        public let transaction: Flow.Transaction
     }
 }
 
