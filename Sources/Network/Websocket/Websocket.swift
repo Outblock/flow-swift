@@ -46,7 +46,7 @@ public extension Flow {
             self.isDebug = isDebug
         }
         
-        convenience init?(chainID: Flow.ChainID, timeoutInterval: TimeInterval = 30, isDebug: Bool = false) {
+        public convenience init?(chainID: Flow.ChainID, timeoutInterval: TimeInterval = 30, isDebug: Bool = false) {
             guard let node = chainID.defaultWebSocketNode, let url = node.url else { return nil }
             self.init(url: url, timeoutInterval: timeoutInterval, isDebug: isDebug)
         }

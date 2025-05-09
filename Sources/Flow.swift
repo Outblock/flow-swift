@@ -38,6 +38,8 @@ public final class Flow {
     /// The access API client
     public private(set) var accessAPI: FlowAccessProtocol
     
+    public private(set) var websocket: Flow.Websocket!
+    
     public var addressRegister: ContractAddressRegister = .init()
 
     internal var encoder: JSONEncoder {
@@ -54,6 +56,7 @@ public final class Flow {
     /// Default access client will be HTTP Client
     init() {
         accessAPI = FlowHTTPAPI(chainID: chainID)
+        websocket = Flow.Websocket(chainID: chainID)
     }
 
     // MARK: - AccessAPI
@@ -79,6 +82,7 @@ public final class Flow {
     public func configure(chainID: ChainID) {
         self.chainID = chainID
         accessAPI = createHTTPAccessAPI(chainID: chainID)
+        websocket = Flow.Websocket(chainID: chainID)
     }
 
     /// Config the chainID and accessNode for Flow Swift SDK
