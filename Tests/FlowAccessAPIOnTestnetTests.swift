@@ -78,6 +78,10 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         let chainID = try await flowAPI.getNetworkParameters()
         print(chainID)
         XCTAssertEqual(chainID, Flow.ChainID.testnet)
+        
+        let txId = Flow.ID(hex: "8f7f939020ca904b4d2067089e063b2f46dd1234d5e43f88bda0e4200142f21a")
+        let tx = try await txId.onceExecuted()
+        print(tx)
     }
 
     func testCanCreateAccount() async throws {
