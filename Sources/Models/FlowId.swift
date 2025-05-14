@@ -98,9 +98,7 @@ public extension Flow.ID {
         
         let result = try await awaitPublisher(
             ws.subscribeToTransactionStatus(txId: self)
-                .filter{ $0.payload?.transactionResult.status ?? .unknown > status }
-                .first()
-                .eraseToAnyPublisher()
+                .filter{ $0.payload?.transactionResult.status ?? .unknown >= status }
             ,
             timeout: timeout
         )
