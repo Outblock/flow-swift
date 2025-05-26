@@ -12,6 +12,7 @@ final class AddressRegistorTests: XCTestCase {
     
     let addressA = Flow.Address(hex: "0x39416b4b085d94c7")
     let addressB = Flow.Address(hex: "0x84221fe0294044d7")
+    let addressBChild = Flow.Address(hex: "0x16c41a2b76dee69b")
     
     func testContract() {
         let result = flow.addressRegister.contractExists("0xFlowToken", on: .mainnet)
@@ -45,6 +46,18 @@ final class AddressRegistorTests: XCTestCase {
     func testChildMetadata() async throws {
         let result = try await flow.getChildMetadata(address: addressB)
         XCTAssertNotNil(result[result.keys.first!]?.name)
+    }
+    
+    func testChildAccessibleToken() async throws {
+        let result = try await flow.getChildAccessibleToken(address: addressBChild, parentAddress: addressB)
+        print(result)
+        XCTAssertTrue(result.count >= 0)
+    }
+    
+    func testChildAccessibleCollection() async throws {
+        let result = try await flow.getChildAccessibleCollection(address: addressBChild, parentAddress: addressB)
+        print(result)
+        XCTAssertTrue(result.count >= 0)
     }
     
     func testStake() async throws {

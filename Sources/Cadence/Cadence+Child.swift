@@ -12,7 +12,8 @@ extension CadenceLoader.Category {
     public enum Child: String, CaseIterable, CadenceLoaderProtocol {
         case getChildAddress = "get_child_addresses"
         case getChildAccountMeta = "get_child_account_meta"
-        
+        case getAccessibleCoinInfo = "get_accessible_coin_info"
+        case getChildAccountAllowTypes = "get_child_account_allow_types"
         var filename: String {
             rawValue
         }
@@ -43,6 +44,21 @@ public extension Flow {
         ).decode()
     }
     
+    func getChildAccessibleToken(address: Flow.Address, parentAddress: Flow.Address) async throws -> [CadenceLoader.Category.Child.TokenInfo] {
+        let script = try CadenceLoader.load(CadenceLoader.Category.Child.getAccessibleCoinInfo)
+        return try await executeScriptAtLatestBlock(
+            script: .init(text: script),
+            arguments: [.address(parentAddress), .address(address)])
+        .decode()
+    }
+    
+    func getChildAccessibleCollection(address: Flow.Address, parentAddress: Flow.Address) async throws -> [String] {
+        let script = try CadenceLoader.load(CadenceLoader.Category.Child.getChildAccountAllowTypes)
+        return try await executeScriptAtLatestBlock(
+            script: .init(text: script),
+            arguments: [.address(parentAddress), .address(address)])
+        .decode()
+    }
 }
 
 extension CadenceLoader.Category.Child {
@@ -54,5 +70,10 @@ extension CadenceLoader.Category.Child {
     
     public struct Thumbnail: Codable {
         public let url: URL?
+    }
+    
+    public struct TokenInfo: Codable {
+        public let id: String?
+        public let balance: UInt64
     }
 }
