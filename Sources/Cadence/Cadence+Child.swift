@@ -44,7 +44,7 @@ public extension Flow {
         ).decode()
     }
     
-    func getChildAccessibleToken(address: Flow.Address, parentAddress: Flow.Address) async throws -> [String: UInt64] {
+    func getChildAccessibleToken(address: Flow.Address, parentAddress: Flow.Address) async throws -> [CadenceLoader.Category.Child.TokenInfo] {
         let script = try CadenceLoader.load(CadenceLoader.Category.Child.getAccessibleCoinInfo)
         return try await executeScriptAtLatestBlock(
             script: .init(text: script),
@@ -70,5 +70,10 @@ extension CadenceLoader.Category.Child {
     
     public struct Thumbnail: Codable {
         public let url: URL?
+    }
+    
+    public struct TokenInfo: Codable {
+        public let id: String?
+        public let balance: UInt64
     }
 }
