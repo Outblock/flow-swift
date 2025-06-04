@@ -131,11 +131,11 @@ extension Flow.Argument: FlowDecodable {
                 return nil
             }
             
-            guard result.isEmpty, let first = result.first else {
+            if result.isEmpty {
                 return [String: Any]()
             }
             
-            switch first.key.type {
+            switch result.first?.key.type {
             case .int:
                 return result.decode(Int.self)
             case .uint:

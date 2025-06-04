@@ -89,14 +89,14 @@ extension Flow.ScriptResponse: FlowDecodable {
     }
 
     public func decode<T: Decodable>(_: T.Type) throws -> T {
-        guard let result: T = try? fields?.decode() else {
+        guard let result: T = try fields?.decode() else {
             throw Flow.FError.decodeFailure
         }
         return result
     }
 
     public func decode<T: Decodable>() throws -> T {
-        guard let result: T = try? fields?.decode() else {
+        guard let result: T = try fields?.decode() else {
             throw Flow.FError.decodeFailure
         }
         return result
