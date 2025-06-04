@@ -130,7 +130,12 @@ extension Flow.Argument: FlowDecodable {
             guard let result = value.toDictionary() else {
                 return nil
             }
-            switch result.first?.key.type {
+            
+            guard result.isEmpty, let first = result.first else {
+                return [String: Any]()
+            }
+            
+            switch first.key.type {
             case .int:
                 return result.decode(Int.self)
             case .uint:

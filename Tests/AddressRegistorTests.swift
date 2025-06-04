@@ -47,6 +47,11 @@ final class AddressRegistorTests: XCTestCase {
         XCTAssertNotNil(result[result.keys.first!]?.name)
     }
     
+    func testNoChildMetadata() async throws {
+        let result = try await flow.getChildMetadata(address: addressA)
+        XCTAssertTrue(result.isEmpty)
+    }
+    
     func testStake() async throws {
         let models = try await flow.getStakingInfo(address: addressB)
         XCTAssertTrue(!models.isEmpty)
