@@ -53,6 +53,16 @@ extension CadenceLoader.Category.Child {
     }
     
     public struct Thumbnail: Codable {
-        public let url: URL?
+        public let urlString: String?
+        
+        public var url: URL? {
+            guard let urlString else { return nil }
+            return URL(string: urlString)
+        }
+        
+        enum CodingKeys: String, CodingKey {
+            case urlString = "url"
+        }
+        
     }
 }
