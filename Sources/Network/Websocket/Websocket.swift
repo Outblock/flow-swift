@@ -56,7 +56,10 @@ public extension Flow {
             isConnecting = true
             var request = URLRequest(url: url)
             request.timeoutInterval = timeoutInterval
-            socket = WebSocket(request: request)
+            
+            let pinner = FoundationSecurity(allowSelfSigned: true) // do not validate SSL certificates
+            socket = WebSocket(request: request, certPinner: pinner)
+            
             socket?.delegate = self
             socket?.connect()
         }
@@ -179,7 +182,7 @@ public extension Flow {
         }
         
         public func unsubscribe(subscriptionId: String) {
-            let request = SubscribeRequest<EmptyArguments>(id: subscriptionId, action: .unsubscribe, topic: .blocks, arguments: nil)
+            let request = SubscribeRequest<EmptyArguments>(id: subscriptionId, action: .unsubscribe, topic: nil, arguments: nil)
             do {
                 let data = try encoder.encode(request)
                 socket?.write(data: data)
@@ -213,25 +216,35 @@ public extension Flow {
 // MARK: - WebSocketDelegate
 
 extension Flow.Websocket: WebSocketDelegate {
-    public func websocketDidConnect(socket: any Starscream.WebSocketClient) {
-        isConnected = true
-        isConnecting = false
-        connectionSubject.send(())
-        Flow.Publisher.shared.publishConnectionStatus(isConnected: true)
-    }
     
-    public func websocketDidDisconnect(socket: any Starscream.WebSocketClient, error: (any Error)?) {
-        isConnected = false
-        isConnecting = false
-        Flow.Publisher.shared.publishConnectionStatus(isConnected: false)
-    }
-    
-    public func websocketDidReceiveMessage(socket: any Starscream.WebSocketClient, text: String) {
-        handleTextMessage(text)
-    }
-    
-    public func websocketDidReceiveData(socket: any Starscream.WebSocketClient, data: Data) {
-        handleBinaryMessage(data)
+    public func didReceive(event: WebSocketEvent, client: any Starscream.WebSocketClient) {
+        switch event {
+        case .connected:
+            isConnected = true
+            isConnecting = false
+            connectionSubject.send(())
+            Flow.Publisher.shared.publishConnectionStatus(isConnected: true)
+            
+        case .disconnected(_, _):
+            isConnected = false
+            isConnecting = false
+            Flow.Publisher.shared.publishConnectionStatus(isConnected: false)
+            
+        case .text(let string):
+            handleTextMessage(string)
+            
+        case .binary(let data):
+            handleBinaryMessage(data)
+            
+        case .error(let error):
+            print("WebSocket error: \(String(describing: error))")
+            let wsError = WebSocketError.serverError(SocketError(code: -1, message: error?.localizedDescription ?? "Unknown error"))
+            subscriptions.values.forEach { $0.subject.send(completion: .failure(wsError)) }
+            Flow.Publisher.shared.publishError(wsError)
+            
+        default:
+            break
+        }
     }
     
     private func handleTextMessage(_ text: String) {
