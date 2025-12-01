@@ -5,6 +5,7 @@ extension CadenceLoader.Category {
     public enum EVM: String, CaseIterable, CadenceLoaderProtocol {
         case getAddress = "get_addr"
         case createCOA = "create_coa"
+        case evmRun = "evm_run"
         
         var filename: String {
             rawValue
@@ -38,6 +39,27 @@ public extension Flow {
                                                          proposerKey: .init(address: proposer))
         let signedTx = try await flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
         return try await flow.sendTransaction(chainID: chainID,signedTransaction: signedTx)
+    }
+    
+    func runEVMTransaction(chainID: ChainID,
+                           proposer: Address,
+                           payer: Address,
+                           rlpEncodedTransaction: [UInt8],
+                           coinbaseAddress: String,
+                           signers: [FlowSigner]) async throws -> Flow.ID {
+        guard let txArg = rlpEncodedTransaction.toFlowValue()?.toArgument(),
+              let coinbaseArg = coinbaseAddress.toFlowValue()?.toArgument() else {
+            throw FError.customError(msg: "EVM transaction arguments encoding failed")
+        }
+        let script = try CadenceLoader.load(CadenceLoader.Category.EVM.evmRun)
+        let unsignedTx = try await flow.buildTransaction(chainID: chainID,
+                                                         script: script,
+                                                         agrument: [txArg, coinbaseArg],
+                                                         authorizer: [proposer],
+                                                         payerAddress: payer,
+                                                         proposerKey: .init(address: proposer))
+        let signedTx = try await flow.signTransaction(unsignedTransaction: unsignedTx, signers: signers)
+        return try await flow.sendTransaction(chainID: chainID, signedTransaction: signedTx)
     }
     
 } 
