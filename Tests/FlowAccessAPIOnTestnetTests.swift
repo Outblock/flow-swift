@@ -145,7 +145,7 @@ final class FlowAccessAPIOnTestnetTests: XCTestCase {
         print("txid --> \(txId.hex)")
         XCTAssertNotNil(txId)
         
-        let result = try await txId.onceExecuted()
+        let result = try await txId.onceSealed()
         let address = result.getCreatedAddress()!
         print("address --> \(address)")
         XCTAssertNotNil(address)
