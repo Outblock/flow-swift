@@ -1,67 +1,74 @@
-//
-//  File.swift
-//
-//
-//  Created by Hao Fu on 27/9/2022.
-//
+	//
+	//  FlowAddressTests.swift
+	//  FlowTests
+	//
+	//  Created by Hao Fu on 27/9/2022.
+	//  Migrated to Swift Testing by Nicholas Reich on 2026-03-19.
+	//
 
-import Foundation
-
-@testable import BigInt
+import BigInt
 import CryptoKit
 @testable import Flow
-import XCTest
+import Foundation
+import Testing
 
-final class FlowAddressTest: XCTestCase {
-    func testAddressHexType() async throws {
-        let hex = "0xc7efa8c33fceee03"
-        let address = Flow.Address(hex: hex)
-        XCTAssertEqual(address.hex, hex)
-        XCTAssertEqual(address.bytes.count, 8)
-        XCTAssertEqual(address.description, hex)
+@Suite
+struct FlowAddressTests {
+	@Test("Mainnet address from hex with 0x prefix")
+	func addressHexType() async throws {
+		let hex = "0xc7efa8c33fceee03"
+		let address = Flow.Address(hex: hex)
+		#expect(address.hex == hex)
+		#expect(address.bytes.count == 8)
+		#expect(address.description == hex)
 
-        let isVaild = await flow.isAddressVaildate(address: address, network: .mainnet)
-        XCTAssertEqual(true, isVaild)
-    }
+		let isValid = await flow.isAddressVaildate(address: address, network: .mainnet)
+		#expect(isValid == true)
+	}
 
-    func testAddressHexTypeTestnet() async throws {
-        let hex = "0xc6de0d94160377cd"
-        let address = Flow.Address(hex: hex)
-        let isVaild = await flow.isAddressVaildate(address: address, network: .testnet)
-        XCTAssertEqual(true, isVaild)
-    }
+	@Test("Testnet address from hex with 0x prefix")
+	func addressHexTypeTestnet() async throws {
+		let hex = "0xc6de0d94160377cd"
+		let address = Flow.Address(hex: hex)
 
-    func testAddressType() async throws {
-        let hex = "c7efa8c33fceee03"
-        let address = Flow.Address(hex: hex)
-        XCTAssertEqual(address.hex, hex.addHexPrefix())
-        XCTAssertEqual(address.bytes.count, 8)
-        XCTAssertEqual(address.description, hex.addHexPrefix())
+		let isValid = await flow.isAddressVaildate(address: address, network: .testnet)
+		#expect(isValid == true)
+	}
 
-        let isVaild = await flow.isAddressVaildate(address: address)
-        XCTAssertEqual(true, isVaild)
-    }
+	@Test("Address from hex without 0x prefix")
+	func addressType() async throws {
+		let hex = "c7efa8c33fceee03"
+		let address = Flow.Address(hex: hex)
+		#expect(address.hex == hex.addHexPrefix())
+		#expect(address.bytes.count == 8)
+		#expect(address.description == hex.addHexPrefix())
 
-    func testInvaildAddressType() async throws {
-        let hex = "0x03"
-        let address = Flow.Address(hex: hex)
-        XCTAssertNotEqual(address.hex, hex)
-        XCTAssertEqual(address.bytes.count, 8)
-        XCTAssertNotEqual(address.description, hex)
+		let isValid = await flow.isAddressVaildate(address: address)
+		#expect(isValid == true)
+	}
 
-        let isVaild = await flow.isAddressVaildate(address: address)
-        XCTAssertEqual(false, isVaild)
-    }
+	@Test("Invalid short address is normalized but not valid on-chain")
+	func invalidAddressType() async throws {
+		let hex = "0x03"
+		let address = Flow.Address(hex: hex)
+		#expect(address.hex != hex)
+		#expect(address.bytes.count == 8)
+		#expect(address.description != hex)
 
-    func testInvaildLongAddressType() async throws {
-        let hex = "0x56519083C3cfeAE833B93a93c843C993bE1D74EA"
-        let address = Flow.Address(hex: hex)
-        XCTAssertEqual(address.hex, "0x56519083C3cfeAE8".lowercased())
-        XCTAssertNotEqual(address.hex, hex)
-        XCTAssertEqual(address.bytes.count, 8)
-        XCTAssertNotEqual(address.description, hex)
+		let isValid = await flow.isAddressVaildate(address: address)
+		#expect(isValid == false)
+	}
 
-        let isVaild = await flow.isAddressVaildate(address: address)
-        XCTAssertEqual(false, isVaild)
-    }
+	@Test("Invalid long address is truncated and not valid on-chain")
+	func invalidLongAddressType() async throws {
+		let hex = "0x56519083C3cfeAE833B93a93c843C993bE1D74EA"
+		let address = Flow.Address(hex: hex)
+		#expect(address.hex == "0x56519083C3cfeAE8".lowercased())
+		#expect(address.hex != hex)
+		#expect(address.bytes.count == 8)
+		#expect(address.description != hex)
+
+		let isValid = await flow.isAddressVaildate(address: address)
+		#expect(isValid == false)
+	}
 }

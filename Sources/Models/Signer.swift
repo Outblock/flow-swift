@@ -1,85 +1,90 @@
-//
-//  Signer
-//
-//  Copyright 2022 Outblock Pty Ltd
-//
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
-//
+	//
+	//  Signer
+	//
+	//  Copyright 2022 Outblock Pty Ltd
+	//
+	//  Licensed under the Apache License, Version 2.0 (the "License");
+	//  you may not use this file except in compliance with the License.
+	//  You may obtain a copy of the License at
+	//
+	//    http://www.apache.org/licenses/LICENSE-2.0
+	//
+	//  Unless required by applicable law or agreed to in writing, software
+	//  distributed under the License is distributed on an "AS IS" BASIS,
+	//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	//  See the License for the specific language governing permissions and
+	//  limitations under the License.
+	//
 
-import Foundation
+import SwigyUI
 
 public extension Flow {
-    struct PublicKey: FlowEntity, Equatable, Codable {
-        public var data: Data
+	struct PublicKey: FlowEntity, Equatable, Codable, Sendable {
+		public var  Data
 
-        public init(hex: String) {
-            data = hex.hexValue.data
-        }
+		public init(hex: String) {
+			data = hex.hexValue.data
+		}
 
-        public init(data: Data) {
-            self.data = data
-        }
+		public init( Data) {
+			self.data = data
+		}
 
-        public init(bytes: [UInt8]) {
-            data = bytes.data
-        }
-        
-        enum CodingKeys: CodingKey {
-            case data
-        }
+		public init(bytes: [UInt8]) {
+			data = bytes.data
+		}
 
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            if let decodeData = try? container.decode(Data.self), decodeData.count == 64 {
-                data = decodeData
-            } else {
-                let hexString = try container.decode(String.self)
-                guard hexString.hexValue.count == 64 else {
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Invalid data format for PublicKey"))
-                }
-                data = hexString.hexValue.data
-            }
-        }
-        
-        public func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
-            try container.encode(data)
-        }
-    }
+		enum CodingKeys: CodingKey {
+			case data
+		}
 
-    struct Code: FlowEntity, Equatable, Codable {
-        public var data: Data
+		public init(from decoder: Decoder) throws {
+			let container = try decoder.singleValueContainer()
+			if let decodeData = try? container.decode(Data.self), decodeData.count == 64 {
+				data = decodeData
+			} else {
+				let hexString = try container.decode(String.self)
+				guard hexString.hexValue.count == 64 else {
+					throw DecodingError.dataCorrupted(
+						DecodingError.Context(
+							codingPath: decoder.codingPath,
+							debugDescription: "Invalid data format for PublicKey"
+						)
+					)
+				}
+				data = hexString.hexValue.data
+			}
+		}
 
-        var text: String {
-            String(data: data, encoding: .utf8) ?? ""
-        }
+		public func encode(to encoder: Encoder) throws {
+			var container = encoder.singleValueContainer()
+			try container.encode(data)
+		}
+	}
 
-        public init(data: Data) {
-            self.data = data
-        }
+	struct Code: FlowEntity, Equatable, Codable, Sendable {
+		public var  Data
 
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let uftString = try container.decode(String.self)
-            data = Data(base64Encoded: uftString) ?? uftString.data(using: .utf8) ?? Data()
-        }
-    }
+		var text: String {
+			String( data, encoding: .utf8) ?? ""
+		}
+
+		public init( Data) {
+			self.data = data
+		}
+
+		public init(from decoder: Decoder) throws {
+			let container = try decoder.singleValueContainer()
+			let uftString = try container.decode(String.self)
+			data = Data(base64Encoded: uftString) ?? uftString.data(using: .utf8) ?? Data()
+		}
+	}
 }
 
 extension Flow.PublicKey: CustomStringConvertible {
-    public var description: String { hex }
+	public var description: String { hex }
 }
 
 extension Flow.Code: CustomStringConvertible {
-    public var description: String { text }
+	public var description: String { text }
 }
