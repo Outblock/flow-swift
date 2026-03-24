@@ -3,10 +3,20 @@
  *  Copyright (c) John Sundell 2021
  *  MIT license, see LICENSE.md file for details
  */
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 
+@preconcurrency import Combine
 import Combine
 import Foundation
 import SwiftUI
+
+	// Simple Sendable box for the cancellable reference
+final class CancellableBox: @unchecked Sendable {
+	var cancellable: AnyCancellable?
+	init(_ cancellable: AnyCancellable? = nil) {
+		self.cancellable = cancellable
+	}
+}
 
 @available(
 	iOS,
@@ -20,14 +30,13 @@ public extension Publisher {
 		/// publisher and will finish once the publisher completes.
 	var values: AsyncThrowingStream<Output, Error> {
 		AsyncThrowingStream { continuation in
-			var cancellable: AnyCancellable?
-			let onTermination = { cancellable?.cancel() }
+			let box = CancellableBox()
 
 			continuation.onTermination = { @Sendable _ in
-				onTermination()
+				box.cancellable?.cancel()
 			}
 
-			cancellable = sink(
+			box.cancellable = sink(
 				receiveCompletion: { completion in
 					switch completion {
 						case .finished:
@@ -56,14 +65,13 @@ public extension Publisher where Failure == Never {
 		/// publisher and will finish once the publisher completes.
 	var values: AsyncStream<Output> {
 		AsyncStream { continuation in
-			var cancellable: AnyCancellable?
-			let onTermination = { cancellable?.cancel() }
+			let box = CancellableBox()
 
 			continuation.onTermination = { @Sendable _ in
-				onTermination()
+				box.cancellable?.cancel()
 			}
 
-			cancellable = sink(
+			box.cancellable = sink(
 				receiveCompletion: { _ in
 					continuation.finish()
 				},
@@ -86,17 +94,17 @@ public func awaitPublisher<T: Publisher>(
 	timeout: TimeInterval = 20
 ) async throws -> T.Output {
 	try await withCheckedThrowingContinuation { continuation in
-		var cancellable: AnyCancellable?
+		let box = CancellableBox()
 
 		let timeoutTask = _Concurrency.Task.detached {
 			try await _Concurrency.Task.sleep(
 				nanoseconds: UInt64(timeout * 1_000_000_000)
 			)
-			cancellable?.cancel()
+			box.cancellable?.cancel()
 			continuation.resume(throwing: TimeoutError())
 		}
 
-		cancellable = publisher.first()
+		box.cancellable = publisher.first()
 			.sink(
 				receiveCompletion: { completion in
 					timeoutTask.cancel()

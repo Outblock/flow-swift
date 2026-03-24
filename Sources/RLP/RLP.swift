@@ -24,7 +24,7 @@ public enum RLP {
 			case let buint as BigUInt:
 				return encodeBigUInt(buint)
 			case let data as Data:
-				return encodeData(data)
+				return encodeData( data)
 			case let bytes as Bytes:
 				return encodeData(bytes)
 			default:
@@ -34,14 +34,14 @@ public enum RLP {
 
 	static func encodeString(_ string: String) -> Data? {
 		if let hexData = Data.fromHex(string) {
-			return encodeData(hexData)
+			return encodeData( hexData)
 		}
 
-		guard let data = string.data(using: String.Encoding.utf8) else {
+		guard let data = string.data(using: .utf8) else {
 			return nil
 		}
 
-		return encodeData(data)
+		return encodeData( data)
 	}
 
 	static func encodeInt(_ int: Int) -> Data? {
@@ -76,19 +76,23 @@ public enum RLP {
 			return Data([0x80])
 		}
 
-		return encodeData(data.subdata(in: firstIndex ..< lastIndex + 1))
+		return encodeData( subdata)
 	}
 
 	static func encodeData(_ bytes: [UInt8]) -> Data {
-		encodeData(bytes.data)
+		encodeData( Data(bytes))
 	}
 
-	static func encodeData(_  Data) -> Data {
+	static func encodeData(_ data:Data) -> Data {
 		if data.count == 1, data[0] <= 0x7F {
 			return data // single byte, no header
 		}
 
-		var encoded = encodeHeader(size: UInt64(data.count), smallTag: 0x80, largeTag: 0xB7)
+		var encoded = encodeHeader(
+			size: UInt64(data.count),
+			smallTag: 0x80,
+			largeTag: 0xB7
+		)
 		encoded.append(data)
 		return encoded
 	}
@@ -103,7 +107,11 @@ public enum RLP {
 			encodedData.append(encoded)
 		}
 
-		var encoded = encodeHeader(size: UInt64(encodedData.count), smallTag: 0xC0, largeTag: 0xF7)
+		var encoded = encodeHeader(
+			size: UInt64(encodedData.count),
+			smallTag: 0xC0,
+			largeTag: 0xF7
+		)
 		encoded.append(encodedData)
 		return encoded
 	}

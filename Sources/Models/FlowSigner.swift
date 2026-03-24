@@ -15,6 +15,7 @@
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
 	//
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 
 import Combine
 import SwiftUI
@@ -40,3 +41,5 @@ public extension FlowSigner {
 		try await sign(signableData: signableData, transaction: nil)
 	}
 }
+
+

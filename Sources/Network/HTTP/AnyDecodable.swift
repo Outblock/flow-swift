@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct AnyDecodable: Decodable, Sendable {
+public struct AnyDecodable: Decodable, @unchecked Sendable {
 	public let value: Any
 
 	public init(_ value: Any?) {
@@ -37,7 +37,7 @@ public struct AnyDecodable: Decodable, Sendable {
 		} else {
 			throw DecodingError.dataCorruptedError(
 				in: container,
-				debugDescription: "AnyCodable value cannot be decoded"
+				debugDescription: "AnyDecodable value cannot be decoded"
 			)
 		}
 	}

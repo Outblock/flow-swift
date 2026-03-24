@@ -1,5 +1,5 @@
 	//
-	//  Signer
+	//  Signer.swift
 	//
 	//  Copyright 2022 Outblock Pty Ltd
 	//
@@ -15,23 +15,28 @@
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
 	//
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+	//
 
-import SwigyUI
+import Foundation
 
 public extension Flow {
+
+		/// Public key used for Flow accounts and signers.
+		/// Backed by raw 64‑byte data (uncompressed x/y concatenation for ECDSA).
 	struct PublicKey: FlowEntity, Equatable, Codable, Sendable {
-		public var  Data
+		public var data: Data
 
 		public init(hex: String) {
-			data = hex.hexValue.data
+			self.data = hex.hexValue.data
 		}
 
-		public init( Data) {
+		public init(data: Data) {
 			self.data = data
 		}
 
 		public init(bytes: [UInt8]) {
-			data = bytes.data
+			self.data = Data(bytes)
 		}
 
 		enum CodingKeys: CodingKey {
@@ -40,19 +45,22 @@ public extension Flow {
 
 		public init(from decoder: Decoder) throws {
 			let container = try decoder.singleValueContainer()
+
+				// Accept either raw 64‑byte Data or a hex string of length 64 bytes.
 			if let decodeData = try? container.decode(Data.self), decodeData.count == 64 {
-				data = decodeData
+				self.data = decodeData
 			} else {
 				let hexString = try container.decode(String.self)
-				guard hexString.hexValue.count == 64 else {
+				let raw = hexString.hexValue
+				guard raw.count == 64 else {
 					throw DecodingError.dataCorrupted(
 						DecodingError.Context(
 							codingPath: decoder.codingPath,
-							debugDescription: "Invalid data format for PublicKey"
+							debugDescription: "Invalid data format for Flow.PublicKey; expected 64 bytes."
 						)
 					)
 				}
-				data = hexString.hexValue.data
+				self.data = raw.data
 			}
 		}
 
@@ -62,29 +70,45 @@ public extension Flow {
 		}
 	}
 
+		/// On‑chain code blob (e.g. smart contract or script) encoded as Data.
 	struct Code: FlowEntity, Equatable, Codable, Sendable {
-		public var  Data
+		public var  data: Data
 
-		var text: String {
-			String( data, encoding: .utf8) ?? ""
+			/// UTF‑8 text representation of the code.
+		public var text: String {
+			String( data: data, encoding: .utf8) ?? ""
 		}
 
-		public init( Data) {
+		public init( data: Data) {
 			self.data = data
 		}
 
 		public init(from decoder: Decoder) throws {
 			let container = try decoder.singleValueContainer()
-			let uftString = try container.decode(String.self)
-			data = Data(base64Encoded: uftString) ?? uftString.data(using: .utf8) ?? Data()
+			let utfString = try container.decode(String.self)
+
+				// Prefer base64 decoding; fall back to raw UTF‑8 string bytes.
+			if let decoded = Data(base64Encoded: utfString) {
+				self.data = decoded
+			} else {
+				self.data = utfString.data(using: .utf8) ?? Data()
+			}
+		}
+
+		public func encode(to encoder: Encoder) throws {
+			var container = encoder.singleValueContainer()
+				// Encode as base64 string for compact transfer.
+			let base64 = data.base64EncodedString()
+			try container.encode(base64)
 		}
 	}
 }
 
 extension Flow.PublicKey: CustomStringConvertible {
-	public var description: String { hex }
+	public var description: String { data.hexValue }
 }
 
 extension Flow.Code: CustomStringConvertible {
 	public var description: String { text }
 }
+

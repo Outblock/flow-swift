@@ -17,20 +17,22 @@
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
 	//
-
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 import BigInt
 import Foundation
 
 protocol FlowDecodable {
 	func decode() -> Any?
 
-	func decode<T>(_ decodable: T.Type) throws -> T
+	func decode<T>(_ decodable: T.Type) throws -> T where T: Decodable
 
-	func decode<T>() throws -> T
+	func decode<T>() throws -> T where T: Decodable
 }
 
 extension Flow.Argument: FlowDecodable {
-	public func decode<T>() throws -> T {
+
+		// Generic decode to a Decodable type
+	public func decode<T>() throws -> T where T: Decodable {
 		guard let value = decode() else {
 			throw Flow.FError.decodeFailure
 		}
@@ -55,15 +57,12 @@ extension Flow.Argument: FlowDecodable {
 		}
 	}
 
-	public func decode<T>(_ decodable: T.Type) throws -> T {
-		do {
-			let result: T = try decode()
-			return result
-		} catch {
-			throw error
-		}
+		// Convenience overload with explicit type parameter
+	public func decode<T>(_ decodable: T.Type) throws -> T where T: Decodable {
+		try decode()
 	}
 
+		// Non-throwing decode to loosely-typed Any?
 	public func decode() -> Any? {
 		switch type {
 			case .int:
@@ -71,14 +70,10 @@ extension Flow.Argument: FlowDecodable {
 			case .address:
 				return value.toAddress()?.hex.addHexPrefix()
 			case .struct:
-				guard let event = value.toStruct() else {
-					return nil
-				}
+				guard let event = value.toStruct() else { return nil }
 				return eventToDict(result: event)
 			case .event:
-				guard let event = value.toEvent() else {
-					return nil
-				}
+				guard let event = value.toEvent() else { return nil }
 				return eventToDict(result: event)
 			case .ufix64:
 				return value.toUFix64()
@@ -132,9 +127,7 @@ extension Flow.Argument: FlowDecodable {
 			case .fix64:
 				return value.toFix64()
 			case .dictionary:
-				guard let result = value.toDictionary() else {
-					return nil
-				}
+				guard let result = value.toDictionary() else { return nil }
 
 				if result.isEmpty {
 					return [String: Any]()
@@ -192,47 +185,35 @@ extension Flow.Argument: FlowDecodable {
 				}
 
 			case .path:
-				guard let result = value.toPath() else {
-					return nil
-				}
+				guard let result = value.toPath() else { return nil }
 				return modelToDict(result: result)
 			case .resource:
-				guard let result = value.toResource() else {
-					return nil
-				}
+				guard let result = value.toResource() else { return nil }
 				return eventToDict(result: result)
 			case .character:
 				return value.toCharacter()
 			case .reference:
-				guard let result = value.toReference() else {
-					return nil
-				}
+				guard let result = value.toReference() else { return nil }
 				return modelToDict(result: result)
 			case .capability:
-				guard let result = value.toCapability() else {
-					return nil
-				}
+				guard let result = value.toCapability() else { return nil }
 				return modelToDict(result: result)
 			case .type:
-				guard let result = value.toType() else {
-					return nil
-				}
+				guard let result = value.toType() else { return nil }
 				return modelToDict(result: result)
 			case .contract:
-				guard let result = value.toContract() else {
-					return nil
-				}
+				guard let result = value.toContract() else { return nil }
 				return eventToDict(result: result)
 			case .enum:
-				guard let result = value.toEnum() else {
-					return nil
-				}
+				guard let result = value.toEnum() else { return nil }
 				return eventToDict(result: result)
 			case .undefined:
 				return nil
 		}
 	}
 }
+
+	// MARK: - Helpers
 
 private func eventToDict(result: Flow.Argument.Event) -> [String: Any?] {
 	result.fields.reduce(into: [String: Any?]()) {
@@ -241,8 +222,10 @@ private func eventToDict(result: Flow.Argument.Event) -> [String: Any?] {
 }
 
 private func modelToDict<T: Encodable>(result: T) -> [String: Any]? {
-	guard let data = try? flow.encoder.encode(result),
-			let model = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else {
+	guard
+		let data = try? FlowActor.shared.flow.encoder.encode(result),
+		let model = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
+	else {
 		return nil
 	}
 	return model
@@ -250,11 +233,10 @@ private func modelToDict<T: Encodable>(result: T) -> [String: Any]? {
 
 extension Array where Element == Flow.Argument.Dictionary {
 	func decode<T>(_ type: T.Type) -> [T: Any?] {
-		let reducedResult = reduce(into: [T: Any?]()) {
-			if let key = $1.key.decode() as? T {
-				$0[key] = $1.value.decode()
+		reduce(into: [T: Any?]()) { partial, element in
+			if let key = element.key.decode() as? T {
+				partial[key] = element.value.decode()
 			}
 		}
-		return reducedResult
 	}
 }

@@ -22,7 +22,7 @@
 import BigInt
 import Foundation
 
-extension Flow {
+public extension Flow {
 	struct ErrorResponse: Codable, Sendable {
 		let code: Int
 		let message: String
@@ -70,7 +70,7 @@ extension Flow {
 		}
 	}
 
-	struct TransactionIdResponse: Codable, Sendable {
+	internal struct TransactionIdResponse: Codable, Sendable {
 		let id: ID
 	}
 }

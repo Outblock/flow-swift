@@ -1,5 +1,5 @@
 	//
-	//  FlowChainID
+	//  FlowChainID.swift
 	//
 	//  Copyright 2022 Outblock Pty Ltd
 	//
@@ -15,36 +15,37 @@
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
 	//
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 
 import Foundation
 
 public extension Flow {
-		/// Identification the enviroment of flow
+		/// Identification of the Flow environment.
 	enum ChainID: CaseIterable, Hashable, Codable, Sendable {
-			/// Unknow enviroment as a fallback cause
+			/// Unknown environment as a fallback.
 		case unknown
 
-			/// Mainnet enviroment
-			/// Default gRPC node is `access.mainnet.nodes.onflow.org:9000`
-			/// HTTP node `https://rest-mainnet.onflow.org/`
+			/// Mainnet environment.
+			/// Default gRPC node: `access.mainnet.nodes.onflow.org:9000`
+			/// HTTP node: `https://rest-mainnet.onflow.org/`
 		case mainnet
 
-			/// Testnet enviroment
-			/// Default gRPC node is `access.devnet.nodes.onflow.org:9000`
-			/// HTTP node `https://rest-mainnet.onflow.org/`
+			/// Testnet environment.
+			/// Default gRPC node: `access.devnet.nodes.onflow.org:9000`
+			/// HTTP node: `https://rest-testnet.onflow.org/`
 		case testnet
 
-			/// Emulator enviroment
-			/// Default node is `127.0.0.1:9000`
+			/// Emulator environment.
+			/// Default node: `127.0.0.1:9000`
 		case emulator
 
-			/// Custom chainID with custom `Endpoint`
+			/// Custom ChainID with custom `Transport`.
 		case custom(name: String, transport: Flow.Transport)
 
-			/// List of other type chain id exclude custom type
-		public static var allCases: [Flow.ChainID] = [.mainnet, .testnet, .emulator]
+			/// List of non-custom chain ids.
+		public static let allCases: [Flow.ChainID] = [.mainnet, .testnet, .emulator]
 
-			/// Name of the chain id
+			/// Name of the chain id.
 		public var name: String {
 			switch self {
 				case .mainnet:
@@ -67,7 +68,7 @@ public extension Flow {
 			"flow-\(name)"
 		}
 
-			/// Default HTTP endpoint for this chain
+			/// Default HTTP endpoint for this chain.
 		public var defaultHTTPNode: Flow.Transport {
 			switch self {
 				case .mainnet:
@@ -78,10 +79,13 @@ public extension Flow {
 					return .HTTP(URL(string: "http://127.0.0.1:8888/")!)
 				case let .custom(_, transport):
 					return transport
+				case .unknown:
+						// Fallback to testnet for unknown.
+					return .HTTP(URL(string: "https://rest-testnet.onflow.org/")!)
 			}
 		}
 
-			/// Default node for `.mainnet, .testnet, .emulator`
+			/// Default node for `.mainnet, .testnet, .emulator`.
 		public var defaultNode: Flow.Transport {
 			switch self {
 				case .mainnet:
@@ -92,6 +96,9 @@ public extension Flow {
 					return .gRPC(.init(node: "127.0.0.1", port: 9000))
 				case let .custom(_, endpoint):
 					return endpoint
+				case .unknown:
+						// Fallback to testnet node.
+					return .gRPC(.init(node: "access.devnet.nodes.onflow.org", port: 9000))
 			}
 		}
 
@@ -101,7 +108,7 @@ public extension Flow {
 					return .websocket(URL(string: "wss://rest-mainnet.onflow.org/v1/ws")!)
 				case .testnet:
 					return .websocket(URL(string: "wss://rest-testnet.onflow.org/v1/ws")!)
-				default:
+				case .emulator, .custom, .unknown:
 					return nil
 			}
 		}
@@ -111,10 +118,10 @@ public extension Flow {
 		}
 
 		public static func == (lhs: Flow.ChainID, rhs: Flow.ChainID) -> Bool {
-			return lhs.name == rhs.name && lhs.defaultNode == rhs.defaultNode
+			lhs.name == rhs.name && lhs.defaultNode == rhs.defaultNode
 		}
 
-			// TODO: Support Custom Node encode & decode
+			// TODO: Support custom node encode & decode
 		public func encode(to encoder: Encoder) throws {
 			var container = encoder.singleValueContainer()
 			try container.encode(name)

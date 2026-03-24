@@ -1,39 +1,46 @@
-//
-//  File.swift
-//  Flow
-//
-//  Created by Hao Fu on 4/4/2025.
-//
+	//
+	//  Cadence+Token.swift
+	//  Flow
+	//
+	//  Created by Hao Fu on 4/4/2025.
+	//
 
 import SwiftUI
+
+	// MARK: - Cadence Loader Category
 
 extension CadenceLoader.Category {
 	public enum Token: String, CaseIterable, CadenceLoaderProtocol {
 		case getTokenBalanceStorage = "get_token_balance_storage"
 
-		var filename: String { rawValue }
+		public var filename: String { rawValue }
 	}
 }
+
+// MARK: - Flow convenience API
 
 public extension Flow {
-		/// Get all token balances for account
+	/// Get all token balances for an account using the Cadence script
+	/// `get_token_balance_storage`.
 	@MainActor
 	func getTokenBalance(
-		address: Flow.Address
+	address: Flow.Address
 	) async throws -> [String: Decimal] {
-		let script = try CadenceLoader.load(
-			CadenceLoader.Category.Token.getTokenBalanceStorage
+		let scriptSource = try await CadenceLoader.load(
+		CadenceLoader.Category.Token.getTokenBalanceStorage
 		)
+		// `Flow.Script` has an initializer taking text; keep using that.
 		return try await executeScriptAtLatestBlock(
-			script: .init(text: script),
-			arguments: [.address(address)]
-		).decode()
+		script: .init(text: scriptSource),
+		arguments: [.address(address)]
+			).decode()
 	}
 }
 
-	// Actor-safe token manager for UI binding
+// MARK: - Actor-safe Token Manager for UI
+
 @MainActor
-class TokenManager: ObservableObject {
+final class TokenManager: ObservableObject {
 	@Published var balances: [String: Decimal] = [:]
 	@Published var isLoading = false
 	@Published var error: Error?
@@ -44,39 +51,21 @@ class TokenManager: ObservableObject {
 		self.flow = flow
 	}
 
+		/// Fire-and-forget load suitable for SwiftUI call sites.
+		/// Example:
+		///     Button("Refresh") { tokenManager.loadBalances(for: address) }
 	func loadBalances(for address: Flow.Address) {
-		Task {
-			isLoading = true
-			defer { isLoading = false }
+			// Use the concurrency Task explicitly from the _Concurrency module
+			// to avoid any local `Task` name collisions.
+		_Concurrency.Task { @MainActor in
+			self.isLoading = true
+			defer { self.isLoading = false }
 
 			do {
-				balances = try await flow.getTokenBalance(address: address)
+				self.balances = try await self.flow.getTokenBalance(address: address)
 			} catch {
 				self.error = error
 			}
 		}
 	}
 }
-//extension CadenceLoader.Category {
-//    
-//    public enum Token: String, CaseIterable, CadenceLoaderProtocol {
-//        case getTokenBalanceStorage = "get_token_balance_storage"
-//        
-//        var filename: String {
-//            rawValue
-//        }
-//    }
-//    
-//}
-//
-//// Extension to Flow for convenience methods
-//public extension Flow {
-//    func getTokenBalance(address: Flow.Address) async throws -> [String: Decimal] {
-//        let script = try CadenceLoader.load(CadenceLoader.Category.Token.getTokenBalanceStorage)
-//        return try await executeScriptAtLatestBlock(
-//            script: .init(text: script),
-//            arguments: [.address(address)]
-//        ).decode()
-//    }
-//    
-//}

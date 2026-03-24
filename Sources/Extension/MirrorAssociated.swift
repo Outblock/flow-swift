@@ -4,7 +4,7 @@
 	//
 	//  Created by Hao Fu on 23/4/2025.
 	//
-
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 import Foundation
 import SwiftUI
 

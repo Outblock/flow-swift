@@ -3,9 +3,18 @@
 	//
 	//  Logging utilities for Flow SDK
 	//
-
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 import Foundation
 import SwiftUI
+
+	// MARK: - Global logging actor
+
+@globalActor
+public actor FlowLogActor {
+	public static let shared = FlowLogActor()
+}
+
+	// MARK: - Types
 
 public enum FlowLogLevel: Int, Sendable {
 	case debug = 0
@@ -24,16 +33,29 @@ public enum FlowLogLevel: Int, Sendable {
 }
 
 public protocol FlowLoggerProtocol: Sendable {
-	func log(_ level: FlowLogLevel, message: String, function: String, file: String, line: Int)
+	func log(
+		_ level: FlowLogLevel,
+		message: String,
+		function: String,
+		file: String,
+		line: Int
+	)
 }
 
-public actor FlowLogger {
+	// MARK: - Logger
+
+@FlowLogActor
+public final class FlowLogger {
+
 	public static let shared = FlowLogger()
 
 	private var loggers: [FlowLoggerProtocol] = []
 	public var minimumLogLevel: FlowLogLevel = .info
 
-	private init() {}
+	private init() {
+			// Default console logger
+		loggers.append(ConsoleLogger())
+	}
 
 	public func addLogger(_ logger: FlowLoggerProtocol) {
 		loggers.append(logger)
@@ -56,9 +78,29 @@ public actor FlowLogger {
 			logger.log(level, message: message, function: function, file: file, line: line)
 		}
 	}
+
+		// Nonisolated convenience for sync callers – fire-and-forget
+	public nonisolated func logAsync(
+		_ level: FlowLogLevel,
+		message: String,
+		function: String = #function,
+		file: String = #fileID,
+		line: Int = #line
+	) {
+		_Concurrency.Task { @FlowLogActor in
+			 FlowLogger.shared.log(
+				level,
+				message: message,
+				function: function,
+				file: file,
+				line: line
+			)
+		}
+	}
 }
 
-// Default console logger implementation
+	// MARK: - Default console logger
+
 public struct ConsoleLogger: FlowLoggerProtocol {
 	public init() {}
 

@@ -15,8 +15,8 @@
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
 	//
-
-import Foundation
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+import SwiftUI
 
 	/// Flow Address Model
 	///
@@ -35,29 +35,38 @@ import Foundation
 	/// let account = try await flow.getAccountAtLatestBlock(address: address)
 	/// ```
 
+import Foundation
+
 public extension Flow {
-		/// The data structure of address in Flow blockchain
-		/// At the most time, it represents account address
-	struct Address: FlowEntity, Equatable, Hashable {
-		static let byteLength = 8
 
-			/// Raw address bytes
-		public var  Data
+		/// Flow Address Model
+		///
+		/// Represents account addresses on the Flow blockchain.
+		/// Handles address formatting, validation, and conversion.
+	struct Address: FlowEntity, Equatable, Hashable, Codable, CustomStringConvertible {
 
-			/// Hexadecimal string representation
+			/// Flow address size in bytes.
+		public static let byteLength = 8
+
+			/// Raw address bytes.
+		public var data: Data
+
+			/// Hexadecimal string representation with `0x` prefix.
 		public var hex: String {
 			data.hexValue.addHexPrefix()
 		}
 
+			// MARK: - Initializers
+
 		public init(hex: String) {
-			self.init( hex.stripHexPrefix().hexValue.data)
+			self.init( data: hex.stripHexPrefix().hexValue.data)
 		}
 
 		public init(_ hex: String) {
-			self.init( hex.stripHexPrefix().hexValue.data)
+			self.init( data: hex.stripHexPrefix().hexValue.data)
 		}
 
-		public init( Data) {
+		public init(data: Data) {
 			if data.bytes.count == Flow.Address.byteLength {
 				self.data = data
 			} else {
@@ -68,28 +77,26 @@ public extension Flow {
 		}
 
 		internal init(bytes: [UInt8]) {
-			self.init( bytes.data)
+			self.init(data: bytes.data)
+		}
+
+			// MARK: - Codable
+
+		public init(from decoder: Decoder) throws {
+			let container = try decoder.singleValueContainer()
+			let string = try container.decode(String.self)
+			self.init(hex: string)
+		}
+
+		public func encode(to encoder: Encoder) throws {
+			var container = encoder.singleValueContainer()
+			try container.encode(hex.addHexPrefix())
+		}
+
+			// MARK: - CustomStringConvertible
+
+		public var description: String {
+			hex.addHexPrefix()
 		}
 	}
-}
-
-extension Flow.Address: Codable {
-	enum CodingKeys: String, CodingKey {
-		case data
-	}
-
-	public func encode(to encoder: Encoder) throws {
-		var container = encoder.singleValueContainer()
-		try container.encode(hex.addHexPrefix())
-	}
-
-	public init(from decoder: Decoder) throws {
-		let container = try decoder.singleValueContainer()
-		let scriptString = try container.decode(String.self)
-		data = scriptString.hexValue.data
-	}
-}
-
-extension Flow.Address: CustomStringConvertible {
-	public var description: String { hex.addHexPrefix() }
 }

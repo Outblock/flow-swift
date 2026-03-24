@@ -4,6 +4,7 @@
 	//
 	//  Created by Hao Fu on 4/4/2025.
 	//
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 
 import Foundation
 import BigInt

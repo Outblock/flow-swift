@@ -23,7 +23,7 @@ import Foundation
 
 public extension Flow {
 		/// A batch of transactions that have been included in the same block.
-	struct Collection: Codable {
+	struct Collection: Codable, Sendable {
 		public let id: ID
 		public let transactionIds: [ID]
 
@@ -33,7 +33,7 @@ public extension Flow {
 		}
 
 			/// Collection guarantee, containing a collection ID and its signatures.
-		struct CollectionGuarantee: Codable {
+		struct CollectionGuarantee: Codable, Sendable {
 			public let collectionId: ID
 			public let signatures: [Signature]
 
@@ -54,6 +54,17 @@ public extension Flow {
 				collectionId = id
 				self.signatures = signatures
 			}
+		}
+	}
+
+		/// Lightweight collection guarantee with signer IDs, used in blocks.
+	struct CollectionGuarantee: Codable, Sendable {
+		public let collectionId: Flow.ID
+		public let signerIds: [Flow.ID]
+
+		public init(collectionId: Flow.ID, signerIds: [Flow.ID]) {
+			self.collectionId = collectionId
+			self.signerIds = signerIds
 		}
 	}
 }

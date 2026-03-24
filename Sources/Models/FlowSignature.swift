@@ -15,15 +15,15 @@
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
 	//
-
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 import Foundation
 
 public extension Flow {
 		/// The model to handle the signature data, which can present as a hex string
 	struct Signature: FlowEntity, Equatable, Codable, Sendable {
-		public var  Data
+		public var data: Data
 
-		public init( Data) {
+		public init(data: Data) {
 			self.data = data
 		}
 
@@ -36,3 +36,4 @@ public extension Flow {
 extension Flow.Signature: CustomStringConvertible {
 	public var description: String { data.hexValue }
 }
+

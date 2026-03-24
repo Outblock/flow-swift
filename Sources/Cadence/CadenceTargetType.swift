@@ -1,12 +1,4 @@
-//
-//  File.swift
-//  Flow
-//
-//  Created by Hao Fu on 23/4/2025.
-//updated Swift 6 Concurrency Nic Reich 3/19/26
-
 import Foundation
-
 
 public enum CadenceType: String {
 	case query
@@ -27,9 +19,11 @@ public protocol CadenceTargetType {
 	var arguments: [Flow.Argument] { get }
 }
 
-	// Generic execution extensions on Flow
+	// MARK: - Generic execution extensions on Flow
+
 extension Flow {
-		// Query with generic return type
+
+		/// Query with generic return type
 	public func query<T: Decodable>(
 		_ target: CadenceTargetType,
 		chainID: Flow.ChainID = .mainnet
@@ -39,14 +33,19 @@ extension Flow {
 		}
 
 		let script = Flow.Script(data: data)
-		let api = Flow.FlowHTTPAPI(chainID: chainID)
-		return try await api.executeScriptAtLatestBlock(
+
+			// Use the shared access client managed by your global actor.
+		let api = await FlowActors.access.currentClient()
+
+		let response = try await api.executeScriptAtLatestBlock(
 			script: script,
 			arguments: target.arguments
-		).decode()
+		)
+
+		return try response.decode()
 	}
 
-		// Transaction with generic argument building
+		/// Transaction with generic argument building
 	public func sendTransaction<T: CadenceTargetType>(
 		_ target: T,
 		signers: [FlowSigner],
@@ -56,17 +55,24 @@ extension Flow {
 			throw NSError(domain: "Invalid Cadence Base64 String", code: 9900001)
 		}
 
+		let script = Flow.Script(data:  data)
+
+			// Empty result-builder body: no additional TransactionBuild steps.
 		var tx = try await buildTransaction(
 			chainID: chainID,
 			skipEmptyCheck: true
-		)
-		tx.script = .init(data: data)
+		) {
+				// nothing
+		}
+
+		tx.script = script
 		tx.arguments = target.arguments
 
 		let signedTx = try await signTransaction(
 			unsignedTransaction: tx,
 			signers: signers
 		)
+
 		return try await sendTransaction(transaction: signedTx)
 	}
 }

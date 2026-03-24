@@ -1,11 +1,7 @@
 	//
-	//  FlowEntity 2.swift
-	//
+	//  FlowEntity.swift
 	//
 	//  Created by Nicholas Reich on 3/19/26.
-	//
-
-
 	//
 	//  FlowEntity
 	//
@@ -23,21 +19,22 @@
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
 	//
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 
 import Foundation
 
-	/// Convient alias to make list of UInt8 as Bytes
+	/// Convenient alias to make list of UInt8 as Bytes.
 public typealias Bytes = [UInt8]
 
-	/// Protocol to hanld `Flow` network model
+	/// Protocol to handle `Flow` network models.
 public protocol FlowEntity: Sendable {
-		/// The content of the entity
-	var  Data { get set }
+		/// The content of the entity.
+	var data: Data { get set }
 
-		/// Convert `data` into a list of UInt8
+		/// Convert `data` into a list of UInt8.
 	var bytes: Bytes { get }
 
-		/// Convert `data` into hex string
+		/// Convert `data` into hex string.
 	var hex: String { get }
 }
 
@@ -50,3 +47,5 @@ public extension FlowEntity {
 		bytes.hexValue
 	}
 }
+
+

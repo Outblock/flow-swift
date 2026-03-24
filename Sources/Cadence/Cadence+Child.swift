@@ -4,7 +4,7 @@
 //
 //  Created by Hao Fu on 1/4/2025.
 //
-
+//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 import SwiftUI
 
 extension CadenceLoader.Category {
@@ -12,7 +12,7 @@ extension CadenceLoader.Category {
 		case getChildAddress = "get_child_addresses"
 		case getChildAccountMeta = "get_child_account_meta"
 
-		var filename: String { rawValue }
+		public var filename: String { rawValue }
 	}
 }
 
@@ -43,7 +43,7 @@ public extension Flow {
 		/// Fetch child account addresses with Swift 6 concurrency
 	@MainActor
 	func getChildAddress(address: Flow.Address) async throws -> [Flow.Address] {
-		let script = try CadenceLoader.load(
+		let script = try await CadenceLoader.load(
 			CadenceLoader.Category.Child.getChildAddress
 		)
 		return try await executeScriptAtLatestBlock(
@@ -57,7 +57,7 @@ public extension Flow {
 	func getChildMetadata(
 		address: Flow.Address
 	) async throws -> [String: CadenceLoader.Category.Child.Metadata] {
-		let script = try CadenceLoader.load(
+		let script = try await CadenceLoader.load(
 			CadenceLoader.Category.Child.getChildAccountMeta
 		)
 		return try await executeScriptAtLatestBlock(

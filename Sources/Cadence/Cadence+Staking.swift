@@ -1,22 +1,23 @@
-//
-//  File.swift
-//  Flow
-//
-//  Created by Hao Fu on 4/4/2025.
-//
+	//
+	//  Staking.swift
+	//  Flow
+	//
+	//  Created by Hao Fu on 4/4/2025.
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+	//
 
-import SwiftUI
+import Foundation
 
-extension CadenceLoader.Category {
-	public enum Staking: String, CaseIterable, CadenceLoaderProtocol {
+public extension CadenceLoader.Category {
+	enum Staking: String, CaseIterable, CadenceLoaderProtocol {
 		case getDelegatorInfo = "get_delegator_info"
 
-		var filename: String { rawValue }
+		public var filename: String { rawValue }
 	}
 }
 
-extension CadenceLoader.Category.Staking {
-	public struct StakingNode: Codable {
+public extension CadenceLoader.Category.Staking {
+	struct StakingNode: Codable, Sendable {
 		public let id: Int
 		public let nodeID: String
 		public let tokensCommitted: Double
@@ -37,22 +38,22 @@ extension CadenceLoader.Category.Staking {
 }
 
 public extension Flow {
-		/// Get staking info for delegator
+	/// Get staking info for delegator
 	@MainActor
 	func getStakingInfo(
-		address: Flow.Address
+	address: Flow.Address
 	) async throws -> [CadenceLoader.Category.Staking.StakingNode] {
-		let script = try CadenceLoader.load(
-			CadenceLoader.Category.Staking.getDelegatorInfo
+		let script = try await CadenceLoader.load(
+		CadenceLoader.Category.Staking.getDelegatorInfo
 		)
 		return try await executeScriptAtLatestBlock(
-			script: .init(text: script),
-			arguments: [.address(address)]
-		).decode()
+		script: .init(text: script),
+		arguments: [.address(address)]
+			).decode()
 	}
 }
 
-	// Actor for concurrent staking operations
+/// Actor for concurrent staking operations
 actor StakingCoordinator {
 	private let flow: Flow
 
@@ -84,66 +85,3 @@ actor StakingCoordinator {
 		return results
 	}
 }
-/*@MainActor
- func updateUI(with data: String) {
- // Safe to update UI
- self.label.stringValue = data
- }
-
- @MainActor
- class FlowViewModel: ObservableObject {
- @Published var state: String = ""
-
- func load() {
- Task {
- let result = try await fetchData()
- await updateState(result)
- }
- }
-
- @MainActor
- func updateState(_ result: String) {
- state = result
- }
- }*/
-
-//
-//extension CadenceLoader.Category {
-//    
-//    public enum Staking: String, CaseIterable, CadenceLoaderProtocol {
-//        case getDelegatorInfo = "get_delegator_info"
-//        
-//        var filename: String {
-//            rawValue
-//        }
-//    }
-//    
-//}
-//
-//// Extension to Flow for convenience methods
-//public extension Flow {
-//    func getStakingInfo(address: Flow.Address) async throws -> [CadenceLoader.Category.Staking.StakingNode] {
-//        let script = try CadenceLoader.load(CadenceLoader.Category.Staking.getDelegatorInfo)
-//        return try await executeScriptAtLatestBlock(
-//            script: .init(text: script),
-//            arguments: [.address(address)]
-//        ).decode()
-//    }
-//}
-//
-//extension CadenceLoader.Category.Staking {
-//    public struct StakingNode: Codable {
-//        public let id: Int
-//        public let nodeID: String
-//        public let tokensCommitted: Double
-//        public let tokensStaked: Double
-//        public let tokensUnstaking: Double
-//        public let tokensRewarded: Double
-//        public let tokensUnstaked: Double
-//        public let tokensRequestedToUnstake: Double
-//
-//        public var stakingCount: Double {
-//            tokensCommitted + tokensStaked
-//        }
-//    }
-//}

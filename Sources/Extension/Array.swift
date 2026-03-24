@@ -15,6 +15,7 @@
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
 	//
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 
 import Foundation
 
@@ -40,11 +41,11 @@ public extension Array where Element == Flow.Argument {
 
 	/// Concurrent map that preserves order of the original sequence.
 	/// Safe to use from within actors as it does not share mutable state.
-extension Sequence {
+extension Sequence where Element: Sendable {
 	func concurrentMap<Transformed: Sendable>(
 		priority: TaskPriority? = nil,
 		_ transform: @escaping @Sendable (Element) async throws -> Transformed
-	) async rethrows -> [Transformed] where Element: Sendable {
+	) async rethrows -> [Transformed] {
 		try await withThrowingTaskGroup(of: (Int, Transformed).self) { group in
 			var index = 0
 			for element in self {
@@ -67,10 +68,11 @@ extension Sequence {
 		}
 	}
 }
-extension Sequence {
-	func map<Transformed>(
-		priority: TaskPriority? = nil,
-		_ transform: @escaping @Sendable (Element) async throws -> Transformed
+
+extension Sequence where Element: Sendable {
+	func asyncMap<Transformed: Sendable>(
+	priority: TaskPriority? = nil,
+	_ transform: @escaping @Sendable (Element) async throws -> Transformed
 	) async rethrows -> [Transformed] {
 		try await withThrowingTaskGroup(of: (Int, Transformed).self) { group in
 			var index = 0
@@ -79,7 +81,7 @@ extension Sequence {
 				index += 1
 
 				group.addTask(priority: priority) {
-					try await (currentIndex, transform(element))
+					(currentIndex, try await transform(element))
 				}
 			}
 

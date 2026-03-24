@@ -15,11 +15,13 @@
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
 	//
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 import Foundation
+import NIOSSL
 
 public extension Flow {
 		/// The signature algorithm supported by flow which include `.ECDSA_P256` and `.ECDSA_SECP256k1`
-	enum SignatureAlgorithm: String, CaseIterable, Codable {
+	enum FlowSignatureAlgorithm: String, CaseIterable, Codable, Sendable {
 		case unknown
 		case ECDSA_P256
 		case ECDSA_SECP256k1 = "ECDSA_secp256k1"
@@ -80,16 +82,16 @@ public extension Flow {
 		}
 
 		public init(code: Int) {
-			self = SignatureAlgorithm.allCases.first { $0.code == code } ?? .unknown
+			self = FlowSignatureAlgorithm.allCases.first { $0.code == code } ?? .unknown
 		}
 
 		public init(index: Int) {
-			self = SignatureAlgorithm.allCases.first { $0.index == index } ?? .unknown
+			self = FlowSignatureAlgorithm.allCases.first { $0.index == index } ?? .unknown
 		}
 	}
 
 		/// The hash algorithm supported by flow which include `.SHA2_256`, `.SHA2_384`, `.SHA3_256` and `.SHA3_384`
-	enum HashAlgorithm: String, CaseIterable, Codable {
+	enum HashAlgorithm: String, CaseIterable, Codable, Sendable {
 		case unknown
 		case SHA2_256
 		case SHA2_384

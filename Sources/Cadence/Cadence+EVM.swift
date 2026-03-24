@@ -1,20 +1,29 @@
+	//
+	//  File.swift
+	//  Flow
+	//
+	//  Created by Hao Fu on 1/4/2025.
+	//
+	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+
 import Foundation
 import BigInt
+
 extension CadenceLoader.Category {
 	public enum EVM: String, CaseIterable, CadenceLoaderProtocol {
 		case getAddress = "get_addr"
 		case createCOA = "create_coa"
 		case evmRun = "evm_run"
 
-		var filename: String { rawValue }
+		public var filename: String { rawValue }
 	}
 }
 
 public extension Flow {
 		/// Get EVM address for Flow account
-	@MainActor
+	@FlowActor
 	func getEVMAddress(address: Flow.Address) async throws -> String? {
-		let script = try CadenceLoader.load(
+		let script = try await CadenceLoader.load(
 			CadenceLoader.Category.EVM.getAddress
 		)
 		return try await executeScriptAtLatestBlock(
@@ -36,14 +45,14 @@ public extension Flow {
 			throw FError.customError(msg: "Amount convert to flow arg failed")
 		}
 
-		let script = try CadenceLoader.load(
+		let script = try await CadenceLoader.load(
 			CadenceLoader.Category.EVM.createCOA
 		)
 
 		let unsignedTx = try await buildTransaction(
 			chainID: chainID,
 			script: script,
-			arguments: [amountFlow],
+			agrument: [amountFlow],
 			payerAddress: payer,
 			proposerKey: .init(address: proposer)
 		)
@@ -74,15 +83,14 @@ public extension Flow {
 			throw FError.customError(msg: "EVM transaction arguments encoding failed")
 		}
 
-		let script = try CadenceLoader.load(
+		let script = try await CadenceLoader.load(
 			CadenceLoader.Category.EVM.evmRun
 		)
 
 		let unsignedTx = try await buildTransaction(
-			chainID: chainID,
 			script: script,
-			arguments: [txArg, coinbaseArg],
-			authorizers: [proposer],
+			agrument: [txArg, coinbaseArg],
+			authorizer: [proposer],
 			payerAddress: payer,
 			proposerKey: .init(address: proposer)
 		)

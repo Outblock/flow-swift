@@ -8,27 +8,51 @@
 
 import Foundation
 
-extension Flow.Websocket {
-	public enum BlockStatus: String, Codable, Sendable {
+public extension Flow {
+	struct WSTransactionResponse: Decodable, Sendable {
+		public let transactionResult: WSTransactionResult
+	}
+
+	struct WSTransactionResult: Decodable, Sendable {
+			/// Use the core Transaction.Status enum instead of a duplicate websocket enum.
+		public let status: Transaction.Status
+	}
+}
+
+// If your core Transaction.Status type is not yet Sendable/Codable, you can
+// ensure that here (or in its original declaration file):
+//
+// public extension Flow.Transaction.Status: Codable, Sendable {}
+
+public extension Flow {
+
+		/// Block status used in websocket arguments.
+	enum WebSocketBlockStatus: String, Codable, Sendable {
 		case finalized
 		case sealed
 	}
 
-	struct TransactionStatusRequest: Encodable, Sendable {
-		let txId: String
+		/// Transaction status request arguments.
+	struct WebSocketTransactionStatusRequest: Encodable, Sendable {
+		public let txId: String
 
 		enum CodingKeys: String, CodingKey {
 			case txId = "tx_id"
 		}
+
+		public init(txId: String) {
+			self.txId = txId
+		}
 	}
 
-	struct BlockDigestArguments: Encodable, Sendable {
-		let blockStatus: BlockStatus
-		let startBlockHeight: String?
-		let startBlockId: String?
+		/// Block digests arguments.
+	struct WebSocketBlockDigestArguments: Encodable, Sendable {
+		public let blockStatus: WebSocketBlockStatus
+		public let startBlockHeight: String?
+		public let startBlockId: String?
 
-		init(
-			blockStatus: BlockStatus,
+		public init(
+			blockStatus: WebSocketBlockStatus,
 			startBlockHeight: String? = nil,
 			startBlockId: String? = nil
 		) {
@@ -38,15 +62,16 @@ extension Flow.Websocket {
 		}
 	}
 
-	public struct AccountStatusResponse: Codable, Sendable {
+		/// Account status response.
+	struct WebSocketAccountStatusResponse: Codable, Sendable {
 		public let blockId: String
 		public let height: String
-		public let accountEvents: [String: [AccountStatusEvent]]
+		public let accountEvents: [String: [WebSocketAccountStatusEvent]]
 
 		public init(
 			blockId: String,
 			height: String,
-			accountEvents: [String: [AccountStatusEvent]]
+			accountEvents: [String: [WebSocketAccountStatusEvent]]
 		) {
 			self.blockId = blockId
 			self.height = height
@@ -54,7 +79,8 @@ extension Flow.Websocket {
 		}
 	}
 
-	public struct AccountStatusEvent: Codable, Sendable {
+		/// Single account status event.
+	struct WebSocketAccountStatusEvent: Codable, Sendable {
 		public let type: String
 		public let transactionId: String
 		public let transactionIndex: String

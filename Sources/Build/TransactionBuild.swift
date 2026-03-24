@@ -18,205 +18,89 @@
 	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 	//
 
-	/// Flow Transaction Builder
-	///
-	/// Provides a declarative syntax for building Flow blockchain transactions.
-	/// This module handles all aspects of transaction construction including:
-	/// - Script compilation
-	/// - Argument handling
-	/// - Authorization setup
-	/// - Gas limit configuration
-	/// - Reference block resolution
-	///
-	/// Example usage:
-	/// ```swift
-	/// let transaction = try await buildTransaction {
-	///     cadence {
-	///         "transaction { prepare(signer: AuthAccount) { log(\"Hello World\") } }"
-	///     }
-	///     proposer {
-	///         myAddress
-	///     }
-	///     gasLimit {
-	///         1000
-	///     }
-	/// }
-	/// ```
-
 import BigInt
-import Combine
 import Foundation
 
-	// MARK: - Top-level builder helpers
+	// MARK: - Top-level builder helpers (DSL)
 
-	/// Build a transaction with Cadence code
-	/// - Parameter text: Closure returning the Cadence script
-	/// - Returns: Transaction build component with the script
 public func cadence(text: () -> String) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.script(Flow.Script(text: text()))
 }
 
-	/// Build flow transaction with cadence code with `Flow.Script` input.
-	/// - parameters:
-	///   - text: Cadence code in `Flow.Script` type.
-	/// - returns: The type of `Flow.TransactionBuild.script`
 public func cadence(text: () -> Flow.Script) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.script(text())
 }
 
-	/// Build flow transaction with arguments with a list of `Flow.Cadence.FValue` input.
-	/// - parameters:
-	///   - text: The list of `Flow.Cadence.FValue` type.
-	/// - returns: The type of `Flow.TransactionBuild.argument`
 public func arguments(text: () -> [Flow.Cadence.FValue]) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.argument(text().compactMap { Flow.Argument(value: $0) })
 }
 
-	/// Build flow transaction with arguments with a list of `Flow.Argument` input.
-	/// - parameters:
-	///   - text: The list of `Flow.Argument` type.
-	/// - returns: The type of `Flow.TransactionBuild.argument`
 public func arguments(text: () -> [Flow.Argument]) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.argument(text())
 }
 
-	/// Build flow transaction with arguments with a variadic list of `Flow.Argument` builders.
-	/// - parameters:
-	///   - text: The list of `Flow.Argument` builder closures.
-	/// - returns: The type of `Flow.TransactionBuild.argument`
-public func arguments(text: () -> Flow.Argument...) -> Flow.TransactionBuild {
-	Flow.TransactionBuild.argument(text.compactMap { $0() })
-}
-
-	/// Build flow transaction with payer
-	/// - parameters:
-	///   - text: payer address in `String` type
-	/// - returns: The type of `Flow.TransactionBuild.payer`
 public func payer(text: () -> String) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.payer(Flow.Address(hex: text()))
 }
 
-	/// Build flow transaction with payer
-	/// - parameters:
-	///   - text: payer address in `Flow.Address` type
-	/// - returns: The type of `Flow.TransactionBuild.payer`
 public func payer(text: () -> Flow.Address) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.payer(text())
 }
 
-	/// Build flow transaction with authorizers
-	/// - parameters:
-	///   - text: A list of authorizer's account
-	/// - returns: The type of `Flow.TransactionBuild.authorizers`
 public func authorizers(text: () -> [Flow.Address]) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.authorizers(text())
 }
 
-	/// Build flow transaction with authorizers
-	/// - parameters:
-	///   - text: A list of authorizer's account
-	/// - returns: The type of `Flow.TransactionBuild.authorizers`
-public func authorizers(text: () -> Flow.Address...) -> Flow.TransactionBuild {
-	Flow.TransactionBuild.authorizers(text.compactMap { $0() })
+public func authorizers(text: () -> Flow.Address) -> Flow.TransactionBuild {
+	Flow.TransactionBuild.authorizers([text()])
 }
 
-	/// Build flow transaction with proposer
-	/// - parameters:
-	///   - text: proposer key in `String` type
-	/// - returns: The type of `Flow.TransactionBuild.proposer`
-	///
-	/// The default proposal key will use key index 0,
-	/// and the sequence number will fetch from network
 public func proposer(text: () -> String) -> Flow.TransactionBuild {
 	let address = Flow.Address(hex: text())
 	return Flow.TransactionBuild.proposer(Flow.TransactionProposalKey(address: address))
 }
 
-	/// Build flow transaction with proposer
-	/// - parameters:
-	///   - text: proposer key in `Flow.Address` type
-	/// - returns: The type of `Flow.TransactionBuild.proposer`
-	///
-	/// The default proposal key will use key index 0,
-	/// and the sequence number will fetch from network
 public func proposer(text: () -> Flow.Address) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.proposer(Flow.TransactionProposalKey(address: text()))
 }
 
-	/// Build flow transaction with proposer
-	/// - parameters:
-	///   - text: proposer key in `Flow.TransactionProposalKey` type
-	/// - returns: The type of `Flow.TransactionBuild.proposer`
 public func proposer(text: () -> Flow.TransactionProposalKey) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.proposer(text())
 }
 
-	/// Build flow transaction with gas limit
-	/// - parameters:
-	///   - text: gas limit in `BigUInt` type
-	/// - returns: The type of `Flow.TransactionBuild.gasLimit`
 public func gasLimit(text: () -> BigUInt) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.gasLimit(text())
 }
 
-	/// Build flow transaction with gas limit
-	/// - parameters:
-	///   - text: gas limit in `Int` type
-	/// - returns: The type of `Flow.TransactionBuild.gasLimit`
 public func gasLimit(text: () -> Int) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.gasLimit(BigUInt(text()))
 }
 
-	/// Build flow transaction with reference block id
-	/// - parameters:
-	///   - text: block id in `String` type
-	/// - returns: The type of `Flow.TransactionBuild.refBlock`
 public func refBlock(text: () -> String?) -> Flow.TransactionBuild {
 	guard let blockId = text() else {
 		return Flow.TransactionBuild.refBlock(nil)
 	}
-
 	return Flow.TransactionBuild.refBlock(Flow.ID(hex: blockId))
 }
 
-/// Build flow transaction with reference block id
-/// - parameters:
-///   - text: reference block id in `Flow.ID` type
-/// - returns: The type of `Flow.TransactionBuild.refBlock`
 public func refBlock(text: () -> Flow.ID) -> Flow.TransactionBuild {
 	Flow.TransactionBuild.refBlock(text())
 }
 
-// MARK: - TransactionBuild DSL
+	// MARK: - TransactionBuild DSL
 
 public extension Flow {
-	/// Components that can be used to build a Flow transaction
+
 	enum TransactionBuild {
-		/// The Cadence script to be executed
 		case script(Flow.Script)
-
-			/// Arguments passed to the Cadence script
 		case argument([Flow.Argument])
-
-			/// Account that will pay for transaction fees
 		case payer(Flow.Address)
-
-			/// Accounts authorizing the transaction
 		case authorizers([Flow.Address])
-
-			/// Account proposing the transaction
 		case proposer(Flow.TransactionProposalKey)
-
-			/// Maximum computation limit
 		case gasLimit(BigUInt)
-
-			/// Reference block for transaction expiry
 		case refBlock(Flow.ID?)
-
-			/// Error state
 		case error
 
-			/// Use domain-specific language (DSL) to construct `Flow.Transaction`
 		@resultBuilder
 		enum TransactionBuilder {
 			public static func buildBlock() -> [Flow.TransactionBuild] { [] }
@@ -238,85 +122,94 @@ public extension Flow {
 
 // MARK: - Build & send helpers
 
+@FlowActor
 public extension Flow {
-	/// Build flow transaction using `TransactionBuilder` with async way
-	/// - parameters:
-	///   - chainID: The chain id for the transaction, the default value is `flow.chainID`
-	///   - skipEmptyCheck: Skip empty script validation
-	///   - builder: The list of `Flow.TransactionBuild`
-	/// - returns: A constructed `Flow.Transaction`
-	func buildTransaction(
-	chainID: Flow.ChainID = flow.chainID,
-	skipEmptyCheck: Bool = false,
-	@Flow.TransactionBuild.TransactionBuilder builder: () -> [Flow.TransactionBuild]
-	) async throws -> Flow.Transaction {
-		FlowLogger.shared.log(.debug, message: "Starting transaction build for chain: \(chainID)")
 
-		var script: Flow.Script = .init( Data())
-		var agrument: [Flow.Argument] = []
-		var authorizers: [Flow.Address] = []
+		/// Core builder with explicit chainID (no default using self/await).
+	func buildTransaction(
+		chainID: Flow.ChainID,
+		skipEmptyCheck: Bool = false,
+		@Flow.TransactionBuild.TransactionBuilder builder: () -> [Flow.TransactionBuild]
+	) async throws -> Flow.Transaction {
+
+		await FlowLogger.shared.logAsync(
+			.debug,
+			message: "Starting transaction build for chain: \(chainID)"
+		)
+
+			// Start with an empty script.
+		var script = Flow.Script(data: Data())
+		var args: [Flow.Argument] = []
+		var auths: [Flow.Address] = []
 		var payer: Flow.Address?
 		var proposer: Flow.TransactionProposalKey?
 		var gasLimit = BigUInt(9999)
 		var refBlock: Flow.ID?
 
-			// Log initial transaction components
-		builder().forEach { txValue in
+		let components = builder()
+
+		for txValue in components {
 			switch txValue {
 				case let .script(value):
-					let updated = flow.addressRegister.resolveImports(in: value.text, for: chainID)
+						// Resolve imports for the current chain.
+					let updated = self.addressRegister.resolveImports(in: value.text, for: chainID)
 					script = Flow.Script(text: updated)
-					if let scriptString = String( value.data, encoding: .utf8) {
-						FlowLogger.shared.log(
+
+					if let scriptString = String(data: value.data, encoding: .utf8) {
+						await FlowLogger.shared.logAsync(
 							.debug,
 							message: "Adding script: \(scriptString)"
 						)
 					}
 
 				case let .argument(value):
-					agrument = value
-					FlowLogger.shared.log(
+					args = value
+					let argDescriptions = value
+						.map { $0.jsonString ?? "<invalid>" }
+						.joined(separator: ", ")
+					await FlowLogger.shared.logAsync(
 						.debug,
-						message: "Adding arguments: \(value.map { $0.jsonString ?? "invalid" })"
+						message: "Adding arguments: [\(argDescriptions)]"
 					)
 
 				case let .authorizers(value):
-					authorizers = value
-					FlowLogger.shared.log(
+					auths = value
+					let authHex = value.map { $0.hex }.joined(separator: ", ")
+					await FlowLogger.shared.logAsync(
 						.debug,
-						message: "Adding authorizers: \(value.map { $0.hex })"
+						message: "Adding authorizers: [\(authHex)]"
 					)
 
 				case let .payer(value):
 					payer = value
-					FlowLogger.shared.log(
+					await FlowLogger.shared.logAsync(
 						.debug,
 						message: "Setting payer: \(value.hex)"
 					)
 
 				case let .proposer(value):
 					proposer = value
-					FlowLogger.shared.log(
+					await FlowLogger.shared.logAsync(
 						.debug,
 						message: "Setting proposer: address=\(value.address.hex), keyIndex=\(value.keyIndex)"
 					)
 
 				case let .gasLimit(value):
 					gasLimit = value
-					FlowLogger.shared.log(
+					await FlowLogger.shared.logAsync(
 						.debug,
 						message: "Setting gas limit: \(value)"
 					)
 
 				case let .refBlock(value):
 					refBlock = value
-					FlowLogger.shared.log(
+					await FlowLogger.shared.logAsync(
 						.debug,
 						message: "Setting reference block: \(value?.hex ?? "latest")"
 					)
 
 				case .error:
-					FlowLogger.shared.log(
+					await FlowLogger.shared.logAsync(
 						.warning,
 						message: "Encountered error case in transaction build"
 					)
@@ -324,33 +217,33 @@ public extension Flow {
 		}
 
 		guard var proposalKey = proposer else {
-			FlowLogger.shared.log(.error, message: "Transaction build failed: Empty proposer")
+			await FlowLogger.shared.logAsync(
+				.error,
+				message: "Transaction build failed: Empty proposer"
+			)
 			throw Flow.FError.emptyProposer
 		}
 
-		let api = flow.accessAPI
+		let api = await FlowActors.access.currentClient()
 
-			// Log block resolution
-		FlowLogger.shared.log(.debug, message: "Resolving reference block ID")
+		await FlowLogger.shared.logAsync(.debug, message: "Resolving reference block ID")
 		let id = try await resolveBlockId(api: api, refBlock: refBlock)
-		FlowLogger.shared.log(.debug, message: "Resolved block ID: \(id.hex)")
+		await FlowLogger.shared.logAsync(.debug, message: "Resolved block ID: \(id.hex)")
 
-			// Log proposal key resolution
-		FlowLogger.shared.log(
+		await FlowLogger.shared.logAsync(
 			.debug,
 			message: "Resolving proposal key: address=\(proposalKey.address.hex), keyIndex=\(proposalKey.keyIndex)"
 		)
 		let key = try await resolveProposalKey(api: api, proposalKey: proposalKey)
-		FlowLogger.shared.log(
+		await FlowLogger.shared.logAsync(
 			.debug,
 			message: "Resolved proposal key with sequence number: \(key.sequenceNumber)"
 		)
 		proposalKey = key
 
 		if !skipEmptyCheck {
-				// Validate script
 			guard !script.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-				FlowLogger.shared.log(
+				await FlowLogger.shared.logAsync(
 					.error,
 					message: "Transaction build failed: Invalid script format"
 				)
@@ -358,48 +251,48 @@ public extension Flow {
 			}
 		}
 
-			// Create transaction
 		let transaction = Flow.Transaction(
 			script: script,
-			arguments: agrument,
+			arguments: args,
 			referenceBlockId: id,
 			gasLimit: gasLimit,
 			proposalKey: proposalKey,
 			payer: payer ?? proposalKey.address,
-			authorizers: authorizers
+			authorizers: auths
 		)
 
-			// Log final transaction details
-		FlowLogger.shared.log(
+		await FlowLogger.shared.logAsync(
 			.info,
 			message: """
 			Transaction built successfully:
 			- Script size: \(script.data.count) bytes
-			- Arguments count: \(agrument.count)
+			- Arguments count: \(args.count)
 			- Reference block: \(id.hex)
 			- Gas limit: \(gasLimit)
 			- Proposer: \(proposalKey.address.hex)
 			- Payer: \((payer ?? proposalKey.address).hex)
-			- Authorizers count: \(authorizers.count)
+			- Authorizers count: \(auths.count)
 			"""
 		)
 
 		return transaction
 	}
 
-		/// Build flow transaction using standard `Flow.Transaction` with async way
-		/// - parameters:
-		///   - chainID: The chain id for the transaction, the default value is `flow.chainID`
-		///   - script: Cadence script
-		///   - agrument: Arguments list
-		///   - authorizer: Authorizers list
-		///   - payerAddress: Payer address
-		///   - proposerKey: Proposal key
-		///   - limit: Gas limit
-		///   - blockID: Optional reference block ID
-		/// - returns: The constructed `Flow.Transaction`
+		/// Convenience overload: uses current Flow.chainID.
 	func buildTransaction(
-		chainID: Flow.ChainID = flow.chainID,
+		skipEmptyCheck: Bool = false,
+		@Flow.TransactionBuild.TransactionBuilder builder: () -> [Flow.TransactionBuild]
+	) async throws -> Flow.Transaction {
+		let currentChainID = await self.chainID
+		return try await buildTransaction(
+			chainID: currentChainID,
+			skipEmptyCheck: skipEmptyCheck,
+			builder: builder
+		)
+	}
+
+	func buildTransaction(
+		chainID: Flow.ChainID,
 		script: String,
 		agrument: [Flow.Argument] = [],
 		authorizer: [Flow.Address] = [],
@@ -408,81 +301,19 @@ public extension Flow {
 		limit: BigUInt = BigUInt(9999),
 		blockID: Flow.ID? = nil
 	) async throws -> Flow.Transaction {
-		let updatedScript = flow.addressRegister.resolveImports(in: script, for: chainID)
+		let updatedScript = self.addressRegister.resolveImports(in: script, for: chainID)
 		return try await buildTransaction(chainID: chainID) {
-			cadence {
-				updatedScript
-			}
-			arguments {
-				agrument
-			}
-			proposer {
-				proposerKey
-			}
-			gasLimit {
-				limit
-			}
-			authorizers {
-				authorizer
-			}
-			payer {
-				payerAddress
-			}
-			refBlock {
-				blockID?.hex
-			}
+			cadence { updatedScript }
+			arguments { agrument }
+			proposer { proposerKey }
+			gasLimit { limit }
+			authorizers { authorizer }
+			payer { payerAddress }
+			refBlock { blockID?.hex }
 		}
 	}
 
-		/// Send signed Transaction to the network
-		/// - parameters:
-		///   - chainID: The chain id for the transaction, the default value is `flow.chainID`
-		///   - signedTransaction: The signed Flow transaction
-		/// - returns: A future value of transaction id
-	func sendTransaction(
-		chainID _: ChainID = flow.chainID,
-		signedTransaction: Transaction
-	) async throws -> Flow.ID {
-		let api = flow.accessAPI
-		return try await api.sendTransaction(transaction: signedTransaction)
-	}
-
-		/// Build, sign and send transaction to the network
-		/// - parameters:
-		///   - chainID: The chain id for the transaction, the default value is `flow.chainID`
-		///   - signers: A list of `FlowSigner`, which will sign the transaction
-		///   - builder: The list of `Flow.TransactionBuild`
-		/// - returns: The transaction id
-	func sendTransaction(
-		chainID: Flow.ChainID = flow.chainID,
-		signers: [FlowSigner],
-		@Flow.TransactionBuild.TransactionBuilder builder: () -> [Flow.TransactionBuild]
-	) async throws -> Flow.ID {
-		let api = flow.accessAPI
-		let unsignedTx = try await buildTransaction(chainID: chainID, builder: builder)
-		let signedTx = try await flow.signTransaction(
-			unsignedTransaction: unsignedTx,
-			signers: signers
-		)
-
-		return try await api.sendTransaction(transaction: signedTx)
-	}
-
-		/// Build, sign and send transaction to the network
-		/// - parameters:
-		///   - chainID: The chain id for the transaction, the default value is `flow.chainID`
-		///   - signers: A list of `FlowSigner`, which will sign the transaction
-		///   - script: Cadence script
-		///   - agrument: Arguments list
-		///   - authorizer: Authorizers list
-		///   - payerAddress: Payer address
-		///   - proposerKey: Proposal key
-		///   - limit: Gas limit
-		///   - blockID: Optional reference block ID
-		/// - returns: The transaction id
-	func sendTransaction(
-		chainID: Flow.ChainID = flow.chainID,
-		signers: [FlowSigner],
+	func buildTransaction(
 		script: String,
 		agrument: [Flow.Argument] = [],
 		authorizer: [Flow.Address] = [],
@@ -490,64 +321,92 @@ public extension Flow {
 		proposerKey: Flow.TransactionProposalKey,
 		limit: BigUInt = BigUInt(9999),
 		blockID: Flow.ID? = nil
+	) async throws -> Flow.Transaction {
+		let currentChainID = await self.chainID
+		return try await buildTransaction(
+			chainID: currentChainID,
+			script: script,
+			agrument: agrument,
+			authorizer: authorizer,
+			payerAddress: payerAddress,
+			proposerKey: proposerKey,
+			limit: limit,
+			blockID: blockID
+		)
+	}
+
+	func sendTransaction(
+		chainID: Flow.ChainID,
+		signedTransaction: Flow.Transaction
 	) async throws -> Flow.ID {
-		let updatedScript = flow.addressRegister.resolveImports(in: script, for: chainID)
-		return try await sendTransaction(chainID: chainID, signers: signers) {
-			cadence {
-				updatedScript
-			}
-			arguments {
-				agrument
-			}
-			proposer {
-				proposerKey
-			}
-			gasLimit {
-				limit
-			}
-			authorizers {
-				authorizer
-			}
-			payer {
-				payerAddress
-			}
-			refBlock {
-				blockID?.hex
-			}
-		}
+		let api = await FlowActors.access.currentClient()
+		return try await api.sendTransaction(transaction: signedTransaction)
+	}
+
+	func sendTransaction(
+		signedTransaction: Flow.Transaction
+	) async throws -> Flow.ID {
+		try await sendTransaction(chainID: self.chainID, signedTransaction: signedTransaction)
+	}
+
+	func sendTransaction(
+		chainID: Flow.ChainID,
+		signers: [FlowSigner],
+		@Flow.TransactionBuild.TransactionBuilder builder: () -> [Flow.TransactionBuild]
+	) async throws -> Flow.ID {
+		let api = await FlowActors.access.currentClient()
+		let unsignedTx = try await buildTransaction(chainID: chainID, builder: builder)
+		let signedTx = try await self.signTransaction(
+			unsignedTransaction: unsignedTx,
+			signers: signers
+		)
+		return try await api.sendTransaction(transaction: signedTx)
+	}
+
+	func sendTransaction(
+		signers: [FlowSigner],
+		@Flow.TransactionBuild.TransactionBuilder builder: () -> [Flow.TransactionBuild]
+	) async throws -> Flow.ID {
+		try await sendTransaction(chainID: self.chainID, signers: signers, builder: builder)
 	}
 }
 
 // MARK: - Helper functions
 
 private func resolveBlockId(
-api: FlowAccessProtocol = flow.accessAPI,
+api: FlowAccessProtocol,
 refBlock: Flow.ID?
 ) async throws -> Flow.ID {
 	if let blockID = refBlock {
-		FlowLogger.shared.log(.debug, message: "Using provided block ID: \(blockID.hex)")
+		await FlowLogger.shared.logAsync(
+		.debug,
+		message: "Using provided block ID: \(blockID.hex)"
+		)
 		return blockID
 	} else {
-		FlowLogger.shared.log(.debug, message: "Fetching latest sealed block")
+		await FlowLogger.shared.logAsync(.debug, message: "Fetching latest sealed block")
 		let block = try await api.getLatestBlock(sealed: true)
-		FlowLogger.shared.log(.debug, message: "Using latest block ID: \(block.id.hex)")
+		await FlowLogger.shared.logAsync(
+		.debug,
+		message: "Using latest block ID: \(block.id.hex)"
+		)
 		return block.id
 	}
 }
 
 private func resolveProposalKey(
-api: FlowAccessProtocol = flow.accessAPI,
+api: FlowAccessProtocol,
 proposalKey: Flow.TransactionProposalKey
 ) async throws -> Flow.TransactionProposalKey {
 	if proposalKey.sequenceNumber == -1 {
-		FlowLogger.shared.log(
+		await FlowLogger.shared.logAsync(
 		.debug,
 		message: "Fetching sequence number for account: \(proposalKey.address.hex)"
 		)
 		let account = try await api.getAccountAtLatestBlock(address: proposalKey.address)
 
 		guard let accountKey = account.keys[safe: proposalKey.keyIndex] else {
-			FlowLogger.shared.log(
+			await FlowLogger.shared.logAsync(
 				.error,
 				message: "Failed to get account key at index: \(proposalKey.keyIndex)"
 			)
@@ -560,7 +419,7 @@ proposalKey: Flow.TransactionProposalKey
 			sequenceNumber: Int64(accountKey.sequenceNumber)
 		)
 
-		FlowLogger.shared.log(
+		await FlowLogger.shared.logAsync(
 			.debug,
 			message: "Resolved sequence number: \(accountKey.sequenceNumber)"
 		)

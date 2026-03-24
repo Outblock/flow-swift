@@ -1,35 +1,35 @@
-	//
-	//  FlowPublisher.swift
-	//  Flow
-	//
-	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
-	//
-
 import Foundation
 import Combine
 
 public extension Flow {
-		/// Represents different types of events that can be published
+
+		/// Events produced by Flow’s websocket / access APIs.
 	enum PublisherEvent {
 		case transactionStatus(id: Flow.ID, status: Flow.TransactionResult)
 		case accountUpdate(address: Flow.Address)
 		case connectionStatus(isConnected: Bool)
-		case walletResponse(approved: Bool,  [String: Any])
+		case walletResponse(approved: Bool, [String: Any])
 		case block(id: Flow.ID, height: String, timestamp: Date)
 		case error(Error)
 	}
 
-		/// Central publisher manager for Flow events
+		/// Central publisher manager for Flow events (Combine-based).
+	@FlowWebsocketActor
 	final class Publisher {
-		public static let shared = Publisher()
 
-			// Main publisher for all events
+		static let shared = Publisher()
+
 		private let eventSubject = PassthroughSubject<PublisherEvent, Never>()
 
-			// Specific publishers for different event types
-		public var transactionPublisher: AnyPublisher<(Flow.ID, Flow.TransactionResult), Never> {
+		private let walletResponseSubject =
+		PassthroughSubject<(approved: Bool, [String: String]), Never>()
+
+			// MARK: - Typed publishers
+
+		public var transactionPublisher:
+		AnyPublisher<(Flow.ID, Flow.TransactionResult), Never> {
 			eventSubject
-				.compactMap { event in
+				.compactMap { event -> (Flow.ID, Flow.TransactionResult)? in
 					if case let .transactionStatus(id, status) = event {
 						return (id, status)
 					}
@@ -40,7 +40,7 @@ public extension Flow {
 
 		public var accountPublisher: AnyPublisher<Flow.Address, Never> {
 			eventSubject
-				.compactMap { event in
+				.compactMap { event -> Flow.Address? in
 					if case let .accountUpdate(address) = event {
 						return address
 					}
@@ -49,9 +49,15 @@ public extension Flow {
 				.eraseToAnyPublisher()
 		}
 
-		public var blockPublisher: AnyPublisher<Flow.WSBlockHeader, Never> {
+		public struct WSBlockHeader {
+			public let blockId: Flow.ID
+			public let height: String
+			public let timestamp: Date
+		}
+
+		public var blockPublisher: AnyPublisher<WSBlockHeader, Never> {
 			eventSubject
-				.compactMap { event in
+				.compactMap { event -> WSBlockHeader? in
 					if case let .block(id, height, timestamp) = event {
 						return WSBlockHeader(blockId: id, height: height, timestamp: timestamp)
 					}
@@ -62,7 +68,7 @@ public extension Flow {
 
 		public var connectionPublisher: AnyPublisher<Bool, Never> {
 			eventSubject
-				.compactMap { event in
+				.compactMap { event -> Bool? in
 					if case let .connectionStatus(isConnected) = event {
 						return isConnected
 					}
@@ -71,9 +77,10 @@ public extension Flow {
 				.eraseToAnyPublisher()
 		}
 
-		public var walletResponsePublisher: AnyPublisher<(Bool, [String: Any]), Never> {
+		public var walletResponsePublisher:
+		AnyPublisher<(approved: Bool, [String: Any]), Never> {
 			eventSubject
-				.compactMap { event in
+				.compactMap { event -> (approved: Bool, [String: Any])? in
 					if case let .walletResponse(approved, data) = event {
 						return (approved, data)
 					}
@@ -84,7 +91,7 @@ public extension Flow {
 
 		public var errorPublisher: AnyPublisher<Error, Never> {
 			eventSubject
-				.compactMap { event in
+				.compactMap { event -> Error? in
 					if case let .error(error) = event {
 						return error
 					}
@@ -93,14 +100,16 @@ public extension Flow {
 				.eraseToAnyPublisher()
 		}
 
-		private init() {}
+			// MARK: - Init
 
-			// Method to publish events
+		private init() { }
+
+			// MARK: - Publish helpers
+
 		public func publish(_ event: PublisherEvent) {
 			eventSubject.send(event)
 		}
 
-			// Convenience methods for publishing specific events
 		public func publishTransactionStatus(id: Flow.ID, status: Flow.TransactionResult) {
 			publish(.transactionStatus(id: id, status: status))
 		}
@@ -113,16 +122,18 @@ public extension Flow {
 			publish(.connectionStatus(isConnected: isConnected))
 		}
 
-		public func publishWalletResponse(approved: Bool,  [String: Any]) {
-			publish(.walletResponse(approved: approved,  data))
+		public func publishWalletResponse(approved: Bool,data:  [String: Any]) {
+			publish(.walletResponse(approved: approved, data))
 		}
 
 		public func publishError(_ error: Error) {
 			publish(.error(error))
 		}
 	}
+}
 
-		// Extension to Flow for easy access to publisher
+@FlowWebsocketActor
+public extension Flow {
 	var publisher: Publisher {
 		Publisher.shared
 	}
