@@ -157,9 +157,12 @@ extension Flow.AccessEndpoint: TargetType {
 	}
 
 		/// NOTE: This is only used when building raw `URLRequest`s from `TargetType`.
-		/// `FlowHTTPAPI` overrides the host using its own `chainID`.
+		/// `FlowHTTPAPI` overrides the host using its own `chainID`, so we must not
+		/// touch any actor-isolated state here (no `Flow.shared`).
 	var baseURL: URL {
-		Flow.shared.chainID.defaultHTTPNode.url!
+			// A placeholder, non-actor value that satisfies `TargetType`.
+			// The actual host will be replaced by `FlowHTTPAPI`.
+		URL(string: "https://placeholder.flow")!
 	}
 
 	var path: String {

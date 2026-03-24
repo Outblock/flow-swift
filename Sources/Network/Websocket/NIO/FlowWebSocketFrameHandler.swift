@@ -10,7 +10,7 @@ import NIOCore
 import NIOWebSocket
 
 	/// Handles inbound websocket frames and routes decoded messages into FlowWebSocketCenter.
-final class FlowWebSocketFrameHandler: ChannelInboundHandler,Sendable {
+final class FlowWebSocketFrameHandler: ChannelInboundHandler, Sendable {
 	typealias InboundIn = WebSocketFrame
 	typealias OutboundOut = WebSocketFrame
 
@@ -20,7 +20,7 @@ final class FlowWebSocketFrameHandler: ChannelInboundHandler,Sendable {
 		return d
 	}()
 
-	func channelRead(context: ChannelHandlerContext,  data: NIOAny) {
+	func channelRead(context: ChannelHandlerContext, data: NIOAny) {
 		let frame = unwrapInboundIn(data)
 
 		switch frame.opcode {
@@ -31,7 +31,8 @@ final class FlowWebSocketFrameHandler: ChannelInboundHandler,Sendable {
 			case .connectionClose:
 				context.close(promise: nil)
 			case .ping:
-				var buffer = context.channel.allocator.buffer(capacity: 0)
+					// buffer is never mutated, so make it a constant
+				let buffer = context.channel.allocator.buffer(capacity: 0)
 				let pongFrame = WebSocketFrame(fin: true, opcode: .pong, data: buffer)
 				context.writeAndFlush(wrapOutboundOut(pongFrame), promise: nil)
 			default:
@@ -53,7 +54,7 @@ final class FlowWebSocketFrameHandler: ChannelInboundHandler,Sendable {
 		handleJSONData(Data(bytes))
 	}
 
-	private func handleJSONData(_ data:  Data) {
+	private func handleJSONData(_  data: Data) {
 			// Transaction status topic
 		if let response = try? decoder.decode(
 			Flow.WebSocketTopicResponse<Flow.WSTransactionResponse>.self,
@@ -65,11 +66,11 @@ final class FlowWebSocketFrameHandler: ChannelInboundHandler,Sendable {
 			return
 		}
 
-			// Additional topic types can be added here by decoding with other payload types
-			// and routing into dedicated handlers on FlowWebSocketCenter as needed.
+			// Additional topic types can be added here later.
 	}
 
 	func errorCaught(context: ChannelHandlerContext, error: Error) {
 		context.close(promise: nil)
 	}
 }
+

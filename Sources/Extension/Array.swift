@@ -16,6 +16,7 @@
 	//  limitations under the License.
 	//
 	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+	//
 
 import Foundation
 
@@ -27,13 +28,13 @@ extension Array where Iterator.Element: Hashable {
 	}
 }
 
-public extension Array where Element == Flow.Cadence.FValue {
+extension Array where Element == Flow.Cadence.FValue {
 	func toArguments() -> [Flow.Argument] {
 		compactMap(Flow.Argument.init)
 	}
 }
 
-public extension Array where Element == Flow.Argument {
+extension Array where Element == Flow.Argument {
 	func toValue() -> [Flow.Cadence.FValue] {
 		compactMap { $0.value }
 	}
@@ -71,8 +72,8 @@ extension Sequence where Element: Sendable {
 
 extension Sequence where Element: Sendable {
 	func asyncMap<Transformed: Sendable>(
-	priority: TaskPriority? = nil,
-	_ transform: @escaping @Sendable (Element) async throws -> Transformed
+		priority: TaskPriority? = nil,
+		_ transform: @escaping @Sendable (Element) async throws -> Transformed
 	) async rethrows -> [Transformed] {
 		try await withThrowingTaskGroup(of: (Int, Transformed).self) { group in
 			var index = 0

@@ -8,6 +8,7 @@
 import Foundation
 
 public extension Flow {
+
 		/// The ID in Flow chain, which can represent a transaction id, block id,
 		/// collection id, etc.
 	struct ID: FlowEntity, Equatable, Hashable, Sendable {
@@ -19,7 +20,7 @@ public extension Flow {
 			self.data = data
 		}
 
-			/// Create an ID from a hex string (with or without `"0x"` prefix).
+			/// Create an ID from a hex string (with or without "0x" prefix).
 		public init(hex: String) {
 			self.data = hex.hexValue.data
 		}
@@ -36,7 +37,7 @@ public extension Flow {
 	}
 }
 
-// MARK: - Codable (hex string representation)
+	// MARK: - Codable (hex string representation)
 
 extension Flow.ID: Codable {
 	public init(from decoder: Decoder) throws {
@@ -47,49 +48,44 @@ extension Flow.ID: Codable {
 
 	public func encode(to encoder: Encoder) throws {
 		var container = encoder.singleValueContainer()
-			// `hex` comes from `FlowEntity` default implementation.
 		try container.encode(self.hex)
 	}
 }
 
-// MARK: - CustomStringConvertible
+	// MARK: - CustomStringConvertible
 
 extension Flow.ID: CustomStringConvertible {
-	public var description: String {
-		hex
-	}
+	public var description: String { hex }
 }
 
-// MARK: - Concurrency helpers (wait for transaction status)
-
-	// FlowId.swift
-
-import Foundation
+	// MARK: - Concurrency helpers (wait for transaction status)
 
 public extension Flow.ID {
-
-		/// Wait for this transaction to reach at least the given status.
-		///
-		/// Uses FlowWebSocketCenter and an AsyncSequence of status updates,
-		/// and fails if no matching status is observed within `timeout` seconds.
 	func once(
 		status desiredStatus: Flow.Transaction.Status,
 		timeout: TimeInterval = 60
 	) async throws -> Flow.TransactionResult {
-			// Stream of TopicResponse<WSTransactionResponse>
-		let stream = try await FlowWebSocketCenter.shared
-			.transactionStatusStream(for: self)
 
-		return try await withThrowingTaskGroup(of: Flow.TransactionResult.self) { group in
-				// Task 1: read from websocket until we reach the desired status
-			group.addTask {
+		let stream: AsyncThrowingStream<
+			Flow.WebSocketTopicResponse<Flow.WSTransactionResponse>,
+			Error
+		> = try await FlowWebSocketCenter.shared.transactionStatusStream(for: self)
+
+		return try await withThrowingTaskGroup(
+			of: Flow.TransactionResult.self,
+			returning: Flow.TransactionResult.self
+		) { group in
+
+			group.addTask { () -> Flow.TransactionResult in
 				for try await event in stream {
-					guard let wsPayload = event.payload else { continue }
-					let result = wsPayload.transactionResult
-					let currentStatus = result.status
+						// NOTE: WebSocketTopicResponse wraps the decoded payload.
+						// Your center yields: WebSocketTopicResponse<WSTransactionResponse>
+					guard let ws = event.payload else { continue }
 
-					if currentStatus.rawValue >= desiredStatus.rawValue {
-						return result
+					let txResult: Flow.TransactionResult = try ws.asTransactionResult()
+
+					if txResult.status.rawValue >= desiredStatus.rawValue {
+						return txResult
 					}
 				}
 
@@ -98,9 +94,8 @@ public extension Flow.ID {
 				)
 			}
 
-				// Task 2: enforce timeout
-			group.addTask {
-				try await Task.sleep(
+			group.addTask { () -> Flow.TransactionResult in
+				try await _Concurrency.Task.sleep(
 					nanoseconds: UInt64(timeout * 1_000_000_000)
 				)
 				throw Flow.FError.customError(
@@ -108,7 +103,7 @@ public extension Flow.ID {
 				)
 			}
 
-			guard let firstFinished = try await group.next() else {
+			guard let first = try await group.next() else {
 				group.cancelAll()
 				throw Flow.FError.customError(
 					msg: "Task group finished without result for transaction ID \(self.hex)"
@@ -116,29 +111,8 @@ public extension Flow.ID {
 			}
 
 			group.cancelAll()
-			return firstFinished
-		}
-	}
-
-		/// Wait for many transactions to reach at least the given status in parallel.
-	static func onceMany(
-		ids: [Flow.ID],
-		status: Flow.Transaction.Status,
-		timeout: TimeInterval = 60
-	) async throws -> [Flow.ID: Flow.TransactionResult] {
-		try await withThrowingTaskGroup(of: (Flow.ID, Flow.TransactionResult).self) { group in
-			for id in ids {
-				group.addTask {
-					let result = try await id.once(status: status, timeout: timeout)
-					return (id, result)
-				}
-			}
-
-			var results: [Flow.ID: Flow.TransactionResult] = [:]
-			for try await (id, result) in group {
-				results[id] = result
-			}
-			return results
+			return first
 		}
 	}
 }
+

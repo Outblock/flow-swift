@@ -21,7 +21,7 @@
 import Foundation
 
 	// Central actors used by Flow facade.
-enum FlowActors {
+public enum FlowActors {
 	static let access = FlowAccessActor.shared
 	static let websocket = FlowWebSocketCenter.shared
 	static let config = FlowConfigActor.shared
@@ -38,18 +38,18 @@ public final class Flow: @unchecked Sendable {
 	public static let shared = Flow()
 
 		/// The user agent for the SDK client, used in access API header.
-	internal let defaultUserAgent = userAgent
+	public let defaultUserAgent = userAgent
 
 		/// Contract address registry (value type, safe to share).
 	public var addressRegister: ContractAddressRegister = .init()
 
-	internal var encoder: JSONEncoder {
+	public var encoder: JSONEncoder {
 		let encoder = JSONEncoder()
 		encoder.outputFormatting = .sortedKeys
 		return encoder
 	}
 
-	internal var decoder: JSONDecoder {
+	public var decoder: JSONDecoder {
 		let decoder = JSONDecoder()
 		return decoder
 	}

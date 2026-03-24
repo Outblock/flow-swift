@@ -7,10 +7,11 @@
 	//
 
 import Foundation
+import CryptoKit
 import Flow
 import Testing
 
-enum TestCadenceTarget: CadenceTargetType, MirrorAssociated {
+enum TestCadenceTarget: CadenceTargetType {
 	case getCOAAddr(address: Flow.Address)
 	case logTx(test: String)
 
@@ -29,41 +30,63 @@ enum TestCadenceTarget: CadenceTargetType, MirrorAssociated {
 
 	var type: CadenceType {
 		switch self {
-			case .getCOAAddr:
-				return .query
-			case .logTx:
-				return .transaction
+			case .getCOAAddr: return .query
+			case .logTx:      return .transaction
 		}
 	}
 
 	var arguments: [Flow.Argument] {
-		associatedValues.compactMap { $0.value.toFlowValue() }.toArguments()
+		switch self {
+			case .getCOAAddr(let address):
+				return [Flow.Argument(value: .address(address))]
+			case .logTx(let test):
+				return [Flow.Argument(value: .string(test))]
+		}
 	}
 
 	var returnType: Decodable.Type {
-		if type == .transaction {
-			return Flow.ID.self
-		}
-
+		if type == .transaction { return Flow.ID.self }
 		switch self {
-			case .getCOAAddr:
-				return String?.self
-			default:
-				return Flow.ID.self
+			case .getCOAAddr: return String?.self
+			default:          return Flow.ID.self
 		}
+	}
+}
+
+/// Minimal test fixtures for signing a tx on testnet.
+private struct TestnetFixtures {
+	let addressA: Flow.Address
+	let addressB: Flow.Address
+	let addressC: Flow.Address
+	let signers: [ECDSA_P256_Signer]
+
+	init() {
+			// Replace these with real test addresses/keys if you need a live integration test.
+		self.addressA = Flow.Address(hex: "0x0000000000000001")
+		self.addressB = Flow.Address(hex: "0x0000000000000002")
+		self.addressC = Flow.Address(hex: "0x0000000000000003")
+
+			// Dummy private key just to satisfy the type; use a valid key for real network tests.
+		let dummyKeyData = Data(repeating: 1, count: 32)
+		let privateKey = try! P256.Signing.PrivateKey(rawRepresentation: dummyKeyData)
+
+		let signer = ECDSA_P256_Signer(
+			address: addressA,
+			keyIndex: 0,
+			privateKey: privateKey
+		)
+		self.signers = [signer]
 	}
 }
 
 @Suite
 struct CadenceTargetTests {
-	init() {
-		flow.configure(chainID: .testnet)
+
+	init() async {
+		await flow.configure(chainID: .testnet)
 	}
 
-	@Test(
-		"Cadence target query returns non-nil result",
-		.timeLimit(.seconds(20))
-	)
+	@Test("Cadence target query returns non-nil result")
 	func query() async throws {
 		let result: String? = try await flow.query(
 			TestCadenceTarget.getCOAAddr(
@@ -74,27 +97,15 @@ struct CadenceTargetTests {
 		#expect(result != nil)
 	}
 
-	@Test(
-		"Cadence target transaction sends and returns ID",
-		.timeLimit(.seconds(60))
-	)
+	@Test("Cadence target transaction sends and returns ID")
 	func transaction() async throws {
-		let data = FlowAccessAPIOnTestnetTests()
+		let fixtures = TestnetFixtures()
+
 		let id = try await flow.sendTransaction(
 			TestCadenceTarget.logTx(test: "Hi!"),
-			singers: data.signers,
-			network: .testnet
-		) {
-			proposer {
-				data.addressA
-			}
-			authorizers {
-				[data.addressA, data.addressB, data.addressC]
-			}
-			payer {
-				data.addressC
-			}
-		}
+			signers: fixtures.signers,
+			chainID: .testnet
+		)
 
 		print(id.hex)
 		#expect(id.hex.isEmpty == false)

@@ -8,59 +8,60 @@
 import Foundation
 
 extension Flow: FlowAccessProtocol {
+
 	public func ping() async throws -> Bool {
-		try await flow.accessAPI.ping()
+		try await FlowActor.shared.flow.accessAPI.ping()
 	}
 
 	public func getLatestBlockHeader(
 		blockStatus: Flow.BlockStatus = .final
 	) async throws -> BlockHeader {
-		try await flow.accessAPI.getLatestBlockHeader(blockStatus: blockStatus)
+		try await FlowActor.shared.flow.accessAPI.getLatestBlockHeader(blockStatus: blockStatus)
 	}
 
 	public func getBlockHeaderById(id: ID) async throws -> BlockHeader {
-		try await flow.accessAPI.getBlockHeaderById(id: id)
+		try await FlowActor.shared.flow.accessAPI.getBlockHeaderById(id: id)
 	}
 
 	public func getBlockHeaderByHeight(height: UInt64) async throws -> BlockHeader {
-		try await flow.accessAPI.getBlockHeaderByHeight(height: height)
+		try await FlowActor.shared.flow.accessAPI.getBlockHeaderByHeight(height: height)
 	}
 
 	public func getLatestBlock(
 		blockStatus: Flow.BlockStatus = .final
 	) async throws -> Block {
-		try await flow.accessAPI.getLatestBlock(blockStatus: blockStatus)
+		try await FlowActor.shared.flow.accessAPI.getLatestBlock(blockStatus: blockStatus)
 	}
 
 	public func getBlockById(id: ID) async throws -> Block {
-		try await flow.accessAPI.getBlockById(id: id)
+		try await FlowActor.shared.flow.accessAPI.getBlockById(id: id)
 	}
 
 	public func getBlockByHeight(height: UInt64) async throws -> Block {
-		try await flow.accessAPI.getBlockByHeight(height: height)
+		try await FlowActor.shared.flow.accessAPI.getBlockByHeight(height: height)
 	}
 
 	public func getCollectionById(id: ID) async throws -> Collection {
-		try await flow.accessAPI.getCollectionById(id: id)
+		try await FlowActor.shared.flow.accessAPI.getCollectionById(id: id)
 	}
 
 	public func sendTransaction(transaction: Transaction) async throws -> ID {
-		try await flow.accessAPI.sendTransaction(transaction: transaction)
+		try await FlowActor.shared.flow.accessAPI.sendTransaction(transaction: transaction)
 	}
 
 	public func getTransactionById(id: ID) async throws -> Transaction {
-		try await flow.accessAPI.getTransactionById(id: id)
+		try await FlowActor.shared.flow.accessAPI.getTransactionById(id: id)
 	}
 
 	public func getTransactionResultById(id: ID) async throws -> TransactionResult {
-		try await flow.accessAPI.getTransactionResultById(id: id)
+		try await FlowActor.shared.flow.accessAPI.getTransactionResultById(id: id)
 	}
 
 	public func getAccountAtLatestBlock(
 		address: Address,
 		blockStatus: Flow.BlockStatus = .final
 	) async throws -> Account {
-		try await flow.accessAPI.getAccountAtLatestBlock(
+		try await FlowActor.shared.flow.accessAPI.getAccountAtLatestBlock(
 			address: address,
 			blockStatus: blockStatus
 		)
@@ -70,21 +71,22 @@ extension Flow: FlowAccessProtocol {
 		address: Address,
 		height: UInt64
 	) async throws -> Account {
-		try await flow.accessAPI.getAccountByBlockHeight(address: address, height: height)
+		try await FlowActor.shared.flow.accessAPI
+			.getAccountByBlockHeight(address: address, height: height)
 	}
 
 	public func getEventsForHeightRange(
 		type: String,
 		range: ClosedRange<UInt64>
 	) async throws -> [Event.Result] {
-		try await flow.accessAPI.getEventsForHeightRange(type: type, range: range)
+		try await FlowActor.shared.flow.accessAPI.getEventsForHeightRange(type: type, range: range)
 	}
 
 	public func getEventsForBlockIds(
 		type: String,
 		ids: Set<ID>
 	) async throws -> [Event.Result] {
-		try await flow.accessAPI.getEventsForBlockIds(type: type, ids: ids)
+		try await FlowActor.shared.flow.accessAPI.getEventsForBlockIds(type: type, ids: ids)
 	}
 
 	public func executeScriptAtLatestBlock(
@@ -92,7 +94,7 @@ extension Flow: FlowAccessProtocol {
 		arguments: [Argument],
 		blockStatus: Flow.BlockStatus = .final
 	) async throws -> ScriptResponse {
-		try await flow.accessAPI.executeScriptAtLatestBlock(
+		try await FlowActor.shared.flow.accessAPI.executeScriptAtLatestBlock(
 			script: script,
 			arguments: arguments,
 			blockStatus: blockStatus
@@ -100,6 +102,6 @@ extension Flow: FlowAccessProtocol {
 	}
 
 	public func getNetworkParameters() async throws -> ChainID {
-		try await flow.accessAPI.getNetworkParameters()
+		try await FlowActor.shared.flow.accessAPI.getNetworkParameters()
 	}
 }

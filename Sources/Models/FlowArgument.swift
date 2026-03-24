@@ -17,7 +17,7 @@ public extension Flow {
 			/// The value of the argument in `Flow.Cadence.FValue`.
 		public let value: Cadence.FValue
 
-		enum CodingKeys: String, CodingKey {
+		public enum CodingKeys: String, CodingKey {
 			case type
 			case value
 		}
@@ -50,8 +50,9 @@ public extension Flow {
 			self.value = value
 		}
 
-			/// Initialize argument from any `FlowEncodable` value.
-		public init?(_ value: FlowEncodable) {
+			/// Internal initializer from any `FlowEncodable` value.
+			/// Not public because `FlowEncodable` is an internal protocol.
+		init?(_ value: FlowEncodable) {
 			guard let flowArgument = value.toFlowValue() else {
 				return nil
 			}

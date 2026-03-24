@@ -27,7 +27,8 @@ import Foundation
 import Testing
 
 	// To avoid unnecessary network calls, all examples remain disabled.
-	// To enable, rename exampleXXX functions to @Test methods and adjust expectations.
+	// To enable, port them to the new Flow transaction-building APIs and
+	// turn them into @Test methods.
 
 @Suite
 struct FlowOperationTests {
@@ -69,8 +70,8 @@ struct FlowOperationTests {
 
 	var signers: [ECDSA_P256_Signer] = []
 
-	init() {
-		flow.configure(chainID: .testnet)
+	init() async {
+		await flow.configure(chainID: .testnet)
 		signers.append(
 			ECDSA_P256_Signer(address: address, keyIndex: 0, privateKey: privateKey)
 		)
@@ -78,128 +79,133 @@ struct FlowOperationTests {
 
 		// MARK: - Example operations (disabled)
 
-		// func exampleAddContractToAccount() async throws {
-		//     let txID = try await flow.addContractToAccount(
-		//         address: address,
-		//         contractName: scriptName,
-		//         code: script,
-		//         signers: signers
-		//     )
-		//     print("addContractToAccount -> \(txID.hex)")
-		// }
+	/*
+	 // Legacy examples using old Flow convenience APIs. These no longer exist on
+	 // the Flow type and must be rewritten using the modern transaction builder.
 
-		// func exampleRemoveAccountKeyByIndex() async throws {
-		//     let txID = try await flow.removeAccountKeyByIndex(
-		//         address: address,
-		//         keyIndex: 4,
-		//         signers: signers
-		//     )
-		//     print("removeAccountKeyByIndex -> \(txID.hex)")
-		// }
+	 func exampleAddContractToAccount() async throws {
+	 let txID = try await flow.addContractToAccount(
+	 address: address,
+	 contractName: scriptName,
+	 code: script,
+	 signers: signers
+	 )
+	 print("addContractToAccount -> \(txID.hex)")
+	 }
 
-		// func exampleAddKeyToAccount() async throws {
-		//     let accountKey = Flow.AccountKey(
-		//         publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
-		//         signAlgo: .ECDSA_P256,
-		//         hashAlgo: .SHA2_256,
-		//         weight: 1000
-		//     )
-		//
-		//     let txID = try await flow.addKeyToAccount(
-		//         address: address,
-		//         accountKey: accountKey,
-		//         signers: signers
-		//     )
-		//     print("addKeyToAccount -> \(txID.hex)")
-		// }
+	 func exampleRemoveAccountKeyByIndex() async throws {
+	 let txID = try await flow.removeAccountKeyByIndex(
+	 address: address,
+	 keyIndex: 4,
+	 signers: signers
+	 )
+	 print("removeAccountKeyByIndex -> \(txID.hex)")
+	 }
 
-		// func exampleUpdateContractOfAccount() async throws {
-		//     let script2 = """
-		//     pub contract HelloWorld {
-		//
-		//         pub struct SomeStruct {
-		//             pub var x: Int
-		//             pub var y: Int
-		//
-		//             init(x: Int, y: Int) {
-		//                 self.x = x
-		//                 self.y = y
-		//             }
-		//         }
-		//
-		//         pub let greeting: String
-		//
-		//         init() {
-		//             self.greeting = "Hello World!"
-		//         }
-		//     }
-		//     """
-		//
-		//     let txID = try await flow.updateContractOfAccount(
-		//         address: address,
-		//         contractName: scriptName,
-		//         script: script2,
-		//         signers: signers
-		//     )
-		//     print("updateContractOfAccount -> \(txID.hex)")
-		// }
+	 func exampleAddKeyToAccount() async throws {
+	 let accountKey = Flow.AccountKey(
+	 publicKey: Flow.PublicKey(hex: privateKeyA.publicKey.rawRepresentation.hexValue),
+	 signAlgo: .ECDSA_P256,
+	 hashAlgo: .SHA2_256,
+	 weight: 1000
+	 )
 
-		// func exampleCreateAccount() async throws {
-		//     let accountKey = Flow.AccountKey(
-		//         publicKey: Flow.PublicKey(
-		//             hex: privateKeyA.publicKey.rawRepresentation.hexValue
-		//         ),
-		//         signAlgo: .ECDSA_P256,
-		//         hashAlgo: .SHA2_256,
-		//         weight: 1000
-		//     )
-		//
-		//     let txID = try await flow.createAccount(
-		//         address: address,
-		//         accountKey: accountKey,
-		//         contracts: [scriptName: script],
-		//         signers: signers
-		//     )
-		//
-		//     print("testCreateAccount -> \(txID.hex)")
-		//     let result = try await txID.onceSealed()
-		//     let event = result.events.first { $0.type == "flow.AccountCreated" }
-		//     let field = event?.payload.fields?.value
-		//         .toEvent()?
-		//         .fields
-		//         .first { $0.name == "address" }
-		//     let address = field?.value.value.toAddress()
-		//     print("created address -> \(address?.hex ?? "")")
-		// }
+	 let txID = try await flow.addKeyToAccount(
+	 address: address,
+	 accountKey: accountKey,
+	 signers: signers
+	 )
+	 print("addKeyToAccount -> \(txID.hex)")
+	 }
 
-		// func exampleRemoveContractFromAccount() async throws {
-		//     let txID = try await flow.removeContractFromAccount(
-		//         address: address,
-		//         contractName: scriptName,
-		//         signers: signers
-		//     )
-		//     print("removeContractFromAccount -> \(txID.hex)")
-		// }
+	 func exampleUpdateContractOfAccount() async throws {
+	 let script2 = """
+	 pub contract HelloWorld {
 
-		// func exampleVerifyUserSignature() async throws {
-		//     flow.configure(chainID: .testnet)
-		//     let message = "464c4f57..."
-		//     let signature =
-		//         "0a467f133a971a8e022da54f988c033c05639cddd3bd8a525e566b53ee8e55a112cab1d3f1c628d7d290ec4c00782d8333ba0d8b17ec76408950968db0073aa5"
-		//             .hexValue
-		//             .data
-		//
-		//     let result = try await flow.verifyUserSignature(
-		//         message: message,
-		//         signatures: [
-		//             Flow.TransactionSignature(
-		//                 address: Flow.Address(hex: "0xe242ccfb4b8ea3e2"),
-		//                 keyIndex: 0,
-		//                 signature: signature
-		//             ),
-		//         ]
-		//     )
-		//
-		//     print("verifyUserSignature -> \(result)")
-		// }
+	 pub struct SomeStruct {
+	 pub var x: Int
+	 pub var y: Int
+
+	 init(x: Int, y: Int) {
+	 self.x = x
+	 self.y = y
+	 }
+	 }
+
+	 pub let greeting: String
+
+	 init() {
+	 self.greeting = "Hello World!"
+	 }
+	 }
+	 """
+
+	 let txID = try await flow.updateContractOfAccount(
+	 address: address,
+	 contractName: scriptName,
+	 script: script2,
+	 signers: signers
+	 )
+	 print("updateContractOfAccount -> \(txID.hex)")
+	 }
+
+	 func exampleCreateAccount() async throws {
+	 let accountKey = Flow.AccountKey(
+	 publicKey: Flow.PublicKey(
+	 hex: privateKeyA.publicKey.rawRepresentation.hexValue
+	 ),
+	 signAlgo: .ECDSA_P256,
+	 hashAlgo: .SHA2_256,
+	 weight: 1000
+	 )
+
+	 let txID = try await flow.createAccount(
+	 address: address,
+	 accountKey: accountKey,
+	 contracts: [scriptName: script],
+	 signers: signers
+	 )
+
+	 print("testCreateAccount -> \(txID.hex)")
+	 let result = try await txID.onceSealed()
+	 let event = result.events.first { $0.type == "flow.AccountCreated" }
+	 let field = event?.payload.fields?.value
+	 .toEvent()?
+	 .fields
+	 .first { $0.name == "address" }
+	 let address = field?.value.value.toAddress()
+	 print("created address -> \(address?.hex ?? "")")
+	 }
+
+	 func exampleRemoveContractFromAccount() async throws {
+	 let txID = try await flow.removeContractFromAccount(
+	 address: address,
+	 contractName: scriptName,
+	 signers: signers
+	 )
+	 print("removeContractFromAccount -> \(txID.hex)")
+	 }
+
+	 func exampleVerifyUserSignature() async throws {
+	 flow.configure(chainID: .testnet)
+	 let message = "464c4f57..."
+	 let signature =
+	 "0a467f133a971a8e022da54f988c033c05639cddd3bd8a525e566b53ee8e55a112cab1d3f1c628d7d290ec4c00782d8333ba0d8b17ec76408950968db0073aa5"
+	 .hexValue
+	 .data
+
+	 let result = try await flow.verifyUserSignature(
+	 message: message,
+	 signatures: [
+	 Flow.TransactionSignature(
+	 address: Flow.Address(hex: "0xe242ccfb4b8ea3e2"),
+	 keyIndex: 0,
+	 signature: signature
+	 ),
+	 ]
+	 )
+
+	 print("verifyUserSignature -> \(result)")
+	 }
+	 */
 }

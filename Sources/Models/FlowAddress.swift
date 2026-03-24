@@ -76,7 +76,7 @@ public extension Flow {
 			}
 		}
 
-		internal init(bytes: [UInt8]) {
+		 public init(bytes: [UInt8]) {
 			self.init(data: bytes.data)
 		}
 

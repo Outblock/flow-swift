@@ -38,7 +38,7 @@ struct ECDSA_P256_Signer: FlowSigner {
 
 	func sign(signableData: Data, transaction _: Flow.Transaction?) throws -> Data {
 		do {
-			let hashed = SHA256.hash( signableData)
+			let hashed = SHA256.hash( data: signableData)
 			return try privateKey.signature(for: hashed).rawRepresentation
 		} catch {
 			throw error

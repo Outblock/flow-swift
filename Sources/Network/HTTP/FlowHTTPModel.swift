@@ -70,7 +70,7 @@ public extension Flow {
 		}
 	}
 
-	internal struct TransactionIdResponse: Codable, Sendable {
+	struct TransactionIdResponse: Codable, Sendable {
 		let id: ID
 	}
 }

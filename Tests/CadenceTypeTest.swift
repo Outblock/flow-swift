@@ -22,6 +22,7 @@
 @testable import BigInt
 @testable import Flow
 import Testing
+import Foundation
 
 @Suite
 struct CadenceTypeTests {

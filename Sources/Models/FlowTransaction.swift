@@ -260,7 +260,7 @@ protocol RLPEncodable {
 }
 
 extension Flow.Transaction {
-	/// The transaction status
+		/// The transaction status
 	public enum Status: Int, CaseIterable, Comparable, Equatable, Codable, Sendable {
 		case unknown = 0
 		case pending = 1
@@ -306,7 +306,7 @@ extension Flow.Transaction {
 	}
 
 		/// Internal struct for payload RLP encoding
-	struct Payload: RLPEncodable, Sendable {
+	public struct Payload: RLPEncodable, Sendable {
 		let script: Data
 		let arguments: [Data]
 		let referenceBlockId: Data
@@ -324,7 +324,7 @@ extension Flow.Transaction {
 	}
 
 		/// Internal struct for Envelope RLP encoding
-	struct PayloadEnvelope: RLPEncodable, Sendable {
+	 public struct PayloadEnvelope: RLPEncodable, Sendable {
 		var payload: Payload
 		var payloadSignatures: [EnvelopeSignature]
 
@@ -333,12 +333,12 @@ extension Flow.Transaction {
 		}
 	}
 
-	struct EnvelopeSignature: Comparable, Equatable, Sendable {
+	public struct EnvelopeSignature: Comparable, Equatable, Sendable {
 		let signerIndex: Int
 		let keyIndex: Int
 		let signature: Data
 
-		static func < (lhs: Flow.Transaction.EnvelopeSignature, rhs: Flow.Transaction.EnvelopeSignature) -> Bool {
+		public static func < (lhs: Flow.Transaction.EnvelopeSignature, rhs: Flow.Transaction.EnvelopeSignature) -> Bool {
 			if lhs.signerIndex == rhs.signerIndex {
 				return lhs.keyIndex < rhs.keyIndex
 			}
@@ -346,16 +346,17 @@ extension Flow.Transaction {
 		}
 	}
 
-	struct PaymentEnvelope: Sendable {
+	public struct PaymentEnvelope: Sendable {
 		var payloadEnvelope: PayloadEnvelope
 		var envelopeSignatures: [EnvelopeSignature]
 	}
 }
 
+
 public extension Flow {
-	/// The transaction result in the chain
+		/// The transaction result in the chain
 	struct TransactionResult: Codable, Sendable {
-		/// The status of transaction
+			/// The status of the transaction
 		public let status: Transaction.Status
 
 			/// The error message for the transaction
@@ -364,12 +365,23 @@ public extension Flow {
 			/// The emitted events by this transaction
 		public let events: [Event]
 
-			/// The status code of transaction
-		let statusCode: Int
+			/// The status code of the transaction
+		public let statusCode: Int
 
+			/// The ID of the block that included this transaction
 		public let blockId: ID
 
+			/// Total computation used by this transaction (as returned by the API)
 		public let computationUsed: String
+
+		private enum CodingKeys: String, CodingKey {
+			case status
+			case errorMessage = "error_message"
+			case events
+			case statusCode = "status_code"
+			case blockId = "block_id"
+			case computationUsed = "computation_used"
+		}
 
 		public init(
 			status: Transaction.Status,
@@ -395,6 +407,16 @@ public extension Flow {
 			statusCode = try container.decode(Int.self, forKey: .statusCode)
 			blockId = try container.decode(Flow.ID.self, forKey: .blockId)
 			computationUsed = try container.decode(String.self, forKey: .computationUsed)
+		}
+
+		public func encode(to encoder: Encoder) throws {
+			var container = encoder.container(keyedBy: CodingKeys.self)
+			try container.encode(status, forKey: .status)
+			try container.encode(errorMessage, forKey: .errorMessage)
+			try container.encode(events, forKey: .events)
+			try container.encode(statusCode, forKey: .statusCode)
+			try container.encode(blockId, forKey: .blockId)
+			try container.encode(computationUsed, forKey: .computationUsed)
 		}
 
 		public var errorCode: FvmErrorCode? {
@@ -449,7 +471,7 @@ public extension Flow {
 			self.signature = signature
 		}
 
-		internal init(address: Flow.Address, signerIndex: Int, keyIndex: Int, signature: Data) {
+		public  init(address: Flow.Address, signerIndex: Int, keyIndex: Int, signature: Data) {
 			self.address = address
 			self.signerIndex = signerIndex
 			self.keyIndex = keyIndex
@@ -463,7 +485,7 @@ public extension Flow {
 			return lhs.signerIndex < rhs.signerIndex
 		}
 
-		internal func buildUpon(
+		public mutating func buildUpon(
 			address: Flow.Address? = nil,
 			signerIndex: Int? = nil,
 			keyIndex: Int? = nil,
@@ -527,3 +549,5 @@ extension Flow.TransactionSignature: Codable {
 		signerIndex = -1
 	}
 }
+
+

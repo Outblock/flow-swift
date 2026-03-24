@@ -1,371 +1,176 @@
-Here is a refactored `README.md` that removes any sensitive data while preserving documentation value. It keeps only public endpoints, example hex values, and non-secret configuration.
-
 ```markdown
-<br />
-<div align="center">
-  <a href="">
-    <img src="https://raw.githubusercontent.com/Outblock/flow-swift/main/Resources/logo.svg" alt="Logo" width="600" height="auto">
-  </a>
-  <p align="center"><br />
-    <a href="https://github.com/Outblock/flow-swift"><strong>View on GitHub »</strong></a><br /><br />
-    <a href="https://outblock.github.io/flow-swift">SDK Specifications</a> ·
-    <a href="">Contribute</a> ·
-    <a href="">Report a Bug</a>
-  </p>
-</div>
-<br/>
+# flow-swift (Swift 6 & Swift Testing Migration)
 
-## Overview
+This fork updates the original Outblock `flow-swift` SDK and tests for Swift 6, modern concurrency, and Swift Testing. It focuses on safety, test reliability, and compatibility with current Flow tooling and APIs.
 
-This reference documents the core methods available in the Flow Swift SDK and explains how these methods work at a high level. SDKs are open source and can be used according to the license.
+## What’s New
 
-The library client specifications can be found here:
+### 1. Swift 6 Concurrency & Actors
 
-https://outblock.github.io/flow-swift/
+- Actor-based WebSocket center  
+  - Introduced a WebSocket coordination actor that manages NIO-based subscriptions for transaction status streams.  
+  - Uses `AsyncThrowingStream<Flow.WebSocketTopicResponse<Flow.WSTransactionResponse>, Error>.Continuation` per `Flow.ID` to bridge NIO callbacks into structured async streams.
 
-## Getting Started
+- Transaction status waiting APIs  
+  - Added helpers like:
+    - `once(status: Flow.Transaction.Status, timeout: TimeInterval = 60) async throws -> Flow.TransactionResult` on `Flow.ID`.  
+  - Internally, this uses `AsyncThrowingStream` and task groups to:
+    - Listen for WebSocket updates.
+    - Enforce timeouts.
+    - Cancel remaining work after a result is obtained.
 
-### Installing
+- Sendable coverage  
+  - Marked core models as `Sendable` where correct, including:
+    - Transaction-related WebSocket response types.
+    - Value and argument container types used across tasks and actors.
 
-This is a Swift Package and can be installed via Xcode using the URL of the repository:
+### 2. Swift Testing Migration
+
+All XCTest-based tests were migrated to the new Swift Testing APIs:
+
+- `@Suite` instead of `XCTestCase`.
+- `@Test("description")` instead of `func testXYZ()`.
+- `#expect(...)` assertions instead of `XCTAssert*`.
+
+Updated suites include (non-exhaustive):
+
+- `FlowAccessAPIOnTestnetTests`
+- `FlowOperationTests` (with legacy examples preserved but disabled)
+- `CadenceTargetTests`
+- `RLPTests`
+
+### 3. API & DSL Adjustments
+
+- Transaction builder DSL  
+  - Transaction construction now uses a clearer builder style:
+    - `cadence { """ ... """ }`
+    - `proposer { Flow.TransactionProposalKey(...) }`
+    - `payer { Flow.Address(...) }`
+    - `authorizers { [...] }`
+    - `arguments { [Flow.Argument(...), ...] }`
+    - `gasLimit { 1000 }`
+  - Builders are compatible with Swift 6’s stricter closure isolation rules.
+
+- Flow.Argument & Cadence values  
+  - `Flow.Argument` retains initializers that wrap Cadence values, while avoiding leaking internal representation types into the public API.  
+  - Conversion helpers are available internally to map between Cadence values and arguments, but callers typically work directly with `Flow.Argument` and the DSL.
+
+- Cadence target tests  
+  - `CadenceTargetTests` now uses an explicit enum-based target description without relying on reflection.  
+  - Arguments are explicitly constructed per case, improving clarity and type safety.
+
+### 4. Access Control & Safety Tightening
+
+- Cadence model types and conversion utilities remain internal to the SDK, so they do not appear in the public API.  
+- Helpers that depend on internal representation types are kept internal to avoid access-control and ABI issues.  
+- Public surface area exposes stable, high-level types (e.g., `Flow.Argument`, `Flow.Address`, `Flow.Transaction`) instead of low-level Cadence internals.
+
+### 5. RLP & Transaction Encoding Tests
+
+- `RLPTests` were modernized for Swift 6:
+  - Fixed issues where mutating helpers were called on immutable values by introducing local mutable copies when necessary.
+  - Preserved all original RLP expectations, ensuring transaction encoding remains compatible with Flow nodes.
+
+## What Was Removed or Disabled
+
+- Legacy high-level transaction helpers on `Flow`  
+  - Methods like `addContractToAccount`, `removeAccountKeyByIndex`, `addKeyToAccount`, `createAccount(...)`, `updateContractOfAccount`, `removeContractFromAccount`, and `verifyUserSignature(...)` are no longer exposed on the main `Flow` type.  
+  - Tests that referenced these helpers have been converted into commented examples inside `FlowOperationTests`:
+    - They remain as documentation for how to implement these flows.
+    - They can be reintroduced or reimplemented using the new transaction builder DSL as needed.
+
+- Reflection-based test plumbing  
+  - Reflection-based helper types previously used to derive arguments (e.g., via `Mirror`) are no longer used in public-facing tests.  
+  - Tests now wire arguments explicitly for clarity and compatibility with Swift 6.
+
+## Installation
+
+### Requirements
+
+- Swift 6 toolchain (or the latest Swift that supports Swift Testing and stricter concurrency checks).  
+- macOS with Xcode 16+ (or a matching Swift toolchain on another platform).  
+- Network access to Flow testnet/mainnet for integration tests.
+
+### Using Swift Package Manager
+
+Add the package to `Package.swift`:
 
 ```swift
-.package(
-    name: "Flow",
-    url: "https://github.com/outblock/flow-swift.git",
-    from: "0.4.0"
+dependencies: [
+    .package(url: "https://github.com/<your-org>/flow-swift.git", branch: "main")
+]
+```
+
+Then add `Flow` as a dependency to your target:
+
+```swift
+.target(
+    name: "MyApp",
+    dependencies: [
+        .product(name: "Flow", package: "flow-swift")
+    ]
 )
 ```
 
-## Configuration
+Update and build:
 
-The library uses gRPC or HTTP to communicate with Flow access nodes and must be configured with a valid access node endpoint.
-
-📖 **Access API URLs** are documented here:  
-https://docs.onflow.org/access-api/#flow-access-node-endpoints
-
-The Access Node APIs hosted by Dapper Labs are available at:
-
-- Testnet: `access.devnet.nodes.onflow.org:9000`
-- Mainnet: `access.mainnet.nodes.onflow.org:9000`
-- Local Emulator: `127.0.0.1:3569`
-
-To configure the SDK, you primarily specify the `chainID`. The default `chainID` is **mainnet**.
-
-```swift
-flow.configure(chainID: .mainnet)
-// or
-flow.configure(chainID: .testnet)
+```bash
+swift package update
+swift build
 ```
 
-To use a custom gRPC endpoint:
+## Testing
 
-```swift
-let endpoint = Flow.ChainID.Endpoint(node: "your-node.example.com", port: 443)
-let chainID = Flow.ChainID.custom(name: "Custom-Network", endpoint: endpoint)
-flow.configure(chainID: chainID)
+This repository uses Swift Testing (`@Suite`, `@Test`, `#expect`) instead of XCTest.
+
+### Run All Tests
+
+From the package root:
+
+```bash
+swift test
 ```
 
-> Do not hard-code private API keys or credentials into your README or source. Use environment variables or Xcode build settings instead.
+This will build and run all active test suites, including:
 
-### (Optional) gRPC Access Node
+- `FlowAccessAPIOnTestnetTests`
+- `CadenceTargetTests`
+- `RLPTests`
+- `FlowOperationTests` (only active tests; legacy examples remain commented out)
 
-If you prefer the gRPC access client over the HTTP client:
+### Network-dependent Tests
 
-```swift
-import FlowGRPC
+- `FlowAccessAPIOnTestnetTests` exercises real Flow access nodes against testnet.  
+- Ensure:
+  - Correct access node configuration (HTTP endpoint via `createHTTPAccessAPI(chainID: .testnet)`).
+  - Stable network connectivity.
 
-let accessAPI = Flow.GRPCAccessAPI(chainID: .mainnet)!
-let chainID = Flow.ChainID.mainnet
-flow.configure(chainID: chainID, accessAPI: accessAPI)
+If you need to avoid network tests (e.g., in CI):
+
+- Disable or tag specific tests/suites.
+- Or temporarily comment out the `@Test` attributes for integration tests.
+
+### Run a Single Suite
+
+If your toolchain supports filtering:
+
+```bash
+swift test --filter FlowAccessAPIOnTestnetTests
 ```
 
-## Querying the Flow Network
+## Notes for Contributors
 
-Once configured, you can query the Flow network for blocks, accounts, events, and transactions.
+- Concurrency  
+  - Prefer `actor` for shared mutable state (e.g., WebSocket centers).  
+  - Only mark types as `Sendable` when they are truly safe across tasks.  
+  - Avoid capturing non-Sendable types (such as test suites) in `@Sendable` closures; capture only the values needed.
 
-### Get Blocks
+- Access control  
+  - Keep Cadence internals (`FValue`-like types and converters) non-public.  
+  - When adding helpers on top of internal types, keep them internal unless you design a stable public abstraction.
 
-Query the network for a block by ID, height, or request the latest block.
-
-```swift
-let latest = try await flow.getLatestBlock(sealed: true)
+- Tests as specification  
+  - Encoding tests (especially RLP) serve as a compatibility spec; do not change expected hex outputs unless you are intentionally changing encoding semantics and understand the implications for network compatibility.
 ```
 
-### Get Account
-
-Retrieve any account from the latest block or from a specified block height.
-
-📖 **Account address** is a unique identifier. Use the `0x` prefix by default but handle user input that may omit it.
-
-An account includes:
-
-- Address
-- Balance
-- Contracts
-- Keys
-
-Example:
-
-```swift
-let address = Flow.Address(hex: "0x1")
-let account = try await flow.getAccountAtLatestBlock(address: address)
-```
-
-### Get Transactions
-
-Retrieve transactions and their results using a transaction ID.
-
-📖 **Transaction ID** is a hash of the encoded transaction payload.
-
-```swift
-let id = Flow.ID(hex: "0x1")
-let tx = try await flow.getTransactionById(id: id)
-```
-
-Transaction statuses:
-
-| Status     | Final | Description                                                   |
-|-----------|-------|---------------------------------------------------------------|
-| UNKNOWN   | ❌    | Transaction not yet seen by the network                       |
-| PENDING   | ❌    | Transaction not yet included in a block                       |
-| FINALIZED | ❌    | Transaction included in a block                               |
-| EXECUTED  | ❌    | Executed, but result not yet sealed                           |
-| SEALED    | ✅    | Executed and sealed in a block                                |
-| EXPIRED   | ✅    | Reference block expired before execution                      |
-
-### Get Events
-
-Retrieve events by type over a block height range or a list of block IDs.
-
-Event type format:
-
-```text
-A.{contract address}.{contract name}.{event name}
-```
-
-Example:
-
-```swift
-let eventName = "A.{contract address}.{contract name}.{event name}"
-let result = try await flow.getEventsForHeightRange(
-    type: eventName,
-    range: 10...20
-)
-```
-
-See:  
-- https://docs.onflow.org/core-contracts/flow-token/  
-- https://docs.onflow.org/cadence/language/core-events/
-
-### Get Collections
-
-Collections are batches of transactions included in the same block.
-
-```swift
-let id = Flow.ID(hex: "0x1")
-let collection = try await flow.getCollectionById(id: id)
-```
-
-## Execute Scripts
-
-Scripts are non-mutating Cadence code that read data from the blockchain.
-
-Example Cadence scripts:
-
-```cadence
-// simple script
-pub fun main(a: Int): Int {
-    return a + 10
-}
-
-// complex script
-pub struct User {
-    pub var balance: UFix64
-    pub var address: Address
-    pub var name: String
-
-    init(name: String, address: Address, balance: UFix64) {
-        self.name = name
-        self.address = address
-        self.balance = balance
-    }
-}
-
-pub fun main(name: String): User {
-    return User(
-        name: name,
-        address: 0x1,
-        balance: 10.0
-    )
-}
-```
-
-Example Swift usage:
-
-```swift
-struct User: Codable {
-    let balance: Double
-    let address: String
-    let name: String
-}
-
-let snapshot = try await flow.executeScriptAtLatestBlock(
-    script: script,
-    arguments: [.init(value: .string("test"))]
-)
-let model: User = try snapshot.decode()
-```
-
-## Mutating the Flow Network (Transactions)
-
-Transactions mutate on-chain state (e.g., transfers, contract updates). A transaction contains:
-
-- Script (Cadence code)
-- Arguments
-- Proposal key
-- Payer
-- Authorizers
-- Gas limit
-- Reference block
-
-### Building Transactions
-
-```swift
-let address = Flow.Address(hex: "0x1")
-
-var unsignedTx = try await flow.buildTransaction {
-    cadence {
-        """
-        transaction(greeting: String) {
-          let guest: Address
-
-          prepare(authorizer: AuthAccount) {
-            self.guest = authorizer.address
-          }
-
-          execute {
-            log(greeting.concat(",").concat(guest.toString()))
-          }
-        }
-        """
-    }
-
-    proposer {
-        Flow.TransactionProposalKey(address: address, keyIndex: 1)
-    }
-
-    authorizers {
-        address
-    }
-
-    arguments {
-        [.string("Hello Flow!")]
-    }
-
-    payer {
-        address
-    }
-
-    gasLimit {
-        1000
-    }
-}
-```
-
-### Signing & Sending Transactions
-
-Define a `FlowSigner` implementation using secure key storage. Do not embed real private keys in documentation or code.
-
-```swift
-public protocol FlowSigner {
-    var address: Flow.Address { get set }
-    var keyIndex: Int { get set }
-    func signature(transaction: Flow.Transaction, signableData: Data) async throws -> Data
-}
-```
-
-Example usage sketch (keys omitted intentionally):
-
-```swift
-let signers: [FlowSigner] = [/* your signer implementations */]
-
-var unsignedTx = try await flow.buildTransaction { /* ... */ }
-let signedTx = try await unsignedTx.sign(signers: signers)
-let txId = try await flow.sendTransaction(signedTransaction: signedTx)
-```
-
-> Never commit private keys, seed phrases, or real signatures to the README or repository. Use placeholders and environment-based configuration.
-
-## Account Creation (High-Level)
-
-On Flow, account creation happens inside a transaction. The API expects a `Flow.AccountKey` and contract map. Example with placeholder values:
-
-```swift
-let accountKey = Flow.AccountKey(
-    publicKey: Flow.PublicKey(hex: "<PUBLIC_KEY_HEX>"),
-    signAlgo: .ECDSA_P256,
-    hashAlgo: .SHA2_256,
-    weight: 1000
-)
-
-let txId = try await flow.createAccount(
-    address: someCreatorAddress,
-    publicKeys: [accountKey],
-    contracts: ["Example": exampleContractSource],
-    signers: signers
-)
-```
-
-Supply public keys and contracts at runtime from secure sources; do not embed production keys in documentation.
-
-## Swift 6 Concurrency & Best Practices
-
-This SDK is designed to work naturally with Swift 6 async/await and actors:
-
-- Use `async`/`await` for all network operations.
-- Prefer `Task` and `TaskGroup` for parallel queries.
-- Use `@MainActor` for UI-bound view models in SwiftUI apps.
-- Keep credentials and configuration out of source (use `.xcconfig`, environment variables, or secure storage).
-
-Example:
-
-```swift
-@MainActor
-final class AccountViewModel: ObservableObject {
-    @Published var account: Flow.Account?
-    @Published var isLoading = false
-    @Published var error: Error?
-
-    func load(address: Flow.Address) {
-        Task {
-            isLoading = true
-            defer { isLoading = false }
-
-            do {
-                account = try await flow.getAccountAtLatestBlock(address: address)
-            } catch {
-                self.error = error
-            }
-        }
-    }
-}
-```
-
-## Security Guidelines
-
-- Do **not** commit private keys, mnemonics, or secrets to the repository.
-- Use `.gitignore` for local config files and key material.
-- Use placeholders (e.g., `<PUBLIC_KEY_HEX>`, `<YOUR_ENDPOINT>`) in documentation.
-- Prefer environment variables or CI secrets for API keys and private configuration.
-- Review sample code before copying into production to ensure no dummy values are used as-is.
-
-## Additional Resources
-
-- Swift Concurrency: https://developer.apple.com/swift/
-- Flow Docs: https://developers.flow.com
-- Cadence Language: https://docs.onflow.org/cadence
-- Flow Access API: https://docs.onflow.org/access-api/
-
-
-
+\

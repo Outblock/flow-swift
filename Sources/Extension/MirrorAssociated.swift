@@ -1,19 +1,21 @@
 	//
-	//  File.swift
+	//  MirrorAssociated.swift
 	//  Flow
 	//
 	//  Created by Hao Fu on 23/4/2025.
 	//
 	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+	//
+
 import Foundation
 import SwiftUI
 
-public protocol MirrorAssociated {
+protocol MirrorAssociated {
 	var associatedValues: [String: FlowEncodable] { get }
 }
 
 extension MirrorAssociated {
-	public var associatedValues: [String: FlowEncodable] {
+	var associatedValues: [String: FlowEncodable] {
 		var values = [String: FlowEncodable]()
 		if let associated = Mirror(reflecting: self).children.first {
 			let children = Mirror(reflecting: associated.value).children

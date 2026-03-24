@@ -23,7 +23,7 @@ import CryptoKit
 /// ECDSA P‑256 signer for Flow, backed by CryptoKit.
 public struct P256FlowSigner: FlowSigner {
 
-	public let algorithm: FlowSignatureAlgorithm = .ecdsaP256
+	public let algorithm: Flow.SignatureAlgorithm = .ECDSA_P256
 	public let address: Flow.Address
 	public let keyIndex: Int
 

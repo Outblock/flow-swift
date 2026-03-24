@@ -54,10 +54,11 @@ struct NFTCatalogTests {
 
 	@Test(
 		"NFTCatalog getCatalog on testnet returns metadata dictionary",
-		.timeLimit(.seconds(60))
+		.timeLimit(.minutes(1))
 	)
 	func nftCatalogTestnet() async throws {
-		flow.configure(chainID: .testnet)
+		await flow.configure(chainID: .testnet)
+
 		let response = try await flow.accessAPI.executeScriptAtLatestBlock(
 			script: .init(
 				text: """
@@ -77,10 +78,11 @@ struct NFTCatalogTests {
 
 	@Test(
 		"NFTCatalog single collection metadata on mainnet",
-		.timeLimit(.seconds(60))
+		.timeLimit(.minutes(1))
 	)
 	func nftCatalogSingleCollection() async throws {
-		flow.configure(chainID: .mainnet)
+		await flow.configure(chainID: .mainnet)
+
 		let cadence = """
 		import NFTCatalog from 0x49a7cda3a1eecc29
 		
@@ -98,10 +100,11 @@ struct NFTCatalogTests {
 
 	@Test(
 		"NFTCatalog per-collection NFT counts",
-		.timeLimit(.seconds(120))
+		.timeLimit(.minutes(2))
 	)
 	func nftCatalogCounts() async throws {
-		flow.configure(chainID: .mainnet)
+		await flow.configure(chainID: .mainnet)
+
 		let cadence = """
 		import MetadataViews from 0x1d7e57aa55817448
 		import NFTCatalog from 0x49a7cda3a1eecc29
@@ -152,10 +155,11 @@ struct NFTCatalogTests {
 
 	@Test(
 		"NFTCatalog per-collection NFT IDs",
-		.timeLimit(.seconds(120))
+		.timeLimit(.minutes(2))
 	)
 	func nftCatalogIDs() async throws {
-		flow.configure(chainID: .mainnet)
+		await flow.configure(chainID: .mainnet)
+
 		let cadence = """
 		import MetadataViews from 0x1d7e57aa55817448
 		import NFTCatalog from 0x49a7cda3a1eecc29

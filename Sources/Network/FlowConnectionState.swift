@@ -3,25 +3,14 @@
 	//  Flow
 	//
 	//  Created by Nicholas Reich on 3/21/26.
+	//  Refactored to remove Combine and rely on FlowActor isolation.
 	//
 
-import SwiftUI
-import Combine
+import Foundation
 
 @available(macOS 14.0, *)
-@Observable
-@MainActor
+@FlowActor
 final class FlowConnectionState {
-	@Published var isConnected: Bool = false
-	@Published var lastError: Error?
+	var isConnected: Bool = false
+	var lastError: Error?
 }
-
-@available(macOS 14.0, *)
-extension FlowConnectionState {
-
-		/// Async sequence of connection state changes.
-	var isConnectedValues: some AsyncSequence {
-		$isConnected.values
-	}
-}
-

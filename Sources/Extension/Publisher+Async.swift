@@ -2,15 +2,15 @@
  *  AsyncCompatibilityKit
  *  Copyright (c) John Sundell 2021
  *  MIT license, see LICENSE.md file for details
+ *
+ *  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
  */
-	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
 
 @preconcurrency import Combine
-import Combine
 import Foundation
 import SwiftUI
 
-	// Simple Sendable box for the cancellable reference
+	/// Simple Sendable box for the cancellable reference
 final class CancellableBox: @unchecked Sendable {
 	var cancellable: AnyCancellable?
 	init(_ cancellable: AnyCancellable? = nil) {
@@ -23,7 +23,7 @@ final class CancellableBox: @unchecked Sendable {
 	deprecated: 15.0,
 	message: "AsyncCompatibilityKit is only useful when targeting iOS versions earlier than 15"
 )
-public extension Publisher {
+public extension Publisher where Output: Sendable {
 		/// Convert this publisher into an `AsyncThrowingStream` that
 		/// can be iterated over asynchronously using `for try await`.
 		/// The stream will yield each output value produced by the
@@ -36,8 +36,8 @@ public extension Publisher {
 				box.cancellable?.cancel()
 			}
 
-			box.cancellable = sink(
-				receiveCompletion: { completion in
+			box.cancellable = self.sink(
+				receiveCompletion: { @Sendable completion in
 					switch completion {
 						case .finished:
 							continuation.finish()
@@ -45,7 +45,8 @@ public extension Publisher {
 							continuation.finish(throwing: error)
 					}
 				},
-				receiveValue: { value in
+				receiveValue: { @Sendable value in
+						// `Output` is constrained to `Sendable`, so this is safe.
 					continuation.yield(value)
 				}
 			)
@@ -58,7 +59,7 @@ public extension Publisher {
 	deprecated: 15.0,
 	message: "AsyncCompatibilityKit is only useful when targeting iOS versions earlier than 15"
 )
-public extension Publisher where Failure == Never {
+public extension Publisher where Failure == Never, Output: Sendable {
 		/// Convert this publisher into an `AsyncStream` that can
 		/// be iterated over asynchronously using `for await`. The
 		/// stream will yield each output value produced by the
@@ -71,11 +72,12 @@ public extension Publisher where Failure == Never {
 				box.cancellable?.cancel()
 			}
 
-			box.cancellable = sink(
-				receiveCompletion: { _ in
+			box.cancellable = self.sink(
+				receiveCompletion: { @Sendable _ in
 					continuation.finish()
 				},
-				receiveValue: { value in
+				receiveValue: { @Sendable value in
+						// `Output` is constrained to `Sendable`, so this is safe.
 					continuation.yield(value)
 				}
 			)
@@ -83,7 +85,7 @@ public extension Publisher where Failure == Never {
 	}
 }
 
-struct TimeoutError: LocalizedError {
+struct TimeoutError: LocalizedError, Sendable {
 	var errorDescription: String? {
 		"Publisher timed out"
 	}
@@ -92,11 +94,11 @@ struct TimeoutError: LocalizedError {
 public func awaitPublisher<T: Publisher>(
 	_ publisher: T,
 	timeout: TimeInterval = 20
-) async throws -> T.Output {
+) async throws -> T.Output where T.Output: Sendable {
 	try await withCheckedThrowingContinuation { continuation in
 		let box = CancellableBox()
 
-		let timeoutTask = _Concurrency.Task.detached {
+		let timeoutTask = _Concurrency.Task {
 			try await _Concurrency.Task.sleep(
 				nanoseconds: UInt64(timeout * 1_000_000_000)
 			)
@@ -106,14 +108,15 @@ public func awaitPublisher<T: Publisher>(
 
 		box.cancellable = publisher.first()
 			.sink(
-				receiveCompletion: { completion in
+				receiveCompletion: { @Sendable completion in
 					timeoutTask.cancel()
 					if case let .failure(error) = completion {
 						continuation.resume(throwing: error)
 					}
 				},
-				receiveValue: { value in
+				receiveValue: { @Sendable value in
 					timeoutTask.cancel()
+						// `T.Output` is constrained to `Sendable`, so this is safe.
 					continuation.resume(returning: value)
 				}
 			)

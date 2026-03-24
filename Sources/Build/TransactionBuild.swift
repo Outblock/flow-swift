@@ -120,7 +120,7 @@ public extension Flow {
 	}
 }
 
-// MARK: - Build & send helpers
+	// MARK: - Build & send helpers
 
 @FlowActor
 public extension Flow {
@@ -264,15 +264,15 @@ public extension Flow {
 		await FlowLogger.shared.logAsync(
 			.info,
 			message: """
-			Transaction built successfully:
-			- Script size: \(script.data.count) bytes
-			- Arguments count: \(args.count)
-			- Reference block: \(id.hex)
-			- Gas limit: \(gasLimit)
-			- Proposer: \(proposalKey.address.hex)
-			- Payer: \((payer ?? proposalKey.address).hex)
-			- Authorizers count: \(auths.count)
-			"""
+   Transaction built successfully:
+   - Script size: \(script.data.count) bytes
+   - Arguments count: \(args.count)
+   - Reference block: \(id.hex)
+   - Gas limit: \(gasLimit)
+   - Proposer: \(proposalKey.address.hex)
+   - Payer: \((payer ?? proposalKey.address).hex)
+   - Authorizers count: \(auths.count)
+   """
 		)
 
 		return transaction
@@ -371,37 +371,37 @@ public extension Flow {
 	}
 }
 
-// MARK: - Helper functions
+	// MARK: - Helper functions
 
 private func resolveBlockId(
-api: FlowAccessProtocol,
-refBlock: Flow.ID?
+	api: FlowAccessProtocol,
+	refBlock: Flow.ID?
 ) async throws -> Flow.ID {
 	if let blockID = refBlock {
 		await FlowLogger.shared.logAsync(
-		.debug,
-		message: "Using provided block ID: \(blockID.hex)"
+			.debug,
+			message: "Using provided block ID: \(blockID.hex)"
 		)
 		return blockID
 	} else {
 		await FlowLogger.shared.logAsync(.debug, message: "Fetching latest sealed block")
 		let block = try await api.getLatestBlock(sealed: true)
 		await FlowLogger.shared.logAsync(
-		.debug,
-		message: "Using latest block ID: \(block.id.hex)"
+			.debug,
+			message: "Using latest block ID: \(block.id.hex)"
 		)
 		return block.id
 	}
 }
 
 private func resolveProposalKey(
-api: FlowAccessProtocol,
-proposalKey: Flow.TransactionProposalKey
+	api: FlowAccessProtocol,
+	proposalKey: Flow.TransactionProposalKey
 ) async throws -> Flow.TransactionProposalKey {
 	if proposalKey.sequenceNumber == -1 {
 		await FlowLogger.shared.logAsync(
-		.debug,
-		message: "Fetching sequence number for account: \(proposalKey.address.hex)"
+			.debug,
+			message: "Fetching sequence number for account: \(proposalKey.address.hex)"
 		)
 		let account = try await api.getAccountAtLatestBlock(address: proposalKey.address)
 
@@ -428,3 +428,4 @@ proposalKey: Flow.TransactionProposalKey
 
 	return proposalKey
 }
+

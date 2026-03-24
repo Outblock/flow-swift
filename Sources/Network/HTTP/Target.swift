@@ -21,12 +21,12 @@
 
 import Foundation
 
-internal enum Method: String {
+public enum Method: String {
 	case GET
 	case POST
 }
 
-internal protocol TargetType {
+public protocol TargetType {
 		/// The target's base `URL`.
 	var baseURL: URL { get }
 
@@ -43,19 +43,19 @@ internal protocol TargetType {
 	var headers: [String: String]? { get }
 }
 
-internal enum Task {
+public enum Task {
 	/// A requests body set with encoded parameters.
 	case requestParameters(_ parameters: [String: String]? = nil, body: Encodable? = nil)
 }
 
-internal struct AnyEncodable: Encodable {
+public struct AnyEncodable: Encodable {
 	private let encodable: Encodable
 
 	public init(_ encodable: Encodable) {
 		self.encodable = encodable
 	}
 
-	func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		try encodable.encode(to: encoder)
 	}
 }

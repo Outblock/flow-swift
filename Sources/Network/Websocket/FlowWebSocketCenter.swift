@@ -56,7 +56,8 @@ public actor FlowWebSocketCenter {
 	> {
 		try await connectIfNeeded()
 
-		if let existing = transactionSubscriptions[id] {
+			// If already subscribed, fail the new stream immediately.
+		if transactionSubscriptions[id] != nil {
 			return AsyncThrowingStream { continuation in
 				continuation.finish(
 					throwing: Flow.FError.customError(
@@ -70,8 +71,9 @@ public actor FlowWebSocketCenter {
 			transactionSubscriptions[id] = continuation
 
 			continuation.onTermination = { [weak self] _ in
-				_Concurrency
-					.Task { await self?.removeTransactionSubscription(for: id) }
+				_Concurrency.Task {
+					await self?.removeTransactionSubscription(for: id)
+				}
 			}
 
 			_Concurrency.Task {

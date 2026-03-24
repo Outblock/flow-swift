@@ -85,12 +85,12 @@ public extension Array where Element == UInt8 {
 
 public extension Data {
 	/// Convert data to list of byte
-	internal var bytes: Bytes {
+	 var bytes: Bytes {
 		Bytes(self)
 	}
 
 		/// Initial the data with hex string
-	internal static func fromHex(_ hex: String) -> Data? {
+	 static func fromHex(_ hex: String) -> Data? {
 		let string = hex.lowercased().stripHexPrefix()
 		guard let array = string.data(using: .utf8)?.bytes else {
 			return nil

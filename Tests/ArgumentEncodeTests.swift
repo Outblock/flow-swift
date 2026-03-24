@@ -22,6 +22,7 @@
 @testable import BigInt
 @testable import Flow
 import Testing
+import Foundation
 
 @Suite
 struct ArgumentEncodeTests {
@@ -161,7 +162,7 @@ struct ArgumentEncodeTests {
 			let jsonData = jsonString.data(using: .utf8),
 			let object = try? JSONSerialization.jsonObject(with: jsonData),
 			let formattedData = try? JSONSerialization.data(withJSONObject: object, options: []),
-			let formattedString = String( formattedData, encoding: .utf8)
+			let formattedString = String(data: formattedData, encoding: .utf8)
 		else {
 			return nil
 		}

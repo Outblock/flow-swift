@@ -1,5 +1,5 @@
 	//
-	//  FlowSigner
+	//  FlowSigner.swift
 	//
 	//  Copyright 2022 Outblock Pty Ltd
 	//
@@ -16,9 +16,9 @@
 	//  limitations under the License.
 	//
 	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+	//
 
-import Combine
-import SwiftUI
+import Foundation
 
 	/// A protocol for signer to use private key to sign the data
 public protocol FlowSigner: Sendable {
@@ -41,5 +41,3 @@ public extension FlowSigner {
 		try await sign(signableData: signableData, transaction: nil)
 	}
 }
-
-

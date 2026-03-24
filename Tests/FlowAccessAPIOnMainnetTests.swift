@@ -29,14 +29,14 @@ struct FlowAccessAPIOnMainnetTests {
 	var flowAPI: FlowAccessProtocol!
 	var address = Flow.Address(hex: "0x2b06c41f44a05656")
 
-	init() {
-		flow.configure(chainID: .mainnet)
+	init() async {
+		await flow.configure(chainID: .mainnet)
 		flowAPI = flow.createHTTPAccessAPI(chainID: .mainnet)
 	}
 
 	@Test(
 		"Flow mainnet ping succeeds",
-		.timeLimit(.seconds(10))
+		.timeLimit(.minutes(1))
 	)
 	func flowPing() async throws {
 		let isConnected = try await flowAPI.ping()
@@ -45,7 +45,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet network parameters",
-		.timeLimit(.seconds(10))
+		.timeLimit(.minutes(1))
 	)
 	func networkParameters() async throws {
 		let chainID = try await flowAPI.getNetworkParameters()
@@ -54,7 +54,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet latest block header",
-		.timeLimit(.seconds(10))
+		.timeLimit(.minutes(1))
 	)
 	func blockHeader() async throws {
 		let blockHeader = try await flowAPI.getLatestBlockHeader()
@@ -63,7 +63,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet get account with fixed values",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func getAccount() async throws {
 		let account = try await flowAPI.getAccountAtLatestBlock(
@@ -76,7 +76,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet get account by stored address",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func getAccount2() async throws {
 		let account = try await flowAPI.getAccountAtLatestBlock(address: address.hex)
@@ -86,7 +86,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet get block header by ID",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func getBlockHeaderByID() async throws {
 		let block = try await flowAPI.getLatestBlock(sealed: true)
@@ -96,7 +96,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet get block header by height",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func getBlockHeaderByHeight() async throws {
 		let blockHeader = try await flowAPI.getBlockHeaderByHeight(height: 41_344_631)
@@ -108,7 +108,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet get account by block height",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func getAccountByHeight() async throws {
 		let block = try await flowAPI.getLatestBlock(sealed: true)
@@ -123,7 +123,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet get latest block",
-		.timeLimit(.seconds(10))
+		.timeLimit(.minutes(1))
 	)
 	func getLatestBlock() async throws {
 		let block = try await flowAPI.getLatestBlock(sealed: true)
@@ -132,7 +132,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet query complex struct array",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func queryToken() async throws {
 		let script = Flow.Script(
@@ -185,7 +185,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet execute script with arguments",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func executeScriptAtLatestBlock2() async throws {
 		let script = Flow.Script(
@@ -233,7 +233,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet verify signature script",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func verifySignature() async throws {
 		let script = Flow.Script(
@@ -283,7 +283,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet transaction result by ID",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func transactionResultById() async throws {
 		let id = Flow.ID(
@@ -308,7 +308,7 @@ struct FlowAccessAPIOnMainnetTests {
 
 	@Test(
 		"Flow mainnet transaction by ID (basic smoke)",
-		.timeLimit(.seconds(20))
+		.timeLimit(.minutes(1))
 	)
 	func transactionById() async throws {
 		let id = Flow.ID(

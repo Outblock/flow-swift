@@ -3,12 +3,11 @@
 	//  Flow
 	//
 	//  Created by Nicholas Reich on 3/22/26.
-	//  Modernized to delegate to FlowWebSocketCenter (NIO) while preserving
-	//  the legacy Flow.Websocket + Combine API surface.
+	//  Modernized to delegate to FlowWebSocketCenter (NIO) while using
+	//  Swift Concurrency (AsyncStream) instead of Combine.
 	//
 
 import Foundation
-@preconcurrency import Combine
 
 	// MARK: - Global Websocket Actor
 
@@ -27,30 +26,13 @@ public actor FlowWebsocketActor {
 
 public extension Flow {
 
-		/// Legacy-style websocket façade that preserves the old API shape
-		/// but delegates to FlowWebSocketCenter + NIO.
-	@preconcurrency
+		/// Websocket façade that delegates to FlowWebSocketCenter + NIO
+		/// and exposes AsyncStream-based APIs.
 	actor Websocket {
 
 			// MARK: State (facade)
 
 		private var isConnected = false
-
-		private struct SubscriptionInfo {
-			let id: String
-			let topic: Topic
-			let subject: Any
-		}
-
-		private var subscriptions: [String: SubscriptionInfo] = [:]
-
-		private let connectionSubject = PassthroughSubject<Bool, Never>()
-		private let accountUpdateSubject = PassthroughSubject<Flow.Address, Never>()
-		private let transactionStatusSubject =
-		PassthroughSubject<(Flow.ID, Flow.TransactionStatus), Never>()
-		private let errorSubject = PassthroughSubject<Error, Never>()
-		private let walletResponseSubject =
-		PassthroughSubject<(approved: Bool, [String: String]), Never>()
 
 		public init() {}
 
@@ -76,100 +58,60 @@ public extension Flow {
 			}
 		}
 
-			// MARK: - Legacy message handling helpers (still usable by tests)
+			// MARK: - Transaction status subscription via FlowWebSocketCenter
 
-		private func handleTextMessage(_ text: String) async {
-			guard let data = text.data(using: .utf8) else { return }
-			await handleBinaryMessage(data)
-		}
-
-		private func handleBinaryMessage(_ data: Data) async {
-			let decoder = JSONDecoder()
-
-			if let subscribeResponse = try? decoder.decode(SubscribeResponse.self, from: data) {
-				if let error = subscribeResponse.error {
-					errorSubject.send(WebSocketError.serverError(error))
-				}
-				return
-			}
-
-			if let anyResponse = try? decoder.decode(
-				TopicResponse<AnyDecodable>.self,
-				from: data
-			),
-			   let subscription = subscriptions[anyResponse.subscriptionId],
-			   let subject = subscription.subject
-				as? PassthroughSubject<TopicResponse<AnyDecodable>, Error> {
-				subject.send(anyResponse)
-			}
-		}
-
-			// MARK: - Subscription (single) via FlowWebSocketCenter
-
+			/// Async stream of raw topic responses for a given transaction ID.
+			/// Also fan-outs high-level events via `Flow.Publisher`.
 		public func subscribeToTransactionStatus(
 			txId: Flow.ID
-		) -> AnyPublisher<TopicResponse<Flow.WSTransactionResponse>, Error> {
-			let subject = PassthroughSubject<TopicResponse<Flow.WSTransactionResponse>, Error>()
-			let topic = Topic.transactionStatus(txId: txId)
-			let subscriptionId = "transactionStatus:\(txId.hex)"
+		) async throws -> AsyncThrowingStream<TopicResponse<Flow.WSTransactionResponse>, Error> {
+			let upstream = try await FlowWebSocketCenter.shared
+				.transactionStatusStream(for: txId)
 
-			subscriptions[subscriptionId] = SubscriptionInfo(
-				id: subscriptionId,
-				topic: topic,
-				subject: subject
-			)
+			return AsyncThrowingStream { continuation in
+				_Concurrency.Task { [weak self] in
+					guard let self else { return }
+					do {
+						for try await event in upstream {
+							guard let payload = event.payload else { continue }
 
-			_Concurrency.Task { [weak self] in
-				guard let self else { return }
-				do {
-					let stream = try await FlowWebSocketCenter.shared
-						.transactionStatusStream(for: txId)
+							let txResult = try payload.asTransactionResult()
 
-					for try await event in stream {
-						await transactionStatusSubject.send((
-							txId,
-							event.payload?.transactionResult.status ?? .unknown
-						))
-
-						subject.send(
-							TopicResponse(
-								subscriptionId: event.subscriptionId,
-								payload: event.payload
+								// Publish high-level transaction status via Flow.Publisher
+							await Flow.shared.publisher.publishTransactionStatus(
+								id: txId,
+								status: txResult
 							)
-						)
+
+								// Forward the raw topic response for low-level consumers
+							continuation.yield(
+								TopicResponse(
+									subscriptionId: event.subscriptionId,
+									payload: payload
+								)
+							)
+						}
+
+						continuation.finish()
+					} catch {
+						await self.sendError(error)
+						continuation.finish(throwing: error)
 					}
-					subject.send(completion: .finished)
-				} catch {
-					subject.send(completion: .failure(error))
-					await self.sendError(error)
 				}
 			}
-
-			return subject.eraseToAnyPublisher()
 		}
 
-			// MARK: - Subscription (batch via TaskGroup)
-
+			/// Convenience helper to build streams for multiple transaction IDs.
 		@FlowWebsocketActor
 		public static func subscribeToManyTransactionStatuses(
 			txIds: [Flow.ID]
-		) async throws -> [Flow.ID: AnyPublisher<TopicResponse<Flow.WSTransactionResponse>, Error>] {
-			var result: [Flow.ID: AnyPublisher<TopicResponse<Flow.WSTransactionResponse>, Error>] = [:]
+		) async throws -> [Flow.ID: AsyncThrowingStream<TopicResponse<Flow.WSTransactionResponse>, Error>] {
+			var result: [Flow.ID: AsyncThrowingStream<TopicResponse<Flow.WSTransactionResponse>, Error>] = [:]
 
-			try await withThrowingTaskGroup(
-				of: (Flow.ID, AnyPublisher<TopicResponse<Flow.WSTransactionResponse>, Error>).self
-			) { group in
-				for id in txIds {
-					group.addTask {
-						let publisher = await FlowWebsocketActor.shared.websocket
-							.subscribeToTransactionStatus(txId: id)
-						return (id, publisher)
-					}
-				}
-
-				for try await (id, publisher) in group {
-					result[id] = publisher
-				}
+			for id in txIds {
+				let stream = try await FlowWebsocketActor.shared.websocket
+					.subscribeToTransactionStatus(txId: id)
+				result[id] = stream
 			}
 
 			return result
@@ -179,16 +121,16 @@ public extension Flow {
 
 		private func setConnected(_ status: Bool) async {
 			isConnected = status
-			connectionSubject.send(status)
+			await Flow.shared.publisher.publishConnectionStatus(isConnected: status)
 		}
 
 		private func sendError(_ error: Error) async {
-			errorSubject.send(error)
+			await Flow.shared.publisher.publishError(error)
 		}
 	}
 }
 
-// MARK: - Models (unchanged public API)
+// MARK: - Models (unchanged public API surface)
 
 public extension Flow {
 	struct Topic: RawRepresentable, Sendable {
@@ -203,7 +145,7 @@ public extension Flow {
 		}
 	}
 
-	struct TopicResponse<T: Decodable>: Decodable {
+	struct TopicResponse<T: Decodable & Sendable>: Decodable, Sendable{
 		public let subscriptionId: String
 		public let payload: T?
 	}

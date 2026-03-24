@@ -31,8 +31,8 @@ public extension Flow {
 }
 
 public extension Flow.Cadence {
-	/// All the type in Cadence
-	/// Find more detail here: https://docs.onflow.org/cadence/language/values-and-types
+		/// All the type in Cadence
+		/// Find more detail here: https://docs.onflow.org/cadence/language/values-and-types
 	enum FType: String, Codable, Equatable, CaseIterable, Sendable {
 		case void = "Void"
 		case optional = "Optional"
@@ -85,9 +85,9 @@ public extension Flow.Cadence {
 		/// Cadence runtime value.
 		/// This enum is value-typed and contains only value types or
 		/// value-typed wrappers, so it is safe to mark as Sendable for Swift 6.
-	enum FValue: Codable, Equatable, Sendable {
+	indirect enum FValue: Codable, Equatable, Sendable {
 		case void
-		indirect case optional(FValue?)
+		case optional(FValue?)
 		case bool(Bool)
 		case string(String)
 		case character(String)
@@ -116,19 +116,18 @@ public extension Flow.Cadence {
 		case fix64(Decimal)
 		case ufix64(Decimal) // Need to check
 
+		case array([Flow.Cadence.FValue])
 		case address(Flow.Address)
 		case path(Flow.Argument.Path)
 		case reference(Flow.Argument.Reference)
 		case capability(Flow.Argument.Capability)
-		indirect case type(Flow.Argument.StaticType)
-
-		indirect case array([Flow.Cadence.FValue])
-		indirect case dictionary([Flow.Argument.Dictionary])
-		indirect case `struct`(Flow.Argument.Event)
-		indirect case resource(Flow.Argument.Event)
-		indirect case event(Flow.Argument.Event)
-		indirect case contract(Flow.Argument.Event)
-		indirect case `enum`(Flow.Argument.Event)
+		case type(Flow.Argument.StaticType)
+		case dictionary([Flow.Argument.Dictionary])
+		case `struct`(Flow.Argument.Event)
+		case resource(Flow.Argument.Event)
+		case event(Flow.Argument.Event)
+		case contract(Flow.Argument.Event)
+		case `enum`(Flow.Argument.Event)
 
 		case unsupported
 		case error
@@ -408,10 +407,10 @@ extension Flow.Cadence.FValue: CustomStringConvertible {
 	}
 }
 
-public extension Flow.Cadence.FValue {
-	/// Convert to `Int` type, if it's `.int` type
-	/// Otherwise return nil
-	/// - returns: The type of `Int?` value.
+extension Flow.Cadence.FValue {
+		/// Convert to `Int` type, if it's `.int` type
+		/// Otherwise return nil
+		/// - returns: The type of `Int?` value.
 	func toInt() -> Int? {
 		if case let .int(value) = self {
 			return value
@@ -769,3 +768,4 @@ public extension Flow.Cadence.FValue {
 		return nil
 	}
 }
+

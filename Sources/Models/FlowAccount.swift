@@ -5,7 +5,7 @@ import Foundation
 
 public extension Flow {
 		/// The data structure of account in Flow blockchain
-	struct Account: Codable {
+	struct Account:Sendable, Codable {
 		public let address: Address
 		public let balance: BigInt?
 		public var keys: [AccountKey]
@@ -44,7 +44,7 @@ public extension Flow {
 	}
 
 		/// The data structure of account key in flow account
-	struct AccountKey: Codable {
+	struct AccountKey: Codable, Sendable {
 		public var index: Int = -1
 		public let publicKey: PublicKey
 

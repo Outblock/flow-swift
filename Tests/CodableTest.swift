@@ -23,6 +23,7 @@
 import CryptoKit
 @testable import Flow
 import Testing
+import Foundation
 
 @Suite
 struct CodableTests {
@@ -46,7 +47,7 @@ struct CodableTests {
 
 	@Test(
 		"Transaction encoding to JSON works",
-		.timeLimit(.seconds(60))
+		.timeLimit(.minutes(1))
 	)
 	func encodeTx() async throws {
 			// Admin key
@@ -63,7 +64,7 @@ struct CodableTests {
 			weight: 1000
 		)
 
-		flow.configure(chainID: .testnet)
+		await flow.configure(chainID: .testnet)
 
 		var unsignedTx = try await flow.buildTransaction {
 			cadence {
@@ -83,7 +84,7 @@ struct CodableTests {
 				address
 			}
 			arguments {
-				[.string(accountKey.encoded!.hexValue)]
+				[ .string(accountKey.encoded!.hexValue) ]
 			}
 			gasLimit {
 				1000
@@ -97,7 +98,7 @@ struct CodableTests {
 		let jsonData = try encoder.encode(signedTx)
 		let object = try JSONSerialization.jsonObject(with: jsonData)
 		let data = try JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted])
-		let jsonString = String( data, encoding: .utf8)
+		let jsonString = String(data: data, encoding: .utf8)
 
 		#expect(jsonString?.isEmpty == false)
 	}
