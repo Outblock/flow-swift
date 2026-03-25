@@ -13,6 +13,7 @@ import Foundation
 import Testing
 
 @Suite
+@FlowActor
 struct FlowAddressTests {
 	@Test("Mainnet address from hex with 0x prefix")
 	func addressHexType() async throws {
@@ -22,7 +23,7 @@ struct FlowAddressTests {
 		#expect(address.bytes.count == 8)
 		#expect(address.description == hex)
 
-		let isValid = await flow.isAddressVaildate(address: address, network: .mainnet)
+		let isValid = await FlowActor.shared.flow.isAddressVaildate(address: address, network: .mainnet)
 		#expect(isValid == true)
 	}
 
@@ -31,7 +32,7 @@ struct FlowAddressTests {
 		let hex = "0xc6de0d94160377cd"
 		let address = Flow.Address(hex: hex)
 
-		let isValid = await flow.isAddressVaildate(address: address, network: .testnet)
+		let isValid = await FlowActor.shared.flow.isAddressVaildate(address: address, network: .testnet)
 		#expect(isValid == true)
 	}
 
@@ -43,7 +44,7 @@ struct FlowAddressTests {
 		#expect(address.bytes.count == 8)
 		#expect(address.description == hex.addHexPrefix())
 
-		let isValid = await flow.isAddressVaildate(address: address)
+		let isValid = await FlowActor.shared.flow.isAddressVaildate(address: address)
 		#expect(isValid == true)
 	}
 
@@ -55,7 +56,7 @@ struct FlowAddressTests {
 		#expect(address.bytes.count == 8)
 		#expect(address.description != hex)
 
-		let isValid = await flow.isAddressVaildate(address: address)
+		let isValid = await FlowActor.shared.flow.isAddressVaildate(address: address)
 		#expect(isValid == false)
 	}
 
@@ -68,7 +69,7 @@ struct FlowAddressTests {
 		#expect(address.bytes.count == 8)
 		#expect(address.description != hex)
 
-		let isValid = await flow.isAddressVaildate(address: address)
+		let isValid = await FlowActor.shared.flow.isAddressVaildate(address: address)
 		#expect(isValid == false)
 	}
 }

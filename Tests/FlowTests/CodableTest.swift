@@ -15,7 +15,6 @@
 	//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 	//  See the License for the specific language governing permissions and
 	//  limitations under the License.
-	//
 	//  Migrated from XCTest to Swift Testing by Nicholas Reich on 2026-03-19.
 	//
 
@@ -41,8 +40,10 @@ struct CodableTests {
 			.hexValue
 	)
 
-	init() {
-		flowAPI = flow.createHTTPAccessAPI(chainID: .testnet)
+		// Async init so we can safely await the actor-isolated Flow singleton.
+	init() async {
+		flowAPI = await FlowActor.shared.flow.createHTTPAccessAPI(chainID: .testnet)
+		await FlowActor.shared.flow.configure(chainID: .testnet)
 	}
 
 	@Test(
@@ -52,30 +53,36 @@ struct CodableTests {
 	func encodeTx() async throws {
 			// Admin key
 		let address = addressC
-		let signer = [
+		let signers: [any FlowSigner] = [
 			ECDSA_P256_Signer(address: address, keyIndex: 0, privateKey: privateKeyC),
 		]
 
 			// User public key
 		let accountKey = Flow.AccountKey(
-			publicKey: Flow.PublicKey(hex: privateKeyC.publicKey.rawRepresentation.hexValue),
+			publicKey: Flow.PublicKey(
+				hex: privateKeyC.publicKey.rawRepresentation.hexValue
+			),
 			signAlgo: .ECDSA_P256,
 			hashAlgo: .SHA2_256,
 			weight: 1000
 		)
 
-		await flow.configure(chainID: .testnet)
+			// Configure Flow via the actor-isolated singleton (idempotent)
+		await FlowActor.shared.flow.configure(chainID: .testnet)
 
-		var unsignedTx = try await flow.buildTransaction {
+			// Build transaction using the FlowActor-isolated builder
+		let unsignedTx = try await FlowActor.shared.flow.buildTransaction(
+			chainID: .testnet
+		) {
 			cadence {
-				"""
-				transaction(publicKey: String) {
-					prepare(signer: AuthAccount) {
-						let account = AuthAccount(payer: signer)
-						account.keys.add(publicKey.decodeHex())
-					}
-				}
-				"""
+	"""
+	transaction(publicKey: String) {
+	 prepare(signer: AuthAccount) {
+	  let account = AuthAccount(payer: signer)
+	  account.keys.add(publicKey.decodeHex())
+	 }
+	}
+	"""
 			}
 			proposer {
 				Flow.TransactionProposalKey(address: addressC, keyIndex: 0)
@@ -84,23 +91,34 @@ struct CodableTests {
 				address
 			}
 			arguments {
-				[ .string(accountKey.encoded!.hexValue) ]
+				[
+					Flow.Argument(
+						value: .string(accountKey.encoded!.hexValue)
+					),
+				]
 			}
 			gasLimit {
 				1000
 			}
 		}
 
-		let signedTx = try await unsignedTx.sign(signers: signer)
+			// Sign via FlowActor helper
+		let signedTx = try await FlowActor.shared.flow.signTransaction(
+			unsignedTransaction: unsignedTx,
+			signers: signers
+		)
 
+			// Encode to JSON and pretty-print
 		let encoder = JSONEncoder()
 		encoder.keyEncodingStrategy = .convertToSnakeCase
 		let jsonData = try encoder.encode(signedTx)
 		let object = try JSONSerialization.jsonObject(with: jsonData)
-		let data = try JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted])
+		let data = try JSONSerialization.data(
+			withJSONObject: object,
+			options: [.prettyPrinted]
+		)
 		let jsonString = String(data: data, encoding: .utf8)
 
 		#expect(jsonString?.isEmpty == false)
 	}
-	
 }

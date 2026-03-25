@@ -31,6 +31,7 @@ import Testing
 	// turn them into @Test methods.
 
 @Suite
+@FlowActor
 struct FlowOperationTests {
 	var address = Flow.Address(hex: "0xe242ccfb4b8ea3e2")
 	let publicKey = try! P256.KeyAgreement.PublicKey(
@@ -71,7 +72,7 @@ struct FlowOperationTests {
 	var signers: [ECDSA_P256_Signer] = []
 
 	init() async {
-		await flow.configure(chainID: .testnet)
+		await FlowActor.shared.flow.configure(chainID: .testnet)
 		signers.append(
 			ECDSA_P256_Signer(address: address, keyIndex: 0, privateKey: privateKey)
 		)

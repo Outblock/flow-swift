@@ -20,7 +20,6 @@
 	//
 
 @testable import BigInt
-import Combine
 import CryptoKit
 @testable import Flow
 import Foundation
@@ -42,7 +41,7 @@ final class FlowAccessAPIOnTestnetTests {
 			.hexValue
 	)
 
-	var addressB = Flow.Address(hex: "0x10711015c370a95c")
+	let addressB = Flow.Address(hex: "0x10711015c370a95c")
 	let publicKeyB = try! P256.KeyAgreement.PublicKey(
 		rawRepresentation:
 			"6278ff9fdf75c5830e4aafbb8cc25af50b62869d7bc9b249e76aae31490199732b769d1df627d36e5e336aeb4cb06b0fad80ae13a25aca37ec0017e5d8f1d8a5"
@@ -54,7 +53,7 @@ final class FlowAccessAPIOnTestnetTests {
 			.hexValue
 	)
 
-	var addressC = Flow.Address(hex: "0xe242ccfb4b8ea3e2")
+	let addressC = Flow.Address(hex: "0xe242ccfb4b8ea3e2")
 	let publicKeyC = try! P256.KeyAgreement.PublicKey(
 		rawRepresentation:
 			"adbf18dae6671e6b6a92edf00c79166faba6babf6ec19bd83eabf690f386a9b13c8e48da67973b9cf369f56e92ec25ede5359539f687041d27d0143afd14bca9"
@@ -66,62 +65,56 @@ final class FlowAccessAPIOnTestnetTests {
 			.hexValue
 	)
 
-	public var signers: [FlowSigner] {
+		/// All test signers as a list of FlowSigner values.
+	public var signers: [any FlowSigner] {
 		[
 			// Address A
-			ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB), // weight: 500
-			ECDSA_P256_Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA), // weight: 1000
+			ECDSA_P256_Signer(address: addressA, keyIndex: 5, privateKey: privateKeyB),
+			ECDSA_P256_Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA),
+
 			// Address B
-			ECDSA_P256_Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA), // weight: 800
-			ECDSA_P256_Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC), // weight: 500
+			ECDSA_P256_Signer(address: addressB, keyIndex: 2, privateKey: privateKeyA),
+			ECDSA_P256_Signer(address: addressB, keyIndex: 1, privateKey: privateKeyC),
+
 			// Address C
-			ECDSA_P256_Signer(address: addressC, keyIndex: 3, privateKey: privateKeyB), // weight: 300
-			ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB), // weight: 500
-			ECDSA_P256_Signer(address: addressC, keyIndex: 0, privateKey: privateKeyC), // weight: 1000
+			ECDSA_P256_Signer(address: addressC, keyIndex: 3, privateKey: privateKeyB),
+			ECDSA_P256_Signer(address: addressC, keyIndex: 2, privateKey: privateKeyB),
+			ECDSA_P256_Signer(address: addressC, keyIndex: 0, privateKey: privateKeyC),
 		]
 	}
-	
+
 	init() async {
-		flowAPI = flow.createHTTPAccessAPI(chainID: .testnet)
-		await flow.configure(chainID: .testnet)
+		flowAPI = await FlowActor.shared.flow
+			.createHTTPAccessAPI(chainID: .testnet)
+		await FlowActor.shared.flow.configure(chainID: .testnet)
 	}
-	
-	@Test(
-		"Flow testnet ping succeeds",
-		.timeLimit(.minutes(1))
-	)
+
+	@Test("Flow testnet ping succeeds", .timeLimit(.minutes(1)))
 	func flowPing() async throws {
 		let isConnected = try await flowAPI.ping()
 		#expect(isConnected)
 	}
-	
-	@Test(
-		"Flow testnet fee parameters script executes",
-		.timeLimit(.minutes(1))
-	)
+
+	@Test("Flow testnet fee parameters script executes", .timeLimit(.minutes(1)))
 	func flowFee() async throws {
-		let result = try await flow.accessAPI.executeScriptAtLatestBlock(
+		let result = try await FlowActor.shared.flow.accessAPI.executeScriptAtLatestBlock(
 			script: .init(
 				text: """
-				import FlowFees from 0x912d5440f7e3769e
-				
-				access(all) fun main(): FlowFees.FeeParameters {
-					return FlowFees.getFeeParameters()
-				}
-				"""
+ import FlowFees from 0x912d5440f7e3769e
+ 
+ access(all) fun main(): FlowFees.FeeParameters {
+  return FlowFees.getFeeParameters()
+ }
+ """
 			)
 		)
-		print(result)
+
 		#expect(result.fields != nil)
 	}
 
-	@Test(
-		"Flow testnet network parameters",
-		.timeLimit(.minutes(1))
-	)
+	@Test("Flow testnet network parameters", .timeLimit(.minutes(1)))
 	func networkParameters() async throws {
 		let chainID = try await flowAPI.getNetworkParameters()
-		print(chainID)
 		#expect(chainID == Flow.ChainID.testnet)
 
 		let txId = Flow.ID(
@@ -129,16 +122,14 @@ final class FlowAccessAPIOnTestnetTests {
 		)
 
 			// Just ensure we can fetch a result for this transaction without error.
-		_ = try await flow.accessAPI.getTransactionResultById(id: txId)
+		_ = try await FlowActor.shared.flow.accessAPI.getTransactionResultById(id: txId)
 	}
 
-	@Test(
-		"Flow testnet can create account via script",
-		.timeLimit(.minutes(1))
-	)
+	@Test("Flow testnet can create account via script", .timeLimit(.minutes(1)))
 	func canCreateAccount() async throws {
-		await flow.configure(chainID: .testnet)
-		let signer = [
+		await FlowActor.shared.flow.configure(chainID: .testnet)
+
+		let signerGroup: [any FlowSigner] = [
 			ECDSA_P256_Signer(address: addressA, keyIndex: 0, privateKey: privateKeyA),
 		]
 
@@ -152,33 +143,33 @@ final class FlowAccessAPIOnTestnetTests {
 			weight: 1001
 		)
 
-			// Capture only the values needed inside the builder to avoid capturing self.
 		let proposerAddress = addressA
 		let pkHex = accountKey.publicKey.hex
 		let signAlgoIndex = UInt8(accountKey.signAlgo.index)
 		let hashAlgoCode = UInt8(accountKey.hashAlgo.code)
 
-		var unsignedTx: Flow.Transaction = try await flow.buildTransaction {
+			// Build, sign, and send via the FlowActor-managed helpers.
+		let unsignedTx = try await FlowActor.shared.flow.buildTransaction(chainID: .testnet) {
 			cadence {
-				"""
-				import Crypto
-				
-				transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64) {
-					prepare(signer: auth(BorrowValue | Storage) &Account) {
-						let key = PublicKey(
-							publicKey: publicKey.decodeHex(),
-							signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
-						)
-				
-						let account = Account(payer: signer)
-						account.keys.add(
-							publicKey: key,
-							hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
-							weight: weight
-						)
-					}
-				}
-				"""
+ """
+ import Crypto
+ 
+ transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64) {
+  prepare(signer: auth(BorrowValue | Storage) &Account) {
+   let key = PublicKey(
+ publicKey: publicKey.decodeHex(),
+ signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
+   )
+ 
+   let account = Account(payer: signer)
+   account.keys.add(
+ publicKey: key,
+ hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
+ weight: weight
+   )
+  }
+ }
+ """
 			}
 			proposer {
 				Flow.TransactionProposalKey(address: proposerAddress, keyIndex: 0)
@@ -186,7 +177,7 @@ final class FlowAccessAPIOnTestnetTests {
 			authorizers {
 				proposerAddress
 			}
-			arguments { () -> [Flow.Argument] in
+			arguments {
 				[
 					Flow.Argument(value: .string(pkHex)),
 					Flow.Argument(value: .uint8(signAlgoIndex)),
@@ -194,56 +185,58 @@ final class FlowAccessAPIOnTestnetTests {
 					Flow.Argument(value: .ufix64(Decimal(1000))),
 				]
 			}
-			gasLimit {
-				1000
-			}
+			gasLimit { 1000 }
 		}
 
-		let signedTx = try await unsignedTx.sign(signers: signer)
-		let txId = try await flow.sendTransaction(signedTransaction: signedTx)
-		print("txid --> \(txId.hex)")
+		let signedTx = try await FlowActor.shared.flow.signTransaction(
+			unsignedTransaction: unsignedTx,
+			signers: signerGroup
+		)
+
+		let txId = try await FlowActor.shared.flow.sendTransaction(
+			signedTransaction: signedTx
+		)
 		#expect(txId.hex.isEmpty == false)
 
-		let txResult = try await txId.once(status: Flow.Transaction.Status.sealed)
+		let txResult = try await FlowActor.shared.flow.once(
+			txId,
+			status: .sealed
+		)
 		let createdAddress = txResult.getCreatedAddress()!
-		print("address --> \(createdAddress)")
 		#expect(!createdAddress.isEmpty)
 
-		let accountInfo = try await flow.getAccountAtLatestBlock(address: .init(createdAddress))
-		print("accountInfo --> \(accountInfo)")
+		let accountInfo = try await FlowActor.shared.flow.getAccountAtLatestBlock(
+			address: Flow.Address(hex: createdAddress)
+		)
 		#expect(accountInfo.keys.isEmpty == false)
 	}
 
-	@Test(
-		"Flow testnet multiple signer transaction",
-		.timeLimit(.minutes(1))
-	)
+	@Test("Flow testnet multiple signer transaction", .timeLimit(.minutes(1)))
 	func multipleSigner() async throws {
-			// Avoid capturing self in the builder by copying needed values.
 		let addrA = addressA
 		let addrB = addressB
 		let addrC = addressC
 
-		let txID = try await flow.sendTransaction(
+		let txID = try await FlowActor.shared.flow.sendTransaction(
 			chainID: .testnet,
 			signers: signers
 		) {
 			cadence {
-				"""
-				import HelloWorld from 0xe242ccfb4b8ea3e2
-				
-				transaction(test: String, testInt: HelloWorld.SomeStruct) {
-					prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
-						log(signer1.address)
-						log(signer2.address)
-						log(signer3.address)
-						log(test)
-						log(testInt)
-					}
-				}
-				"""
+ """
+ import HelloWorld from 0xe242ccfb4b8ea3e2
+ 
+ transaction(test: String, testInt: HelloWorld.SomeStruct) {
+  prepare(signer1: AuthAccount, signer2: AuthAccount, signer3: AuthAccount) {
+   log(signer1.address)
+   log(signer2.address)
+   log(signer3.address)
+   log(test)
+   log(testInt)
+  }
+ }
+ """
 			}
-			arguments { () -> [Flow.Argument] in
+			arguments {
 				[
 					Flow.Argument(value: .string("Test")),
 					Flow.Argument(
@@ -259,19 +252,15 @@ final class FlowAccessAPIOnTestnetTests {
 					),
 				]
 			}
-			proposer {
-				Flow.TransactionProposalKey(address: addrA, keyIndex: 5)
-			}
-			payer {
-				addrB
-			}
-			authorizers {
-				[addrC, addrB, addrA]
-			}
+			proposer { Flow.TransactionProposalKey(address: addrA, keyIndex: 5) }
+			payer { addrB }
+			authorizers { [addrC, addrB, addrA] }
 		}
 
-		print("tx id -> \(txID.hex)")
-		let result = try await txID.once(status: Flow.Transaction.Status.sealed)
+		let result = try await FlowActor.shared.flow.once(
+			txID,
+			status: .sealed
+		)
 		#expect(result.status == Flow.Transaction.Status.sealed)
 	}
 }

@@ -54,7 +54,7 @@ enum TestCadenceTarget: CadenceTargetType {
 }
 
 /// Minimal test fixtures for signing a tx on testnet.
-private struct TestnetFixtures {
+ struct TestnetFixtures {
 	let addressA: Flow.Address
 	let addressB: Flow.Address
 	let addressC: Flow.Address
@@ -80,15 +80,16 @@ private struct TestnetFixtures {
 }
 
 @Suite
+@FlowActor
 struct CadenceTargetTests {
 
 	init() async {
-		await flow.configure(chainID: .testnet)
+		await FlowActor.shared.flow.configure(chainID: .testnet)
 	}
 
 	@Test("Cadence target query returns non-nil result")
 	func query() async throws {
-		let result: String? = try await flow.query(
+		let result: String? = try await  FlowActor.shared.flow.query(
 			TestCadenceTarget.getCOAAddr(
 				address: .init(hex: "0x84221fe0294044d7")
 			),
@@ -101,7 +102,7 @@ struct CadenceTargetTests {
 	func transaction() async throws {
 		let fixtures = TestnetFixtures()
 
-		let id = try await flow.sendTransaction(
+		let id = try await FlowActor.shared.flow.sendTransaction(
 			TestCadenceTarget.logTx(test: "Hi!"),
 			signers: fixtures.signers,
 			chainID: .testnet

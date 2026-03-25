@@ -30,8 +30,9 @@ struct FlowAccessAPIOnMainnetTests {
 	var address = Flow.Address(hex: "0x2b06c41f44a05656")
 
 	init() async {
-		await flow.configure(chainID: .mainnet)
-		flowAPI = flow.createHTTPAccessAPI(chainID: .mainnet)
+		await FlowActor.shared.flow.configure(chainID: .mainnet)
+		flowAPI = await FlowActor.shared.flow
+			.createHTTPAccessAPI(chainID: .mainnet)
 	}
 
 	@Test(

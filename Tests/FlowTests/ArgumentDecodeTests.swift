@@ -24,7 +24,6 @@
 import Foundation
 import Testing
 
-let flow = Flow.shared
 
 struct TestEventType: Codable, Sendable {
 	let wasTheCodeClean: String
@@ -35,6 +34,7 @@ struct TestEventType: Codable, Sendable {
 }
 
 @Suite
+@FlowActor
 struct ArgumentDecodeTests {
 
 		// MARK: - On-chain helpers
@@ -43,7 +43,7 @@ struct ArgumentDecodeTests {
 		script: String
 	) async throws -> T where T: Decodable & Sendable {
 		let cadenceScript = Flow.Script(text: script)
-		let snapshot = try await flow.accessAPI.executeScriptAtLatestBlock(script: cadenceScript)
+		let snapshot = try await FlowActor.shared.flow.accessAPI.executeScriptAtLatestBlock(script: cadenceScript)
 		let result: T = try snapshot.decode()
 		return result
 	}
@@ -53,7 +53,7 @@ struct ArgumentDecodeTests {
 		model: T.Type
 	) async throws -> T? where T: Decodable & Sendable {
 		let cadenceScript = Flow.Script(text: script)
-		let snapshot = try await flow.accessAPI.executeScriptAtLatestBlock(script: cadenceScript)
+		let snapshot = try await FlowActor.shared.flow.accessAPI.executeScriptAtLatestBlock(script: cadenceScript)
 		let result = try snapshot.decode(model.self)
 		return result
 	}

@@ -2,184 +2,109 @@
 	//  PublisherTests.swift
 	//  FlowTests
 	//
-	//  Copyright 2022 Outblock Pty Ltd
-	//
-	//  Licensed under the Apache License, Version 2.0 (the "License");
-	//  you may not use this file except in compliance with the License.
-	//  You may obtain a copy of the License at
-	//
-	//  http://www.apache.org/licenses/LICENSE-2.0
-	//
-	//  Unless required by applicable law or agreed to in writing, software
-	//  distributed under the License is distributed on an "AS IS" BASIS,
-	//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	//  See the License for the specific language governing permissions and
-	//  limitations under the License.
 	//  Migrated to Swift Testing by Nicholas Reich on 2026-03-19.
 	//
 
-import Combine
-@testable import Flow
 import Foundation
 import Testing
+@testable import Flow
 
 @Suite
 struct PublisherTests {
 
-		// MARK: - Helpers
-
-		/// Async helper to await a single value from a Combine publisher.
-	private func awaitFirstValue<P: Publisher>(
-		from publisher: P,
-		timeout seconds: TimeInterval = 5,
-		file: StaticString = #filePath,
-		line: UInt = #line
-	) async -> P.Output? where P.Failure == Never {
-		var cancellable: AnyCancellable?
-		var result: P.Output?
-
-		let finished = ManagedCriticalState(false)
-
-		let continuation = UnsafeContinuation<Void, Never>.self
-
-		await withUnsafeContinuation { (cont: UnsafeContinuation<Void, Never>) in
-			cancellable = publisher.sink { value in
-				result = value
-				finished.withCriticalRegion { $0 = true }
-				cont.resume()
-			}
-
-			DispatchQueue.global().asyncAfter(deadline: .now() + seconds) {
-				finished.withCriticalRegion { alreadyFinished in
-					if !alreadyFinished {
-						cont.resume()
-					}
+	private func awaitFirstValue<T: Sendable>(
+		from stream: AsyncStream<T>,
+		timeoutSeconds: Double = 60
+	) async -> T? {
+		await withTaskGroup(of: T?.self) { group in
+			group.addTask {
+				for await value in stream {
+					return value
 				}
+				return nil
 			}
+
+			group.addTask {
+				let ns = UInt64(timeoutSeconds * 1_000_000_000)
+				try? await _Concurrency.Task.sleep(nanoseconds: ns)
+				return nil
+			}
+
+			let first = await group.next() ?? nil
+			group.cancelAll()
+			return first
 		}
-
-		_ = cancellable // keep alive until after continuation
-
-		if result == nil {
-			Issue.record(
-				"Publisher did not produce a value within \(seconds) seconds",
-				sourceLocation: .init(
-					filePath: String(file),
-					line: Int(line),
-					column: 0
-				)
-			)
-		}
-
-		return result
 	}
-
-		// MARK: - Account publisher
 
 	@Test("Flow account publisher emits account updates")
 	func accountPublisherEmits() async {
-			// Given
 		let address = Flow.Address(hex: "0x01")
-			// Public access to the Flow publisher singleton
-		let publisherCenter = Flow.PublisherCenter.shared
+		let center = Flow.PublisherCenter.shared
 
-			// When
-		let publisher = publisherCenter.accountPublisher(address: address)
+		let stream = center.accountPublisher(address: address)
+		center.publishAccountUpdate(address: address)
 
-		let value = await awaitFirstValue(from: publisher)
-
-			// Then
-		#expect(value?.address == address)
+		let value = await awaitFirstValue(from: stream)
+		#expect(value == address)
 	}
 
-		// MARK: - Connection state publisher
-
-	@Test("Flow connection publisher emits connection state updates")
+	@Test("Flow connection publisher emits connection status updates")
 	func connectionPublisherEmits() async {
-			// Given
-		let publisherCenter = Flow.PublisherCenter.shared
+		let center = Flow.PublisherCenter.shared
 
-			// When
-		let publisher = publisherCenter.connectionPublisher()
+		let stream = center.connectionPublisher()
+		center.publishConnectionStatus(isConnected: true)
 
-		let value = await awaitFirstValue(from: publisher)
-
-			// Then
-		#expect(value != nil)
+		let value = await awaitFirstValue(from: stream)
+		#expect(value == true)
 	}
-
-		// MARK: - Wallet response publisher
 
 	@Test("Flow wallet response publisher emits responses")
 	func walletResponsePublisherEmits() async {
-			// Given
-		let publisherCenter = Flow.PublisherCenter.shared
-		let walletPublisher = publisherCenter.walletResponsePublisher()
+		let center = Flow.PublisherCenter.shared
+		let stream = center.walletResponsePublisher()
 
-			// When: simulate a wallet response going through the WebSocket layer.
-		let sampleResponse = Flow.WalletConnectResponse(
+		let sample = Flow.WalletResponse(
 			id: 1,
 			jsonrpc: "2.0",
-			result: .init(requestId: "test", status: .approved)
+			requestId: "test",
+			approved: true
 		)
 
-			// Assume the publisher center exposes a way to manually feed responses for testing.
-		publisherCenter.injectWalletResponse(sampleResponse)
+		center.publishWalletResponse(sample)
 
-		let value = await awaitFirstValue(from: walletPublisher)
-
-			// Then
-		#expect(value?.id == sampleResponse.id)
+		let value = await awaitFirstValue(from: stream)
+		#expect(value == sample)
 	}
 
-		// MARK: - Error publisher
-
-	@Test("Flow error publisher emits Flow errors")
+	@Test("Flow error publisher emits errors")
 	func errorPublisherEmits() async {
-			// Given
-		let publisherCenter = Flow.PublisherCenter.shared
-		let errorPublisher = publisherCenter.errorPublisher()
+		let center = Flow.PublisherCenter.shared
+		let stream = center.errorPublisher()
 
 		let nsError = NSError(domain: "io.outblock.flow.tests", code: 42, userInfo: nil)
-		let flowError = Flow.Error.networkError(underlying: nsError)
+		center.publishError(nsError)
 
-			// When: simulate an error being emitted by the HTTP/WebSocket client.
-		publisherCenter.injectError(flowError)
-
-		let value = await awaitFirstValue(from: errorPublisher)
-
-			// Then
-		#expect(value as? Flow.Error == flowError)
+		let value = await awaitFirstValue(from: stream) as NSError?
+		#expect(value?.domain == nsError.domain)
+		#expect(value?.code == nsError.code)
 	}
 
-		// MARK: - Connection publisher multiple values
+	@Test("Flow connection publisher emits multiple values")
+	func connectionPublisherMultipleValues() async {
+		let center = Flow.PublisherCenter.shared
+		let stream = center.connectionPublisher()
 
-	@Test("Flow connection publisher emits multiple states")
-	func connectionPublisherMultipleStates() async {
-			// Given
-		let publisherCenter = Flow.PublisherCenter.shared
-		let connectionPublisher = publisherCenter.connectionPublisher()
+		center.publishConnectionStatus(isConnected: false)
+		center.publishConnectionStatus(isConnected: true)
 
-		var cancellable: AnyCancellable?
-		var receivedStates: [Flow.ConnectionState] = []
+		var it = stream.makeAsyncIterator()
+		let first = await it.next()
+		let second = await it.next()
 
-			// When
-		await withUnsafeContinuation { (cont: UnsafeContinuation<Void, Never>) in
-			cancellable = connectionPublisher.sink { state in
-				receivedStates.append(state)
-				if receivedStates.count >= 2 {
-					cont.resume()
-				}
-			}
-
-				// Simulate state changes
-			publisherCenter.injectConnectionState(.connecting)
-			publisherCenter.injectConnectionState(.connected)
-		}
-
-		_ = cancellable
-
-			// Then
-		#expect(receivedStates.count >= 2)
+		#expect(first == false)
+		#expect(second == true)
 	}
+
+
 }

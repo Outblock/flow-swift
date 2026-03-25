@@ -1,124 +1,163 @@
-/**
- *  AsyncCompatibilityKit
- *  Copyright (c) John Sundell 2021
- *  MIT license, see LICENSE.md file for details
- *
- *  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
- */
-
-@preconcurrency import Combine
+import AsyncAlgorithms
 import Foundation
-import SwiftUI
 
-	/// Simple Sendable box for the cancellable reference
-final class CancellableBox: @unchecked Sendable {
-	var cancellable: AnyCancellable?
-	init(_ cancellable: AnyCancellable? = nil) {
-		self.cancellable = cancellable
-	}
+public struct TimeoutError: LocalizedError, Sendable, Equatable {
+	public init() {}
+	public var errorDescription: String? { "Operation timed out" }
 }
 
-@available(
-	iOS,
-	deprecated: 15.0,
-	message: "AsyncCompatibilityKit is only useful when targeting iOS versions earlier than 15"
-)
-public extension Publisher where Output: Sendable {
-		/// Convert this publisher into an `AsyncThrowingStream` that
-		/// can be iterated over asynchronously using `for try await`.
-		/// The stream will yield each output value produced by the
-		/// publisher and will finish once the publisher completes.
-	var values: AsyncThrowingStream<Output, Error> {
-		AsyncThrowingStream { continuation in
-			let box = CancellableBox()
+public struct FinishedWithoutValueError: LocalizedError, Sendable, Equatable {
+	public init() {}
+	public var errorDescription: String? { "AsyncSequence finished without producing a value" }
+}
 
-			continuation.onTermination = { @Sendable _ in
-				box.cancellable?.cancel()
+public enum TimeoutPolicy: Sendable {
+	case throwOnTimeout
+	case finishOnTimeout
+}
+
+public enum TimeoutEvent<Element: Sendable>: Sendable {
+	case element(Element)
+	case timeout
+}
+
+public struct TimeoutAsyncSequence<Base: AsyncSequence & Sendable, C: Clock & Sendable>: AsyncSequence, Sendable
+where Base.Element: Sendable {
+
+	public typealias Element = Base.Element
+
+	private let base: Base
+	private let interval: C.Instant.Duration
+	private let tolerance: C.Instant.Duration?
+	private let clock: C
+	private let policy: TimeoutPolicy
+
+	public init(
+		base: Base,
+		after interval: C.Instant.Duration,
+		tolerance: C.Instant.Duration? = nil,
+		clock: C,
+		policy: TimeoutPolicy
+	) {
+		self.base = base
+		self.interval = interval
+		self.tolerance = tolerance
+		self.clock = clock
+		self.policy = policy
+	}
+
+	public struct Iterator: AsyncIteratorProtocol {
+		private var merged: AsyncMerge2Sequence<
+			AsyncMapSequence<Base, TimeoutEvent<Base.Element>>,
+			AsyncMapSequence<AsyncTimerSequence<C>, TimeoutEvent<Base.Element>>
+		>.AsyncIterator
+
+		private let policy: TimeoutPolicy
+		private var didTimeout = false
+
+		init(sequence: TimeoutAsyncSequence<Base, C>) {
+			let elements = sequence.base.map { TimeoutEvent.element($0) }
+
+			let timer = AsyncTimerSequence(
+				interval: sequence.interval,
+				tolerance: sequence.tolerance,
+				clock: sequence.clock
+			)
+				.map { _ in TimeoutEvent<Base.Element>.timeout }
+
+			self.merged = merge(elements, timer).makeAsyncIterator()
+			self.policy = sequence.policy
+		}
+
+		public mutating func next() async throws -> Base.Element? {
+			if didTimeout { return nil }
+
+			while true {
+				switch try await merged.next() {
+					case .element(let value):
+						return value
+
+					case .timeout:
+						didTimeout = true
+						switch policy {
+							case .finishOnTimeout:
+								return nil
+							case .throwOnTimeout:
+								throw TimeoutError()
+						}
+
+					case nil:
+						return nil
+				}
 			}
-
-			box.cancellable = self.sink(
-				receiveCompletion: { @Sendable completion in
-					switch completion {
-						case .finished:
-							continuation.finish()
-						case let .failure(error):
-							continuation.finish(throwing: error)
-					}
-				},
-				receiveValue: { @Sendable value in
-						// `Output` is constrained to `Sendable`, so this is safe.
-					continuation.yield(value)
-				}
-			)
 		}
+	}
+
+	public func makeAsyncIterator() -> Iterator {
+		Iterator(sequence: self)
 	}
 }
 
-@available(
-	iOS,
-	deprecated: 15.0,
-	message: "AsyncCompatibilityKit is only useful when targeting iOS versions earlier than 15"
-)
-public extension Publisher where Failure == Never, Output: Sendable {
-		/// Convert this publisher into an `AsyncStream` that can
-		/// be iterated over asynchronously using `for await`. The
-		/// stream will yield each output value produced by the
-		/// publisher and will finish once the publisher completes.
-	var values: AsyncStream<Output> {
-		AsyncStream { continuation in
-			let box = CancellableBox()
+public extension AsyncSequence where Self: Sendable, Element: Sendable {
+	func timeout<C: Clock & Sendable>(
+		after interval: C.Instant.Duration,
+		tolerance: C.Instant.Duration? = nil,
+		clock: C,
+		policy: TimeoutPolicy = .throwOnTimeout
+	) -> TimeoutAsyncSequence<Self, C> {
+		TimeoutAsyncSequence(
+			base: self,
+			after: interval,
+			tolerance: tolerance,
+			clock: clock,
+			policy: policy
+		)
+	}
 
-			continuation.onTermination = { @Sendable _ in
-				box.cancellable?.cancel()
-			}
-
-			box.cancellable = self.sink(
-				receiveCompletion: { @Sendable _ in
-					continuation.finish()
-				},
-				receiveValue: { @Sendable value in
-						// `Output` is constrained to `Sendable`, so this is safe.
-					continuation.yield(value)
-				}
-			)
-		}
+	func timeout(
+		after interval: Duration,
+		tolerance: Duration? = nil,
+		policy: TimeoutPolicy = .throwOnTimeout
+	) -> TimeoutAsyncSequence<Self, ContinuousClock> {
+		TimeoutAsyncSequence(
+			base: self,
+			after: interval,
+			tolerance: tolerance,
+			clock: ContinuousClock(),
+			policy: policy
+		)
 	}
 }
 
-struct TimeoutError: LocalizedError, Sendable {
-	var errorDescription: String? {
-		"Publisher timed out"
-	}
+@inline(__always)
+private func _duration(seconds: TimeInterval) -> Duration {
+	let clamped = max(0, seconds)
+	return .nanoseconds(Int64(clamped * 1_000_000_000))
 }
 
-public func awaitPublisher<T: Publisher>(
-	_ publisher: T,
-	timeout: TimeInterval = 20
-) async throws -> T.Output where T.Output: Sendable {
-	try await withCheckedThrowingContinuation { continuation in
-		let box = CancellableBox()
+public func awaitFirst<S: AsyncSequence & Sendable>(
+	_ sequence: S,
+	timeoutSeconds: TimeInterval = 20
+) async throws -> S.Element
+where S.Element: Sendable {
+	var it = sequence
+		.timeout(after: _duration(seconds: timeoutSeconds), policy: .throwOnTimeout)
+		.makeAsyncIterator()
 
-		let timeoutTask = _Concurrency.Task {
-			try await _Concurrency.Task.sleep(
-				nanoseconds: UInt64(timeout * 1_000_000_000)
-			)
-			box.cancellable?.cancel()
-			continuation.resume(throwing: TimeoutError())
-		}
+	guard let value = try await it.next() else {
+		throw FinishedWithoutValueError()
+	}
+	return value
+}
 
-		box.cancellable = publisher.first()
-			.sink(
-				receiveCompletion: { @Sendable completion in
-					timeoutTask.cancel()
-					if case let .failure(error) = completion {
-						continuation.resume(throwing: error)
-					}
-				},
-				receiveValue: { @Sendable value in
-					timeoutTask.cancel()
-						// `T.Output` is constrained to `Sendable`, so this is safe.
-					continuation.resume(returning: value)
-				}
-			)
+public func awaitFirstOrNil<S: AsyncSequence & Sendable>(
+	_ sequence: S,
+	timeoutSeconds: TimeInterval = 20
+) async -> S.Element?
+where S.Element: Sendable {
+	do {
+		return try await awaitFirst(sequence, timeoutSeconds: timeoutSeconds)
+	} catch {
+		return nil
 	}
 }

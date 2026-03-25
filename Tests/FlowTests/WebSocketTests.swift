@@ -9,6 +9,7 @@
 import Flow
 import Testing
 import Foundation
+import XCTest
 
 @Suite
 struct WebSocketTests {
@@ -60,8 +61,9 @@ struct WebSocketTests {
 	}
 
 	@Test("List subscriptions placeholder test")
-	func listSubscriptions() {
+	func listSubscriptions() throws {
 			// TODO: Implement once server-side listSubscriptions behavior is defined.
-		#expect(true)
+		throw XCTSkip("WebSocket subscriptions not implemented yet")
+
 	}
 }

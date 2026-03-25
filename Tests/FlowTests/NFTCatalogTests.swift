@@ -15,6 +15,7 @@ private var runFlowIntegrationTests: Bool {
 }
 
 @Suite
+@FlowActor
 struct NFTCatalogTests {
 
 	struct NFTCatalog: Codable {
@@ -64,9 +65,9 @@ struct NFTCatalogTests {
 	func nftCatalogTestnet() async throws {
 		try #require(runFlowIntegrationTests, "Integration tests disabled")
 
-		await flow.configure(chainID: .testnet)
+		await FlowActor.shared.flow.configure(chainID: .testnet)
 
-		let response = try await flow.accessAPI.executeScriptAtLatestBlock(
+		let response = try await FlowActor.shared.flow.accessAPI.executeScriptAtLatestBlock(
 			script: .init(
 				text: """
 				import NFTCatalog from 0x324c34e1c517e4db
@@ -90,7 +91,7 @@ struct NFTCatalogTests {
 	func nftCatalogSingleCollection() async throws {
 		try #require(runFlowIntegrationTests, "Integration tests disabled")
 
-		await flow.configure(chainID: .mainnet)
+		await FlowActor.shared.flow.configure(chainID: .mainnet)
 
 		let cadence = """
 		import NFTCatalog from 0x49a7cda3a1eecc29
@@ -100,7 +101,7 @@ struct NFTCatalogTests {
 		}
 		"""
 		let script = Flow.Script(text: cadence)
-		let result: NFTCatalog? = try await flow.accessAPI
+		let result: NFTCatalog? = try await FlowActor.shared.flow.accessAPI
 			.executeScriptAtLatestBlock(script: script)
 			.decode()
 		print(result as Any)
@@ -114,7 +115,7 @@ struct NFTCatalogTests {
 	func nftCatalogCounts() async throws {
 		try #require(runFlowIntegrationTests, "Integration tests disabled")
 
-		await flow.configure(chainID: .mainnet)
+		await FlowActor.shared.flow.configure(chainID: .mainnet)
 
 		let cadence = """
 		import MetadataViews from 0x1d7e57aa55817448
@@ -153,7 +154,7 @@ struct NFTCatalogTests {
 		}
 		"""
 		let script = Flow.Script(text: cadence)
-		let result: [String: Int] = try await flow.accessAPI
+		let result: [String: Int] = try await FlowActor.shared.flow.accessAPI
 			.executeScriptAtLatestBlock(
 				script: script,
 				arguments: [.address(.init(hex: "0xfd182fc965709394"))]
@@ -171,7 +172,7 @@ struct NFTCatalogTests {
 	func nftCatalogIDs() async throws {
 		try #require(runFlowIntegrationTests, "Integration tests disabled")
 
-		await flow.configure(chainID: .mainnet)
+		await FlowActor.shared.flow.configure(chainID: .mainnet)
 
 		let cadence = """
 		import MetadataViews from 0x1d7e57aa55817448
@@ -212,7 +213,7 @@ struct NFTCatalogTests {
 		}
 		"""
 		let script = Flow.Script(text: cadence)
-		let result: [String: [UInt64]] = try await flow.accessAPI
+		let result: [String: [UInt64]] = try await FlowActor.shared.flow.accessAPI
 			.executeScriptAtLatestBlock(
 				script: script,
 				arguments: [.address(.init(hex: "0x01d63aa89238a559"))]

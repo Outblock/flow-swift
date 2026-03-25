@@ -8,6 +8,7 @@ import Testing
 import Flow
 
 @Suite
+@FlowActor
 struct CadenceTargetTestnetTests {
   init() async {
     await FlowActor.shared.flow.configure(chainID: .testnet)
@@ -16,7 +17,7 @@ struct CadenceTargetTestnetTests {
   @Test(.timeLimit(.minutes(1)))
   func transaction() async throws {
     let fixtures = TestnetFixtures()
-    let id = try await flow.sendTransaction(
+	  let id = try await FlowActor.shared.flow.sendTransaction(
       TestCadenceTarget.logTx(test: "Hi!"),
       signers: fixtures.signers,
       chainID: .testnet
