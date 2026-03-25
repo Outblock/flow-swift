@@ -8,7 +8,7 @@
 	//  you may not use this file except in compliance with the License.
 	//  You may obtain a copy of the License at
 	//
-	//    http://www.apache.org/licenses/LICENSE-2.0
+	//  http://www.apache.org/licenses/LICENSE-2.0
 	//
 	//  Unless required by applicable law or agreed to in writing, software
 	//  distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,11 +21,12 @@
 
 @testable import BigInt
 @testable import Flow
-import Testing
 import Foundation
+import Testing
 
 @Suite
 struct CadenceTypeTests {
+
 		// MARK: - Integer & word types
 
 	@Test("Cadence Int encodes/decodes correctly")
@@ -385,14 +386,14 @@ struct CadenceTypeTests {
 
 		// MARK: - Optional, reference, collection & composite types
 
-	@Test("Cadence Optional<String> encodes/decodes correctly")
+	@Test("Cadence Optional encodes/decodes correctly")
 	func optionalType() throws {
 		let jsonString = """
 		{
-		  "type":"Optional",
-		  "value":{
-			"type":"String",
-			"value":"test"
+		  "type": "Optional",
+		  "value": {
+			"type": "String",
+			"value": "test"
 		  }
 		}
 		"""
@@ -405,7 +406,7 @@ struct CadenceTypeTests {
 	func optionalType2() throws {
 		let jsonString = """
 		{
-		  "type":"Optional",
+		  "type": "Optional",
 		  "value": null
 		}
 		"""
@@ -418,10 +419,10 @@ struct CadenceTypeTests {
 	func referenceType() throws {
 		let jsonString = """
 		{
-		  "type":"Reference",
-		  "value":{
-			"address":"0x01",
-			"type":"0x01.CryptoKitty"
+		  "type": "Reference",
+		  "value": {
+			"address": "0x01",
+			"type": "0x01.CryptoKitty"
 		  }
 		}
 		"""
@@ -435,26 +436,26 @@ struct CadenceTypeTests {
 	func dictionaryType() throws {
 		let jsonString = """
 		{
-		  "type":"Dictionary",
-		  "value":[
+		  "type": "Dictionary",
+		  "value": [
 			{
-			  "key":{
-				"type":"Int",
-				"value":"1"
+			  "key": {
+				"type": "Int",
+				"value": "1"
 			  },
-			  "value":{
-				"type":"String",
-				"value":"one"
+			  "value": {
+				"type": "String",
+				"value": "one"
 			  }
 			},
 			{
-			  "key":{
-				"type":"Int",
-				"value":"2"
+			  "key": {
+				"type": "Int",
+				"value": "2"
 			  },
-			  "value":{
-				"type":"String",
-				"value":"two"
+			  "value": {
+				"type": "String",
+				"value": "two"
 			  }
 			}
 		  ]
@@ -464,6 +465,7 @@ struct CadenceTypeTests {
 			.init(key: .int(1), value: .string("one")),
 			.init(key: .int(2), value: .string("two")),
 		]
+
 		let argument = Flow.Argument(value: .dictionary(value))
 		let result = try verifyJson(jsonString: jsonString, argument: argument)
 		#expect(result.value.toDictionary() == value)
@@ -473,15 +475,15 @@ struct CadenceTypeTests {
 	func arrayType() throws {
 		let jsonString = """
 		{
-		  "type":"Array",
-		  "value":[
+		  "type": "Array",
+		  "value": [
 			{
-			  "type":"String",
-			  "value":"test1"
+			  "type": "String",
+			  "value": "test1"
 			},
 			{
-			  "type":"String",
-			  "value":"test2"
+			  "type": "String",
+			  "value": "test2"
 			}
 		  ]
 		}
@@ -496,15 +498,15 @@ struct CadenceTypeTests {
 	func structType() throws {
 		let jsonString = """
 		{
-		  "type":"Struct",
-		  "value":{
-			"id":"0x01.Jeffysaur",
-			"fields":[
+		  "type": "Struct",
+		  "value": {
+			"id": "0x01.Jeffysaur",
+			"fields": [
 			  {
-				"name":"Jeffysaur_Name",
-				"value":{
-				  "type":"String",
-				  "value":"Mr Jeff The Dinosaur"
+				"name": "Jeffysaur_Name",
+				"value": {
+				  "type": "String",
+				  "value": "Mr Jeff The Dinosaur"
 				}
 			  }
 			]
@@ -520,6 +522,7 @@ struct CadenceTypeTests {
 				),
 			]
 		)
+
 		let argument = Flow.Argument(value: .struct(value))
 		let result = try verifyJson(jsonString: jsonString, argument: argument)
 		#expect(result.value.toStruct() == value)
@@ -529,15 +532,15 @@ struct CadenceTypeTests {
 	func eventType() throws {
 		let jsonString = """
 		{
-		  "type":"Event",
-		  "value":{
-			"id":"0x01.JeffWroteSomeJS",
-			"fields":[
+		  "type": "Event",
+		  "value": {
+			"id": "0x01.JeffWroteSomeJS",
+			"fields": [
 			  {
-				"name":"wasTheCodeClean?",
-				"value":{
-				  "type":"String",
-				  "value":"absolutely"
+				"name": "wasTheCodeClean?",
+				"value": {
+				  "type": "String",
+				  "value": "absolutely"
 				}
 			  }
 			]
@@ -553,6 +556,7 @@ struct CadenceTypeTests {
 				),
 			]
 		)
+
 		let argument = Flow.Argument(value: .event(value))
 		let result = try verifyJson(jsonString: jsonString, argument: argument)
 		#expect(result.value.toEvent() == value)
@@ -562,15 +566,15 @@ struct CadenceTypeTests {
 	func enumType() throws {
 		let jsonString = """
 		{
-		  "type":"Enum",
-		  "value":{
-			"id":"0x01.JeffWroteSomeJS",
-			"fields":[
+		  "type": "Enum",
+		  "value": {
+			"id": "0x01.JeffWroteSomeJS",
+			"fields": [
 			  {
-				"name":"wasTheCodeClean?",
-				"value":{
-				  "type":"String",
-				  "value":"absolutely"
+				"name": "wasTheCodeClean?",
+				"value": {
+				  "type": "String",
+				  "value": "absolutely"
 				}
 			  }
 			]
@@ -586,6 +590,7 @@ struct CadenceTypeTests {
 				),
 			]
 		)
+
 		let argument = Flow.Argument(value: .enum(value))
 		let result = try verifyJson(jsonString: jsonString, argument: argument)
 		#expect(result.value.toEnum() == value)
@@ -595,15 +600,15 @@ struct CadenceTypeTests {
 	func contractType() throws {
 		let jsonString = """
 		{
-		  "type":"Contract",
-		  "value":{
-			"id":"0x01.JeffWroteSomeJS",
-			"fields":[
+		  "type": "Contract",
+		  "value": {
+			"id": "0x01.JeffWroteSomeJS",
+			"fields": [
 			  {
-				"name":"wasTheCodeClean?",
-				"value":{
-				  "type":"String",
-				  "value":"absolutely"
+				"name": "wasTheCodeClean?",
+				"value": {
+				  "type": "String",
+				  "value": "absolutely"
 				}
 			  }
 			]
@@ -619,6 +624,7 @@ struct CadenceTypeTests {
 				),
 			]
 		)
+
 		let argument = Flow.Argument(value: .contract(value))
 		let result = try verifyJson(jsonString: jsonString, argument: argument)
 		#expect(result.value.toContract() == value)
@@ -639,6 +645,7 @@ struct CadenceTypeTests {
 		let value: Flow.Argument.StaticType = .init(
 			staticType: .init(kind: .int, typeID: nil, fields: nil)
 		)
+
 		let argument = Flow.Argument(value: .type(value))
 		let result = try verifyJson(jsonString: jsonString, argument: argument)
 		#expect(result.value.toType() == value)
@@ -661,6 +668,7 @@ struct CadenceTypeTests {
 			address: "0x1",
 			borrowType: "Int"
 		)
+
 		let argument = Flow.Argument(value: .capability(value))
 		let result = try verifyJson(jsonString: jsonString, argument: argument)
 		#expect(result.value.toCapability() == value)
@@ -670,15 +678,15 @@ struct CadenceTypeTests {
 	func resourceType() throws {
 		let jsonString = """
 		{
-		  "type":"Resource",
-		  "value":{
-			"id":"0x01.Jeffysaur",
-			"fields":[
+		  "type": "Resource",
+		  "value": {
+			"id": "0x01.Jeffysaur",
+			"fields": [
 			  {
-				"name":"Jeffysaur_Name",
-				"value":{
-				  "type":"String",
-				  "value":"Mr Jeff The Dinosaur"
+				"name": "Jeffysaur_Name",
+				"value": {
+				  "type": "String",
+				  "value": "Mr Jeff The Dinosaur"
 				}
 			  }
 			]
@@ -694,6 +702,7 @@ struct CadenceTypeTests {
 				),
 			]
 		)
+
 		let argument = Flow.Argument(value: .resource(value))
 		let result = try verifyJson(jsonString: jsonString, argument: argument)
 		#expect(result.value.toResource() == value)
@@ -703,10 +712,10 @@ struct CadenceTypeTests {
 	func pathType() throws {
 		let jsonString = """
 		{
-		  "type":"Path",
-		  "value":{
-			"domain":"public",
-			"identifier":"zelosAccountingTokenReceiver"
+		  "type": "Path",
+		  "value": {
+			"domain": "public",
+			"identifier": "zelosAccountingTokenReceiver"
 		  }
 		}
 		"""
@@ -714,6 +723,7 @@ struct CadenceTypeTests {
 			domain: "public",
 			identifier: "zelosAccountingTokenReceiver"
 		)
+
 		let argument = Flow.Argument(value: .path(value))
 		let result = try verifyJson(jsonString: jsonString, argument: argument)
 		#expect(result.value.toPath() == value)
@@ -731,15 +741,36 @@ struct CadenceTypeTests {
 		#expect(result == argument)
 
 		let encoder = JSONEncoder()
+		encoder.outputFormatting = [.sortedKeys]
+
 		let encoded = try encoder.encode(argument)
-		#expect(encoded == formatJsonString(jsonString: jsonString))
+		assertJSONEqual(lhsData: encoded, rhsJsonString: jsonString)
 
 		return result
 	}
 
-	private func formatJsonString(jsonString: String) -> Data? {
-		let jsonData = jsonString.data(using: .utf8)!
-		let object = try! JSONSerialization.jsonObject(with: jsonData)
-		return try! JSONSerialization.data(withJSONObject: object, options: [])
+	private func assertJSONEqual(
+		lhsData: Data,
+		rhsJsonString: String,
+		file: StaticString = #filePath,
+		line: UInt = #line
+	) {
+		let lhsObject = try? JSONSerialization.jsonObject(with: lhsData)
+		let rhsData = rhsJsonString.data(using: .utf8) ?? Data()
+		let rhsObject = try? JSONSerialization.jsonObject(with: rhsData)
+
+		let lhsDescription = lhsObject.map { String(describing: $0) } ?? ""
+		let rhsDescription = rhsObject.map { String(describing: $0) } ?? ""
+
+		#expect(
+			lhsDescription == rhsDescription,
+			sourceLocation: .init(
+				fileID: String(describing: file),
+				filePath: String(describing: file),
+				line: Int(line),
+				column: 0
+			)
+		)
 	}
+
 }

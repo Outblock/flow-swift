@@ -39,7 +39,7 @@ public extension CadenceLoader.Category.Staking {
 
 public extension Flow {
 	/// Get staking info for delegator
-	@MainActor
+	@FlowCryptoActor
 	func getStakingInfo(
 	address: Flow.Address
 	) async throws -> [CadenceLoader.Category.Staking.StakingNode] {

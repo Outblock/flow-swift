@@ -1,3 +1,5 @@
+// verify_user_signature.cdc
+
 import Crypto
 
 access(all) fun main(
@@ -43,4 +45,5 @@ access(all) fun main(
         signedData: signedData,
         domainSeparationTag: ""
     )
-} 
+}
+

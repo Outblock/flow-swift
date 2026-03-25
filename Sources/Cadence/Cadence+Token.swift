@@ -22,7 +22,7 @@ extension CadenceLoader.Category {
 public extension Flow {
 	/// Get all token balances for an account using the Cadence script
 	/// `get_token_balance_storage`.
-	@MainActor
+	@FlowCryptoActor
 	func getTokenBalance(
 	address: Flow.Address
 	) async throws -> [String: Decimal] {
@@ -39,7 +39,7 @@ public extension Flow {
 
 // MARK: - Actor-safe Token Manager for UI
 
-@MainActor
+@FlowCryptoActor
 final class TokenManager: ObservableObject {
 	@Published var balances: [String: Decimal] = [:]
 	@Published var isLoading = false
@@ -55,17 +55,17 @@ final class TokenManager: ObservableObject {
 		/// Example:
 		///     Button("Refresh") { tokenManager.loadBalances(for: address) }
 	func loadBalances(for address: Flow.Address) {
-			// Use the concurrency Task explicitly from the _Concurrency module
-			// to avoid any local `Task` name collisions.
-		_Concurrency.Task { @MainActor in
+		_Concurrency.Task { @FlowCryptoActor in
 			self.isLoading = true
 			defer { self.isLoading = false }
 
 			do {
-				self.balances = try await self.flow.getTokenBalance(address: address)
+				let balances = try await self.flow.getTokenBalance(address: address)
+				self.balances = balances
 			} catch {
 				self.error = error
 			}
 		}
 	}
 }
+

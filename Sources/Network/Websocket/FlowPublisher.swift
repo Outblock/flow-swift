@@ -11,7 +11,7 @@ import Foundation
 
 public extension Flow {
 
-		/// Represents different types of events that can be published
+		/// Represents different types of events that can be published.
 	enum PublisherEvent {
 		case transactionStatus(id: Flow.ID, status: Flow.TransactionResult)
 		case accountUpdate(address: Flow.Address)
@@ -30,7 +30,7 @@ public extension Flow {
 			let approved: Bool
 			let data: [String: Any]
 
-			init(approved: Bool,  data:  [String: Any]) {
+			init(approved: Bool,  data: [String: Any]) {
 				self.approved = approved
 				self.data = data
 			}
@@ -49,7 +49,7 @@ public extension Flow {
 		private var walletContinuations: [UUID: AsyncStream<WalletPayloadBox>.Continuation] = [:]
 		private var errorContinuations: [UUID: AsyncStream<Error>.Continuation] = [:]
 
-			// Simple block header model used by block streams
+			// Simple block header model used by block streams.
 		public struct WSBlockHeader: Sendable {
 			public let blockId: Flow.ID
 			public let height: String
@@ -67,8 +67,11 @@ public extension Flow {
 		private init() { }
 
 			// MARK: - Stream factories
+			//
+			// These are nonisolated so they can return AsyncStream (which is not Sendable).
+			// All state access (continuation dictionaries) happens inside @FlowWebsocketActor tasks.
 
-		public func transactionStream() -> AsyncStream<(Flow.ID, Flow.TransactionResult)> {
+		nonisolated public func transactionStream() -> AsyncStream<(Flow.ID, Flow.TransactionResult)> {
 			AsyncStream { continuation in
 				let id = UUID()
 				_Concurrency.Task { @FlowWebsocketActor in
@@ -82,7 +85,7 @@ public extension Flow {
 			}
 		}
 
-		public func accountStream() -> AsyncStream<Flow.Address> {
+		nonisolated public func accountStream() -> AsyncStream<Flow.Address> {
 			AsyncStream { continuation in
 				let id = UUID()
 				_Concurrency.Task { @FlowWebsocketActor in
@@ -96,7 +99,7 @@ public extension Flow {
 			}
 		}
 
-		public func blockStream() -> AsyncStream<WSBlockHeader> {
+		nonisolated public func blockStream() -> AsyncStream<WSBlockHeader> {
 			AsyncStream { continuation in
 				let id = UUID()
 				_Concurrency.Task { @FlowWebsocketActor in
@@ -110,7 +113,7 @@ public extension Flow {
 			}
 		}
 
-		public func connectionStream() -> AsyncStream<Bool> {
+		nonisolated public func connectionStream() -> AsyncStream<Bool> {
 			AsyncStream { continuation in
 				let id = UUID()
 				_Concurrency.Task { @FlowWebsocketActor in
@@ -125,12 +128,12 @@ public extension Flow {
 		}
 
 			// New wallet stream API: bridges WalletPayloadBox → tuple
-		public func walletResponseStream() -> AsyncStream<(approved: Bool, [String: Any])> {
+		nonisolated public func walletResponseStream() -> AsyncStream<(approved: Bool, [String: Any])> {
 			AsyncStream { continuation in
 				let id = UUID()
 
 				_Concurrency.Task { @FlowWebsocketActor in
-						// Create inner stream whose continuations we store by UUID
+						// Inner stream whose continuations we store by UUID.
 					let inner = AsyncStream<WalletPayloadBox> { innerCont in
 						self.walletContinuations[id] = innerCont
 						innerCont.onTermination = { _ in
@@ -140,7 +143,7 @@ public extension Flow {
 						}
 					}
 
-						// Forward from inner boxes to outer tuple stream
+						// Forward from inner boxes to outer tuple stream.
 					_Concurrency.Task {
 						for await box in inner {
 							continuation.yield((box.approved, box.data))
@@ -157,7 +160,7 @@ public extension Flow {
 			}
 		}
 
-		public func errorStream() -> AsyncStream<Error> {
+		nonisolated public func errorStream() -> AsyncStream<Error> {
 			AsyncStream { continuation in
 				let id = UUID()
 				_Concurrency.Task { @FlowWebsocketActor in
@@ -172,6 +175,9 @@ public extension Flow {
 		}
 
 			// MARK: - Publish helpers
+			//
+			// These are actor-isolated (no 'nonisolated') and only used from
+			// Flow websocket / access API code.
 
 		public func publishTransactionStatus(id: Flow.ID, status: Flow.TransactionResult) {
 			for continuation in transactionContinuations.values {
@@ -191,8 +197,8 @@ public extension Flow {
 			}
 		}
 
-		public func publishWalletResponse(approved: Bool,  data:  [String: Any]) {
-			let box = WalletPayloadBox(approved: approved,  data:  data)
+		public func publishWalletResponse(approved: Bool, data: [String: Any]) {
+			let box = WalletPayloadBox(approved: approved,  data: data)
 			for continuation in walletContinuations.values {
 				continuation.yield(box)
 			}

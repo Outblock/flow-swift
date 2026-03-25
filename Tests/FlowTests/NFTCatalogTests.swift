@@ -10,8 +10,13 @@ import Flow
 import Foundation
 import Testing
 
+private var runFlowIntegrationTests: Bool {
+	ProcessInfo.processInfo.environment["RUN_FLOW_INTEGRATION_TESTS"] == "1"
+}
+
 @Suite
 struct NFTCatalogTests {
+
 	struct NFTCatalog: Codable {
 		let contractAddress: String
 		let contractName: String
@@ -57,6 +62,8 @@ struct NFTCatalogTests {
 		.timeLimit(.minutes(1))
 	)
 	func nftCatalogTestnet() async throws {
+		try #require(runFlowIntegrationTests, "Integration tests disabled")
+
 		await flow.configure(chainID: .testnet)
 
 		let response = try await flow.accessAPI.executeScriptAtLatestBlock(
@@ -64,7 +71,7 @@ struct NFTCatalogTests {
 				text: """
 				import NFTCatalog from 0x324c34e1c517e4db
 				
-				pub fun main(): {String : NFTCatalog.NFTCatalogMetadata} {
+				access(all) fun main(): {String : NFTCatalog.NFTCatalogMetadata} {
 					return NFTCatalog.getCatalog()
 				}
 				"""
@@ -81,12 +88,14 @@ struct NFTCatalogTests {
 		.timeLimit(.minutes(1))
 	)
 	func nftCatalogSingleCollection() async throws {
+		try #require(runFlowIntegrationTests, "Integration tests disabled")
+
 		await flow.configure(chainID: .mainnet)
 
 		let cadence = """
 		import NFTCatalog from 0x49a7cda3a1eecc29
 		
-		pub fun main(): NFTCatalog.NFTCatalogMetadata? {
+		access(all) fun main(): NFTCatalog.NFTCatalogMetadata? {
 			return NFTCatalog.getCatalog()["Flunks"]
 		}
 		"""
@@ -103,6 +112,8 @@ struct NFTCatalogTests {
 		.timeLimit(.minutes(2))
 	)
 	func nftCatalogCounts() async throws {
+		try #require(runFlowIntegrationTests, "Integration tests disabled")
+
 		await flow.configure(chainID: .mainnet)
 
 		let cadence = """
@@ -110,7 +121,7 @@ struct NFTCatalogTests {
 		import NFTCatalog from 0x49a7cda3a1eecc29
 		import NFTRetrieval from 0x49a7cda3a1eecc29
 		
-		pub fun main(ownerAddress: Address) : {String : Number} {
+		access(all) fun main(ownerAddress: Address) : {String : Number} {
 			let catalog = NFTCatalog.getCatalog()
 			let account = getAuthAccount(ownerAddress)
 			let items : {String : Number} = {}
@@ -130,8 +141,8 @@ struct NFTCatalogTests {
 				}
 		
 				let count = NFTRetrieval.getNFTCountFromCap(
-					collectionIdentifier : key,
-					collectionCap : collectionCap
+					collectionIdentifier: key,
+					collectionCap: collectionCap
 				)
 				if count != 0 {
 					items[key] = count
@@ -158,6 +169,8 @@ struct NFTCatalogTests {
 		.timeLimit(.minutes(2))
 	)
 	func nftCatalogIDs() async throws {
+		try #require(runFlowIntegrationTests, "Integration tests disabled")
+
 		await flow.configure(chainID: .mainnet)
 
 		let cadence = """
@@ -165,7 +178,7 @@ struct NFTCatalogTests {
 		import NFTCatalog from 0x49a7cda3a1eecc29
 		import NFTRetrieval from 0x49a7cda3a1eecc29
 		
-		pub fun main(ownerAddress: Address) : {String : [UInt64]} {
+		access(all) fun main(ownerAddress: Address) : {String : [UInt64]} {
 			let catalog = NFTCatalog.getCatalog()
 			let account = getAuthAccount(ownerAddress)
 		
@@ -186,8 +199,8 @@ struct NFTCatalogTests {
 				}
 		
 				let ids = NFTRetrieval.getNFTIDsFromCap(
-					collectionIdentifier : key,
-					collectionCap : collectionCap
+					collectionIdentifier: key,
+					collectionCap: collectionCap
 				)
 		
 				if ids.length > 0 {
