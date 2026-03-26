@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TargetType Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/TargetType" class="dashAnchor"></a>
+    <a title="TargetType Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Flow Docs</a> (36% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Flow</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        <a href="../Protocols.html">Protocols</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        TargetType Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Actors.html">Actors</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Actors/CadenceLoaderActor.html">CadenceLoaderActor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Actors/FlowAccessActor.html">FlowAccessActor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Actors/FlowActor.html">FlowActor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Actors/FlowConfigActor.html">FlowConfigActor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Actors/FlowCryptoActor.html">FlowCryptoActor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Actors/FlowHTTPAPI.html">FlowHTTPAPI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Actors/FlowLogActor.html">FlowLogActor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Actors/FlowWebSocketCenter.html">FlowWebSocketCenter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Actors/FlowWebsocketActor.html">FlowWebsocketActor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CadenceLoader.html">CadenceLoader</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CadenceLoader/Category.html">– Category</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ContractAddressRegister.html">ContractAddressRegister</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html">Flow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Transport.html">– Transport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/AccountAtLatestBlockRequest.html">– AccountAtLatestBlockRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/AccountByBlockHeightRequest.html">– AccountByBlockHeightRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/ExecuteScriptAtLatestBlockRequest.html">– ExecuteScriptAtLatestBlockRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/ExecuteScriptAtBlockIdRequest.html">– ExecuteScriptAtBlockIdRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/ExecuteScriptAtBlockHeightRequest.html">– ExecuteScriptAtBlockHeightRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/EventsForHeightRangeRequest.html">– EventsForHeightRangeRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/EventsForBlockIdsRequest.html">– EventsForBlockIdsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Websocket.html">– Websocket</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Topic.html">– Topic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TopicResponse.html">– TopicResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/SubscribeResponse.html">– SubscribeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketError.html">– WebSocketError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TransactionBuild.html">– TransactionBuild</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Argument.html">– Argument</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Address.html">– Address</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/FError.html">– FError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Account.html">– Account</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/AccountKey.html">– AccountKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/SignatureAlgorithm.html">– SignatureAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/HashAlgorithm.html">– HashAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/BlockHeader.html">– BlockHeader</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/BlockSeal.html">– BlockSeal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Block.html">– Block</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Cadence.html">– Cadence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/ChainID.html">– ChainID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Collection.html">– Collection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/CollectionGuarantee.html">– CollectionGuarantee</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/DomainTag.html">– DomainTag</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Event.html">– Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Snapshot.html">– Snapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TransactionResult.html">– TransactionResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/ID.html">– ID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Script.html">– Script</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/ScriptResponse.html">– ScriptResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Signature.html">– Signature</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Transaction.html">– Transaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TransactionProposalKey.html">– TransactionProposalKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/TransactionSignature.html">– TransactionSignature</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/PublicKey.html">– PublicKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Code.html">– Code</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/BlockStatus.html">– BlockStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html#/s:4FlowAAC13ErrorResponseV">– ErrorResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html#/s:4FlowAAC19BlockHeaderResponseV">– BlockHeaderResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html#/s:4FlowAAC15NetworkResponseV">– NetworkResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html#/s:4FlowAAC13BlockResponseV">– BlockResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html#/s:4FlowAAC20BlockPayloadResponseV">– BlockPayloadResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html#/s:4FlowAAC13ScriptRequestV">– ScriptRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html#/s:4FlowAAC21TransactionIdResponseV">– TransactionIdResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/PublisherEvent.html">– PublisherEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/Publisher.html">– Publisher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WalletResponse.html">– WalletResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/PublisherCenter.html">– PublisherCenter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WSTransactionResponse.html">– WSTransactionResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow.html#/s:4FlowAAC16WebSocketRequestO">– WebSocketRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketBlockStatus.html">– WebSocketBlockStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketTransactionStatusRequest.html">– WebSocketTransactionStatusRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketBlockDigestArguments.html">– WebSocketBlockDigestArguments</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketAccountStatusResponse.html">– WebSocketAccountStatusResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketAccountStatusEvent.html">– WebSocketAccountStatusEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketTopic.html">– WebSocketTopic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketAction.html">– WebSocketAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketSubscribeRequest.html">– WebSocketSubscribeRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketSubscribeResponse.html">– WebSocketSubscribeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketSocketError.html">– WebSocketSocketError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Flow/WebSocketTopicResponse.html">– WebSocketTopicResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FlowLogger.html">FlowLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FlowNIOWebSocketClient.html">FlowNIOWebSocketClient</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/CadenceType.html">CadenceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FCLFlow.html">FCLFlow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums.html#/s:4Flow0A6ActorsO">FlowActors</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FlowLogLevel.html">FlowLogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FlowRPCMethod.html">FlowRPCMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FlowWebSocketUpgradeEvent.html">FlowWebSocketUpgradeEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/FvmErrorCode.html">FvmErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Method.html">Method</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/RLP.html">RLP</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Task.html">Task</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TimeoutEvent.html">TimeoutEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/TimeoutPolicy.html">TimeoutPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/UserAgent.html">UserAgent</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/AsyncSequence.html">AsyncSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Decimal.html">Decimal</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Double.html">Double</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/URLSession.html">URLSession</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow9arguments4textA2AC16TransactionBuildOSayAD7CadenceC6FValueOGyXE_tF">arguments(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow9arguments4textA2AC16TransactionBuildOSayAD8ArgumentVGyXE_tF">arguments(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow11authorizers4textA2AC16TransactionBuildOAD7AddressVyXE_tF">authorizers(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow11authorizers4textA2AC16TransactionBuildOSayAD7AddressVGyXE_tF">authorizers(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow10awaitFirst_14timeoutSeconds7ElementQzx_SdtYaKs8SendableRzSciRzsAfERQlF">awaitFirst(_:timeoutSeconds:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow15awaitFirstOrNil_14timeoutSeconds7ElementQzSgx_SdtYas8SendableRzSciRzsAgERQlF">awaitFirstOrNil(_:timeoutSeconds:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow7cadence4textA2AC16TransactionBuildOAD6ScriptVyXE_tF">cadence(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow7cadence4textA2AC16TransactionBuildOSSyXE_tF">cadence(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8gasLimit4textA2AC16TransactionBuildO6BigInt0G4UIntVyXE_tF">gasLimit(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8gasLimit4textA2AC16TransactionBuildOSiyXE_tF">gasLimit(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow5payer4textA2AC16TransactionBuildOAD7AddressVyXE_tF">payer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow5payer4textA2AC16TransactionBuildOSSyXE_tF">payer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8proposer4textA2AC16TransactionBuildOAD0D11ProposalKeyVyXE_tF">proposer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8proposer4textA2AC16TransactionBuildOAD7AddressVyXE_tF">proposer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8proposer4textA2AC16TransactionBuildOSSyXE_tF">proposer(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8refBlock4textA2AC16TransactionBuildOAD2IDVyXE_tF">refBlock(text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:4Flow8refBlock4textA2AC16TransactionBuildOSSSgyXE_tF">refBlock(text:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CadenceLoaderProtocol.html">CadenceLoaderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/CadenceTargetType.html">CadenceTargetType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowAccessProtocol.html">FlowAccessProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowEntity.html">FlowEntity</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowLoggerProtocol.html">FlowLoggerProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowSigner.html">FlowSigner</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FlowTransport.html">FlowTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TargetType.html">TargetType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AnyDecodable.html">AnyDecodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AnyEncodable.html">AnyEncodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConsoleLogger.html">ConsoleLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FinishedWithoutValueError.html">FinishedWithoutValueError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/FlowWebSocketSubscriptionKey.html">FlowWebSocketSubscriptionKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NIOTransport.html">NIOTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/P256FlowSigner.html">P256FlowSigner</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TimeoutAsyncSequence.html">TimeoutAsyncSequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TimeoutAsyncSequence/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TimeoutError.html">TimeoutError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Flow5Bytesa">Bytes</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:4Flow0A4Dataa">FlowData</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>TargetType</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TargetType</span></code></pre>
+
+                </div>
+              </div>
+            <p>Undocumented</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow10TargetTypeP7baseURL10Foundation0E0Vvp"></a>
+                    <a name="//apple_ref/swift/Property/baseURL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow10TargetTypeP7baseURL10Foundation0E0Vvp">baseURL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The target&rsquo;s base <code>URL</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">baseURL</span><span class="p">:</span> <span class="kt">URL</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow10TargetTypeP4pathSSvp"></a>
+                    <a name="//apple_ref/swift/Property/path" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow10TargetTypeP4pathSSvp">path</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The path to be appended to <code><a href="../Protocols/TargetType.html#/s:4Flow10TargetTypeP7baseURL10Foundation0E0Vvp">baseURL</a></code> to form the full <code>URL</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">path</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow10TargetTypeP6methodAA6MethodOvp"></a>
+                    <a name="//apple_ref/swift/Property/method" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow10TargetTypeP6methodAA6MethodOvp">method</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The HTTP method used in the request.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">method</span><span class="p">:</span> <span class="kt"><a href="../Enums/Method.html">Method</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow10TargetTypeP4taskAA4TaskOvp"></a>
+                    <a name="//apple_ref/swift/Property/task" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow10TargetTypeP4taskAA4TaskOvp">task</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The type of HTTP task to be performed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">task</span><span class="p">:</span> <span class="kt"><a href="../Enums/Task.html">Task</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:4Flow10TargetTypeP7headersSDyS2SGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/headers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:4Flow10TargetTypeP7headersSDyS2SGSgvp">headers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The headers to be used in the request.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">headers</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-03-26)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>
