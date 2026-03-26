@@ -13,8 +13,8 @@ let package = Package(
         .library(name: "Flow", targets: ["Flow"]),
     ],
     dependencies: [
-        .package("BigInt", url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
-        .package( url: "https://github.com/daltoniam/Starscream", from: "3.1.1")
+		.package(url: "https://github.com/attaswift/BigInt.git", from: "5.2.1"),
+        .package(url: "https://github.com/daltoniam/Starscream", from: "3.1.1")
     ],
     targets: [
         .target(
