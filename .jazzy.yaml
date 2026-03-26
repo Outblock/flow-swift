@@ -1,0 +1,4 @@
+swift_build_tool: spm
+module: Flow
+min_acl: public
+output: docs
