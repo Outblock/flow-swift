@@ -1,0 +1,89 @@
+name: "CodeQL + Docs + AI review"
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+  schedule:
+    - cron: '39 19 * * 1'   # weekly scan
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Your Swift package
+          - language: swift
+            build-mode: manual
+
+          # Actions workflow YAML
+          - language: actions
+            build-mode: none
+
+          # Optional: Ruby (for Gemfile / Jazzy tooling)
+          - language: ruby
+            build-mode: none
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ---------- Swift docs (runs only once, on Swift job) ----------
+      - name: Generate Swift docs (swift-doc)
+        if: matrix.language == 'swift'
+        uses: SwiftDocOrg/swift-doc@1.0.0-rc.1
+        with:
+          # Adjust if your package name or module differ
+          package: .
+          format: html
+          output: docs-swiftdoc
+
+      # ---------- Claude Code (AI review) ----------
+      # Requires ANTHROPIC_API_KEY secret if you enable it.
+      - name: Claude Code Action Official
+        if: matrix.language == 'swift'
+        uses: anthropics/claude-code-action@v1
+        with:
+          # Example minimal config; adjust as you refine prompts:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # mode: "pr_review"  # uncomment if you want it only on PRs
+
+      # ---------- Initialize CodeQL ----------
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      # ---------- Manual Swift build for CodeQL ----------
+      - name: Build Swift package (SPM)
+        if: matrix.language == 'swift' && matrix.build-mode == 'manual'
+        shell: bash
+        run: |
+          swift --version
+          swift build -v
+
+      # ---------- Default manual step for other languages (kept as no-op) ----------
+      - name: Run manual build steps (non-swift)
+        if: matrix.language != 'swift' && matrix.build-mode == 'manual'
+        shell: bash
+        run: |
+          echo "No manual build required for ${LANGUAGE}"
+
+      # ---------- Run analysis ----------
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{ matrix.language }}"
