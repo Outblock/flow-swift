@@ -1,34 +1,23 @@
-// create_account.cdc
+// account_storage.cdc
 
-import Crypto
+access(all)
+struct StorageInfo {
+    access(all) let capacity: UInt64
+    access(all) let used: UInt64
+    access(all) let available: UInt64
 
-transaction(
-    publicKey: String,
-    signatureAlgorithm: UInt8,
-    hashAlgorithm: UInt8,
-    weight: UFix64,
-    contracts: {String: String}
-) {
-    prepare(signer: auth(Storage, CreateAccount, Keys, Contracts) &Account) {
-        let key = PublicKey(
-            publicKey: publicKey.decodeHex(),
-            signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
-        )
-
-        let account = Account.create(payer: signer)
-
-        account.keys.add(
-            publicKey: key,
-            hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
-            weight: weight
-        )
-
-        for contractName in contracts.keys {
-            let codeHex = contracts[contractName]!
-            account.contracts.add(
-                name: contractName,
-                code: codeHex.decodeHex()
-            )
-        }
+    init(capacity: UInt64, used: UInt64, available: UInt64) {
+        self.capacity = capacity
+        self.used = used
+        self.available = available
     }
+}
+
+access(all) fun main(addr: Address): StorageInfo {
+    let acct = getAccount(addr)
+    return StorageInfo(
+        capacity: acct.storageCapacity,
+        used: acct.storageUsed,
+        available: acct.storageCapacity - acct.storageUsed
+    )
 }
