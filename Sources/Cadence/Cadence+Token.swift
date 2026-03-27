@@ -1,32 +1,71 @@
-//
-//  File.swift
-//  Flow
-//
-//  Created by Hao Fu on 4/4/2025.
-//
+	//
+	//  Cadence+Token.swift
+	//  Flow
+	//
+	//  Created by Hao Fu on 4/4/2025.
+	//
 
-import Foundation
+import SwiftUI
+
+	// MARK: - Cadence Loader Category
 
 extension CadenceLoader.Category {
-    
-    public enum Token: String, CaseIterable, CadenceLoaderProtocol {
-        case getTokenBalanceStorage = "get_token_balance_storage"
-        
-        var filename: String {
-            rawValue
-        }
-    }
-    
+	public enum Token: String, CaseIterable, CadenceLoaderProtocol {
+		case getTokenBalanceStorage = "get_token_balance_storage"
+
+		public var filename: String { rawValue }
+	}
 }
 
-// Extension to Flow for convenience methods
+// MARK: - Flow convenience API
+
 public extension Flow {
-    func getTokenBalance(address: Flow.Address) async throws -> [String: Decimal] {
-        let script = try CadenceLoader.load(CadenceLoader.Category.Token.getTokenBalanceStorage)
-        return try await executeScriptAtLatestBlock(
-            script: .init(text: script),
-            arguments: [.address(address)]
-        ).decode()
-    }
-    
+	/// Get all token balances for an account using the Cadence script
+	/// `get_token_balance_storage`.
+	@FlowCryptoActor
+	func getTokenBalance(
+	address: Flow.Address
+	) async throws -> [String: Decimal] {
+		let scriptSource = try await CadenceLoader.load(
+		CadenceLoader.Category.Token.getTokenBalanceStorage
+		)
+		// `Flow.Script` has an initializer taking text; keep using that.
+		return try await executeScriptAtLatestBlock(
+		script: .init(text: scriptSource),
+		arguments: [.address(address)]
+			).decode()
+	}
 }
+
+// MARK: - Actor-safe Token Manager for UI
+
+@FlowCryptoActor
+final class TokenManager: ObservableObject {
+	@Published var balances: [String: Decimal] = [:]
+	@Published var isLoading = false
+	@Published var error: Error?
+
+	private let flow: Flow
+
+	init(flow: Flow) {
+		self.flow = flow
+	}
+
+		/// Fire-and-forget load suitable for SwiftUI call sites.
+		/// Example:
+		///     Button("Refresh") { tokenManager.loadBalances(for: address) }
+	func loadBalances(for address: Flow.Address) {
+		_Concurrency.Task { @FlowCryptoActor in
+			self.isLoading = true
+			defer { self.isLoading = false }
+
+			do {
+				let balances = try await self.flow.getTokenBalance(address: address)
+				self.balances = balances
+			} catch {
+				self.error = error
+			}
+		}
+	}
+}
+

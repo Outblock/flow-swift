@@ -1,7 +1,14 @@
+// add_key_to_account.cdc
+
 import Crypto
 
-transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, weight: UFix64) {
-    prepare(signer: auth(Storage, Keys) &Account) {
+transaction(
+    publicKey: String,
+    signatureAlgorithm: UInt8,
+    hashAlgorithm: UInt8,
+    weight: UFix64
+) {
+    prepare(signer: auth(Keys) &Account) {
         let key = PublicKey(
             publicKey: publicKey.decodeHex(),
             signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
@@ -12,4 +19,4 @@ transaction(publicKey: String, signatureAlgorithm: UInt8, hashAlgorithm: UInt8, 
             weight: weight
         )
     }
-} 
+}

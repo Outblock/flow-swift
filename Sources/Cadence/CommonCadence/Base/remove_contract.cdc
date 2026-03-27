@@ -1,5 +1,7 @@
+// remove_contract.cdc
+
 transaction(name: String) {
-    prepare(signer: auth(Storage, Contracts) &Account) {
+    prepare(signer: auth(Contracts) &Account) {
         signer.contracts.remove(name: name)
     }
-} 
+}

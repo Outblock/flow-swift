@@ -1,39 +1,67 @@
+	//
+	//  CadenceLoader.swift
+	//  Flow
+	//
+	//  Created by Nicholas Reich on 3/21/26.
+	//
+
 import Foundation
 
-protocol CadenceLoaderProtocol {
-    var directory: String { get }
-    var filename: String { get }
+	// Global actor for Cadence loading
+@globalActor
+public actor CadenceLoaderActor {
+	public static let shared = CadenceLoaderActor()
 }
 
-extension CadenceLoaderProtocol {
-    var directory: String {
-        String(describing: type(of: self))
-    }
+	// MARK: - Protocol
+
+public protocol CadenceLoaderProtocol: Sendable {
+	var directory: String { get }
+	var filename: String { get }
 }
 
-/// Utility class for loading Cadence scripts from files
-public class CadenceLoader {
-    
-    public enum Category {}
-    
-    static let subdirectory = "CommonCadence"
-    
-    /// Load a Cadence script from the bundle
-    /// - Parameter name: Name of the Cadence file without extension
-    /// - Parameter directory: Directory containing the Cadence file
-    /// - Returns: Content of the Cadence file
-    /// - Throws: Error if file cannot be found or read
-    static func load(name: String, directory: String = "") throws -> String {
-        guard let url = Bundle.module.url(forResource: name, withExtension: "cdc", subdirectory: "\(CadenceLoader.subdirectory)/\(directory)") else {
-            throw Flow.FError.scriptNotFound(name: name, directory: directory)
-        }
-        
-        return try String(contentsOf: url, encoding: .utf8)
-    }
-    
-    static func load(_ path: CadenceLoaderProtocol) throws -> String {
-        let name = path.filename
-        let directory = path.directory
-        return try load(name: name, directory: directory)
-    }
+public extension CadenceLoaderProtocol {
+	var directory: String {
+		String(describing: type(of: self))
+	}
 }
+
+	// MARK: - Loader
+
+	/// Utility type for loading Cadence scripts from resources
+@CadenceLoaderActor
+public final class CadenceLoader: @unchecked Sendable {
+
+	public enum Category: Sendable {}
+
+	public static let subdirectory = "CommonCadence"
+
+		/// Load a Cadence script from the module bundle.
+		/// - Parameters:
+		///   - name: Name of the Cadence file without extension.
+		///   - directory: Directory under `CommonCadence`.
+		/// - Returns: Cadence source.
+	public static func load(
+		name: String,
+		directory: String = ""
+	) throws -> String {
+		let subdirPath = directory.isEmpty
+		? CadenceLoader.subdirectory
+		: "\(CadenceLoader.subdirectory)/\(directory)"
+
+		guard let url = Bundle.module.url(
+			forResource: name,
+			withExtension: "cdc",
+			subdirectory: subdirPath
+		) else {
+			throw Flow.FError.scriptNotFound(name: name, directory: directory)
+		}
+
+		return try String(contentsOf: url, encoding: .utf8)
+	}
+
+	public static func load(_ path: CadenceLoaderProtocol) throws -> String {
+		try load(name: path.filename, directory: path.directory)
+	}
+}
+

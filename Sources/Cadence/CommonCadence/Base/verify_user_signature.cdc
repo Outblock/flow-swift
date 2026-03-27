@@ -1,3 +1,5 @@
+// verify_user_signature.cdc
+
 import Crypto
 
 access(all) fun main(
@@ -10,8 +12,7 @@ access(all) fun main(
 ): Bool {
     let keyList = Crypto.KeyList()
 
-    var i = 0
-    for rawPublicKey in rawPublicKeys {
+    for i, rawPublicKey in rawPublicKeys {
         keyList.add(
             PublicKey(
                 publicKey: rawPublicKey.decodeHex(),
@@ -20,20 +21,17 @@ access(all) fun main(
             hashAlgorithm: HashAlgorithm(rawValue: hashAlgos[i])!,
             weight: weights[i]
         )
-        i = i + 1
     }
 
-    let signatureSet: [Crypto.KeyListSignature] = []
+    var signatureSet: [Crypto.KeyListSignature] = []
 
-    var j = 0
-    for signature in signatures {
+    for j, signature in signatures {
         signatureSet.append(
             Crypto.KeyListSignature(
                 keyIndex: j,
                 signature: signature.decodeHex()
             )
         )
-        j = j + 1
     }
 
     let signedData = message.decodeHex()
@@ -41,6 +39,29 @@ access(all) fun main(
     return keyList.verify(
         signatureSet: signatureSet,
         signedData: signedData,
-        domainSeparationTag: ""
+        domainSeparationTag: "FLOW-V0.0-user"
     )
-} 
+}
+ADD_KEY_TO_ACCOUNT.CDC
+// add_key_to_account.cdc
+
+import Crypto
+
+transaction(
+    publicKey: String,
+    signatureAlgorithm: UInt8,
+    hashAlgorithm: UInt8,
+    weight: UFix64
+) {
+    prepare(signer: auth(Keys) &Account) {
+        let key = PublicKey(
+            publicKey: publicKey.decodeHex(),
+            signatureAlgorithm: SignatureAlgorithm(rawValue: signatureAlgorithm)!
+        )
+        signer.keys.add(
+            publicKey: key,
+            hashAlgorithm: HashAlgorithm(rawValue: hashAlgorithm)!,
+            weight: weight
+        )
+    }
+}

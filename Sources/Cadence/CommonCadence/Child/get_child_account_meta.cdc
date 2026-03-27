@@ -1,18 +1,24 @@
+// get_child_account_meta.cdc
+
 import HybridCustody from 0xHybridCustody
 import MetadataViews from 0xMetadataViews
 
 access(all) fun main(parent: Address): {Address: AnyStruct} {
     let acct = getAuthAccount<auth(Storage) &Account>(parent)
-    let m = acct.storage.borrow<&HybridCustody.Manager>(from: HybridCustody.ManagerStoragePath)
+    let managerRef = acct.storage.borrow<&HybridCustody.Manager>(
+        from: HybridCustody.ManagerStoragePath
+    )
 
-    if m == nil {
+    if managerRef == nil {
         return {}
-    } else {
-        var data: {Address: AnyStruct} = {}
-        for address in m?.getChildAddresses()! {
-            let c = m?.getChildAccountDisplay(address: address) 
-            data.insert(key: address, c)
-        }
-        return data
     }
+
+    var  {Address: AnyStruct} = {}
+
+    for address in managerRef!.getChildAddresses() {
+        let display = managerRef!.getChildAccountDisplay(address: address)
+        data.insert(key: address, display)
+    }
+
+    return data
 }

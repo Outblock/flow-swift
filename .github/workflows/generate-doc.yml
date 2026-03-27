@@ -1,4 +1,4 @@
-name: generate-doc
+name: Generate Jazzy Docs
 
 on:
   release:
@@ -10,57 +10,58 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: master
 
       - name: Get tag
         id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> "$GITHUB_OUTPUT"
         working-directory: master
 
-      - name: Setup ruby
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0.2
+          ruby-version: '3.2'
           bundler-cache: true
+          working-directory: master
 
-      - name: Build doc
+      - name: Build docs with Jazzy
         env:
-          RELEASE_VERSION: ${{steps.vars.outputs.tag}}
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
           bundle install
-          bundle exec jazzy --clean --output .build/jazzy --author 'Outblock Team' --author_url https://github.com/outblock/flow-swift --github_url https://github.com/outblock/flow-swift --github-file-prefix https://github.com/outblock/flow-swift/tree/${RELEASE_VERSION} --module-version ${RELEASE_VERSION} --exclude 'Sources/Flow/Protobuf/*'
+          bundle exec jazzy \
+            --clean \
+            --output .build/jazzy \
+            --author 'Outblock Team' \
+            --author_url https://github.com/outblock/flow-swift \
+            --github_url https://github.com/outblock/flow-swift \
+            --github-file-prefix https://github.com/outblock/flow-swift/tree/${RELEASE_VERSION} \
+            --module-version ${RELEASE_VERSION} \
+            --exclude 'Sources/Flow/Protobuf/*'
         working-directory: master
-      
-      - name: Checkout doc
-        uses: actions/checkout@v2
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
 
-      - name: Clean old doc
-        run: rm -rf docs/current
-        working-directory: gh-pages
-
-      - name: Copy new doc
+      - name: Update docs
         env:
-          G_WORKSPACE: ${{github.workspace}}
-          RELEASE_VERSION: ${{steps.vars.outputs.tag}}
+          G_WORKSPACE: ${{ github.workspace }}
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
+          cd gh-pages
+          rm -rf docs/current
           mkdir -p docs/current
           mkdir -p docs/$RELEASE_VERSION
-          cp -R ${G_WORKSPACE}/master/.build/jazzy/* docs/current
-          cp -R ${G_WORKSPACE}/master/.build/jazzy/* docs/$RELEASE_VERSION
-        working-directory: gh-pages
+          cp -R "${G_WORKSPACE}/master/.build/jazzy/"* docs/current
+          cp -R "${G_WORKSPACE}/master/.build/jazzy/"* docs/$RELEASE_VERSION
 
-      - name: Commit
-        env:
-          RELEASE_VERSION: ${{steps.vars.outputs.tag}}
-        run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add .
-          git commit -m "generate ${RELEASE_VERSION} docs automatically"
+          git add docs
+          git commit -m "Generate ${RELEASE_VERSION} docs automatically" || echo "No changes"
           git push
-        working-directory: gh-pages

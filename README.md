@@ -1,625 +1,176 @@
-<br />
-<div align="center">
-  <a href="">
-    <img src="https://raw.githubusercontent.com/Outblock/flow-swift/main/Resources/logo.svg" alt="Logo" width="600" height="auto">
-  </a>
-  <p align="center"> <br />
-    <a href="https://github.com/Outblock/flow-swift"><strong>View on GitHub »</strong></a> <br /><br />
-    <a href="https://Outblock.github.io/flow-swift">SDK Specifications</a> ·
-    <a href="">Contribute</a> ·
-    <a href="">Report a Bug</a>
-  </p>
-</div>
-<br/>
+```markdown
+# flow-swift (Swift 6 & Swift Testing Migration)
 
-## Overview 
+This fork updates the original Outblock `flow-swift` SDK and tests for Swift 6, modern concurrency, and Swift Testing. It focuses on safety, test reliability, and compatibility with current Flow tooling and APIs.
 
-This reference documents all the methods available in the SDK, and explains in detail how these methods work.
-SDKs are open source, and you can use them according to the licence.
+## What’s New
 
-The library client specifications can be found here:
+### 1. Swift 6 Concurrency & Actors
 
-https://outblock.github.io/flow-swift/
+- Actor-based WebSocket center  
+  - Introduced a WebSocket coordination actor that manages NIO-based subscriptions for transaction status streams.  
+  - Uses `AsyncThrowingStream<Flow.WebSocketTopicResponse<Flow.WSTransactionResponse>, Error>.Continuation` per `Flow.ID` to bridge NIO callbacks into structured async streams.
 
+- Transaction status waiting APIs  
+  - Added helpers like:
+    - `once(status: Flow.Transaction.Status, timeout: TimeInterval = 60) async throws -> Flow.TransactionResult` on `Flow.ID`.  
+  - Internally, this uses `AsyncThrowingStream` and task groups to:
+    - Listen for WebSocket updates.
+    - Enforce timeouts.
+    - Cancel remaining work after a result is obtained.
 
-## Getting Started
+- Sendable coverage  
+  - Marked core models as `Sendable` where correct, including:
+    - Transaction-related WebSocket response types.
+    - Value and argument container types used across tasks and actors.
 
-### Installing
+### 2. Swift Testing Migration
 
-This is a Swift Package, and can be installed via Xcode with the URL of this repository:
+All XCTest-based tests were migrated to the new Swift Testing APIs:
 
-```swift
-.package(name: "Flow", url: "https://github.com/outblock/flow-swift.git", from: "0.4.0")
-```
+- `@Suite` instead of `XCTestCase`.
+- `@Test("description")` instead of `func testXYZ()`.
+- `#expect(...)` assertions instead of `XCTAssert*`.
 
-## Config
+Updated suites include (non-exhaustive):
 
-The library uses gRPC to communicate with the access nodes and it must be configured with correct access node API URL. 
+- `FlowAccessAPIOnTestnetTests`
+- `FlowOperationTests` (with legacy examples preserved but disabled)
+- `CadenceTargetTests`
+- `RLPTests`
 
-📖 **Access API URLs** can be found [here](https://docs.onflow.org/access-api/#flow-access-node-endpoints). An error will be returned if the host is unreachable.
-The Access Nodes APIs hosted by DapperLabs are accessible at:
-- Testnet `access.devnet.nodes.onflow.org:9000`
-- Mainnet `access.mainnet.nodes.onflow.org:9000`
-- Local Emulator `127.0.0.1:3569` 
+### 3. API & DSL Adjustments
 
-To config the SDK, you just need to provider the chainID for it. The default chainID is **Mainnet**.
-For example, if you want to use testnet, you can config the chainID like this:
-```swift
-flow.configure(chainID: .testnet)
-```
+- Transaction builder DSL  
+  - Transaction construction now uses a clearer builder style:
+    - `cadence { """ ... """ }`
+    - `proposer { Flow.TransactionProposalKey(...) }`
+    - `payer { Flow.Address(...) }`
+    - `authorizers { [...] }`
+    - `arguments { [Flow.Argument(...), ...] }`
+    - `gasLimit { 1000 }`
+  - Builders are compatible with Swift 6’s stricter closure isolation rules.
 
-Moreover, if you want to use a custom gRPC endpoint for the access API, here is the way to do it:
-```swift
-let endpoint = Flow.ChainID.Endpoint(node: "flow-testnet.g.alchemy.com", port: 443)
-let chainID = Flow.ChainID.custom(name: "Alchemy-Testnet", endpoint:endpoint)
-flow.configure(chainID: chainID)
-```
+- Flow.Argument & Cadence values  
+  - `Flow.Argument` retains initializers that wrap Cadence values, while avoiding leaking internal representation types into the public API.  
+  - Conversion helpers are available internally to map between Cadence values and arguments, but callers typically work directly with `Flow.Argument` and the DSL.
 
-### (Optional) GRPC Acces Node
+- Cadence target tests  
+  - `CadenceTargetTests` now uses an explicit enum-based target description without relying on reflection.  
+  - Arguments are explicitly constructed per case, improving clarity and type safety.
 
-If you want to use g-RPC access client better than HTTP client, please import this repo instead:
-[flow-swift-gRPC](https://github.com/Outblock/flow-swift-gRPC)
+### 4. Access Control & Safety Tightening
 
-Here is the example how you initialize it:
-```swift
-let accessAPI = Flow.GRPCAccessAPI(chainID: .mainnet)!
-let chainID = Flow.ChainID.mainnet
-flow.configure(chainID: chainID, accessAPI: accessAPI)
-``` 
+- Cadence model types and conversion utilities remain internal to the SDK, so they do not appear in the public API.  
+- Helpers that depend on internal representation types are kept internal to avoid access-control and ABI issues.  
+- Public surface area exposes stable, high-level types (e.g., `Flow.Argument`, `Flow.Address`, `Flow.Transaction`) instead of low-level Cadence internals.
 
+### 5. RLP & Transaction Encoding Tests
 
-## Querying the Flow Network
-After you have established a connection with an access node, you can query the Flow network to retrieve data about blocks, accounts, events and transactions. We will explore how to retrieve each of these entities in the sections below.
+- `RLPTests` were modernized for Swift 6:
+  - Fixed issues where mutating helpers were called on immutable values by introducing local mutable copies when necessary.
+  - Preserved all original RLP expectations, ensuring transaction encoding remains compatible with Flow nodes.
 
-### Get Blocks
-Query the network for block by id, height or get the latest block.
+## What Was Removed or Disabled
 
-📖 **Block ID** is SHA3-256 hash of the entire block payload. This hash is stored as an ID field on any block response object (ie. response from `GetLatestBlock`). 
+- Legacy high-level transaction helpers on `Flow`  
+  - Methods like `addContractToAccount`, `removeAccountKeyByIndex`, `addKeyToAccount`, `createAccount(...)`, `updateContractOfAccount`, `removeContractFromAccount`, and `verifyUserSignature(...)` are no longer exposed on the main `Flow` type.  
+  - Tests that referenced these helpers have been converted into commented examples inside `FlowOperationTests`:
+    - They remain as documentation for how to implement these flows.
+    - They can be reintroduced or reimplemented using the new transaction builder DSL as needed.
 
-📖 **Block height** expresses the height of the block on the chain. The latest block height increases by one for every valid block produced.
+- Reflection-based test plumbing  
+  - Reflection-based helper types previously used to derive arguments (e.g., via `Mirror`) are no longer used in public-facing tests.  
+  - Tests now wire arguments explicitly for clarity and compatibility with Swift 6.
 
-#### Examples
+## Installation
 
-This example depicts ways to get the latest block as well as any other block by height or ID:
-```swift
-let result = try await flow.getLatestBlock(sealed: true)
-```
+### Requirements
 
-### Get Account
+- Swift 6 toolchain (or the latest Swift that supports Swift Testing and stricter concurrency checks).  
+- macOS with Xcode 16+ (or a matching Swift toolchain on another platform).  
+- Network access to Flow testnet/mainnet for integration tests.
 
-Retrieve any account from Flow network's latest block or from a specified block height.
+### Using Swift Package Manager
 
-📖 **Account address** is a unique account identifier. Be mindful about the `0x` prefix, you should use the prefix as a default representation but be careful and safely handle user inputs without the prefix.
-
-An account includes the following data:
-- Address: the account address.
-- Balance: balance of the account.
-- Contracts: list of contracts deployed to the account.
-- Keys: list of keys associated with the account.
-
-#### Examples
-Example depicts ways to get an account at the latest block and at a specific block height:
+Add the package to `Package.swift`:
 
 ```swift
-let address = Flow.Address(hex: "0x1")
-
-// Handle Success Result
-let result = try await flow.getAccountAtLatestBlock(address: address)
+dependencies: [
+    .package(url: "https://github.com/<your-org>/flow-swift.git", branch: "main")
+]
 ```
 
-### Get Transactions
-
-Retrieve transactions from the network by providing a transaction ID. After a transaction has been submitted, you can also get the transaction result to check the status.
-
-📖 **Transaction ID** is a hash of the encoded transaction payload and can be calculated before submitting the transaction to the network.
-
-⚠️ The transaction ID provided must be from the current spork.
-
-📖 **Transaction status** represents the state of transaction in the blockchain. Status can change until is finali
-.
-
-| Status      | Final | Description |
-| ----------- | ----------- | ----------- |
-|   UNKNOWN    |    ❌   |   The transaction has not yet been seen by the network  |
-|   PENDING    |    ❌   |   The transaction has not yet been included in a block   |
-|   FINALIZED    |   ❌     |  The transaction has been included in a block   |
-|   EXECUTED    |   ❌    |   The transaction has been executed but the result has not yet been sealed  |
-|   SEALED    |    ✅    |   The transaction has been executed and the result is sealed in a block  |
-|   EXPIRED    |   ✅     |  The transaction reference block is outdated before being executed    |
-
+Then add `Flow` as a dependency to your target:
 
 ```swift
-let id = Flow.ID(hex: "0x1")
-let result = try await flow.getTransactionById(id: id)
+.target(
+    name: "MyApp",
+    dependencies: [
+        .product(name: "Flow", package: "flow-swift")
+    ]
+)
 ```
 
+Update and build:
 
-### Get Events
-Retrieve events by a given type in a specified block height range or through a list of block IDs.
-
-📖 **Event type** is a string that follow a standard format:
-```
-A.{contract address}.{contract name}.{event name}
+```bash
+swift package update
+swift build
 ```
 
-Please read more about [events in the documentation](https://docs.onflow.org/core-contracts/flow-token/). The exception to this standard are 
-core events, and you should read more about them in [this document](https://docs.onflow.org/cadence/language/core-events/).
+## Testing
 
-📖 **Block height range** expresses the height of the start and end block in the chain.
+This repository uses Swift Testing (`@Suite`, `@Test`, `#expect`) instead of XCTest.
 
-#### Examples
-Example depicts ways to get events within block range or by block IDs:
+### Run All Tests
 
-```swift
-let eventName = "A.{contract address}.{contract name}.{event name}"
-let blockIds: [Flow.ID] = [.init(hex: "0x1"), .init(hex: "0x2") ]
-let result = try await flow.getEventsForHeightRange(type: eventName, range: 10...20)
+From the package root:
+
+```bash
+swift test
 ```
 
+This will build and run all active test suites, including:
 
-### Get Collections
-Retrieve a batch of transactions that have been included in the same block, known as ***collections***. 
-Collections are used to improve consensus throughput by increasing the number of transactions per block and they act as a link between a block and a transaction.
+- `FlowAccessAPIOnTestnetTests`
+- `CadenceTargetTests`
+- `RLPTests`
+- `FlowOperationTests` (only active tests; legacy examples remain commented out)
 
-📖 **Collection ID** is SHA3-256 hash of the collection payload.
+### Network-dependent Tests
 
-Example retrieving a collection:
-```swift
-let id = Flow.ID(hex: "0x1")
-let result = try await flow.getCollectionById(id: id)
+- `FlowAccessAPIOnTestnetTests` exercises real Flow access nodes against testnet.  
+- Ensure:
+  - Correct access node configuration (HTTP endpoint via `createHTTPAccessAPI(chainID: .testnet)`).
+  - Stable network connectivity.
+
+If you need to avoid network tests (e.g., in CI):
+
+- Disable or tag specific tests/suites.
+- Or temporarily comment out the `@Test` attributes for integration tests.
+
+### Run a Single Suite
+
+If your toolchain supports filtering:
+
+```bash
+swift test --filter FlowAccessAPIOnTestnetTests
 ```
 
-### Execute Scripts
-Scripts allow you to write arbitrary non-mutating Cadence code on the Flow blockchain and return data. You can learn more about [Cadence and scripts here](https://docs.onflow.org/cadence/language/), but we are now only interested in executing the script code and getting back the data.
+## Notes for Contributors
 
-We can execute a script using the latest state of the Flow blockchain or we can choose to execute the script at a specific time in history defined by a block height or block ID.
+- Concurrency  
+  - Prefer `actor` for shared mutable state (e.g., WebSocket centers).  
+  - Only mark types as `Sendable` when they are truly safe across tasks.  
+  - Avoid capturing non-Sendable types (such as test suites) in `@Sendable` closures; capture only the values needed.
 
-📖 **Block ID** is SHA3-256 hash of the entire block payload, but you can get that value from the block response properties.
+- Access control  
+  - Keep Cadence internals (`FValue`-like types and converters) non-public.  
+  - When adding helpers on top of internal types, keep them internal unless you design a stable public abstraction.
 
-📖 **Block height** expresses the height of the block in the chain.
-```
-// simple script
-pub fun main(a: Int): Int {
-    return a + 10
-}
-// complex script
-pub struct User {
-    pub var balance: UFix64
-    pub var address: Address
-    pub var name: String
-
-    init(name: String, address: Address, balance: UFix64) {
-        self.name = name
-        self.address = address
-        self.balance = balance
-    }
-}
-
-pub fun main(name: String): User {
-    return User(
-        name: name,
-        address: 0x1,
-        balance: 10.0
-    )
-}
-```
-```swift
-struct User: Codable {
-    let balance: Double
-    let address: String
-    let name: String
-}
-
-let result = try await flow.executeScriptAtLatestBlock(script: script, arguments: [.init(value: .string("test"))])
-let model: User = try result.decode()
+- Tests as specification  
+  - Encoding tests (especially RLP) serve as a compatibility spec; do not change expected hex outputs unless you are intentionally changing encoding semantics and understand the implications for network compatibility.
 ```
 
-## Mutate Flow Network
-Flow, like most blockchains, allows anybody to submit a transaction that mutates the shared global chain state. A transaction is an object that holds a payload, which describes the state mutation, and one or more authorizations that permit the transaction to mutate the state owned by specific accounts.
-
-Transaction data is composed and signed with help of the SDK. The signed payload of transaction then gets submitted to the access node API. If a transaction is invalid or the correct number of authorizing signatures are not provided, it gets rejected. 
-
-Executing a transaction requires couple of steps:
-- [Building a transaction](#build-transactions).
-- [Signing a transaction](#sign-transactions).
-- [Sending a transaction](#send-transactions).
-
-## Transactions
-A transaction is nothing more than a signed set of data that includes script code which are instructions on how to mutate the network state and properties that define and limit it's execution. All these properties are explained bellow. 
-
-📖 **Script** field is the portion of the transaction that describes the state mutation logic. On Flow, transaction logic is written in [Cadence](https://docs.onflow.org/cadence/). Here is an example transaction script:
-```
-transaction(greeting: String) {
-  execute {
-    log(greeting.concat(", World!"))
-  }
-}
-```
-
-📖 **Arguments**. A transaction can accept zero or more arguments that are passed into the Cadence script. The arguments on the transaction must match the number and order declared in the Cadence script. Sample script from above accepts a single `String` argument.
-
-📖 **[Proposal key](https://docs.onflow.org/concepts/transaction-signing/#proposal-key)** must be provided to act as a sequence number and prevent reply and other potential attacks.
-
-Each account key maintains a separate transaction sequence counter; the key that lends its sequence number to a transaction is called the proposal key.
-
-A proposal key contains three fields:
-- Account address
-- Key index
-- Sequence number
-
-A transaction is only valid if its declared sequence number matches the current on-chain sequence number for that key. The sequence number increments by one after the transaction is executed.
-
-📖 **[Payer](https://docs.onflow.org/concepts/transaction-signing/#signer-roles)** is the account that pays the fees for the transaction. A transaction must specify exactly one payer. The payer is only responsible for paying the network and gas fees; the transaction is not authorized to access resources or code stored in the payer account.
-
-📖 **[Authorizers](https://docs.onflow.org/concepts/transaction-signing/#signer-roles)** are accounts that authorize a transaction to read and mutate their resources. A transaction can specify zero or more authorizers, depending on how many accounts the transaction needs to access.
-
-The number of authorizers on the transaction must match the number of AuthAccount parameters declared in the prepare statement of the Cadence script.
-
-Example transaction with multiple authorizers:
-```
-transaction {
-  prepare(authorizer1: AuthAccount, authorizer2: AuthAccount) { }
-}
-```
-
-📖 **Gas limit** is the limit on the amount of computation a transaction requires, and it will abort if it exceeds its gas limit.
-Cadence uses metering to measure the number of operations per transaction. You can read more about it in the [Cadence documentation](/cadence).
-
-The gas limit depends on the complexity of the transaction script. Until dedicated gas estimation tooling exists, it's best to use the emulator to test complex transactions and determine a safe limit.
-
-📖 **Reference block** specifies an expiration window (measured in blocks) during which a transaction is considered valid by the network.
-A transaction will be rejected if it is submitted past its expiry block. Flow calculates transaction expiry using the _reference block_ field on a transaction.
-A transaction expires after `600` blocks are committed on top of the reference block, which takes about 10 minutes at average Mainnet block rates.
-
-### Build Transactions
-Building a transaction involves setting the required properties explained above and producing a transaction object. 
-
-Here we define a simple transaction script that will be used to execute on the network and serve as a good learning example.
-Quick example of building a transaction:
-
-```swift
-let address = Flow.Address(hex: "0x1")
-var unsignedTx = try! flow.buildTransaction{
-    cadence {
-        """
-        transaction(greeting: String) {
-
-          let guest: Address
-
-          prepare(authorizer: AuthAccount) {
-            self.guest = authorizer.address
-          }
-
-          execute {
-            log(greeting.concat(",").concat(guest.toString()))
-          }
-        }
-        """
-    }
-
-    proposer { 
-        // SequenceNumber is optional. If it's nil, it will fetch the updated one from the chain.
-        Flow.TransactionProposalKey(address: address, keyIndex: 1)
-        
-        // If you are using the key 0, you can just pass the address 
-        // address
-    }
-
-    authorizers {
-        address
-    }
-
-    arguments {
-        [.string("Hello Flow!")]
-    }
-    
-    // If payer is the same as proposer, you can ignore this field
-    payer {
-        address
-    }
-
-    // optional
-    gasLimit {
-        1000
-    }
-}
-```
-
-After you have successfully [built a transaction](#build-transactions) the next step in the process is to sign it.
-
-### Sign Transactions
-Flow introduces new concepts that allow for more flexibility when creating and signing transactions.
-Before trying the examples below, we recommend that you read through the [transaction signature documentation](https://docs.onflow.org/concepts/accounts-and-keys/).
-
-After you have successfully [built a transaction](#build-transactions) the next step in the process is to sign it. Flow transactions have envelope and payload signatures, and you should learn about each in the [signature documentation](https://docs.onflow.org/concepts/accounts-and-keys/#anatomy-of-a-transaction).
-
-
-Signatures can be generated more securely using keys stored in a hardware device such as an [HSM](https://en.wikipedia.org/wiki/Hardware_security_module). The `crypto.Signer` interface is intended to be flexible enough to support a variety of signer implementations and is not limited to in-memory implementations.
-
-To sign the transaction, you need create a list signer which confirm **FlowSigner** protocol. 
-```swift
-public protocol FlowSigner {
-    var address: Flow.Address { get set }
-    var keyIndex: Int { get set }
-    func signature(transaction: Flow.Transaction, signableData: Data) async throws -> Data
-}
-```
-
-Flow supports great flexibility when it comes to transaction signing, we can define multiple authorizers (multi-sig transactions) and have different payer account than proposer. We will explore advanced signing scenarios bellow.
-
-### [Single party, single signature](https://docs.onflow.org/concepts/transaction-signing/#single-party-single-signature)
-
-- Proposer, payer and authorizer are the same account (`0x01`).
-- Only the envelope must be signed.
-- Proposal key must have full signing weight.
-
-| Account | Key ID | Weight |
-| ------- | ------ | ------ |
-| `0x01`  | 1      | 1.0    |
-
-```swift
-let address = Flow.Address("0x1")
-let signers = [YourSigner(address: address, keyIndex: 1)]
-do {
-    var unsignedTx = try await flow.buildTransaction{
-        cadence {
-            """
-            transaction { 
-                prepare(signer: AuthAccount) { log(signer.address) }
-            }
-            """
-        }
-
-        proposer {
-            Flow.TransactionProposalKey(address: address, keyIndex: 1)
-        }
-
-        authorizers {
-            address
-        }
-    }
-    let signedTx = try await unsignedTx.sign(signers: signers)
-} catch {
-    // Handle Error
-}
-```
-
-### [Single party, multiple signatures](https://docs.onflow.org/concepts/transaction-signing/#single-party-multiple-signatures)
-
-- Proposer, payer and authorizer are the same account (`0x01`).
-- Only the envelope must be signed.
-- Each key has weight 0.5, so two signatures are required.
-
-| Account | Key ID | Weight |
-| ------- | ------ | ------ |
-| `0x01`  | 1      | 0.5    |
-| `0x01`  | 2      | 0.5    |
-
-```swift
-let address = Flow.Address("0x1")
-let signers = [YourSigner(address: address, keyIndex: 1), YourSigner(address: address, keyIndex: 2)]
-do {
-    var unsignedTx = try await flow.buildTransaction{
-        cadence {
-            """
-            transaction { 
-                prepare(signer: AuthAccount) { log(signer.address) }
-            }
-            """
-        }
-
-        proposer {
-            Flow.TransactionProposalKey(address: address, keyIndex: 1)
-        }
-
-        authorizers {
-            address
-        }
-    }
-    let signedTx = try await unsignedTx.sign(signers: signers)
-} catch {
-    // Handle Error
-}
-```
-
-### [Multiple parties](https://docs.onflow.org/concepts/transaction-signing/#multiple-parties)
-
-- Proposer and authorizer are the same account (`0x01`).
-- Payer is a separate account (`0x02`).
-- Account `0x01` signs the payload.
-- Account `0x02` signs the envelope.
-    - Account `0x02` must sign last since it is the payer.
-
-| Account | Key ID | Weight |
-| ------- | ------ | ------ |
-| `0x01`  | 1      | 1.0    |
-| `0x02`  | 3      | 1.0    |
-
-```swift
-let addressA = Flow.Address("0x1")
-let addressB = Flow.Address("0x2")
-let signers = [YourSigner(address: addressA, keyIndex: 1), YourSigner(address: addressB, keyIndex: 3)]
-do {
-    var unsignedTx = try await flow.buildTransaction{
-        cadence {
-            """
-            transaction { 
-                prepare(signer: AuthAccount) { log(signer.address) }
-            }
-            """
-        }
-
-        proposer {
-            Flow.TransactionProposalKey(address: addressA, keyIndex: 1)
-        }
-
-        authorizers {
-            addressA
-        }
-    }
-    let signedTx = try await unsignedTx.sign(signers: signers)
-} catch {
-    // Handle Error
-}
-```
-
-### [Multiple parties, two authorizers](https://docs.onflow.org/concepts/transaction-signing/#multiple-parties)
-
-- Proposer and authorizer are the same account (`0x01`).
-- Payer is a separate account (`0x02`).
-- Account `0x01` signs the payload.
-- Account `0x02` signs the envelope.
-    - Account `0x02` must sign last since it is the payer.
-- Account `0x02` is also an authorizer to show how to include two AuthAccounts into an transaction
-
-| Account | Key ID | Weight |
-| ------- | ------ | ------ |
-| `0x01`  | 1      | 1.0    |
-| `0x02`  | 3      | 1.0    |
-
-```swift
-let addressA = Flow.Address("0x1")
-let addressB = Flow.Address("0x2")
-let signers = [YourSigner(address: addressA, keyIndex: 1), YourSigner(address: addressB, keyIndex: 3)]
-do {
-    var unsignedTx = try await flow.buildTransaction{
-        cadence {
-            """
-            transaction {
-                prepare(signer1: AuthAccount, signer2: AuthAccount) {
-                  log(signer.address)
-                  log(signer2.address)
-                }
-            }
-            """
-        }
-
-        proposer {
-            Flow.TransactionProposalKey(address: addressA, keyIndex: 1)
-        }
-
-        authorizers {
-            [addressA, addressB]
-        }
-    }
-    let signedTx = try await unsignedTx.sign(signers: signers)
-} catch {
-    // Handle Error
-}
-```
-
-### [Multiple parties, multiple signatures](https://docs.onflow.org/concepts/transaction-signing/#multiple-parties)
-
-- Proposer and authorizer are the same account (`0x01`).
-- Payer is a separate account (`0x02`).
-- Account `0x01` signs the payload.
-- Account `0x02` signs the envelope.
-    - Account `0x02` must sign last since it is the payer.
-- Both accounts must sign twice (once with each of their keys).
-
-| Account | Key ID | Weight |
-| ------- | ------ | ------ |
-| `0x01`  | 1      | 0.5    |
-| `0x01`  | 2      | 0.5    |
-| `0x02`  | 3      | 0.5    |
-| `0x02`  | 4      | 0.5    |
-
-```swift
-let addressA = Flow.Address("0x1")
-let addressB = Flow.Address("0x2")
-let signers = [YourSigner(address: addressA, keyIndex: 1),
-                YourSigner(address: addressA, keyIndex: 2), 
-                YourSigner(address: addressB, keyIndex: 3),
-                YourSigner(address: addressB, keyIndex: 4)]
-do {
-    var unsignedTx = try await flow.buildTransaction{
-        cadence {
-            """
-            transaction {
-                prepare(signer1: AuthAccount, signer2: AuthAccount) {
-                  log(signer.address)
-                  log(signer2.address)
-                }
-            }
-            """
-        }
-
-        proposer {
-            Flow.TransactionProposalKey(address: addressA, keyIndex: 1)
-        }
-
-        authorizers {
-            [addressA, addressB]
-        }
-        
-        payer {
-            addressB
-        }
-    }
-    let signedTx = try await unsignedTx.sign(signers: signers)
-} catch {
-    // Handle Error
-}
-```
-
-
-### Send Transactions
-
-After a transaction has been [built](#build-transactions) and [signed](#sign-transactions), it can be sent to the Flow blockchain where it will be executed. If sending was successful you can then [retrieve the transaction result](#get-transactions).
-
-```swift
-let result = try await flow.sendTransaction(signedTrnaction: signedTx)
-```
-
-
-### Create Accounts
-
-On Flow, account creation happens inside a transaction. Because the network allows for a many-to-many relationship between public keys and accounts, it's not possible to derive a new account address from a public key offline. 
-
-The Flow VM uses a deterministic address generation algorithm to assigen account addresses on chain. You can find more details about address generation in the [accounts & keys documentation](https://docs.onflow.org/concepts/accounts-and-keys/).
-
-#### Public Key
-Flow uses ECDSA key pairs to control access to user accounts. Each key pair can be used in combination with the SHA2-256 or SHA3-256 hashing algorithms.
-
-⚠️ You'll need to authorize at least one public key to control your new account.
-
-Flow represents ECDSA public keys in raw form without additional metadata. Each key is a single byte slice containing a concatenation of its X and Y components in big-endian byte form.
-
-A Flow account can contain zero (not possible to control) or more public keys, referred to as account keys. Read more about [accounts in the documentation](https://docs.onflow.org/concepts/accounts-and-keys/#accounts).
-
-An account key contains the following data:
-- Raw public key (described above)
-- Signature algorithm
-- Hash algorithm
-- Weight (integer between 0-1000)
-
-Account creation happens inside a transaction, which means that somebody must pay to submit that transaction to the network. We'll call this person the account creator. Make sure you have read [sending a transaction section](#send-transactions) first. 
-
-```swift
-let accountKey = Flow.AccountKey(publicKey: Flow.PublicKey(hex: "0x1"),
-                                 signAlgo: .ECDSA_P256,
-                                 hashAlgo: .SHA2_256,
-                                 weight: 1000)
-
-let result = try await flow.createAccount(address: address, publicKeys: [accountKey], contracts: [scriptName: script], signers: signers)
-```
-
-After the account creation transaction has been submitted you can retrieve the new account address by [getting the transaction result](#get-transactions). 
-
-The new account address will be emitted in a system-level `flow.AccountCreated` event.
-```swift
-let txID = try await flow.createAccount(address: address, publicKeys: [accountKey], contracts: [scriptName: script], signers: signers).wait()
-let result = try wait txID.onceSealed().wait()
-let event = result.events.first{ $0.type == "flow.AccountCreated" }
-let field = event?.payload.fields?.value.toEvent()?.fields.first{$0.name == "address"}
-let event = result.getEvent("flow.AccountCreated")
-let address: String? = event?.getField("address") 
-```
-
-### Generate Keys
-
-To generating the key, please check our another SDK - [Flow Wallet Kit](https://github.com/Outblock/flow-wallet-kit)
-
-## Reference
-
-Inspired by [flow-jvm](https://github.com/the-nft-company/flow-jvm-sdk)
+\

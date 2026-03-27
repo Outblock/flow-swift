@@ -1,158 +1,110 @@
-import XCTest
-import Combine
+	//
+	//  PublisherTests.swift
+	//  FlowTests
+	//
+	//  Migrated to Swift Testing by Nicholas Reich on 2026-03-19.
+	//
+
+import Foundation
+import Testing
 @testable import Flow
 
-final class PublisherTests: XCTestCase {
-    private var cancellables: Set<AnyCancellable>!
-    
-    override func setUp() {
-        super.setUp()
-        cancellables = []
-    }
-    
-    override func tearDown() {
-        cancellables.removeAll()
-        super.tearDown()
-    }
-    
-    // MARK: - Transaction Status Tests
-    
-    func testTransactionStatusPublishing() {
-//        let expectation = self.expectation(description: "Transaction status")
-//        let testId = Flow.ID(hex: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
-//        let testStatus = Flow.Transaction.Status.sealed
-//        var receivedId: Flow.ID?
-//        var receivedStatus: Flow.Transaction.Status?
-//        
-//        Flow.Publisher.shared.transactionPublisher
-//            .sink { id, status in
-//                receivedId = id
-//                receivedStatus = status
-//                expectation.fulfill()
-//            }
-//            .store(in: &cancellables)
-//        
-//        Flow.Publisher.shared.publishTransactionStatus(id: testId, status: testStatus)
-//        
-//        waitForExpectations(timeout: 1)
-//        XCTAssertEqual(receivedId, testId)
-//        XCTAssertEqual(receivedStatus, testStatus)
-    }
-    
-    // MARK: - Account Update Tests
-    
-    func testAccountUpdatePublishing() {
-        let expectation = self.expectation(description: "Account update")
-        let testAddress = Flow.Address(hex: "0x0123456789abcdef")
-        var receivedAddress: Flow.Address?
-        
-        Flow.Publisher.shared.accountPublisher
-            .sink { address in
-                receivedAddress = address
-                expectation.fulfill()
-            }
-            .store(in: &cancellables)
-        
-        Flow.Publisher.shared.publishAccountUpdate(address: testAddress)
-        
-        waitForExpectations(timeout: 1)
-        XCTAssertEqual(receivedAddress, testAddress)
-    }
-    
-    // MARK: - Connection Status Tests
-    
-    func testConnectionStatusPublishing() {
-        let expectation = self.expectation(description: "Connection status")
-        let testStatus = true
-        var receivedStatus: Bool?
-        
-        Flow.Publisher.shared.connectionPublisher
-            .sink { status in
-                receivedStatus = status
-                expectation.fulfill()
-            }
-            .store(in: &cancellables)
-        
-        Flow.Publisher.shared.publishConnectionStatus(isConnected: testStatus)
-        
-        waitForExpectations(timeout: 1)
-        XCTAssertEqual(receivedStatus, testStatus)
-    }
-    
-    // MARK: - Wallet Response Tests
-    
-    func testWalletResponsePublishing() {
-        let expectation = self.expectation(description: "Wallet response")
-        let testApproved = true
-        let testData: [String: Any] = ["key": "value"]
-        var receivedApproved: Bool?
-        var receivedData: [String: Any]?
-        
-        Flow.Publisher.shared.walletResponsePublisher
-            .sink { approved, data in
-                receivedApproved = approved
-                receivedData = data
-                expectation.fulfill()
-            }
-            .store(in: &cancellables)
-        
-        Flow.Publisher.shared.publishWalletResponse(approved: testApproved, data: testData)
-        
-        waitForExpectations(timeout: 1)
-        XCTAssertEqual(receivedApproved, testApproved)
-        XCTAssertEqual(receivedData?["key"] as? String, testData["key"] as? String)
-    }
-    
-    // MARK: - Error Tests
-    
-    func testErrorPublishing() {
-        let expectation = self.expectation(description: "Error")
-        let testError = NSError(domain: "test", code: 1, userInfo: nil)
-        var receivedError: Error?
-        
-        Flow.Publisher.shared.errorPublisher
-            .sink { error in
-                receivedError = error
-                expectation.fulfill()
-            }
-            .store(in: &cancellables)
-        
-        Flow.Publisher.shared.publishError(testError)
-        
-        waitForExpectations(timeout: 1)
-        XCTAssertEqual((receivedError as NSError?)?.domain, testError.domain)
-        XCTAssertEqual((receivedError as NSError?)?.code, testError.code)
-    }
-    
-    // MARK: - Multiple Subscriber Tests
-    
-    func testMultipleSubscribers() {
-        let expectation1 = self.expectation(description: "Subscriber 1")
-        let expectation2 = self.expectation(description: "Subscriber 2")
-        let testStatus = true
-        var receivedStatus1: Bool?
-        var receivedStatus2: Bool?
-        
-        // First subscriber
-        Flow.Publisher.shared.connectionPublisher
-            .sink { status in
-                receivedStatus1 = status
-                expectation1.fulfill()
-            }
-            .store(in: &cancellables)
-        
-        // Second subscriber
-        Flow.Publisher.shared.connectionPublisher
-            .sink { status in
-                receivedStatus2 = status
-                expectation2.fulfill()
-            }
-            .store(in: &cancellables)
-        
-        Flow.Publisher.shared.publishConnectionStatus(isConnected: testStatus)
-        
-        waitForExpectations(timeout: 1)
-        XCTAssertEqual(receivedStatus1, testStatus)
-        XCTAssertEqual(receivedStatus2, testStatus)
-    }
-} 
+@Suite
+struct PublisherTests {
+
+	private func awaitFirstValue<T: Sendable>(
+		from stream: AsyncStream<T>,
+		timeoutSeconds: Double = 60
+	) async -> T? {
+		await withTaskGroup(of: T?.self) { group in
+			group.addTask {
+				for await value in stream {
+					return value
+				}
+				return nil
+			}
+
+			group.addTask {
+				let ns = UInt64(timeoutSeconds * 1_000_000_000)
+				try? await _Concurrency.Task.sleep(nanoseconds: ns)
+				return nil
+			}
+
+			let first = await group.next() ?? nil
+			group.cancelAll()
+			return first
+		}
+	}
+
+	@Test("Flow account publisher emits account updates")
+	func accountPublisherEmits() async {
+		let address = Flow.Address(hex: "0x01")
+		let center = Flow.PublisherCenter.shared
+
+		let stream = center.accountPublisher(address: address)
+		center.publishAccountUpdate(address: address)
+
+		let value = await awaitFirstValue(from: stream)
+		#expect(value == address)
+	}
+
+	@Test("Flow connection publisher emits connection status updates")
+	func connectionPublisherEmits() async {
+		let center = Flow.PublisherCenter.shared
+
+		let stream = center.connectionPublisher()
+		center.publishConnectionStatus(isConnected: true)
+
+		let value = await awaitFirstValue(from: stream)
+		#expect(value == true)
+	}
+
+	@Test("Flow wallet response publisher emits responses")
+	func walletResponsePublisherEmits() async {
+		let center = Flow.PublisherCenter.shared
+		let stream = center.walletResponsePublisher()
+
+		let sample = Flow.WalletResponse(
+			id: 1,
+			jsonrpc: "2.0",
+			requestId: "test",
+			approved: true
+		)
+
+		center.publishWalletResponse(sample)
+
+		let value = await awaitFirstValue(from: stream)
+		#expect(value == sample)
+	}
+
+	@Test("Flow error publisher emits errors")
+	func errorPublisherEmits() async {
+		let center = Flow.PublisherCenter.shared
+		let stream = center.errorPublisher()
+
+		let nsError = NSError(domain: "io.outblock.flow.tests", code: 42, userInfo: nil)
+		center.publishError(nsError)
+
+		let value = await awaitFirstValue(from: stream) as NSError?
+		#expect(value?.domain == nsError.domain)
+		#expect(value?.code == nsError.code)
+	}
+
+	@Test("Flow connection publisher emits multiple values")
+	func connectionPublisherMultipleValues() async {
+		let center = Flow.PublisherCenter.shared
+		let stream = center.connectionPublisher()
+
+		center.publishConnectionStatus(isConnected: false)
+		center.publishConnectionStatus(isConnected: true)
+
+		var it = stream.makeAsyncIterator()
+		let first = await it.next()
+		let second = await it.next()
+
+		#expect(first == false)
+		#expect(second == true)
+	}
+
+
+}
